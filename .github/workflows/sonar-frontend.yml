@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - product
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
