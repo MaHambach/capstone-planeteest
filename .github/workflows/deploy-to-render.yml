@@ -50,7 +50,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: PlaneTeest.jar
-          path: backend/target/PlaneTeest.jar # must match the finalName in the pom.xml
+          path: backend/target/plane-teest.jar # must match the finalName in the pom.xml
 
   push-to-docker-hub:
     runs-on: ubuntu-latest
