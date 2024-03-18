@@ -59,7 +59,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>PlaneTeest</finalName>
+		<finalName>plane-teest</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.jacoco</groupId>
