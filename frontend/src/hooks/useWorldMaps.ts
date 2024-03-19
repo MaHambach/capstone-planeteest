@@ -6,7 +6,7 @@ import axios from "axios";
 export default function useWorldMaps() {
     const [worldMaps, setWorldMaps] = useState<WorldMap[]>([]);
 
-    function fetchWorldMaps() {
+    function fetchWorldMaps():void {
         axios.get('/api/worldmaps')
             .then(response => {
                 setWorldMaps(response.data);
@@ -24,7 +24,7 @@ export default function useWorldMaps() {
         return {id: '', name: '', worldMapUrl: '', xSize: 0, ySize: 0};
     }
 
-    function saveWorldMap(newWorldMap:WorldMapDto) {
+    function saveWorldMap(newWorldMap:WorldMapDto):void {
         axios.post('/api/worldmaps', newWorldMap)
             .then((response) => {
                 console.log("New world map added with id " + response.data.id + ".");
@@ -35,7 +35,7 @@ export default function useWorldMaps() {
             })
     }
 
-    function updateWorldMap(updatedWorldMap: WorldMap) {
+    function updateWorldMap(updatedWorldMap: WorldMap):void {
         axios.put(`/api/worldmaps/${updatedWorldMap.id}`, updatedWorldMap)
             .then(() => {
                 fetchWorldMaps();
