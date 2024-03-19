@@ -6,7 +6,4 @@ public record WorldMapDto(
         int xSize,
         int ySize
 ) {
-    public WorldMapDto(WorldMap worldMap) {
-        this(worldMap.name(), worldMap.worldMapUrl(), worldMap.xSize(), worldMap.ySize());
-    }
 }
