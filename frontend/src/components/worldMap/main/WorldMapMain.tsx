@@ -15,19 +15,23 @@ type WorldMapMainProps = {
 export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.ReactElement{
     const {id= ''} = useParams<string>();
     const [worldMap, setWorldMap] = useState<WorldMap>();
+    const [coordinates, setCoordinates] = useState({xPosition:0, yPosition:0});
 
     useEffect(() => setWorldMap(props.getWorldMap(id)), [id, props]);
 
     function worldMapClick(e: React.MouseEvent):void {
-        console.log("World map clicked at x: " + e.nativeEvent.offsetX + ", y: " + e.nativeEvent.offsetY);
-
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const rect = e.target.getBoundingClientRect();
+        setCoordinates({xPosition: e.clientX - rect.left, yPosition: e.clientY - rect.top});
+        console.log("Left? : " + (e.clientX - rect.left) + " ; Top? : " + (e.clientY - rect.top) + ".");
     }
 
     return (
         <main className={"worldMapMain"}>
             <WorldMapImage worldMap={worldMap} worldMapClick={worldMapClick}/>
             {props.mapMarkers.map((mapMarker:MapMarker) => {
-                return <MapMarkerCard key={mapMarker.id} mapMarker={mapMarker} />
+                return <MapMarkerCard key={mapMarker.id} mapMarker={mapMarker} coordinates={coordinates}/>
             })}
         </main>
     )
