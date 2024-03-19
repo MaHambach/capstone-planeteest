@@ -1,11 +1,15 @@
+import {Route, Routes} from "react-router-dom";
+import WorldMapGallery from "./components/worldMap/main/WorldMapGallery.tsx";
 import React from 'react'
 import './App.css'
+import useWorldMaps from "./hooks/useWorldMaps.ts";
 
-function App():React.ReactElement {
+export default function App():React.ReactElement {
+    const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
-  return (
-      <h2>Hello World</h2>
-  )
+    return (
+        <Routes>
+            <Route path="/" element={<WorldMapGallery worldMaps={worldMaps}/>}/>
+        </Routes>
+    )
 }
-
-export default App
