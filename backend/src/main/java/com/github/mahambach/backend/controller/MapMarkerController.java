@@ -4,6 +4,7 @@ import com.github.mahambach.backend.model.MapMarker;
 import com.github.mahambach.backend.model.MapMarkerDto;
 import com.github.mahambach.backend.service.MapMarkerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,8 @@ public class MapMarkerController {
     }
 
     @PostMapping
-    public MapMarker createMapMarker(MapMarkerDto mapMarkerDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public MapMarker createMapMarker(@RequestBody MapMarkerDto mapMarkerDto) {
         return mapMarkerService.createMapMarker(mapMarkerDto);
     }
 

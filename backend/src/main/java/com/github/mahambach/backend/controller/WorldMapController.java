@@ -4,6 +4,7 @@ import com.github.mahambach.backend.model.WorldMap;
 import com.github.mahambach.backend.model.WorldMapDto;
 import com.github.mahambach.backend.service.WorldMapService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +26,8 @@ public class WorldMapController {
     }
 
     @PostMapping
-    public WorldMap createWorldMap(WorldMapDto worldMapDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public WorldMap createWorldMap(@RequestBody WorldMapDto worldMapDto) {
         return worldMapService.createWorldMap(worldMapDto);
     }
 

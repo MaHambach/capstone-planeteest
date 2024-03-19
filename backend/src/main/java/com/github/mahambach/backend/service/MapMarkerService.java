@@ -1,5 +1,6 @@
 package com.github.mahambach.backend.service;
 
+import com.github.mahambach.backend.exception.MissMatchingIdsMapMarkerException;
 import com.github.mahambach.backend.exception.NoSuchMapMarkerException;
 import com.github.mahambach.backend.model.MapMarker;
 import com.github.mahambach.backend.model.MapMarkerDto;
@@ -29,13 +30,20 @@ public class MapMarkerService {
     }
 
     public MapMarker updateMapMarker(String mapMarkerId, MapMarker mapMarker) {
-        if(mapMarkerRepo.existsById(mapMarker.id()) && !mapMarkerId.equals(mapMarker.id())) {
+        if(!mapMarkerId.equals(mapMarker.id())) {
+            throw new MissMatchingIdsMapMarkerException(mapMarkerId, mapMarker.id());
+        }
+        if(!mapMarkerRepo.existsById(mapMarker.id())) {
             throw new NoSuchMapMarkerException(mapMarker.id());
         }
+
         return mapMarkerRepo.save(mapMarker);
     }
 
     public MapMarker deleteMapMarkerById(String mapMarkerId) {
+        if(!mapMarkerRepo.existsById(mapMarkerId)) {
+            throw new NoSuchMapMarkerException(mapMarkerId);
+        }
         MapMarker mapMarker = getMapMarkerById(mapMarkerId);
         mapMarkerRepo.deleteById(mapMarkerId);
         return mapMarker;

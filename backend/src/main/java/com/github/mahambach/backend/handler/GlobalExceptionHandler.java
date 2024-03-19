@@ -1,8 +1,6 @@
 package com.github.mahambach.backend.handler;
 
-import com.github.mahambach.backend.exception.NoSuchArticleException;
-import com.github.mahambach.backend.exception.NoSuchMapMarkerException;
-import com.github.mahambach.backend.exception.NoSuchWorldMapException;
+import com.github.mahambach.backend.exception.*;
 import com.github.mahambach.backend.model.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,26 +11,62 @@ import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(NoSuchWorldMapException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorMessage handleNoSuchWorldMapException(NoSuchWorldMapException exception) {
-        return handleNoSuchObjectException("World map", exception.getMessage());
-    }
 
-    @ExceptionHandler(NoSuchMapMarkerException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorMessage handleNoSuchProductException(NoSuchMapMarkerException exception) {
-        return handleNoSuchObjectException("Map marker", exception.getMessage());
-    }
+    // #    #  #####    #####  #   #
+    // ##   #  #   #    #   #  #   #
+    // # #  #  #   #    #      #   #
+    // # #  #  #   #    #####  #   #
+    // #  # #  #   #        #  #   #
+    // #   ##  #   #    #   #  #   #
+    // #    #  #####    #####  #####
+    // No Such Element Exceptions
     @ExceptionHandler(NoSuchArticleException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorMessage handleNoSuchArticleException(NoSuchArticleException exception) {
         return handleNoSuchObjectException("Article", exception.getMessage());
     }
 
-    public ErrorMessage handleNoSuchObjectException(String objectName, String objectId) {
+    @ExceptionHandler(NoSuchMapMarkerException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorMessage handleNoSuchProductException(NoSuchMapMarkerException exception) {
+        return handleNoSuchObjectException("Map marker", exception.getMessage());
+    }
+
+    @ExceptionHandler(NoSuchWorldMapException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorMessage handleNoSuchWorldMapException(NoSuchWorldMapException exception) {
+        return handleNoSuchObjectException("World map", exception.getMessage());
+    }
+
+    private ErrorMessage handleNoSuchObjectException(String className, String objectId) {
         return new ErrorMessage(
-                objectName + " with id " + objectId + " not found.",
+                className + " with id " + objectId + " not found.",
+                LocalDateTime.now()
+        );
+    }
+
+    // Miss Matching Element Exceptions
+    @ExceptionHandler(MissMatchingIdsArticleException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleIdsNotMatchingException(MissMatchingIdsArticleException exception) {
+        return handleIdsNotMatchingException("Article", exception.getPathId(), exception.getBodyId());
+    }
+
+    @ExceptionHandler(MissMatchingIdsMapMarkerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleIdsNotMatchingException(MissMatchingIdsMapMarkerException exception) {
+        return handleIdsNotMatchingException("Map marker", exception.getPathId(), exception.getBodyId());
+    }
+
+    @ExceptionHandler(MissMatchingIdsWorldMapException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleIdsNotMatchingException(MissMatchingIdsWorldMapException exception) {
+        return handleIdsNotMatchingException("World map", exception.getPathId(), exception.getBodyId());
+    }
+
+    private ErrorMessage handleIdsNotMatchingException(String className, String pathId, String bodyId) {
+        return new ErrorMessage(
+                className + " with id " + pathId + " in path and " + bodyId + " in body do not match.",
                 LocalDateTime.now()
         );
     }

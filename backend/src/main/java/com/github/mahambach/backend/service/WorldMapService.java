@@ -1,5 +1,6 @@
 package com.github.mahambach.backend.service;
 
+import com.github.mahambach.backend.exception.MissMatchingIdsWorldMapException;
 import com.github.mahambach.backend.exception.NoSuchWorldMapException;
 import com.github.mahambach.backend.model.WorldMap;
 import com.github.mahambach.backend.model.WorldMapDto;
@@ -29,13 +30,19 @@ public class WorldMapService {
     }
 
     public WorldMap updateWorldMap(String worldMapId, WorldMap worldMap) {
-        if(worldMapRepo.existsById(worldMap.id()) && !worldMapId.equals(worldMap.id())) {
+        if(!worldMapId.equals(worldMap.id())){
+            throw new MissMatchingIdsWorldMapException(worldMapId, worldMap.id());
+        }
+        if(!worldMapRepo.existsById(worldMap.id())){
             throw new NoSuchWorldMapException(worldMap.id());
         }
         return worldMapRepo.save(worldMap);
     }
 
     public WorldMap deleteWorldMapById(String worldMapId) {
+        if(!worldMapRepo.existsById(worldMapId)){
+            throw new NoSuchWorldMapException(worldMapId);
+        }
         WorldMap worldMap = getWorldMapById(worldMapId);
         worldMapRepo.deleteById(worldMapId);
         return worldMap;

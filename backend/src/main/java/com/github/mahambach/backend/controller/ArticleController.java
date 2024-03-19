@@ -4,6 +4,7 @@ import com.github.mahambach.backend.model.Article;
 import com.github.mahambach.backend.model.ArticleDto;
 import com.github.mahambach.backend.service.ArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,8 @@ public class ArticleController {
     }
 
     @PostMapping
-    public Article createArticle(ArticleDto articleDto) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Article createArticle(@RequestBody ArticleDto articleDto) {
         return articleService.createArticle(articleDto);
     }
 
