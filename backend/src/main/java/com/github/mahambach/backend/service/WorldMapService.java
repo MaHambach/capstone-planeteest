@@ -40,9 +40,6 @@ public class WorldMapService {
     }
 
     public WorldMap deleteWorldMapById(String worldMapId) {
-        if(!worldMapRepo.existsById(worldMapId)){
-            throw new NoSuchWorldMapException(worldMapId);
-        }
         WorldMap worldMap = getWorldMapById(worldMapId);
         worldMapRepo.deleteById(worldMapId);
         return worldMap;

@@ -41,9 +41,6 @@ public class MapMarkerService {
     }
 
     public MapMarker deleteMapMarkerById(String mapMarkerId) {
-        if(!mapMarkerRepo.existsById(mapMarkerId)) {
-            throw new NoSuchMapMarkerException(mapMarkerId);
-        }
         MapMarker mapMarker = getMapMarkerById(mapMarkerId);
         mapMarkerRepo.deleteById(mapMarkerId);
         return mapMarker;

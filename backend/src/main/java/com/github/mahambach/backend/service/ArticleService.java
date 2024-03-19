@@ -41,9 +41,6 @@ public class ArticleService {
     }
 
     public Article deleteArticleById(String articleId) {
-        if(!articleRepo.existsById(articleId)) {
-            throw new NoSuchArticleException(articleId);
-        }
         Article article = getArticleById(articleId);
         articleRepo.deleteById(articleId);
         return article;

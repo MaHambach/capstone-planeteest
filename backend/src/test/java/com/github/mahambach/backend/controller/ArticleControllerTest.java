@@ -228,7 +228,7 @@ class ArticleControllerTest {
     }
 
     @Test
-    void deleteArticleById_whenSuchWorld_thenDeletAndReturnDeleted() throws Exception {
+    void deleteArticleById_whenSuchWorld_thenDeleteAndReturnDeleted() throws Exception {
         // Given
         ArticleDto articleDto = new ArticleDto("Content", List.of("NpcId1", "NpcId2"));
 
