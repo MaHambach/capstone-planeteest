@@ -16,25 +16,23 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoSuchWorldMapException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessage handleNoSuchWorldMapException(NoSuchWorldMapException exception) {
-        return new ErrorMessage(
-                "World map with id " + exception.getMessage() + " not found.",
-                LocalDateTime.now()
-        );
+        return handleNoSuchObjectException("World map", exception.getMessage());
     }
 
     @ExceptionHandler(NoSuchMapMarkerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessage handleNoSuchProductException(NoSuchMapMarkerException exception) {
-        return new ErrorMessage(
-                "Marker with id " + exception.getMessage() + " not found.",
-                LocalDateTime.now()
-        );
+        return handleNoSuchObjectException("Map marker", exception.getMessage());
     }
     @ExceptionHandler(NoSuchArticleException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessage handleNoSuchArticleException(NoSuchArticleException exception) {
+        return handleNoSuchObjectException("Article", exception.getMessage());
+    }
+
+    public ErrorMessage handleNoSuchObjectException(String objectName, String objectId) {
         return new ErrorMessage(
-                "Article with id " + exception.getMessage() + " not found.",
+                objectName + " with id " + objectId + " not found.",
                 LocalDateTime.now()
         );
     }
