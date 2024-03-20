@@ -12,12 +12,13 @@ export default function ArticleDetailsCard(props:Readonly<ArticleDetailsCardProp
     return (
         <div className={"articleDetailsCard"}>
             <article>{props.article.content}</article>
-            <DisplayTileGallery
-                urlPrefix={"/npc/"}
-                tileData={props.article.npcIds.map((npcId:string) => ({id:npcId, name:"Jürgen"}))} /* TODO: get the npc name, when there are npcs. */
-                addNewName={"Neuer Nsc"}
-                addNewUrl={"/npc/new"}
-            />
+            {props.article.npcIds.length > 0 &&
+                <DisplayTileGallery
+                    urlPrefix={"/npc/"}
+                    tileData={props.article.npcIds.map((npcId:string) => ({id:npcId, name:"Jürgen"}))} /* TODO: get the npc name, when there are npcs. */
+                    addNewName={"Neuer Nsc"}
+                    addNewUrl={"/npc/new"}
+            />}
         </div>
     )
 }
