@@ -10,15 +10,29 @@ import {useMapMarkerTypes} from "./hooks/useMapMarkerTypes.ts";
 
 export default function App():React.ReactElement {
     const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
-    const {mapMarkers} = useMapMarkers();
+    const {mapMarkers, saveMapMarker} = useMapMarkers();
     const {getMapMarkerTypeById} = useMapMarkerTypes();
 
     return (
         <Routes>
-            <Route path="/" element={<WorldMapGallery worldMaps={worldMaps}/>}/>
-            <Route path={"/worldmap/new"} element={<NewWorldMapForm saveWorldMap={saveWorldMap}/>}/>
-            <Route path={"/worldmap/:id"} element={<WorldMapMain getWorldMap={getWorldMapById} getMapMarkerType={getMapMarkerTypeById} mapMarkers={mapMarkers} />}/>
-            <Route path={"/worldmap/:id/edit"} element={<UpdateWorldMapForm updateWorldMap={updateWorldMap} deleteWorldMap={deleteWorldMap} getWorldMap={getWorldMapById}/>}/>
+            <Route path="/" element={<WorldMapGallery
+                worldMaps={worldMaps}
+            />}/>
+            <Route path={"/worldmap/new"} element={<NewWorldMapForm
+                saveWorldMap={saveWorldMap}
+            />}/>
+            <Route path={"/worldmap/:id"} element={<WorldMapMain
+                getWorldMap={getWorldMapById}
+                getMapMarkerType={getMapMarkerTypeById}
+                mapMarkers={mapMarkers}
+                saveMapMarker={saveMapMarker}
+            />}/>
+            <Route path={"/worldmap/:id/edit"} element={<UpdateWorldMapForm
+                updateWorldMap={updateWorldMap}
+                deleteWorldMap={deleteWorldMap}
+                getWorldMap={getWorldMapById}
+            />}/>
+
         </Routes>
     )
 }

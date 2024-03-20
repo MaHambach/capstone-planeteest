@@ -1,6 +1,7 @@
 import axios from "axios";
 import {MapMarker} from "../types/MapMarker.ts";
 import {useEffect, useState} from "react";
+import {MapMarkerDto} from "../types/MapMarkerDto.ts";
 
 
 export default function useMapMarkers() {
@@ -16,9 +17,21 @@ export default function useMapMarkers() {
             });
     }
 
+    function saveMapMarker(newMapMarker:MapMarkerDto):void {
+        axios.post('/api/worldmaps', newMapMarker)
+            .then((response) => {
+                console.log("New map marker added with id " + response.data.id + ".");
+                fetchMapMarkers();
+            })
+            .catch(error => {
+                console.error("Error creating map marker: ", error.message);
+            })
+    }
+
     useEffect(()=> fetchMapMarkers(), []);
 
     return {
-        mapMarkers
+        mapMarkers,
+        saveMapMarker
     }
 }
