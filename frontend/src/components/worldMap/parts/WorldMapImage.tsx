@@ -9,7 +9,6 @@ type WorldMapImageProps = {
 export default function WorldMapImage(props: Readonly<WorldMapImageProps>): React.ReactElement {
     return (
         <img
-            onClick={props.worldMapClick}
             className={"worldMap"}
             src={props.worldMap?.worldMapUrl}
             alt={props.worldMap?.name}

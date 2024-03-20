@@ -15,10 +15,8 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
     useEffect(() => setWorldMap(props.getWorldMap(id)), [id, props]);
 
     function worldMapClick(e: React.MouseEvent):void {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const rect = e.target.getBoundingClientRect();
-        console.log("Left? : " + (e.clientX - rect.left) + " ; Top? : " + (e.clientY - rect.top) + ".");
+        console.log("World map clicked at x: " + e.nativeEvent.offsetX + ", y: " + e.nativeEvent.offsetY);
+
     }
 
     return (
