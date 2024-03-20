@@ -8,8 +8,7 @@ type DisplayTileGalleryProps = {
     tileData: TileAble[];
     addNewName: string;
     addNewUrl: string;
-    width:number;
-    height:number;
+    tileSize:number;
 }
 export default function DisplayTileGallery(props:Readonly<DisplayTileGalleryProps>): React.ReactElement {
     return (
@@ -20,16 +19,14 @@ export default function DisplayTileGallery(props:Readonly<DisplayTileGalleryProp
                         key={tile.id}
                         name={tile.name}
                         url={props.urlPrefix + tile.id}
-                        width={props.width}
-                        height={props.height}
+                        tileSize={props.tileSize}
                     />
                 );
             })}
             <DisplayTile
                 name={props.addNewName}
                 url={props.addNewUrl}
-                width={props.width}
-                height={props.height}
+                tileSize={props.tileSize}
             />
         </div>
     );
