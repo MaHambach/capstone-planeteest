@@ -1,3 +1,4 @@
+import './AddMapMarkerForm.css';
 import React, {FormEvent, useEffect, useState} from "react";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 
@@ -48,7 +49,7 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
     }, [props]);
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className={"addMapMarkerForm"} onSubmit={handleSubmit}>
             <div>
                 <label htmlFor={"name"}>Name:</label>
                 <input id={"name"} name={"name"} type={"text"} value={formData.name} onChange={handleChangeInput}/>
