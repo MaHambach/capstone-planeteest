@@ -18,7 +18,7 @@ export function useMapMarkerTypes() {
     function getMapMarkerTypeById(id:string):MapMarkerType {
         const mapMarkerTypeWithId:MapMarkerType[] = mapMarkerTypes.filter((mapMarkerType:MapMarkerType) => mapMarkerType.id === id)
 
-        if(mapMarkerTypeWithId.length === 0) console.error('Kein MapMarker Typ mit der ID ' + id + ' gefunden.');
+        if(mapMarkerTypeWithId.length === 0) console.error('Keine MapMarkerType mit der ID ' + id + ' gefunden.');
         else return mapMarkerTypeWithId[0];
         return {id:'', name:'', icon:''};
     }

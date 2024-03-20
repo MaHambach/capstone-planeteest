@@ -5,7 +5,7 @@ import WorldMapImage from "../parts/WorldMapImage.tsx";
 import {MapMarker} from "../../../types/MapMarker.ts";
 import MapMarkerCard from "../../mapMarker/parts/MapMarkerCard.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
-import WorldMapToolBar from "../parts/WorldMapToolMenu/WorldMapToolBar.tsx";
+import ToolBar from "../parts/WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 
 type WorldMapMainProps = {
@@ -32,7 +32,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
 
     return (
         <main className={"worldMapMain"}>
-            <WorldMapToolBar />
+            <ToolBar />
             <WorldMapImage worldMap={worldMap} worldMapClick={worldMapClick}/>
             {props.mapMarkers.map((mapMarker:MapMarker) => {
                 return <MapMarkerCard key={mapMarker.id} mapMarker={mapMarker} coordinates={coordinates}/>
