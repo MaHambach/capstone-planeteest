@@ -9,8 +9,13 @@ type WorldMapImageProps = {
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
     setArticleIsVisible: (b:boolean) => void;
 }
+
+const initialCoordinats = {
+    xPosition: -10,
+    yPosition: -10
+}
 export default function WorldMapImage(props: Readonly<WorldMapImageProps>): React.ReactElement {
-    const [coordinates, setCoordinates] = useState({xPosition:0, yPosition:0});
+    const [coordinates, setCoordinates] = useState(initialCoordinats);
     function worldMapClick(e: React.MouseEvent):void {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
