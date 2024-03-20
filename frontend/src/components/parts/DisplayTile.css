@@ -5,8 +5,8 @@
 
     overflow: hidden;
     background: rgb(255, 255, 255);
-    border-radius: 1rem;
-    margin: 0.75rem;
+    border-radius: 20px;
+    margin: 12px;
     width: 220px;
     height: 220px;
     position: relative;
@@ -17,6 +17,9 @@
 
 .displayTile:hover {
     box-shadow: 0 0 50px rgb(19, 217, 227);
+    width: 200px;
+    height: 200px;
+    margin: 22px;
 }
 
 .displayTile_Link {
