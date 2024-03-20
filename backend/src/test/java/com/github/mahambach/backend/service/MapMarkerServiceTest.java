@@ -2,6 +2,8 @@ package com.github.mahambach.backend.service;
 
 import com.github.mahambach.backend.exception.MissMatchingIdsMapMarkerException;
 import com.github.mahambach.backend.exception.NoSuchMapMarkerException;
+import com.github.mahambach.backend.model.Article;
+import com.github.mahambach.backend.model.ArticleDto;
 import com.github.mahambach.backend.model.MapMarker;
 import com.github.mahambach.backend.model.MapMarkerDto;
 import com.github.mahambach.backend.repository.MapMarkerRepo;
@@ -15,8 +17,9 @@ import static org.mockito.Mockito.*;
 class MapMarkerServiceTest {
 
     private final MapMarkerRepo mapMarkerRepo = mock(MapMarkerRepo.class);
+    private final ArticleService articleService = mock(ArticleService.class);
 
-    private final MapMarkerService mapMarkerService = new MapMarkerService(mapMarkerRepo);
+    private final MapMarkerService mapMarkerService = new MapMarkerService(mapMarkerRepo, articleService);
 
 
     @Test
@@ -88,9 +91,13 @@ class MapMarkerServiceTest {
         String id = "1";
         MapMarker expected = new MapMarker(id, "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
         MapMarkerDto input = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        ArticleDto newArticleDto = new ArticleDto("", List.of());
+        String newArticleId = "newArticleId";
+        Article newArticle = new Article(newArticleDto).withId(newArticleId);
 
         // When
         when(mapMarkerRepo.save(new MapMarker(input))).thenReturn(expected);
+        when(articleService.createArticle(newArticleDto)).thenReturn(newArticle);
         MapMarker result = mapMarkerService.createMapMarker(input);
 
         // Then
