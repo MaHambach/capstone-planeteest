@@ -1,23 +1,17 @@
 import './MapMarker.css';
-import React, {useState} from "react";
-import {MapMarkerDto} from "../../../../../types/MapMarkerDto.ts";
+import React from "react";
 
 
 type MapMarkerProps = {
     name: string;
-    saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
+    toggleAddNewMapMarker: (event:React.MouseEvent<HTMLElement>) => void;
 }
 
 export default function MapMarker(props:Readonly<MapMarkerProps>):React.ReactElement {
-    const [placeMapMarker, setPlaceMapMarker] = useState<boolean>(false)
 
-    function toggleDisplayMapMarkerTypes(event) {
-        event.preventDefault();
-        setPlaceMapMarker(!placeMapMarker);
-    }
 
     return (
-        <button className={"worldMapToolBarEntry"} onClick={toggleDisplayMapMarkerTypes}>
+        <button className={"worldMapToolBarEntry"} onClick={props.toggleAddNewMapMarker}>
             <p>{props.name}</p>
         </button>
     )

@@ -4,7 +4,6 @@ import React from "react";
 
 type MapMarkerCardProps = {
     mapMarker: MapMarker;
-    coordinates: {xPosition:number, yPosition:number};
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
@@ -22,8 +21,8 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
             className={"mapMarkerCard"}
             style={{
                 position:"absolute",
-                left: props.coordinates.xPosition - 0.5 * cardSize.xSize,
-                top: props.coordinates.yPosition - 0.5 * cardSize.ySize
+                left: props.mapMarker.xPosition - 0.5 * cardSize.xSize, /* Might depend on MapMarkerType */
+                top: props.mapMarker.yPosition - 0.5 * cardSize.ySize   /* Might depend on MapMarkerType */
             }}
             src={mapMarkerIcon}
             alt={props.mapMarker.name}

@@ -1,8 +1,12 @@
-import React, {FormEvent, useState} from "react";
+import React, {FormEvent, useEffect, useState} from "react";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 
 type AddMapMarkerFormProps = {
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
+    worldMapId: string;
+    xPosition: number;
+    yPosition: number;
+    markerTypeId: string;
 }
 
 const initialFormData:MapMarkerDto = {
@@ -31,23 +35,23 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
         )
     }
 
+    useEffect(() => {
+        setFormData(
+            {
+                ...formData,
+                worldMapId: props.worldMapId,
+                xPosition: props.xPosition,
+                yPosition: props.yPosition,
+                markerTypeId: '' /* TODO: When MarkerType is implemented */
+            }
+        )
+    }, [props]);
+
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <label htmlFor={"worldMapId"}>Name:</label>
-                <input id={"worldMapId"} name={"name"} type={"text"} value={formData.name} onChange={handleChangeInput}/>
-            </div>
-            <div>
-                <label htmlFor={"xPosition"}>Name:</label>
-                <input id={"xPosition"} name={"name"} type={"text"} value={formData.name} onChange={handleChangeInput}/>
-            </div>
-            <div>
-                <label htmlFor={"yPosition"}>Name:</label>
-                <input id={"yPosition"} name={"name"} type={"text"} value={formData.name} onChange={handleChangeInput}/>
-            </div>
-            <div>
-                <label htmlFor={"markerTypeId"}>Name:</label>
-                <input id={"markerTypeId"} name={"name"} type={"text"} value={formData.name} onChange={handleChangeInput}/>
+                <label htmlFor={"name"}>Name:</label>
+                <input id={"name"} name={"name"} type={"text"} value={formData.name} onChange={handleChangeInput}/>
             </div>
         </form>
     )

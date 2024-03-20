@@ -15,27 +15,32 @@ type WorldMapMainProps = {
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
 }
 
+const initialWorldMap:WorldMap = {
+    id: '',
+    name: '',
+    worldMapUrl: '',
+    xSize: 0,
+    ySize: 0
+}
+
 export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.ReactElement{
     const {id= ''} = useParams<string>();
-    const [worldMap, setWorldMap] = useState<WorldMap>();
-    const [coordinates, setCoordinates] = useState({xPosition:0, yPosition:0});
+    const [worldMap, setWorldMap] = useState<WorldMap>(initialWorldMap);
+    const [addNewMapMarker, setAddNewMapMarker] = useState<boolean>(false);
+
+    function toggleAddNewMapMarker(event: React.MouseEvent<HTMLElement>) {
+        event.preventDefault();
+        setAddNewMapMarker(!addNewMapMarker);
+    }
 
     useEffect(() => setWorldMap(props.getWorldMap(id)), [id, props]);
 
-    function worldMapClick(e: React.MouseEvent):void {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const rect = e.target.getBoundingClientRect();
-        setCoordinates({xPosition: e.clientX - rect.left, yPosition: e.clientY - rect.top});
-        console.log("Left? : " + (e.clientX - rect.left) + " ; Top? : " + (e.clientY - rect.top) + ".");
-    }
-
     return (
         <main className={"worldMapMain"}>
-            <ToolBar />
-            <WorldMapImage worldMap={worldMap} worldMapClick={worldMapClick}/>
+            <ToolBar toggleAddNewMapMarker={toggleAddNewMapMarker} />
+            <WorldMapImage worldMap={worldMap} addNewMapMarker={addNewMapMarker} saveMapMarker={props.saveMapMarker}/>
             {props.mapMarkers.map((mapMarker:MapMarker) => {
-                return <MapMarkerCard key={mapMarker.id} mapMarker={mapMarker} coordinates={coordinates}/>
+                return <MapMarkerCard key={mapMarker.id} mapMarker={mapMarker}/>
             })}
         </main>
     )
