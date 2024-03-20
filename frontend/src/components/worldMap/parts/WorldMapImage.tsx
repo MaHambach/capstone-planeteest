@@ -35,12 +35,13 @@ export default function WorldMapImage(props: Readonly<WorldMapImageProps>): Reac
                 src={props.worldMap.worldMapUrl}
                 alt={props.worldMap.name}
             />
-            {props.addNewMapMarker && <AddMapMarkerForm
-                saveMapMarker={props.saveMapMarker}
-                worldMapId={props.worldMap.id}
-                xPosition={coordinates.xPosition}
-                yPosition={coordinates.yPosition}
-                markerTypeId={''} /* For later: When MarkerType is implemented */
+            {(props.addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&
+                <AddMapMarkerForm
+                    saveMapMarker={props.saveMapMarker}
+                    worldMapId={props.worldMap.id}
+                    xPosition={coordinates.xPosition}
+                    yPosition={coordinates.yPosition}
+                    markerTypeId={''} /* For later: When MarkerType is implemented */
             />}
         </div>
     )
