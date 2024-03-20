@@ -7,13 +7,16 @@ import MapMarkerCard from "../../mapMarker/parts/MapMarkerCard.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import ToolBar from "../parts/WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
+import {Article} from "../../../types/Article.ts";
 
 type WorldMapMainProps = {
     getWorldMap: (id:string) => WorldMap;
     getMapMarkerType: (id:string) => MapMarkerType;
     mapMarkers: MapMarker[];
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
-}
+    articles: Article[];
+    getArticleById: (id:string) => Article;
+};
 
 const initialWorldMap:WorldMap = {
     id: '',
@@ -21,7 +24,7 @@ const initialWorldMap:WorldMap = {
     worldMapUrl: '',
     xSize: 0,
     ySize: 0
-}
+};
 
 export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.ReactElement{
     const {id= ''} = useParams<string>();

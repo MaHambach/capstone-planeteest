@@ -17,7 +17,7 @@ export default function useWorldMaps() {
     }
 
     function getWorldMapById(id:string):WorldMap {
-        const worldMapWithId:WorldMap[] = worldMaps.filter((worldMap:WorldMap) => worldMap.id === id)
+        const worldMapWithId:WorldMap[] = worldMaps.filter((worldMap:WorldMap) => worldMap.id === id);
 
         if(worldMapWithId.length === 0) console.error('Keine Weltkarte mit der ID ' + id + ' gefunden.');
         else return worldMapWithId[0];
