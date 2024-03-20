@@ -18,6 +18,8 @@ export default function ArticleDetailsCard(props:Readonly<ArticleDetailsCardProp
                     tileData={props.article.npcIds.map((npcId:string) => ({id:npcId, name:"Jürgen"}))} /* TODO: get the npc name, when there are npcs. */
                     addNewName={"Neuer Nsc"}
                     addNewUrl={"/npc/new"}
+                    width={100}
+                    height={100}
             />}
         </div>
     )
