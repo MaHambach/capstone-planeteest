@@ -9,7 +9,6 @@ type MapMarkerProps = {
 
 export default function MapMarker(props:Readonly<MapMarkerProps>):React.ReactElement {
 
-
     return (
         <button className={"worldMapToolBarEntry"} onClick={props.toggleAddNewMapMarker}>
             <p>{props.name}</p>

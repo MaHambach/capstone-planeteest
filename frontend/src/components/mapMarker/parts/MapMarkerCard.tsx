@@ -1,6 +1,6 @@
 import {MapMarker} from "../../../types/MapMarker.ts";
 import mapMarkerIcon from "../../../assets/Settings.webp";
-import React from "react";
+import React, {useState} from "react";
 
 type MapMarkerCardProps = {
     mapMarker: MapMarker;
@@ -8,6 +8,8 @@ type MapMarkerCardProps = {
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
     const [cardSize, setCardSize] = React.useState({xSize: 0, ySize: 0});
+    const [visibilityEdit, setVisibilityEdit] = useState<boolean>(false);
+
 
     const img = new Image();
 
@@ -16,8 +18,15 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
         setCardSize({xSize: img.width, ySize: img.height});
     }
 
+    function mapMarkerClick(event:React.MouseEvent<HTMLElement>) :void{
+        event.preventDefault();
+        setVisibilityEdit(!visibilityEdit);
+    }
+
     return (
         <img
+            onClick={mapMarkerClick}
+            role={"presentation"} /* Suppresses sonarLint protests. */
             className={"mapMarkerCard"}
             style={{
                 position:"absolute",
@@ -26,6 +35,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
             }}
             src={mapMarkerIcon}
             alt={props.mapMarker.name}
+
         />
     )
 }
