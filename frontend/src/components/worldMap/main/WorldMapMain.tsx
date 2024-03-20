@@ -8,6 +8,7 @@ import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import ToolBar from "../parts/WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 import {Article} from "../../../types/Article.ts";
+import ArticleDetailsCard from "../../article/parts/ArticleDetailsCard.tsx";
 
 type WorldMapMainProps = {
     getWorldMap: (id:string) => WorldMap;
@@ -26,10 +27,18 @@ const initialWorldMap:WorldMap = {
     ySize: 0
 };
 
+const initialArticle = {
+    id: '',
+    content: '',
+    npcIds: []
+};
+
 export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.ReactElement{
     const {id= ''} = useParams<string>();
     const [worldMap, setWorldMap] = useState<WorldMap>(initialWorldMap);
     const [addNewMapMarker, setAddNewMapMarker] = useState<boolean>(false);
+    const [articleIsVisible, setArticleIsVisible] = useState<boolean>(false);
+    const [displayedArticle, setDisplayedArticle] = useState<Article>(initialArticle);
 
     function toggleAddNewMapMarker(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
@@ -40,11 +49,25 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
 
     return (
         <main className={"worldMapMain"}>
-            <ToolBar toggleAddNewMapMarker={toggleAddNewMapMarker} />
-            <WorldMapImage worldMap={worldMap} addNewMapMarker={addNewMapMarker} saveMapMarker={props.saveMapMarker}/>
+            <ToolBar
+                toggleAddNewMapMarker={toggleAddNewMapMarker}
+            />
+            <WorldMapImage
+                worldMap={worldMap}
+                addNewMapMarker={addNewMapMarker}
+                saveMapMarker={props.saveMapMarker}
+                setArticleIsVisible={setArticleIsVisible}
+            />
             {props.mapMarkers.map((mapMarker:MapMarker) => {
-                return <MapMarkerCard key={mapMarker.id} mapMarker={mapMarker}/>
+                return <MapMarkerCard
+                    key={mapMarker.id}
+                    mapMarker={mapMarker}
+                    article={props.getArticleById(mapMarker.articleId)}
+                    setDisplayedArticle={setDisplayedArticle}
+                    setArticleIsVisible={setArticleIsVisible}
+                />
             })}
+            {articleIsVisible && <ArticleDetailsCard article={displayedArticle}/>}
         </main>
     )
 }

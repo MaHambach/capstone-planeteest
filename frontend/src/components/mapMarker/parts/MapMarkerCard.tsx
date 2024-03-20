@@ -1,15 +1,17 @@
 import {MapMarker} from "../../../types/MapMarker.ts";
 import mapMarkerIcon from "../../../assets/Settings.webp";
-import React, {useState} from "react";
+import React from "react";
+import {Article} from "../../../types/Article.ts";
 
 type MapMarkerCardProps = {
     mapMarker: MapMarker;
+    article:Article;
+    setDisplayedArticle: (article:Article) => void;
+    setArticleIsVisible: (b:boolean) => void;
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
     const [cardSize, setCardSize] = React.useState({xSize: 0, ySize: 0});
-    const [visibilityEdit, setVisibilityEdit] = useState<boolean>(false);
-
 
     const img = new Image();
 
@@ -18,14 +20,15 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
         setCardSize({xSize: img.width, ySize: img.height});
     }
 
-    function mapMarkerClick(event:React.MouseEvent<HTMLElement>) :void{
+    function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
-        setVisibilityEdit(!visibilityEdit);
+        props.setArticleIsVisible(true)
+        props.setDisplayedArticle(props.article);
     }
 
     return (
         <img
-            onClick={mapMarkerClick}
+            onClick={handleClick}
             role={"presentation"} /* Suppresses sonarLint protests. */
             className={"mapMarkerCard"}
             style={{
@@ -35,7 +38,6 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
             }}
             src={mapMarkerIcon}
             alt={props.mapMarker.name}
-
         />
     )
 }

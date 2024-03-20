@@ -12,7 +12,7 @@ export default function WorldMapGallery(props:Readonly<WorldMapGalleryProps>):Re
         <main className={"worldMapGallery"}>
             <DisplayTileGallery
                 urlPrefix={"/worldmap/"}
-                tileData={props.worldMaps.map((worldMap:WorldMap) => ({id:worldMap.id, name:worldMap.name, }))}
+                tileData={props.worldMaps.map((worldMap:WorldMap) => ({id:worldMap.id, name:worldMap.name}))}
                 addNewName={"Neue Weltkarte"}
                 addNewUrl={"/worldmap/new"}
             />
