@@ -16,21 +16,14 @@
 }
 
 .displayTile:hover {
-    box-shadow: 0 0 50px rgb(19, 217, 227);
+    box-shadow: 0 0 20px rgb(19, 217, 227);
     width: 200px;
     height: 200px;
     margin: 22px;
 }
 
-.displayTile_Link {
+.displayTile .name {
+    font-size: 2.5rem;
     text-decoration: none;
     color: black;
-}
-
-.displayTile .name {
-    margin: 0;
-    font-size: 3rem;
-    text-align: center;
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
 }

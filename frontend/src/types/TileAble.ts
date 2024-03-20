@@ -1,5 +1,5 @@
 export interface TileAble {
     id:string,
-    image?:string,
+    image?: string,
     name:string
 }
