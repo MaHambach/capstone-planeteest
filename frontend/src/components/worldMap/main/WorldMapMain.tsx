@@ -8,7 +8,7 @@ import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import ToolBar from "../parts/WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 import {Article} from "../../../types/Article.ts";
-import ArticleDetailsCard from "../../article/parts/ArticleDetailsCard.tsx";
+import ArticleCard from "../../article/parts/ArticleCard.tsx";
 
 type WorldMapMainProps = {
     getWorldMap: (id:string) => WorldMap;
@@ -67,7 +67,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     setArticleIsVisible={setArticleIsVisible}
                 />
             })}
-            {articleIsVisible && <ArticleDetailsCard article={displayedArticle}/>}
+            {articleIsVisible && <ArticleCard article={displayedArticle}/>}
         </main>
     )
 }

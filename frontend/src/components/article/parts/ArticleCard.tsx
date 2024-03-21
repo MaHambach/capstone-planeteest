@@ -1,4 +1,4 @@
-import './ArticleDetailsCard.css'
+import './ArticleCard.css'
 import {Article} from "../../../types/Article.ts";
 import DisplayTileGallery from "../../parts/DisplayTileGallery.tsx";
 import React from "react";
@@ -7,10 +7,10 @@ type ArticleDetailsCardProps = {
     article:Article;
 };
 
-export default function ArticleDetailsCard(props:Readonly<ArticleDetailsCardProps>):React.ReactElement {
+export default function ArticleCard(props:Readonly<ArticleDetailsCardProps>):React.ReactElement {
 
     return (
-        <div className={"articleDetailsCard"}>
+        <div className={"articlesCard"}>
             <article>{props.article.content}</article>
             {props.article.npcIds.length > 0 &&
                 <DisplayTileGallery
