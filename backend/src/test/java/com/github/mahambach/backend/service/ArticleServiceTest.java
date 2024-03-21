@@ -19,7 +19,7 @@ class ArticleServiceTest {
 
 
     @Test
-    void getAllArticles_whenSomething_thenSomething() {
+    void getAllArticles_whenOneArticle_thenReturnListOfArticle() {
         // Given
         Article article = new Article("1", "Content", List.of("NpcId1", "NpcId2"));
         List<Article> expected = List.of(article);
@@ -81,7 +81,7 @@ class ArticleServiceTest {
     }
 
     @Test
-    void createArticle_whenSomething_thenCreateAndReturn() {
+    void createArticle_whenValidInput_thenCreateAndReturn() {
         // Given
         String id = "1";
         Article expected = new Article(id, "Content", List.of("NpcId1", "NpcId2"));

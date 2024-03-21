@@ -23,7 +23,7 @@ class MapMarkerServiceTest {
 
 
     @Test
-    void getAllMapMarkers_whenSomething_thenSomething() {
+    void getAllMapMarkers_whenOneMapMarker_thenReturnListOfMapMarker() {
         // Given
         MapMarker mapMarker = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
         List<MapMarker> expected = List.of(mapMarker);

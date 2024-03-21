@@ -20,7 +20,7 @@ class WorldMapServiceTest {
 
 
     @Test
-    void getAllWorldMaps_whenSomething_thenSomething() {
+    void getAllWorldMaps_whenOneWorldMap_thenReturnListOfWorldMap() {
         // Given
         WorldMap worldMap = new WorldMap("1", "WorldMapName", "WorldMapUrl", 1024, 768);
         List<WorldMap> expected = List.of(worldMap);
@@ -83,7 +83,7 @@ class WorldMapServiceTest {
     }
 
     @Test
-    void createWorldMap_whenSomething_thenCreateAndReturn() {
+    void createWorldMap_whenValidInput_thenCreateAndReturn() {
         // Given
         WorldMap expected = new WorldMap("1", "WorldMapName", "WorldMapUrl", 1024, 768);
         WorldMapDto input = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);

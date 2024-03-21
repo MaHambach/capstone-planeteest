@@ -32,7 +32,7 @@ class WorldMapControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void getAllWorldMaps_whenSomething_thenSomething() throws Exception {
+    void getAllWorldMaps_whenOneWorldMap_thenReturnListOfWorldMap() throws Exception {
         // Given
         WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
         String worldMapDtoJson = objectMapper.writeValueAsString(worldMapDto);
@@ -113,7 +113,7 @@ class WorldMapControllerTest {
     }
 
     @Test
-    void createWorldMap_whenSomething_thenCreateAndReturn() throws Exception {
+    void createWorldMap_whenValidInput_thenCreateAndReturn() throws Exception {
         // Given
         WorldMapDto expectedDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
         String worldMapDtoJson = objectMapper.writeValueAsString(expectedDto);
@@ -226,7 +226,7 @@ class WorldMapControllerTest {
     }
 
     @Test
-    void deleteWorldMapById_whenSuchWorld_thenDeletAndReturnDeleted() throws Exception {
+    void deleteWorldMapById_whenSuchWorld_thenDeleteAndReturnDeleted() throws Exception {
         // Given
         WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
         MvcResult worldMapJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldmaps")
