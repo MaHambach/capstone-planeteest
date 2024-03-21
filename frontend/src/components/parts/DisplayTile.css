@@ -1,0 +1,33 @@
+.displayTile {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+    background: rgb(255, 255, 255);
+    border-radius: 1rem;
+    margin: 0.75rem;
+    width: 220px;
+    height: 220px;
+    position: relative;
+
+    transition: 0.2s;
+    border: 2px solid black;
+}
+
+.displayTile:hover {
+    box-shadow: 0 0 50px rgb(19, 217, 227);
+}
+
+.displayTile_Link {
+    text-decoration: none;
+    color: black;
+}
+
+.displayTile .name {
+    margin: 0;
+    font-size: 3rem;
+    text-align: center;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
