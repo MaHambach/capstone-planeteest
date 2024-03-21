@@ -96,7 +96,7 @@ class MapMarkerServiceTest {
         Article newArticle = new Article(newArticleDto).withId(newArticleId);
 
         // When
-        when(mapMarkerRepo.save(new MapMarker(input))).thenReturn(expected);
+        when(mapMarkerRepo.save(new MapMarker(input).withArticleId(newArticleId))).thenReturn(expected);
         when(articleService.createArticle(newArticleDto)).thenReturn(newArticle);
         MapMarker result = mapMarkerService.createMapMarker(input);
 

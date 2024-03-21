@@ -133,7 +133,7 @@ class MapMarkerControllerTest {
         assertEquals(expectedDto.xPosition(), actual.xPosition());
         assertEquals(expectedDto.yPosition(), actual.yPosition());
         assertEquals(expectedDto.markerTypeId(), actual.markerTypeId());
-        assertEquals(expectedDto.articleId(), actual.articleId());
+        assertNotNull(actual.articleId());
         assertNotNull(actual.id());
     }
 
