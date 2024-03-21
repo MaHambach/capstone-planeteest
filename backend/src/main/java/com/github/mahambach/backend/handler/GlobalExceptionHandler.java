@@ -28,8 +28,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoSuchMapMarkerException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorMessage handleNoSuchProductException(NoSuchMapMarkerException exception) {
+    public ErrorMessage handleNoSuchMapMarkerException(NoSuchMapMarkerException exception) {
         return handleNoSuchObjectException("Map marker", exception.getMessage());
+    }
+
+    @ExceptionHandler(NoSuchMapMarkerTypeException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorMessage handleNoSuchMapMarkerTypeException(NoSuchMapMarkerTypeException exception) {
+        return handleNoSuchObjectException("Map marker type", exception.getMessage());
     }
 
     @ExceptionHandler(NoSuchWorldMapException.class)
@@ -48,23 +54,30 @@ public class GlobalExceptionHandler {
     // Miss Matching Element Exceptions
     @ExceptionHandler(MissMatchingIdsArticleException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorMessage handleIdsNotMatchingException(MissMatchingIdsArticleException exception) {
-        return handleIdsNotMatchingException("Article", exception.getPathId(), exception.getBodyId());
+    public ErrorMessage handleMissMatchingIdsArticleException(MissMatchingIdsArticleException exception) {
+        return handleMissMatchingIdsException("Article", exception.getPathId(), exception.getBodyId());
     }
 
     @ExceptionHandler(MissMatchingIdsMapMarkerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorMessage handleIdsNotMatchingException(MissMatchingIdsMapMarkerException exception) {
-        return handleIdsNotMatchingException("Map marker", exception.getPathId(), exception.getBodyId());
+    public ErrorMessage handleMissMatchingIdsMapMarkerException(MissMatchingIdsMapMarkerException exception) {
+        return handleMissMatchingIdsException("Map marker", exception.getPathId(), exception.getBodyId());
+    }
+
+
+    @ExceptionHandler(MissMatchingIdsMapMarkerTypeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleMissMatchingIdsMapMarkerTypeException(MissMatchingIdsMapMarkerTypeException exception) {
+        return handleMissMatchingIdsException("Map marker type", exception.getPathId(), exception.getBodyId());
     }
 
     @ExceptionHandler(MissMatchingIdsWorldMapException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorMessage handleIdsNotMatchingException(MissMatchingIdsWorldMapException exception) {
-        return handleIdsNotMatchingException("World map", exception.getPathId(), exception.getBodyId());
+    public ErrorMessage handleMissMatchingIdsWorldMapException(MissMatchingIdsWorldMapException exception) {
+        return handleMissMatchingIdsException("World map", exception.getPathId(), exception.getBodyId());
     }
 
-    private ErrorMessage handleIdsNotMatchingException(String className, String pathId, String bodyId) {
+    private ErrorMessage handleMissMatchingIdsException(String className, String pathId, String bodyId) {
         return new ErrorMessage(
                 className + " with id " + pathId + " in path and " + bodyId + " in body do not match.",
                 LocalDateTime.now()
