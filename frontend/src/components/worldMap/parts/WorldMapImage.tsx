@@ -10,21 +10,21 @@ type WorldMapImageProps = {
     setArticleIsVisible: (b:boolean) => void;
 }
 
-const initialCoordinats = {
+const initialCoordinates = {
     xPosition: -10,
     yPosition: -10
 }
 export default function WorldMapImage(props: Readonly<WorldMapImageProps>): React.ReactElement {
-    const [coordinates, setCoordinates] = useState(initialCoordinats);
-    function worldMapClick(e: React.MouseEvent):void {
+    const [coordinates, setCoordinates] = useState(initialCoordinates);
+    function worldMapClick(event: React.MouseEvent<HTMLElement>):void {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        const rect = e.target.getBoundingClientRect();
+        const rect = event.target.getBoundingClientRect();
         props.setArticleIsVisible(false);
         if(props.addNewMapMarker){
-            setCoordinates({xPosition: e.clientX - rect.left, yPosition: e.clientY - rect.top});
+            setCoordinates({xPosition: event.clientX - rect.left, yPosition: event.clientY - rect.top});
         }
-        console.log("Left? : " + (e.clientX - rect.left) + " ; Top? : " + (e.clientY - rect.top) + ".");
+        console.log("Left? : " + (event.clientX - rect.left) + " ; Top? : " + (event.clientY - rect.top) + ".");
     }
 
     return (
