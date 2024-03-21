@@ -17,7 +17,7 @@ export default function useMapMarkers() {
     }
 
     function saveMapMarker(newMapMarker:MapMarkerDto):void {
-        axios.post('/api/worldmaps', newMapMarker)
+        axios.post('/api/map-markers', newMapMarker)
             .then((response) => {
                 console.log("New map marker added with id " + response.data.id + ".");
                 fetchMapMarkers();
@@ -34,3 +34,8 @@ export default function useMapMarkers() {
         saveMapMarker
     }
 }
+
+/*
+* 65fc6c1b61c9ee65bcf96d7e
+* 65fc6c1b61c9ee65bcf96d7f
+* */

@@ -22,7 +22,7 @@ export default function WorldMapImage(props: Readonly<WorldMapImageProps>): Reac
         const rect = event.target.getBoundingClientRect();
         props.setArticleIsVisible(false);
         if(props.addNewMapMarker){
-            setCoordinates({xPosition: event.clientX - rect.left, yPosition: event.clientY - rect.top});
+            setCoordinates({xPosition: (event.clientX - rect.left), yPosition: (event.clientY - rect.top)});
         }
         console.log("Left? : " + (event.clientX - rect.left) + " ; Top? : " + (event.clientY - rect.top) + ".");
     }

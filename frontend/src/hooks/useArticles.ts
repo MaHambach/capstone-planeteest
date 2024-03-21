@@ -6,7 +6,7 @@ export function useArticles() {
     const [articles, setArticles] = useState<Article[]>([]);
 
     function fetchArticles():void {
-        axios.get('/api/map-markers')
+        axios.get('/api/articles')
             .then(response => {
                 setArticles(response.data);
             })
