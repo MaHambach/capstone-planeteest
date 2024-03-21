@@ -35,7 +35,7 @@ export default function WorldMapImage(props: Readonly<WorldMapImageProps>): Reac
                 worldMapId={props.worldMap?.id}
                 xPosition={coordinates.xPosition}
                 yPosition={coordinates.yPosition}
-                markerTypeId={''} /* TODO: When MarkerType is implemented */
+                markerTypeId={''} /* For later: When MarkerType is implemented */
             />}
         </div>
     )

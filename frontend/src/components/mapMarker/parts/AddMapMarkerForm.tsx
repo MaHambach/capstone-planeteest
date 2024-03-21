@@ -42,7 +42,7 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                 worldMapId: props.worldMapId,
                 xPosition: props.xPosition,
                 yPosition: props.yPosition,
-                markerTypeId: '' /* TODO: When MarkerType is implemented */
+                markerTypeId: '' /* For later: When MarkerType is implemented */
             }
         )
     }, [props]);
