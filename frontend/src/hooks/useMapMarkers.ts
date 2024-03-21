@@ -3,7 +3,6 @@ import {MapMarker} from "../types/MapMarker.ts";
 import {useEffect, useState} from "react";
 import {MapMarkerDto} from "../types/MapMarkerDto.ts";
 
-
 export default function useMapMarkers() {
     const [mapMarkers, setMapMarkers] = useState<MapMarker[]>([]);
 

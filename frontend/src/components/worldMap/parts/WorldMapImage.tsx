@@ -7,19 +7,24 @@ type WorldMapImageProps = {
     worldMap: WorldMap;
     addNewMapMarker: boolean;
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
+    setArticleIsVisible: (b:boolean) => void;
+}
+
+const initialCoordinates = {
+    xPosition: -10,
+    yPosition: -10
 }
 export default function WorldMapImage(props: Readonly<WorldMapImageProps>): React.ReactElement {
-    const [coordinates, setCoordinates] = useState({xPosition:0, yPosition:0});
-    function worldMapClick(e: React.MouseEvent):void {
+    const [coordinates, setCoordinates] = useState(initialCoordinates);
+    function worldMapClick(event: React.MouseEvent<HTMLElement>):void {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        const rect = e.target.getBoundingClientRect();
-
+        const rect = event.target.getBoundingClientRect();
+        props.setArticleIsVisible(false);
         if(props.addNewMapMarker){
-
-            setCoordinates({xPosition: e.clientX - rect.left, yPosition: e.clientY - rect.top});
+            setCoordinates({xPosition: event.clientX - rect.left, yPosition: event.clientY - rect.top});
         }
-        console.log("Left? : " + (e.clientX - rect.left) + " ; Top? : " + (e.clientY - rect.top) + ".");
+        console.log("Left? : " + (event.clientX - rect.left) + " ; Top? : " + (event.clientY - rect.top) + ".");
     }
 
     return (
@@ -27,12 +32,12 @@ export default function WorldMapImage(props: Readonly<WorldMapImageProps>): Reac
             <img
                 onClick={worldMapClick}
                 role={"presentation"} /* Suppresses sonarLint protests. */
-                src={props.worldMap?.worldMapUrl}
-                alt={props.worldMap?.name}
+                src={props.worldMap.worldMapUrl}
+                alt={props.worldMap.name}
             />
             {props.addNewMapMarker && <AddMapMarkerForm
                 saveMapMarker={props.saveMapMarker}
-                worldMapId={props.worldMap?.id}
+                worldMapId={props.worldMap.id}
                 xPosition={coordinates.xPosition}
                 yPosition={coordinates.yPosition}
                 markerTypeId={''} /* For later: When MarkerType is implemented */

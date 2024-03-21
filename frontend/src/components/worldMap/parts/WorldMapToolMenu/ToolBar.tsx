@@ -6,7 +6,7 @@ type ToolBarProps = {
 }
 export default function ToolBar(props:Readonly<ToolBarProps>):React.ReactElement {
     return (
-        <div>
+        <div className={"worldMapToolBar"}>
             <MapMarker name={"MapMarker hinzufügen"} toggleAddNewMapMarker={props.toggleAddNewMapMarker} />
         </div>
     )
