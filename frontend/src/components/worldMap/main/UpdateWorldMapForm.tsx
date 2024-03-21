@@ -1,4 +1,3 @@
-import './UpdateWorldMapForm.css';
 import {WorldMap} from "../../../types/WorldMap.ts";
 import React, {FormEvent, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";

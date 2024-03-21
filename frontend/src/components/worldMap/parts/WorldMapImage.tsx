@@ -1,4 +1,3 @@
-import './WorldMapImage.css';
 import {WorldMap} from "../../../types/WorldMap.ts";
 import React from "react";
 

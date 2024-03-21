@@ -1,4 +1,3 @@
-import './WorldMapMain.css';
 import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {WorldMap} from "../../../types/WorldMap.ts";

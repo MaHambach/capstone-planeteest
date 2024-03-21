@@ -1,7 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import WorldMapGallery from "./components/worldMap/main/WorldMapGallery.tsx";
 import React from 'react'
-import './App.css'
 import useWorldMaps from "./hooks/useWorldMaps.ts";
 import NewWorldMapForm from "./components/worldMap/main/NewWorldMapForm.tsx";
 import WorldMapMain from "./components/worldMap/main/WorldMapMain.tsx";
