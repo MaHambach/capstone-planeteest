@@ -1,4 +1,3 @@
-import './AddMapMarkerForm.css';
 import React, {FormEvent, useEffect, useState} from "react";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 
