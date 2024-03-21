@@ -2,6 +2,7 @@ package com.github.mahambach.backend.service;
 
 import com.github.mahambach.backend.exception.MissMatchingIdsMapMarkerException;
 import com.github.mahambach.backend.exception.NoSuchMapMarkerException;
+import com.github.mahambach.backend.model.ArticleDto;
 import com.github.mahambach.backend.model.MapMarker;
 import com.github.mahambach.backend.model.MapMarkerDto;
 import com.github.mahambach.backend.repository.MapMarkerRepo;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MapMarkerService {
     private final MapMarkerRepo mapMarkerRepo;
+    private final ArticleService articleService;
 
     public List<MapMarker> getAllMapMarkers() {
         return mapMarkerRepo.findAll();
@@ -26,7 +28,8 @@ public class MapMarkerService {
     }
 
     public MapMarker createMapMarker(MapMarkerDto mapMarkerDto) {
-        return mapMarkerRepo.save(new MapMarker(mapMarkerDto));
+        String articleId = articleService.createArticle(new ArticleDto("", List.of())).id();
+        return mapMarkerRepo.save(new MapMarker(mapMarkerDto).withArticleId(articleId));
     }
 
     public MapMarker updateMapMarker(String mapMarkerId, MapMarker mapMarker) {

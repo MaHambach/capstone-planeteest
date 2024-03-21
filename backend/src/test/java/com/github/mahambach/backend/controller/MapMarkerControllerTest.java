@@ -31,7 +31,7 @@ class MapMarkerControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void getAllMapMarkers_whenSomething_thenSomething() throws Exception {
+    void getAllMapMarkers_whenOneMarker_thenReturnListOfMarker() throws Exception {
         // Given
         MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
         String mapMarkerDtoJson = objectMapper.writeValueAsString(mapMarkerDto);
@@ -113,7 +113,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
-    void createMapMarker_whenSomething_thenCreateAndReturn() throws Exception {
+    void createMapMarker_whenValidInput_thenCreateAndReturn() throws Exception {
         // Given
         MapMarkerDto expectedDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
         String mapMarkerDtoJson = objectMapper.writeValueAsString(expectedDto);
@@ -133,7 +133,7 @@ class MapMarkerControllerTest {
         assertEquals(expectedDto.xPosition(), actual.xPosition());
         assertEquals(expectedDto.yPosition(), actual.yPosition());
         assertEquals(expectedDto.markerTypeId(), actual.markerTypeId());
-        assertEquals(expectedDto.articleId(), actual.articleId());
+        assertNotNull(actual.articleId());
         assertNotNull(actual.id());
     }
 
@@ -228,7 +228,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
-    void deleteMapMarkerById_whenSuchWorld_thenDeletAndReturnDeleted() throws Exception {
+    void deleteMapMarkerById_whenSuchWorld_thenDeleteAndReturnDeleted() throws Exception {
         // Given
         MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
 

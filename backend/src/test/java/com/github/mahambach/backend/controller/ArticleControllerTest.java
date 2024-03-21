@@ -31,7 +31,7 @@ class ArticleControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void getAllArticles_whenSomething_thenSomething() throws Exception {
+    void getAllArticles_whenOneArticle_thenReturnThatArticleInAList() throws Exception {
         // Given
         ArticleDto articleDto = new ArticleDto("Content", List.of("NpcId1", "NpcId2"));
         String articleDtoJson = objectMapper.writeValueAsString(articleDto);
@@ -114,7 +114,7 @@ class ArticleControllerTest {
     }
 
     @Test
-    void createArticle_whenSomething_thenCreateAndReturn() throws Exception {
+    void createArticle_whenValidInput_thenCreateAndReturn() throws Exception {
         // Given
         ArticleDto expectedDto = new ArticleDto("Content", List.of("NpcId1", "NpcId2"));
 
