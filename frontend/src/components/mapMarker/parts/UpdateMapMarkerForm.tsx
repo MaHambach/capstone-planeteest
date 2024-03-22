@@ -12,7 +12,7 @@ export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardPr
     const [formData, setFormData] = useState<MapMarker>(emptyMapMarker);
     const [changingPosition, setChangingPosition] = useState<boolean>(false);
 
-    useEffect(() => {
+    useEffect(():void => {
         setFormData(props.mapMarker);
     }, [props]);
 
@@ -34,6 +34,7 @@ export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardPr
     function handleUpdateMarker(event: React.MouseEvent<HTMLElement>):void {
         event.preventDefault();
         props.updateMapMarker(formData);
+        props.closeMapMarkerCard();
     }
 
     return (
