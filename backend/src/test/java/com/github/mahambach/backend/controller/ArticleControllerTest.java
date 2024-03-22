@@ -79,8 +79,7 @@ class ArticleControllerTest {
                 .andExpect(status().isNotFound())
                 .andReturn();
 
-        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(),ErrorMessage.class);
-
+        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(), ErrorMessage.class);
 
         // Then
         assertEquals("Article with id " + id + " not found.", result.errorMsg());
@@ -138,8 +137,8 @@ class ArticleControllerTest {
     @Test
     void updateArticle_whenNoSuchArticle_thenThrow() throws Exception{
         // Given
-        String id = "1000";
-        Article article = new Article("1000", "Content", List.of("NpcId1", "NpcId2"));
+        String id = "1";
+        Article article = new Article("1", "Content", List.of("NpcId1", "NpcId2"));
 
         String articleJson = objectMapper.writeValueAsString(article);
 

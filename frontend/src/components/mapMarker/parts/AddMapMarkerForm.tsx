@@ -1,5 +1,5 @@
 import React, {FormEvent, useEffect, useState} from "react";
-import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
+import {emptyMapMarkerDto, MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 
 type AddMapMarkerFormProps = {
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
@@ -10,20 +10,11 @@ type AddMapMarkerFormProps = {
     markerTypeId: string;
 }
 
-const initialFormData:MapMarkerDto = {
-    worldMapId: '',
-    name: '',
-    xPosition: 0,
-    yPosition: 0,
-    markerTypeId: ''
-}
-
 export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):React.ReactElement {
-    const [formData, setFormData] = useState(initialFormData);
+    const [formData, setFormData] = useState(emptyMapMarkerDto);
 
     function handleSubmit(event: FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-
         props.saveMapMarker(formData);
         props.closeAddMapMarkerForm();
     }
