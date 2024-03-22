@@ -2,6 +2,7 @@ import './MapMarkerCard.css'
 import {MapMarker} from "../../../types/MapMarker.ts";
 import mapMarkerIcon from "../../../assets/Settings.webp";
 import React from "react";
+import ToolBar from "./ToolBar/ToolBar.tsx";
 
 type MapMarkerCardProps = {
     mapMarker: MapMarker;
@@ -28,17 +29,28 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
     }
 
     return (
-        <img
-            className={props.isSelected ? "mapMarkerCardSelected" : "mapMarkerCard"}
-            onClick={handleClick}
-            role={"presentation"} /* Suppresses sonarLint protests. */
-            style={{
-                position:"absolute",
-                left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * cardSize.xSize, /* Might depend on MapMarkerType */
-                top: props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - 0.5 * cardSize.ySize   /* Might depend on MapMarkerType */
-            }}
-            src={mapMarkerIcon}
-            alt={props.mapMarker.name}
-        />
+        <div className={"mapMarkerCard"}>
+            {props.isSelected && <h2
+                className={"mapMarkerName"}
+                style={{
+                    position:"absolute",
+                    left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * cardSize.xSize, /* Might depend on MapMarkerType */
+                    top: props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - cardSize.ySize /* Might depend on MapMarkerType */
+                }}
+            >{props.mapMarker.name}</h2>}
+            <img
+                className={props.isSelected ? "mapMarkerCardImageSelected" : "mapMarkerCardImage"}
+                onClick={handleClick}
+                role={"presentation"} /* Suppresses sonarLint protests. */
+                style={{
+                    position:"absolute",
+                    left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * cardSize.xSize, /* Might depend on MapMarkerType */
+                    top: props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - 0.5 * cardSize.ySize   /* Might depend on MapMarkerType */
+                }}
+                src={mapMarkerIcon}
+                alt={props.mapMarker.name}
+            />
+            {props.isSelected && <ToolBar mapMarker={props.mapMarker}/>}
+        </div>
     )
 }
