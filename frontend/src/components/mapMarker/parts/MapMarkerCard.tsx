@@ -34,8 +34,8 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                 className={"mapMarkerName"}
                 style={{
                     position:"absolute",
-                    left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * cardSize.xSize, /* Might depend on MapMarkerType */
-                    top: props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - cardSize.ySize /* Might depend on MapMarkerType */
+                    left: (props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * cardSize.xSize), /* Might depend on MapMarkerType */
+                    top: (props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - cardSize.ySize -5) /* Might depend on MapMarkerType */
                 }}
             >{props.mapMarker.name}</h2>}
             <img
@@ -50,7 +50,10 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                 src={mapMarkerIcon}
                 alt={props.mapMarker.name}
             />
-            {props.isSelected && <ToolBar mapMarker={props.mapMarker}/>}
+            {props.isSelected &&
+                <ToolBar mapMarker={props.mapMarker}
+                         offsetMapMarkerCard={cardSize}
+            />}
         </div>
     )
 }
