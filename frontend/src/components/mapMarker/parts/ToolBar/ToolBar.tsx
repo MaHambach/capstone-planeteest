@@ -1,6 +1,7 @@
 import './ToolBar.css';
 import {MapMarker} from "../../../../types/MapMarker.ts";
 import React from "react";
+import UpdateMapMarkerButton from "./Entries/UpdateMapMarkerButton.tsx";
 
 type ToolBarProps = {
     mapMarker: MapMarker;
@@ -17,7 +18,7 @@ export default function ToolBar(props:Readonly<ToolBarProps>): React.ReactElemen
                     top: (1.5 * props.offsetMapMarkerCard.ySize+ props.mapMarker.yPosition +5) /* Might depend on MapMarkerType */
                 }}
         >
-            Bear.
+            <UpdateMapMarkerButton mapMarker={props.mapMarker}/>
         </div>
     )
 }

@@ -13,13 +13,13 @@ type MapMarkerCardProps = {
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
-    const [cardSize, setCardSize] = React.useState({xSize: 0, ySize: 0});
+    const [mapIconSize, setMapIconSize] = React.useState({xSize: 0, ySize: 0});
 
     const img = new Image();
 
     img.src = mapMarkerIcon;
     img.onload = () =>{
-        setCardSize({xSize: img.width, ySize: img.height});
+        setMapIconSize({xSize: img.width, ySize: img.height});
     }
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
@@ -30,29 +30,32 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
 
     return (
         <div className={"mapMarkerCard"}>
-            {props.isSelected && <h2
-                className={"mapMarkerName"}
-                style={{
-                    position:"absolute",
-                    left: (props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * cardSize.xSize), /* Might depend on MapMarkerType */
-                    top: (props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - cardSize.ySize -5) /* Might depend on MapMarkerType */
-                }}
-            >{props.mapMarker.name}</h2>}
+            {props.isSelected &&
+                <h2
+                    className={"mapMarkerName"}
+                    style={{
+                        position:"absolute",
+                        left: (props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * mapIconSize.xSize), /* Might depend on MapMarkerType */
+                        top: (props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - mapIconSize.ySize -5) /* Might depend on MapMarkerType */
+                }}>
+                    {props.mapMarker.name}
+                </h2>
+            }
             <img
                 className={props.isSelected ? "mapMarkerCardImageSelected" : "mapMarkerCardImage"}
                 onClick={handleClick}
                 role={"presentation"} /* Suppresses sonarLint protests. */
                 style={{
                     position:"absolute",
-                    left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * cardSize.xSize, /* Might depend on MapMarkerType */
-                    top: props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - 0.5 * cardSize.ySize   /* Might depend on MapMarkerType */
+                    left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * mapIconSize.xSize, /* Might depend on MapMarkerType */
+                    top: props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - 0.5 * mapIconSize.ySize   /* Might depend on MapMarkerType */
                 }}
                 src={mapMarkerIcon}
                 alt={props.mapMarker.name}
             />
             {props.isSelected &&
                 <ToolBar mapMarker={props.mapMarker}
-                         offsetMapMarkerCard={cardSize}
+                         offsetMapMarkerCard={mapIconSize}
             />}
         </div>
     )
