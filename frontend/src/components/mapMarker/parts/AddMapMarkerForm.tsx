@@ -6,6 +6,7 @@ type AddMapMarkerFormProps = {
     worldMapId: string;
     xPosition: number;
     yPosition: number;
+    closeAddMapMarkerForm: () => void;
     markerTypeId: string;
 }
 
@@ -24,6 +25,7 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
         event.preventDefault();
 
         props.saveMapMarker(formData);
+        props.closeAddMapMarkerForm();
     }
 
     function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>):void {

@@ -35,6 +35,7 @@ class MapMarkerServiceTest {
         // Then
         assertEquals(expected, actual);
         verify(mapMarkerRepo).findAll();
+        verifyNoInteractions(articleService);
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
@@ -50,6 +51,7 @@ class MapMarkerServiceTest {
         // Then
         assertEquals(expected, actual);
         verify(mapMarkerRepo).findAll();
+        verifyNoInteractions(articleService);
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
@@ -65,6 +67,7 @@ class MapMarkerServiceTest {
         // Then
         assertThrows(NoSuchMapMarkerException.class, () -> mapMarkerService.getMapMarkerById(id));
         verify(mapMarkerRepo).findById(id);
+        verifyNoInteractions(articleService);
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
@@ -82,6 +85,7 @@ class MapMarkerServiceTest {
         // Then
         assertEquals(expected, result);
         verify(mapMarkerRepo).findById(id);
+        verifyNoInteractions(articleService);
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
@@ -98,10 +102,17 @@ class MapMarkerServiceTest {
         // When
         when(mapMarkerRepo.save(new MapMarker(input).withArticleId(newArticleId))).thenReturn(expected);
         when(articleService.createArticle(newArticleDto)).thenReturn(newArticle);
+        when(mapMarkerRepo.save(new MapMarker(input).withArticleId(newArticleId))).thenReturn(expected);
         MapMarker result = mapMarkerService.createMapMarker(input);
 
         // Then
         assertEquals(expected, result);
+
+        verify(articleService).createArticle(newArticleDto);
+        verifyNoMoreInteractions(articleService);
+
+        verify(mapMarkerRepo).save(new MapMarker(input).withArticleId(newArticleId));
+        verifyNoMoreInteractions(mapMarkerRepo);
     }
 
     @Test
@@ -117,6 +128,7 @@ class MapMarkerServiceTest {
         assertThrows(NoSuchMapMarkerException.class, () -> mapMarkerService.updateMapMarker(id, mapMarker));
         verify(mapMarkerRepo).existsById(id);
         verifyNoMoreInteractions(mapMarkerRepo);
+        verifyNoInteractions(articleService);
     }
 
 
@@ -130,6 +142,7 @@ class MapMarkerServiceTest {
         // Then
         assertThrows(MissMatchingIdsMapMarkerException.class, () -> mapMarkerService.updateMapMarker(id, mapMarker));
         verifyNoInteractions(mapMarkerRepo);
+        verifyNoInteractions(articleService);
     }
 
     @Test
@@ -148,6 +161,7 @@ class MapMarkerServiceTest {
         assertEquals(expected, actual);
         verify(mapMarkerRepo).existsById(mapMarkerOld.id());
         verify(mapMarkerRepo).save(expected);
+        verifyNoInteractions(articleService);
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
@@ -162,6 +176,7 @@ class MapMarkerServiceTest {
         // Then
         assertThrows(NoSuchMapMarkerException.class, () -> mapMarkerService.deleteMapMarkerById(id));
         verify(mapMarkerRepo).findById(id);
+        verifyNoInteractions(articleService);
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
@@ -178,6 +193,7 @@ class MapMarkerServiceTest {
         assertEquals(expected, actual);
         verify(mapMarkerRepo).findById(expected.id());
         verify(mapMarkerRepo).deleteById(expected.id());
+        verifyNoInteractions(articleService);
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 }

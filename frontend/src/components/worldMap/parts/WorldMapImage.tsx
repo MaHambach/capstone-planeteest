@@ -7,7 +7,7 @@ type WorldMapImageProps = {
     worldMap: WorldMap;
     addNewMapMarker: boolean;
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
-    setArticleIsVisible: (b:boolean) => void;
+    handleArticleChange: (aticleId:string) => void;
 }
 
 const initialCoordinates = {
@@ -16,13 +16,14 @@ const initialCoordinates = {
 }
 export default function WorldMapImage(props: Readonly<WorldMapImageProps>): React.ReactElement {
     const [coordinates, setCoordinates] = useState(initialCoordinates);
+
     function worldMapClick(event: React.MouseEvent<HTMLElement>):void {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         const rect = event.target.getBoundingClientRect();
-        props.setArticleIsVisible(false);
+        props.handleArticleChange('');
         if(props.addNewMapMarker){
-            setCoordinates({xPosition: event.clientX - rect.left, yPosition: event.clientY - rect.top});
+            setCoordinates({xPosition: (event.clientX - rect.left), yPosition: (event.clientY - rect.top)});
         }
         console.log("Left? : " + (event.clientX - rect.left) + " ; Top? : " + (event.clientY - rect.top) + ".");
     }
@@ -35,12 +36,14 @@ export default function WorldMapImage(props: Readonly<WorldMapImageProps>): Reac
                 src={props.worldMap.worldMapUrl}
                 alt={props.worldMap.name}
             />
-            {props.addNewMapMarker && <AddMapMarkerForm
-                saveMapMarker={props.saveMapMarker}
-                worldMapId={props.worldMap.id}
-                xPosition={coordinates.xPosition}
-                yPosition={coordinates.yPosition}
-                markerTypeId={''} /* For later: When MarkerType is implemented */
+            {(props.addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&
+                <AddMapMarkerForm
+                    saveMapMarker={props.saveMapMarker}
+                    worldMapId={props.worldMap.id}
+                    xPosition={coordinates.xPosition}
+                    yPosition={coordinates.yPosition}
+                    closeAddMapMarkerForm={() => setCoordinates(initialCoordinates)}
+                    markerTypeId={''} /* For later: When MarkerType is implemented */
             />}
         </div>
     )

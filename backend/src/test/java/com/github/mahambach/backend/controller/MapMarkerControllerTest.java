@@ -115,7 +115,7 @@ class MapMarkerControllerTest {
     @Test
     void createMapMarker_whenValidInput_thenCreateAndReturn() throws Exception {
         // Given
-        MapMarkerDto expectedDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarkerDto expectedDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", null);
         String mapMarkerDtoJson = objectMapper.writeValueAsString(expectedDto);
 
         // When
