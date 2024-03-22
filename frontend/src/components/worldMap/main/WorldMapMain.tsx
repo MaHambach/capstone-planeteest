@@ -53,6 +53,14 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
         }
     }
 
+    function handleMapMarkerDeselection() {
+        setSelectedMapMarker('');
+    }
+
+    function handleArticleDeselection() {
+        handleArticleChange('');
+    }
+
     function toggleAddNewMapMarker(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
         setAddNewMapMarker(!addNewMapMarker);
@@ -72,7 +80,8 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                 worldMap={worldMap}
                 addNewMapMarker={addNewMapMarker}
                 saveMapMarker={props.saveMapMarker}
-                handleArticleChange={handleArticleChange}
+                handleArticleDeselection={handleArticleDeselection}
+                handleMapMarkerDeselection={handleMapMarkerDeselection}
             />
             {props.mapMarkers.map((mapMarker:MapMarker) => {
                 return <MapMarkerCard

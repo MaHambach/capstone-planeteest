@@ -7,7 +7,8 @@ type WorldMapImageProps = {
     worldMap: WorldMap;
     addNewMapMarker: boolean;
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
-    handleArticleChange: (aticleId:string) => void;
+    handleArticleDeselection: () => void;
+    handleMapMarkerDeselection: () => void;
 }
 
 const initialCoordinates = {
@@ -21,7 +22,8 @@ export default function WorldMapImage(props: Readonly<WorldMapImageProps>): Reac
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         const rect = event.target.getBoundingClientRect();
-        props.handleArticleChange('');
+        props.handleArticleDeselection();
+        props.handleMapMarkerDeselection();
         if(props.addNewMapMarker){
             setCoordinates({xPosition: (event.clientX - rect.left), yPosition: (event.clientY - rect.top)});
         }
