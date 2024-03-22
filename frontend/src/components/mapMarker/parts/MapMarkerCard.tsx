@@ -1,13 +1,11 @@
 import {MapMarker} from "../../../types/MapMarker.ts";
 import mapMarkerIcon from "../../../assets/Settings.webp";
 import React from "react";
-import {Article} from "../../../types/Article.ts";
 
 type MapMarkerCardProps = {
     mapMarker: MapMarker;
-    article:Article;
-    setDisplayedArticle: (article:Article) => void;
-    setArticleIsVisible: (b:boolean) => void;
+    handleArticleChange: (articleId:string) => void;
+    offsetWorldMapFrame: {xOffset:number, yOffset:number};
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
@@ -22,8 +20,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
-        props.setArticleIsVisible(true)
-        props.setDisplayedArticle(props.article);
+        props.handleArticleChange(props.mapMarker.articleId);
     }
 
     return (
@@ -33,8 +30,8 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
             className={"mapMarkerCard"}
             style={{
                 position:"absolute",
-                left: props.mapMarker.xPosition - 0.5 * cardSize.xSize, /* Might depend on MapMarkerType */
-                top: props.mapMarker.yPosition - 0.5 * cardSize.ySize   /* Might depend on MapMarkerType */
+                left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * cardSize.xSize, /* Might depend on MapMarkerType */
+                top: props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - 0.5 * cardSize.ySize   /* Might depend on MapMarkerType */
             }}
             src={mapMarkerIcon}
             alt={props.mapMarker.name}

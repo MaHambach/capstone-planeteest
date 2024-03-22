@@ -41,12 +41,25 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
     const [articleIsVisible, setArticleIsVisible] = useState<boolean>(false);
     const [displayedArticle, setDisplayedArticle] = useState<Article>(initialArticle);
 
+    function handleArticleChange(articleId: string) {
+        if(articleId === ''){
+            setArticleIsVisible(false);
+            setDisplayedArticle(initialArticle);
+        } else {
+            setArticleIsVisible(true);
+            setDisplayedArticle(props.getArticleById(articleId));
+        }
+    }
+
     function toggleAddNewMapMarker(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
         setAddNewMapMarker(!addNewMapMarker);
     }
 
-    useEffect(() => setWorldMap(props.getWorldMap(id)), [id, props]);
+    useEffect(() => {
+        setWorldMap(props.getWorldMap(id))
+
+    }, [id, props]);
 
     return (
         <main className={"worldMapMain"}>
@@ -57,15 +70,14 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                 worldMap={worldMap}
                 addNewMapMarker={addNewMapMarker}
                 saveMapMarker={props.saveMapMarker}
-                setArticleIsVisible={setArticleIsVisible}
+                handleArticleChange={handleArticleChange}
             />
             {props.mapMarkers.map((mapMarker:MapMarker) => {
                 return <MapMarkerCard
                     key={mapMarker.id}
                     mapMarker={mapMarker}
-                    article={props.getArticleById(mapMarker.articleId)}
-                    setDisplayedArticle={setDisplayedArticle}
-                    setArticleIsVisible={setArticleIsVisible}
+                    handleArticleChange={handleArticleChange}
+                    offsetWorldMapFrame={{xOffset: 100, yOffset: 100}} /* Offset the padding. */
                 />
             })}
             {articleIsVisible && <ArticleCard article={displayedArticle}/>}
