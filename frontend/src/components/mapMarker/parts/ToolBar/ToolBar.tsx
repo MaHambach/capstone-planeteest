@@ -1,10 +1,9 @@
 import './ToolBar.css';
-import {MapMarker} from "../../../../types/MapMarker.ts";
 import React from "react";
 import UpdateMapMarkerButton from "./Entries/UpdateMapMarkerButton.tsx";
 
 type ToolBarProps = {
-    mapMarker: MapMarker;
+    handleUpdateMapMarker: () => void;
     offsetMapMarkerCard: {xSize:number, ySize:number};
 }
 
@@ -14,11 +13,11 @@ export default function ToolBar(props:Readonly<ToolBarProps>): React.ReactElemen
         <div className={"mapMarkerCardToolBar"}
                 style={{
                     position:"absolute",
-                    left: (0.5 * props.offsetMapMarkerCard.xSize + props.mapMarker.xPosition), /* Might depend on MapMarkerType */
-                    top: (1.5 * props.offsetMapMarkerCard.ySize+ props.mapMarker.yPosition +5) /* Might depend on MapMarkerType */
+                    left: (props.offsetMapMarkerCard.xSize), /* Might depend on MapMarkerType */
+                    top: (props.offsetMapMarkerCard.ySize) /* Might depend on MapMarkerType */
                 }}
         >
-            <UpdateMapMarkerButton mapMarker={props.mapMarker}/>
+            <UpdateMapMarkerButton handleUpdateMapMarker={props.handleUpdateMapMarker}/>
         </div>
     )
 }

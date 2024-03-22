@@ -9,7 +9,8 @@ type MapMarkerCardProps = {
     handleArticleChange: (articleId:string) => void;
     offsetWorldMapFrame: {xOffset:number, yOffset:number};
     isSelected:boolean;
-    setSelectedMapMarker: (mapMarkerId:string) => void;
+    setSelectedMapMarker: (mapMarker:MapMarker) => void;
+    handleUpdateMapMarker: () => void;
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
@@ -25,7 +26,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
         props.handleArticleChange(props.mapMarker.articleId);
-        props.setSelectedMapMarker(props.mapMarker.id);
+        props.setSelectedMapMarker(props.mapMarker);
     }
 
     return (
@@ -54,8 +55,13 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                 alt={props.mapMarker.name}
             />
             {props.isSelected &&
-                <ToolBar mapMarker={props.mapMarker}
-                         offsetMapMarkerCard={mapIconSize}
+                <ToolBar handleUpdateMapMarker={props.handleUpdateMapMarker}
+                         offsetMapMarkerCard={
+                                {
+                                    xSize:(0.5 * props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition),
+                                    ySize:(1.5 * props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition +5)
+                                }
+                            }
             />}
         </div>
     )

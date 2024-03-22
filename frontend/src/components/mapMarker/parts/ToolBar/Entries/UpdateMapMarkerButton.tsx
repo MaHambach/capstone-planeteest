@@ -1,16 +1,15 @@
 import './UpdateMapMarkerButton.css';
-import {MapMarker} from "../../../../../types/MapMarker.ts";
 import React from "react";
 
 
 type UpdateMapMarkerButtonProps = {
-    mapMarker: MapMarker;
+    handleUpdateMapMarker: ()=> void;
 }
 export default function UpdateMapMarkerButton(props:Readonly<UpdateMapMarkerButtonProps>):React.ReactElement {
 
     function handleClick(event: React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault();
-        console.log("Update MapMarker with id: " + props.mapMarker.id);
+        props.handleUpdateMapMarker()
     }
 
     return (
