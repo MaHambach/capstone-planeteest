@@ -28,23 +28,25 @@ const initialWorldMap:WorldMap = {
     ySize: 0
 };
 
-const initialArticle = {
+const initialDisplayedArticle = {
     id: '',
     content: '',
     npcIds: []
 };
+
 
 export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.ReactElement{
     const {id= ''} = useParams<string>();
     const [worldMap, setWorldMap] = useState<WorldMap>(initialWorldMap);
     const [addNewMapMarker, setAddNewMapMarker] = useState<boolean>(false);
     const [articleIsVisible, setArticleIsVisible] = useState<boolean>(false);
-    const [displayedArticle, setDisplayedArticle] = useState<Article>(initialArticle);
+    const [displayedArticle, setDisplayedArticle] = useState<Article>(initialDisplayedArticle);
+    const [selectedMapMarker, setSelectedMapMarker] = useState<string>('');
 
     function handleArticleChange(articleId: string) {
         if(articleId === ''){
             setArticleIsVisible(false);
-            setDisplayedArticle(initialArticle);
+            setDisplayedArticle(initialDisplayedArticle);
         } else {
             setArticleIsVisible(true);
             setDisplayedArticle(props.getArticleById(articleId));
@@ -78,6 +80,8 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     mapMarker={mapMarker}
                     handleArticleChange={handleArticleChange}
                     offsetWorldMapFrame={{xOffset: 100, yOffset: 100}} /* Offset the padding. */
+                    isSelected={mapMarker.id === selectedMapMarker}
+                    setSelectedMapMarker={setSelectedMapMarker}
                 />
             })}
             {articleIsVisible && <ArticleCard article={displayedArticle}/>}

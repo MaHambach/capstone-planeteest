@@ -1,3 +1,4 @@
+import './MapMarkerCard.css'
 import {MapMarker} from "../../../types/MapMarker.ts";
 import mapMarkerIcon from "../../../assets/Settings.webp";
 import React from "react";
@@ -6,6 +7,8 @@ type MapMarkerCardProps = {
     mapMarker: MapMarker;
     handleArticleChange: (articleId:string) => void;
     offsetWorldMapFrame: {xOffset:number, yOffset:number};
+    isSelected:boolean;
+    setSelectedMapMarker: (mapMarkerId:string) => void;
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
@@ -21,13 +24,14 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
         props.handleArticleChange(props.mapMarker.articleId);
+        props.setSelectedMapMarker(props.mapMarker.id);
     }
 
     return (
         <img
+            className={props.isSelected ? "mapMarkerCardSelected" : "mapMarkerCard"}
             onClick={handleClick}
             role={"presentation"} /* Suppresses sonarLint protests. */
-            className={"mapMarkerCard"}
             style={{
                 position:"absolute",
                 left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * cardSize.xSize, /* Might depend on MapMarkerType */

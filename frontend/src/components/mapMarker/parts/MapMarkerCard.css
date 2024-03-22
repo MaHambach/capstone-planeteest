@@ -1,3 +1,11 @@
 .mapMarkerCard {
     position: absolute;
 }
+
+.mapMarkerCardSelected {
+    position: absolute;
+    border-radius: 50px;
+    box-shadow: 0 0 20px rgb(255, 223, 0);
+
+    z-index: 1000;
+}
