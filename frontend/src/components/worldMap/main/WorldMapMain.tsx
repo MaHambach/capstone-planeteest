@@ -33,6 +33,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
     const {id= ''} = useParams<string>();
     const [coordinates, setCoordinates] = useState(initialCoordinates);
     const [worldMap, setWorldMap] = useState<WorldMap>(emptyWorldMap);
+    const [mapMarkersOfThisWorldMap, setMapMarkersOfThisWorldMap] = useState<MapMarker[]>([]);
     const [addNewMapMarker, setAddNewMapMarker] = useState<boolean>(false);
     const [changeMapMarkerPosition, setChangeMapMarkerPosition] = useState<boolean>(false);
     const [updateMapMarker, setUpdateMapMarker] = useState<boolean>(false);
@@ -59,10 +60,17 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
     function handleSelectedMapMarkerChange(mapMarker:MapMarker):void {
         setSelectedMapMarker(mapMarker);
         setUpdateMapMarker(false);
+        setChangeMapMarkerPosition(false);
     }
 
     function handleArticleChangeById(articleId: string):void {
         setDisplayedArticle(props.getArticleById(articleId));
+    }
+
+    function handleMapMarkerUpdateEnd():void {
+        setChangeMapMarkerPosition(false);
+        setUpdateMapMarker(false);
+        setSelectedMapMarker(mapMarkersOfThisWorldMap.filter((mapMarker:MapMarker) => mapMarker.id === selectedMapMarker.id)[0]);
     }
 
     function handleUpdateMapMarker():void {
@@ -77,6 +85,8 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
 
     useEffect(():void => {
         setWorldMap(props.getWorldMap(id))
+        setMapMarkersOfThisWorldMap(props.mapMarkers.filter((mapMarker:MapMarker) => mapMarker.worldMapId === worldMap.id))
+        // eslint-disable-next-line
     }, [id, props]);
 
     return (
@@ -88,7 +98,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                 worldMap={worldMap}
                 handleWorldMapClick={handleWorldMapClick}
             />
-            {props.mapMarkers.map((mapMarker:MapMarker) => {
+            {mapMarkersOfThisWorldMap.map((mapMarker:MapMarker) => {
                 return <MapMarkerCard
                     key={mapMarker.id}
                     mapMarker={mapMarker}
@@ -118,7 +128,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                 <UpdateMapMarkerForm
                     mapMarker={selectedMapMarker}
                     updateMapMarker={props.updateMapMarker}
-                    closeMapMarkerCard={() => setUpdateMapMarker(false)}
+                    closeMapMarkerCard={handleMapMarkerUpdateEnd}
                     setChangeMapMarkerPosition={setChangeMapMarkerPosition}
                 />
             }
