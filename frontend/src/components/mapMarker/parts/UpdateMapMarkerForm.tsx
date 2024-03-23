@@ -60,7 +60,7 @@ export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardPr
             }
             <button onClick={handleUpdateMapMarker}>Übernehmen</button>
             <button onClick={props.closeMapMarkerCard}>Schließen</button>
-            <button onClick={handleDeleteMapMarker}>Löschen</button>
+            <button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button>
         </form>
     )
 }
