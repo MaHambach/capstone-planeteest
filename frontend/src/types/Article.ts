@@ -3,3 +3,9 @@ export type Article = {
     content: string,
     npcIds: string[]
 };
+
+export const emptyArticle: Article = {
+    id: '',
+    content: '',
+    npcIds: []
+};

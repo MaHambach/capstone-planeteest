@@ -27,11 +27,26 @@ export default function useMapMarkers() {
             })
     }
 
+    function updateMapMarker(updatedMapMarker: MapMarker):void {
+        axios.put(`/api/map-markers/${updatedMapMarker.id}`, updatedMapMarker)
+            .then(() => {
+                fetchMapMarkers();
+            })
+            .catch(error => {
+                if (error?.response?.status === 400) {
+                    alert('Fehler: ' + error.response.data.errorMsg);
+                } else {
+                    alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+                }
+            });
+    }
+    
     useEffect(()=> fetchMapMarkers(), []);
 
     return {
         mapMarkers,
-        saveMapMarker
+        saveMapMarker,
+        updateMapMarker
     }
 }
 

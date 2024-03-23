@@ -1,4 +1,4 @@
-import {WorldMap} from "../../../types/WorldMap.ts";
+import {emptyWorldMap, WorldMap} from "../../../types/WorldMap.ts";
 import React, {FormEvent, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
@@ -8,17 +8,9 @@ type UpdateWorldMapFormProps = {
     getWorldMap: (id:string) => WorldMap;
 }
 
-const initialFormData:WorldMap = {
-    id: '',
-    name: '',
-    worldMapUrl: '',
-    xSize: 0,
-    ySize: 0
-}
-
 export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProps>):React.ReactElement {
     const {id= ''} = useParams<string>();
-    const [formData, setFormData] = useState<WorldMap>(initialFormData);
+    const [formData, setFormData] = useState<WorldMap>(emptyWorldMap);
 
     const navigate = useNavigate();
 
@@ -64,7 +56,6 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                 <div>
                     <label htmlFor={"xSize"}>Breite:</label>
                     <span>{formData.worldMapUrl}</span>
-
                 </div>
                 <div>
                     <label htmlFor={"ySize"}>Höhe:</label>

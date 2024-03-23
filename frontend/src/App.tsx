@@ -11,7 +11,7 @@ import {useArticles} from "./hooks/useArticles.ts";
 
 export default function App():React.ReactElement {
     const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
-    const {mapMarkers, saveMapMarker} = useMapMarkers();
+    const {mapMarkers, saveMapMarker, updateMapMarker} = useMapMarkers();
     const {articles, fetchArticles, getArticleById} = useArticles();
     const {getMapMarkerTypeById} = useMapMarkerTypes();
 
@@ -34,6 +34,7 @@ export default function App():React.ReactElement {
                     getMapMarkerType={getMapMarkerTypeById}
                     mapMarkers={mapMarkers}
                     saveMapMarker={saveMapMarker}
+                    updateMapMarker={updateMapMarker}
                     articles={articles}
                     getArticleById={getArticleById}
             />}/>

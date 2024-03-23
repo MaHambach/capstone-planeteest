@@ -1,64 +1,92 @@
 import './WorldMapMain.css';
 import {useParams} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {WorldMap} from "../../../types/WorldMap.ts";
+import {emptyWorldMap, WorldMap} from "../../../types/WorldMap.ts";
 import WorldMapImage from "../parts/WorldMapImage.tsx";
-import {MapMarker} from "../../../types/MapMarker.ts";
+import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import MapMarkerCard from "../../mapMarker/parts/MapMarkerCard.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import ToolBar from "../parts/WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
-import {Article} from "../../../types/Article.ts";
+import {Article, emptyArticle} from "../../../types/Article.ts";
 import ArticleCard from "../../article/parts/ArticleCard.tsx";
+import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
+import UpdateMapMarkerForm from "../../mapMarker/parts/UpdateMapMarkerForm.tsx";
 
 type WorldMapMainProps = {
     getWorldMap: (id:string) => WorldMap;
     getMapMarkerType: (id:string) => MapMarkerType;
     mapMarkers: MapMarker[];
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
+    updateMapMarker: (mapMarker:MapMarker) => void;
     articles: Article[];
     getArticleById: (id:string) => Article;
 };
 
-const initialWorldMap:WorldMap = {
-    id: '',
-    name: '',
-    worldMapUrl: '',
-    xSize: 0,
-    ySize: 0
-};
 
-const initialArticle = {
-    id: '',
-    content: '',
-    npcIds: []
-};
+const initialCoordinates = {
+    xPosition: -10,
+    yPosition: -10
+}
 
 export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.ReactElement{
     const {id= ''} = useParams<string>();
-    const [worldMap, setWorldMap] = useState<WorldMap>(initialWorldMap);
+    const [coordinates, setCoordinates] = useState(initialCoordinates);
+    const [worldMap, setWorldMap] = useState<WorldMap>(emptyWorldMap);
+    const [mapMarkersOfThisWorldMap, setMapMarkersOfThisWorldMap] = useState<MapMarker[]>([]);
     const [addNewMapMarker, setAddNewMapMarker] = useState<boolean>(false);
-    const [articleIsVisible, setArticleIsVisible] = useState<boolean>(false);
-    const [displayedArticle, setDisplayedArticle] = useState<Article>(initialArticle);
+    const [changeMapMarkerPosition, setChangeMapMarkerPosition] = useState<boolean>(false);
+    const [updateMapMarker, setUpdateMapMarker] = useState<boolean>(false);
+    const [displayedArticle, setDisplayedArticle] = useState<Article>(emptyArticle);
+    const [selectedMapMarker, setSelectedMapMarker] = useState<MapMarker>(emptyMapMarker);
 
-    function handleArticleChange(articleId: string) {
-        if(articleId === ''){
-            setArticleIsVisible(false);
-            setDisplayedArticle(initialArticle);
+    function handleWorldMapClick(event: React.MouseEvent<HTMLElement>):void {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const rect = event.target.getBoundingClientRect();
+
+        if(addNewMapMarker){
+            setCoordinates({xPosition: (event.clientX - rect.left), yPosition: (event.clientY - rect.top)});
+        }
+        if(changeMapMarkerPosition){
+            setSelectedMapMarker({...selectedMapMarker, xPosition: (event.clientX - rect.left), yPosition: (event.clientY - rect.top)})
         } else {
-            setArticleIsVisible(true);
-            setDisplayedArticle(props.getArticleById(articleId));
+            setDisplayedArticle(emptyArticle);
+            setSelectedMapMarker(emptyMapMarker);
+            setUpdateMapMarker(false);
         }
     }
 
-    function toggleAddNewMapMarker(event: React.MouseEvent<HTMLElement>) {
+    function handleSelectedMapMarkerChange(mapMarker:MapMarker):void {
+        setSelectedMapMarker(mapMarker);
+        setUpdateMapMarker(false);
+        setChangeMapMarkerPosition(false);
+    }
+
+    function handleArticleChangeById(articleId: string):void {
+        setDisplayedArticle(props.getArticleById(articleId));
+    }
+
+    function handleMapMarkerUpdateEnd():void {
+        setChangeMapMarkerPosition(false);
+        setUpdateMapMarker(false);
+        setSelectedMapMarker(mapMarkersOfThisWorldMap.filter((mapMarker:MapMarker) => mapMarker.id === selectedMapMarker.id)[0]);
+    }
+
+    function handleUpdateMapMarker():void {
+        setUpdateMapMarker(!updateMapMarker);
+        console.log("Update Map Marker " + selectedMapMarker.id);
+    }
+
+    function toggleAddNewMapMarker(event: React.MouseEvent<HTMLElement>):void {
         event.preventDefault();
         setAddNewMapMarker(!addNewMapMarker);
     }
 
-    useEffect(() => {
+    useEffect(():void => {
         setWorldMap(props.getWorldMap(id))
-
+        setMapMarkersOfThisWorldMap(props.mapMarkers.filter((mapMarker:MapMarker) => mapMarker.worldMapId === worldMap.id))
+        // eslint-disable-next-line
     }, [id, props]);
 
     return (
@@ -68,19 +96,42 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
             />
             <WorldMapImage
                 worldMap={worldMap}
-                addNewMapMarker={addNewMapMarker}
-                saveMapMarker={props.saveMapMarker}
-                handleArticleChange={handleArticleChange}
+                handleWorldMapClick={handleWorldMapClick}
             />
-            {props.mapMarkers.map((mapMarker:MapMarker) => {
+            {mapMarkersOfThisWorldMap.map((mapMarker:MapMarker) => {
                 return <MapMarkerCard
                     key={mapMarker.id}
                     mapMarker={mapMarker}
-                    handleArticleChange={handleArticleChange}
+                    handleArticleChange={handleArticleChangeById}
                     offsetWorldMapFrame={{xOffset: 100, yOffset: 100}} /* Offset the padding. */
+                    isSelected={mapMarker.id === selectedMapMarker.id}
+                    handleSelectedMapMarkerChange={handleSelectedMapMarkerChange}
+                    handleUpdateMapMarker={handleUpdateMapMarker}
                 />
             })}
-            {articleIsVisible && <ArticleCard article={displayedArticle}/>}
+            {displayedArticle !== emptyArticle &&
+                <ArticleCard
+                    article={displayedArticle}
+                />
+            }
+            {(addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&
+                <AddMapMarkerForm
+                    saveMapMarker={props.saveMapMarker}
+                    worldMapId={worldMap.id}
+                    xPosition={coordinates.xPosition}
+                    yPosition={coordinates.yPosition}
+                    closeAddMapMarkerForm={() => setCoordinates(initialCoordinates)}
+                    markerTypeId={''} /* For later: When MarkerType is implemented */
+                />
+            }
+            {(updateMapMarker && selectedMapMarker !== emptyMapMarker) &&
+                <UpdateMapMarkerForm
+                    mapMarker={selectedMapMarker}
+                    updateMapMarker={props.updateMapMarker}
+                    closeMapMarkerCard={handleMapMarkerUpdateEnd}
+                    setChangeMapMarkerPosition={setChangeMapMarkerPosition}
+                />
+            }
         </main>
     )
 }

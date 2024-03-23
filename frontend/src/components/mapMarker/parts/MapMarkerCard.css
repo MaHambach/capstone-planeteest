@@ -1,3 +1,22 @@
 .mapMarkerCard {
+    z-index: 10;
+    padding: 0;
+    margin: 0;
+}
+
+.mapMarkerCard .mapMarkerCardImage{
     position: absolute;
+}
+
+.mapMarkerCard .mapMarkerCardImageSelected{
+    position: absolute;
+    border-radius: 50px;
+    box-shadow: 0 0 20px rgb(255, 223, 0);
+
+    z-index: 1000;
+}
+
+.mapMarkerName {
+    position: absolute;
+    text-align: center;
 }

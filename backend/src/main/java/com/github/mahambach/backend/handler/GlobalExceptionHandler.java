@@ -64,7 +64,6 @@ public class GlobalExceptionHandler {
         return handleMissMatchingIdsException("Map marker", exception.getPathId(), exception.getBodyId());
     }
 
-
     @ExceptionHandler(MissMatchingIdsMapMarkerTypeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessage handleMissMatchingIdsMapMarkerTypeException(MissMatchingIdsMapMarkerTypeException exception) {
