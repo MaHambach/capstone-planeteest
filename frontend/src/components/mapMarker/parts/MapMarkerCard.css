@@ -5,15 +5,34 @@
 }
 
 .mapMarkerCard .mapMarkerCardImage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
 }
 
 .mapMarkerCard .mapMarkerCardImageSelected{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     border-radius: 50px;
     box-shadow: 0 0 20px #6acae8;
-
     z-index: 1000;
+    width: 80px;
+    height: 80px;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.mapMarkerCard .mapMarkerCardImage .mapMarkerIcon, .mapMarkerCard .mapMarkerCardImageSelected .mapMarkerIcon {
+    font-size: 32px;
+    filter: drop-shadow(0 0 10px #ffdf00);
 }
 
 .mapMarkerName {

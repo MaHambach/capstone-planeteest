@@ -15,9 +15,9 @@ export default function UpdateMapMarkerButton(props:Readonly<UpdateMapMarkerButt
     }
 
     return (
-        <button className={isActive ? "updateMapMarkerButtonActive" : "updateMapMarkerButton"}
-                onClick={handleClick}>
-            <BsFillGearFill />
-        </button>
+            <button className={isActive ? "updateMapMarkerButtonActive" : "updateMapMarkerButton"}
+                    onClick={handleClick}>
+                <BsFillGearFill />
+            </button>
     )
 }

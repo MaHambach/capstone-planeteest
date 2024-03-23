@@ -1,8 +1,10 @@
 import './MapMarkerCard.css'
 import {MapMarker} from "../../../types/MapMarker.ts";
-import mapMarkerIcon from "../../../assets/Settings.webp";
-import React from "react";
+import React, {useMemo} from "react";
 import ToolBar from "./ToolBar/ToolBar.tsx";
+import {BsGeoAltFill} from "react-icons/bs";
+import {IconContext} from "react-icons";
+
 
 type MapMarkerCardProps = {
     mapMarker: MapMarker;
@@ -14,19 +16,14 @@ type MapMarkerCardProps = {
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
-    const [mapIconSize, setMapIconSize] = React.useState({xSize: 0, ySize: 0});
-
-    const img = new Image();
-
-    img.src = mapMarkerIcon;
-    img.onload = () =>{
-        setMapIconSize({xSize: img.width, ySize: img.height});
-    }
+    const mapIconSize={xSize: 80, ySize: 80};
+    const iconContextObj = useMemo(() => ({className: 'mapMarkerIcon'}), []); // value is cached by useMemo
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
         props.handleArticleChange(props.mapMarker.articleId);
         props.handleSelectedMapMarkerChange(props.mapMarker);
+        console.log("Click");
     }
 
     return (
@@ -37,23 +34,23 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                     style={{
                         position:"absolute",
                         left: (props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * mapIconSize.xSize), /* Might depend on MapMarkerType */
-                        top: (props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - mapIconSize.ySize -5) /* Might depend on MapMarkerType */
+                        top: (props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - mapIconSize.ySize -10) /* Might depend on MapMarkerType */
                 }}>
                     {props.mapMarker.name}
                 </h2>
             }
-            <img
-                className={props.isSelected ? "mapMarkerCardImageSelected" : "mapMarkerCardImage"}
-                onClick={handleClick}
-                role={"presentation"} /* Suppresses sonarLint protests. */
-                style={{
-                    position:"absolute",
-                    left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * mapIconSize.xSize, /* Might depend on MapMarkerType */
-                    top: props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - 0.5 * mapIconSize.ySize   /* Might depend on MapMarkerType */
-                }}
-                src={mapMarkerIcon}
-                alt={props.mapMarker.name}
-            />
+            <IconContext.Provider value={iconContextObj}>
+                <button className={props.isSelected ? "mapMarkerCardImageSelected" : "mapMarkerCardImage"}
+                     onClick={handleClick}
+                     style={{
+                         position:"absolute",
+                         left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * mapIconSize.xSize, /* Might depend on MapMarkerType */
+                         top: props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - 0.5 * mapIconSize.ySize   /* Might depend on MapMarkerType */
+                }}>
+                    <BsGeoAltFill />
+                </button>
+            </IconContext.Provider>
+
             {props.isSelected &&
                 <ToolBar handleUpdateMapMarker={props.handleUpdateMapMarker}
                          offsetMapMarkerCard={
