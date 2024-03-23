@@ -19,6 +19,7 @@ type WorldMapMainProps = {
     mapMarkers: MapMarker[];
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
     updateMapMarker: (mapMarker:MapMarker) => void;
+    deleteMapMarker: (id:string) => void;
     articles: Article[];
     getArticleById: (id:string) => Article;
 };
@@ -128,6 +129,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                 <UpdateMapMarkerForm
                     mapMarker={selectedMapMarker}
                     updateMapMarker={props.updateMapMarker}
+                    deleteMapMarker={props.deleteMapMarker}
                     closeMapMarkerCard={handleMapMarkerUpdateEnd}
                     setChangeMapMarkerPosition={setChangeMapMarkerPosition}
                 />

@@ -40,13 +40,22 @@ export default function useMapMarkers() {
                 }
             });
     }
-    
+
+    function deleteMapMarker(id:string):void{
+        axios.delete(`/api/map-markers/${id}`)
+            .then(fetchMapMarkers)
+            .catch(error => {
+                console.log(error)
+            });
+    }
+
     useEffect(()=> fetchMapMarkers(), []);
 
     return {
         mapMarkers,
         saveMapMarker,
-        updateMapMarker
+        updateMapMarker,
+        deleteMapMarker
     }
 }
 

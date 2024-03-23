@@ -8,3 +8,7 @@
     border: 1px solid black;
     flex-direction: column;
 }
+
+.updateMapMarkerForm .deleteButton {
+    color: red;
+}

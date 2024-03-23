@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 type UpdateMapMarkerCardProps = {
     mapMarker: MapMarker;
     updateMapMarker: (mapMarker: MapMarker) => void;
+    deleteMapMarker: (id:string) => void;
     closeMapMarkerCard: () => void;
     setChangeMapMarkerPosition: (changeMapMarkerPosition:boolean) => void;
 }
@@ -31,10 +32,17 @@ export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardPr
         props.setChangeMapMarkerPosition(!changingPosition);
     }
 
-    function handleUpdateMarker(event: React.MouseEvent<HTMLElement>):void {
+    function handleUpdateMapMarker(event: React.MouseEvent<HTMLElement>):void {
         event.preventDefault();
         props.updateMapMarker(formData);
         props.closeMapMarkerCard();
+    }
+
+    function handleDeleteMapMarker():void {
+        if (window.confirm("Möchten Sie dieses Produkt wirklich löschen?")) {
+            props.deleteMapMarker(formData.id);
+            props.closeMapMarkerCard();
+        }
     }
 
     return (
@@ -50,8 +58,9 @@ export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardPr
             {changingPosition &&
                 <button onClick={toggleChangingPosition}>Abbrechen</button>
             }
-            <button onClick={handleUpdateMarker}>Übernehmen</button>
+            <button onClick={handleUpdateMapMarker}>Übernehmen</button>
             <button onClick={props.closeMapMarkerCard}>Schließen</button>
+            <button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button>
         </form>
     )
 }
