@@ -1,3 +1,4 @@
+import './ArticleFrame.css';
 import React from "react";
 import DraggableSubWindow from "../../parts/DraggableSubWindow.tsx";
 import UpdateArticleForm from "./UpdateArticleForm.tsx";
@@ -15,7 +16,7 @@ export default function ArticleFrame(props:Readonly<ArticleFrameProps>):React.Re
     return (
         <DraggableSubWindow
             closeFrame={props.closeArticleCard}
-            initialPosition={{left:0.5, top:200}}
+            initialPosition={{left:200, top:200}}
         >
             <div className={"articleCardTitleLine"}>
                 <span><b>{props.title}</b></span>

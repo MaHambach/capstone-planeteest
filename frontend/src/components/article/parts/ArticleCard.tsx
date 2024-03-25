@@ -1,4 +1,3 @@
-import './ArticleCard.css'
 import {Article} from "../../../types/Article.ts";
 import DisplayTileGallery from "../../parts/DisplayTileGallery.tsx";
 import React from "react";
