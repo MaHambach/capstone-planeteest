@@ -38,6 +38,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
     const [addNewMapMarker, setAddNewMapMarker] = useState<boolean>(false);
     const [changeMapMarkerPosition, setChangeMapMarkerPosition] = useState<boolean>(false);
     const [updateMapMarker, setUpdateMapMarker] = useState<boolean>(false);
+    const [showArticle, setShowArticle] = useState<boolean>(false);
     const [displayedArticle, setDisplayedArticle] = useState<Article>(emptyArticle);
     const [selectedMapMarker, setSelectedMapMarker] = useState<MapMarker>(emptyMapMarker);
 
@@ -104,12 +105,14 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     mapMarker={mapMarker}
                     handleArticleChange={handleArticleChangeById}
                     offsetWorldMapFrame={{xOffset: 100, yOffset: 100}} /* Offset the padding. */
+                    isMoveAble={false}
                     isSelected={mapMarker.id === selectedMapMarker.id}
                     handleSelectedMapMarkerChange={handleSelectedMapMarkerChange}
                     handleUpdateMapMarker={handleUpdateMapMarker}
+                    setShowArticle={setShowArticle}
                 />
             })}
-            {displayedArticle !== emptyArticle &&
+            {(showArticle && displayedArticle !== emptyArticle) &&
                 <ArticleFrame
                     title={selectedMapMarker.name}
                     article={displayedArticle}
