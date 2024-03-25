@@ -8,7 +8,7 @@ type DraggableFrameProps = {
     initialPosition: {left:number, top:number};
 }
 
-export default function DraggableFrame(props:Readonly<DraggableFrameProps>):React.ReactElement {
+export default function DraggableSubWindow(props:Readonly<DraggableFrameProps>):React.ReactElement {
     const nodeRef:React.MutableRefObject<null> = React.useRef(null);
 
     return (

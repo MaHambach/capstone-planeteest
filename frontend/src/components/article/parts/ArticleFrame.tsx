@@ -1,5 +1,5 @@
 import React from "react";
-import DraggableFrame from "../../parts/DraggableFrame.tsx";
+import DraggableSubWindow from "../../parts/DraggableSubWindow.tsx";
 import UpdateArticleForm from "./UpdateArticleForm.tsx";
 import {Article} from "../../../types/Article.ts";
 import ArticleCard from "./ArticleCard.tsx";
@@ -13,7 +13,7 @@ export default function ArticleFrame(props:Readonly<ArticleFrameProps>):React.Re
     const [isBeingEdited, setIsBeingEdited] = React.useState<boolean>(false);
 
     return (
-        <DraggableFrame
+        <DraggableSubWindow
             closeFrame={props.closeArticleCard}
             initialPosition={{left:0.5, top:200}}
         >
@@ -29,6 +29,6 @@ export default function ArticleFrame(props:Readonly<ArticleFrameProps>):React.Re
                 :
                 <ArticleCard  article={props.article}/>
             }
-        </DraggableFrame>
+        </DraggableSubWindow>
     )
 }
