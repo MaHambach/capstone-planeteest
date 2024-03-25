@@ -76,7 +76,6 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
 
     function handleUpdateMapMarker():void {
         setUpdateMapMarker(!updateMapMarker);
-        console.log("Update Map Marker " + selectedMapMarker.id);
     }
 
     function toggleAddNewMapMarker(event: React.MouseEvent<HTMLElement>):void {

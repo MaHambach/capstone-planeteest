@@ -23,7 +23,6 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
         event.preventDefault();
         props.handleArticleChange(props.mapMarker.articleId);
         props.handleSelectedMapMarkerChange(props.mapMarker);
-        console.log("Click");
     }
 
     return (
