@@ -2,7 +2,7 @@ import './UpdateMapMarkerForm.css';
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
 import Draggable from "react-draggable";
-import SubWindowHeader from "../../parts/SubWindowHeader.tsx";
+import HeaderDraggableFrame from "../../parts/HeaderDraggableFrame.tsx";
 
 type UpdateMapMarkerCardProps = {
     mapMarker: MapMarker;
@@ -54,7 +54,7 @@ export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardPr
             defaultPosition={{x:100, y:200}}
         >
             <div className={"updateMapMarkerFormFrame"}>
-                <SubWindowHeader
+                <HeaderDraggableFrame
                     title={"Marker bearbeiten"}
                     closeWindow={props.closeMapMarkerCard}
                     nodeRef={nodeRef}

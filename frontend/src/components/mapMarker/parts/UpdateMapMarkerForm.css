@@ -2,8 +2,10 @@
     position: absolute;
     left: 100px;
     top: 200px;
+
     width: 200px;
     background-color: white;
+    display: flex;
     flex-direction: column;
     z-index: 30;
     border-radius: 10px;
@@ -12,15 +14,7 @@
 }
 
 .updateMapMarkerFormFrame .updateMapMarkerFormHeader {
-    display: flex;
-    padding: 0 0 0 5px;
-    cursor: move;
-    background-color: #2196F3;
-    color: white;
-    justify-content: space-between;
-    border-bottom: 1px solid black;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+
 }
 
 .updateMapMarkerFormFrame .deleteButton {

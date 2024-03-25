@@ -111,7 +111,9 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
             })}
             {displayedArticle !== emptyArticle &&
                 <ArticleCard
+                    title={selectedMapMarker.name}
                     article={displayedArticle}
+                    closeArticleCard={() => setDisplayedArticle(emptyArticle)}
                 />
             }
             {(addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&
