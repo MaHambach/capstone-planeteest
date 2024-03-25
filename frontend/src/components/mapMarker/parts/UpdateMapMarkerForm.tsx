@@ -55,7 +55,6 @@ export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardPr
         >
             <div className={"updateMapMarkerFormFrame"}>
                 <HeaderDraggableFrame
-                    title={"Marker bearbeiten"}
                     closeWindow={props.closeMapMarkerCard}
                     nodeRef={nodeRef}
                 />

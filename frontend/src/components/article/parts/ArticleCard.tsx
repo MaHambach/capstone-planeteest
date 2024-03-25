@@ -24,8 +24,8 @@ export default function ArticleCard(props:Readonly<ArticleDetailsCardProps>):Rea
         >
             <div className={"articleCardFrame"}>
                 <HeaderDraggableFrame closeWindow={props.closeArticleCard} nodeRef={nodeRef} />
-                <div>
-                    <span>{props.title}</span>
+                <div className={"articleCardTitleLine"}>
+                    <span><b>{props.title}</b></span>
                     <button onClick={():void => setIsBeingEdited(!isBeingEdited)}>Bearbeiten</button>
                 </div>
                 {isBeingEdited ?
