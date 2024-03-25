@@ -1,19 +1,29 @@
 import React from "react";
-import Draggable from "react-draggable";
 import HeaderDraggableFrame from "./HeaderDraggableFrame.tsx";
+import Draggable from "react-draggable";
 
 type DraggableFrameProps = {
     children: React.ReactNode;
     closeFrame: () => void;
+    initialPosition: {left:number, top:number};
 }
 
 export default function DraggableFrame(props:Readonly<DraggableFrameProps>):React.ReactElement {
-    const nodeRef = React.useRef(null);
+    const nodeRef:React.MutableRefObject<null> = React.useRef(null);
 
     return (
-        <Draggable>
-            <div>
+        <Draggable
+            handle="strong"
+            defaultPosition={{x:props.initialPosition.left, y:props.initialPosition.top}}
+        >
+            <div
+                className={"draggableFrame"}
+                style={{left:props.initialPosition.left, top:props.initialPosition.top}}
+            >
                 <HeaderDraggableFrame closeWindow={props.closeFrame} nodeRef={nodeRef} />
+                <div className={"draggableFrameBody"}>
+                    {props.children}
+                </div>
             </div>
         </Draggable>
     )

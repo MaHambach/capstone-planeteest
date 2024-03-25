@@ -9,9 +9,9 @@ import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import ToolBar from "../parts/WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 import {Article, emptyArticle} from "../../../types/Article.ts";
-import ArticleCard from "../../article/parts/ArticleCard.tsx";
 import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
 import UpdateMapMarkerForm from "../../mapMarker/parts/UpdateMapMarkerForm.tsx";
+import ArticleFrame from "../../article/parts/ArticleFrame.tsx";
 
 type WorldMapMainProps = {
     getWorldMap: (id:string) => WorldMap;
@@ -110,7 +110,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                 />
             })}
             {displayedArticle !== emptyArticle &&
-                <ArticleCard
+                <ArticleFrame
                     title={selectedMapMarker.name}
                     article={displayedArticle}
                     closeArticleCard={() => setDisplayedArticle(emptyArticle)}
