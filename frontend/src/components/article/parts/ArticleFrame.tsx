@@ -16,7 +16,7 @@ export default function ArticleFrame(props:Readonly<ArticleFrameProps>):React.Re
     return (
         <DraggableSubWindow
             closeFrame={props.closeArticleCard}
-            initialPosition={{left:200, top:200}}
+            initialPosition={{left:200, top:200, width:640, height:800}}
         >
             <div className={"articleCardTitleLine"}>
                 <span><b>{props.title}</b></span>

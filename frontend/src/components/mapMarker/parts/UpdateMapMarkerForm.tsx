@@ -1,8 +1,7 @@
 import './UpdateMapMarkerForm.css';
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
-import Draggable from "react-draggable";
-import HeaderDraggableFrame from "../../parts/HeaderDraggableFrame.tsx";
+import DraggableSubWindow from "../../parts/DraggableSubWindow.tsx";
 
 type UpdateMapMarkerCardProps = {
     mapMarker: MapMarker;
@@ -14,7 +13,6 @@ type UpdateMapMarkerCardProps = {
 export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardProps>):React.ReactElement {
     const [formData, setFormData] = useState<MapMarker>(emptyMapMarker);
     const [changingPosition, setChangingPosition] = useState<boolean>(false);
-    const nodeRef = React.useRef(null);
 
     useEffect(():void => {
         setFormData(props.mapMarker);
@@ -49,32 +47,25 @@ export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardPr
     }
 
     return (
-        <Draggable
-            handle="strong"
-            defaultPosition={{x:100, y:200}}
+        <DraggableSubWindow
+            closeFrame={props.closeMapMarkerCard}
+            initialPosition={{left:100, top:200, width:200, height:200}}
         >
-            <div className={"updateMapMarkerFormFrame"}>
-                <HeaderDraggableFrame
-                    closeWindow={props.closeMapMarkerCard}
-                    nodeRef={nodeRef}
-                />
-
-                <form className={"updateMapMarkerForm"}>
-                    <div>
-                    <label htmlFor={"name"}>Name: </label>
-                        <input id={"name"} name={"name"}
-                               type={"text"}
-                               value={formData.name}
-                               onChange={handleChangeInput}/>
-                    </div>
-                    <p><button onClick={toggleChangingPosition}>Marker verschieben</button>
-                    {changingPosition &&
-                        <button onClick={toggleChangingPosition}>Abbrechen</button>
-                    }</p>
-                    <p><button onClick={handleUpdateMapMarker}>Übernehmen</button></p>
-                    <p><button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button></p>
-                </form>
-            </div>
-        </Draggable>
+            <form className={"updateMapMarkerForm"}>
+                <div>
+                <label htmlFor={"name"}>Name: </label>
+                    <input id={"name"} name={"name"}
+                           type={"text"}
+                           value={formData.name}
+                           onChange={handleChangeInput}/>
+                </div>
+                <p><button onClick={toggleChangingPosition}>Marker verschieben</button>
+                {changingPosition &&
+                    <button onClick={toggleChangingPosition}>Abbrechen</button>
+                }</p>
+                <p><button onClick={handleUpdateMapMarker}>Übernehmen</button></p>
+                <p><button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button></p>
+            </form>
+        </DraggableSubWindow>
     )
 }

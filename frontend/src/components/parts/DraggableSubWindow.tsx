@@ -6,7 +6,13 @@ import Draggable from "react-draggable";
 type DraggableSubWindowProps = {
     children: React.ReactNode;
     closeFrame: () => void;
-    initialPosition: {left:number, top:number};
+    initialPosition:
+        {
+            left:number,
+            top:number,
+            width:number,
+            height:number
+        };
 }
 
 export default function DraggableSubWindow(props:Readonly<DraggableSubWindowProps>):React.ReactElement {
@@ -19,7 +25,12 @@ export default function DraggableSubWindow(props:Readonly<DraggableSubWindowProp
         >
             <div
                 className={"draggableSubWindow"}
-                style={{left:props.initialPosition.left, top:props.initialPosition.top}}
+                style={{
+                    left:props.initialPosition.left,
+                    top:props.initialPosition.top,
+                    width:props.initialPosition.width,
+                    height:props.initialPosition.height
+                }}
             >
                 <HeaderDraggableFrame closeWindow={props.closeFrame} nodeRef={nodeRef} />
                 <div className={"draggableSubWindowBody"}>
