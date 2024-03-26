@@ -9,7 +9,6 @@ import Draggable from "react-draggable";
 
 type MapMarkerCardProps = {
     mapMarker: MapMarker;
-    handleArticleChange: (articleId:string) => void;
     offsetWorldMapFrame: {xOffset:number, yOffset:number};
     isSelected:boolean;
     isMoveAble:boolean;
@@ -25,7 +24,6 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
-        props.handleArticleChange(props.mapMarker.articleId);
         props.handleSelectedMapMarkerChange(props.mapMarker);
     }
 

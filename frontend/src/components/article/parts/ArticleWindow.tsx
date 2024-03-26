@@ -1,4 +1,4 @@
-import './ArticleFrame.css';
+import './ArticleWindow.css';
 import React from "react";
 import DraggableSubWindow from "../../parts/DraggableSubWindow.tsx";
 import UpdateArticleForm from "./UpdateArticleForm.tsx";
@@ -8,14 +8,14 @@ import ArticleCard from "./ArticleCard.tsx";
 type ArticleFrameProps = {
     article:Article;
     title:string;
-    closeArticleCard: () => void;
+    closeFrame: () => void;
 }
-export default function ArticleFrame(props:Readonly<ArticleFrameProps>):React.ReactElement {
+export default function ArticleWindow(props:Readonly<ArticleFrameProps>):React.ReactElement {
     const [isBeingEdited, setIsBeingEdited] = React.useState<boolean>(false);
 
     return (
         <DraggableSubWindow
-            closeFrame={props.closeArticleCard}
+            closeFrame={props.closeFrame}
             initialPosition={{left:200, top:200, width:640, height:800}}
         >
             <div className={"articleCardTitleLine"}>
@@ -25,7 +25,7 @@ export default function ArticleFrame(props:Readonly<ArticleFrameProps>):React.Re
             {isBeingEdited ?
                 <UpdateArticleForm
                     article={props.article}
-                    closeArticleCard={props.closeArticleCard}
+                    closeArticleCard={props.closeFrame}
                 />
                 :
                 <ArticleCard  article={props.article}/>
