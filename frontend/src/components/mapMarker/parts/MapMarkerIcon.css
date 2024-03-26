@@ -1,4 +1,4 @@
-.mapMarkerIcon, .mapMarkerIconSelected {
+.mapMarkerIconButton, .mapMarkerIconButtonSelected {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,15 +11,14 @@
     border: none;
     margin: 5px;
 
-    font-size: 18px;
+    font-size: 32px;
 }
 
-.mapMarkerIcon{
-    filter: drop-shadow(0 0 2px yellow);
-
+.mapMarkerIconButton{
+    filter: drop-shadow(0 0 10px yellow);
 }
 
-.mapMarkerIconSelected{
+.mapMarkerIconButtonSelected{
     border-radius: 50px;
     filter: drop-shadow(0 0 2px lawngreen);
 

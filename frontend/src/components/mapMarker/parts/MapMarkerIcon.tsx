@@ -1,7 +1,6 @@
 import './MapMarkerIcon.css';
 import {BsGeoAltFill} from "react-icons/bs";
-import {IconContext} from "react-icons";
-import React, {useMemo} from "react";
+import React from "react";
 
 
 type MapMarkerIconProps = {
@@ -9,15 +8,12 @@ type MapMarkerIconProps = {
     handleClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 export default function MapMarkerIcon(props: Readonly<MapMarkerIconProps>): React.ReactElement {
-    const iconContextObj = useMemo(() => ({className: 'mapMarkerIcon'}), []); // value is cached by useMemo
 
     return (
-        <IconContext.Provider value={iconContextObj}>
-            <button className={props.isSelected ? "mapMarkerIconSelected" : "mapMarkerIcon"}
+            <button className={props.isSelected ? "mapMarkerIconButtonSelected" : "mapMarkerIconButton"}
                     onClick={props.handleClick}
             >
                 <BsGeoAltFill />
             </button>
-        </IconContext.Provider>
     )
 }
