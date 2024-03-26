@@ -1,0 +1,29 @@
+.mapMarkerIcon, .mapMarkerIconSelected {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 80px;
+    height: 80px;
+
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    margin: 5px;
+
+    font-size: 18px;
+}
+
+.mapMarkerIcon{
+    filter: drop-shadow(0 0 2px yellow);
+
+}
+
+.mapMarkerIconSelected{
+    border-radius: 50px;
+    filter: drop-shadow(0 0 2px lawngreen);
+
+    box-shadow: 0 0 20px #6acae8;
+    z-index: 20;
+}
+

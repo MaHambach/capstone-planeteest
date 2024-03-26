@@ -1,10 +1,9 @@
 import './MapMarkerCard.css'
 import {MapMarker} from "../../../types/MapMarker.ts";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useState} from "react";
 import ToolBar from "./ToolBar/ToolBar.tsx";
-import {BsGeoAltFill} from "react-icons/bs";
-import {IconContext} from "react-icons";
 import Draggable from "react-draggable";
+import MapMarkerIcon from "./MapMarkerIcon.tsx";
 
 
 type MapMarkerCardProps = {
@@ -13,13 +12,13 @@ type MapMarkerCardProps = {
     isSelected:boolean;
     isMoveAble:boolean;
     handleSelectedMapMarkerChange: (mapMarker:MapMarker) => void;
-    handleUpdateMapMarker: () => void;
+    handleMapMarkerUpdate: () => void;
     handleArticleFrame: () => void;
+    setSelectedMapMarker: (mapMarker:MapMarker) => void;
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
-    const mapIconSize={xSize: 80, ySize: 80};
-    const iconContextObj = useMemo(() => ({className: 'mapMarkerIcon'}), []); // value is cached by useMemo
+    const mapMarkerSize={xSize: 80, ySize: 80};
     const [coordinates, setCoordinates] = useState({xPosition: 0, yPosition: 0});
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
@@ -28,16 +27,18 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
     }
 
     useEffect(() => {
-        const yOffset:number = 34;
+        const yOffset:number = 34; /* Height of the headline. */
         setCoordinates({
-            xPosition: props.mapMarker.xPosition + props.offsetWorldMapFrame.xOffset - 0.5 * mapIconSize.xSize,
-            yPosition: props.mapMarker.yPosition + props.offsetWorldMapFrame.yOffset - 0.5 * mapIconSize.ySize - yOffset
+            xPosition: props.mapMarker.xPosition + props.offsetWorldMapFrame.xOffset - 0.5 * mapMarkerSize.xSize,
+            yPosition: props.mapMarker.yPosition + props.offsetWorldMapFrame.yOffset - 0.5 * mapMarkerSize.ySize - yOffset
         });
         // eslint-disable-next-line
     }, [props]);
 
     return (
-        <Draggable>
+        <Draggable
+            handle="strong"
+        >
             <div className={"mapMarkerCard"} style={{
                 position:"absolute",
                 left: coordinates.xPosition, /* Might depend on MapMarkerType */
@@ -46,18 +47,15 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                 <h2 className={props.isSelected ? "mapMarkerNameSelected" : "mapMarkerName"}>
                     {props.mapMarker.name}
                 </h2>
-
-                <IconContext.Provider value={iconContextObj}>
-                    <button className={props.isSelected ? "mapMarkerCardImageSelected" : "mapMarkerCardImage"}
-                         onClick={handleClick}
-                         >
-                        <BsGeoAltFill />
-                    </button>
-                </IconContext.Provider>
-
+                { props.isMoveAble ?
+                    <strong>
+                        <MapMarkerIcon isSelected={props.isSelected} handleClick={handleClick} />
+                    </strong> :
+                    <MapMarkerIcon isSelected={props.isSelected} handleClick={handleClick} />
+                }
                 {props.isSelected &&
                     <ToolBar
-                        handleUpdateMapMarker={props.handleUpdateMapMarker}
+                        handleUpdateMapMarker={props.handleMapMarkerUpdate}
                         handleArticleFrame={props.handleArticleFrame}
                     />
                 }

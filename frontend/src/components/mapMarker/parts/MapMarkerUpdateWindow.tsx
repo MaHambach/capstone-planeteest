@@ -5,9 +5,10 @@ import DraggableSubWindow from "../../parts/DraggableSubWindow.tsx";
 
 type MapMarkerUpdateWindowProps = {
     mapMarker: MapMarker;
-    updateMapMarker: (mapMarker: MapMarker) => void;
+    updateMapMarker: () => void;
     deleteMapMarker: (id:string) => void;
     closeMapMarkerCard: () => void;
+    setSelectedMapMarker: (mapMarker:MapMarker) => void;
     setChangeMapMarkerPosition: (changeMapMarkerPosition:boolean) => void;
 }
 export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWindowProps>):React.ReactElement {
@@ -19,7 +20,7 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
     }, [props]);
 
     function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>):void {
-        setFormData(
+        props.setSelectedMapMarker(
             {
                 ...formData,
                 [event.target.name]: event.target.value
@@ -35,7 +36,7 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
 
     function handleUpdateMapMarker(event: React.MouseEvent<HTMLElement>):void {
         event.preventDefault();
-        props.updateMapMarker(formData);
+        props.updateMapMarker();
         props.closeMapMarkerCard();
     }
 
