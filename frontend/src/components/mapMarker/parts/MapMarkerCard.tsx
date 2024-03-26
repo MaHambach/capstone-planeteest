@@ -28,7 +28,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
     }
 
     useEffect(() => {
-        const yOffset:number = props.isSelected ? 34 : 0 ;
+        const yOffset:number = 34;
         setCoordinates({
             xPosition: props.mapMarker.xPosition + props.offsetWorldMapFrame.xOffset - 0.5 * mapIconSize.xSize,
             yPosition: props.mapMarker.yPosition + props.offsetWorldMapFrame.yOffset - 0.5 * mapIconSize.ySize - yOffset
@@ -43,7 +43,9 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                 left: coordinates.xPosition, /* Might depend on MapMarkerType */
                 top: coordinates.yPosition   /* Might depend on MapMarkerType */
             }}>
-                {props.isSelected && <h2 className={"mapMarkerName"}> {props.mapMarker.name} </h2>}
+                    <h2 className={props.isSelected ? "mapMarkerNameSelected" : "mapMarkerName"}>
+                        {props.mapMarker.name}
+                    </h2>
 
                 <IconContext.Provider value={iconContextObj}>
                     <button className={props.isSelected ? "mapMarkerCardImageSelected" : "mapMarkerCardImage"}

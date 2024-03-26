@@ -8,7 +8,7 @@ import MapMarkerCard from "../../mapMarker/parts/MapMarkerCard.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import ToolBar from "../parts/WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
-import {Article, emptyArticle} from "../../../types/Article.ts";
+import {Article} from "../../../types/Article.ts";
 import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
 import MapMarkerUpdateWindow from "../../mapMarker/parts/MapMarkerUpdateWindow.tsx";
 import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
@@ -34,7 +34,6 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
     const {id= ''} = useParams<string>();
     const [coordinates, setCoordinates] = useState(initialCoordinates);
     const [worldMap, setWorldMap] = useState<WorldMap>(emptyWorldMap);
-    const [mapMarkersOfThisWorldMap, setMapMarkersOfThisWorldMap] = useState<MapMarker[]>([]);
     const [addNewMapMarker, setAddNewMapMarker] = useState<boolean>(false);
     const [changeMapMarkerPosition, setChangeMapMarkerPosition] = useState<boolean>(false);
     const [updateMapMarker, setUpdateMapMarker] = useState<boolean>(false);
@@ -70,7 +69,6 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
     function handleMapMarkerUpdateEnd():void {
         setChangeMapMarkerPosition(false);
         setUpdateMapMarker(false);
-        setSelectedMapMarker(mapMarkersOfThisWorldMap.filter((mapMarker:MapMarker) => mapMarker.id === selectedMapMarker.id)[0]);
     }
 
     function handleUpdateMapMarker():void {
@@ -84,7 +82,6 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
 
     useEffect(():void => {
         setWorldMap(props.getWorldMap(id))
-        setMapMarkersOfThisWorldMap(props.mapMarkers.filter((mapMarker:MapMarker) => mapMarker.worldMapId === worldMap.id))
         // eslint-disable-next-line
     }, [id, props]);
 
@@ -97,7 +94,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                 worldMap={worldMap}
                 handleWorldMapClick={handleWorldMapClick}
             />
-            {mapMarkersOfThisWorldMap.map((mapMarker:MapMarker) => {
+            {props.mapMarkers.filter((mapMarker:MapMarker) => mapMarker.worldMapId === id).map((mapMarker:MapMarker) => {
                 return <MapMarkerCard
                     key={mapMarker.id}
                     mapMarker={mapMarker}
