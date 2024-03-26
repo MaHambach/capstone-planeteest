@@ -6,6 +6,7 @@ import {Article} from "../../../types/Article.ts";
 import ArticleCard from "./ArticleCard.tsx";
 
 type ArticleWindowProps = {
+    coordinates: {x:number, y:number};
     article:Article;
     title:string;
     closeWindow: () => void;
@@ -16,8 +17,12 @@ export default function ArticleWindow(props:Readonly<ArticleWindowProps>):React.
     return (
         <DraggableSubWindow
             closeFrame={props.closeWindow}
-            initialPosition={{left:200, top:200, width:640, height:800}}
-        >
+            initialPosition={{
+                left: props.coordinates.x + 300,
+                top: props.coordinates.y,
+                width:640,
+                height:800
+        }}>
             <div className={"articleWindowTitleLine"}>
                 <span><b>{props.title}</b></span>
                 <button onClick={(): void => setIsBeingEdited(!isBeingEdited)}>Bearbeiten</button>

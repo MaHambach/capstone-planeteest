@@ -21,7 +21,6 @@ export default function DraggableSubWindow(props:Readonly<DraggableSubWindowProp
     return (
         <Draggable
             handle="strong"
-            defaultPosition={{x:props.initialPosition.left, y:props.initialPosition.top}}
         >
             <div
                 className={"draggableSubWindow"}

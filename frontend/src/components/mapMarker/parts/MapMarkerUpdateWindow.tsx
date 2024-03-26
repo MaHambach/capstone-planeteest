@@ -50,7 +50,12 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
     return (
         <DraggableSubWindow
             closeFrame={props.closeMapMarkerCard}
-            initialPosition={{left:100, top:200, width:200, height:200}}
+            initialPosition={{
+                left:props.mapMarker.xPosition - 200,
+                top:props.mapMarker.yPosition,
+                width:200,
+                height:200
+            }}
         >
             <form className={"mapMarkerUpdateWindow"}>
                 <div>

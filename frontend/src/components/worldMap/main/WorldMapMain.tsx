@@ -114,6 +114,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
             })}
             {(showArticle && selectedMapMarker !== emptyMapMarker) &&
                 <ArticleWindow
+                    coordinates={{x: selectedMapMarker.xPosition, y: selectedMapMarker.yPosition}}
                     title={selectedMapMarker.name}
                     article={props.getArticleById(selectedMapMarker.articleId)}
                     closeWindow={handleArticleFrame}
