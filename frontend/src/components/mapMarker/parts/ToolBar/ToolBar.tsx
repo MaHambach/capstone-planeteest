@@ -5,7 +5,7 @@ import ShowArticleButton from "./Entries/ShowArticleButton.tsx";
 
 type ToolBarProps = {
     handleUpdateMapMarker: () => void;
-    setShowArticle: (showArticle:boolean) => void;
+    handleArticleFrame: () => void;
 }
 
 export default function ToolBar(props:Readonly<ToolBarProps>): React.ReactElement {
@@ -13,7 +13,7 @@ export default function ToolBar(props:Readonly<ToolBarProps>): React.ReactElemen
     return (
         <div className={"mapMarkerCardToolBar"}>
             <UpdateMapMarkerButton handleUpdateMapMarker={props.handleUpdateMapMarker}/>
-            <ShowArticleButton setShowArticle={props.setShowArticle}/>
+            <ShowArticleButton handleArticleFrame={props.handleArticleFrame}/>
         </div>
     )
 }

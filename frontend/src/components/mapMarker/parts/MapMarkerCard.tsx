@@ -14,7 +14,7 @@ type MapMarkerCardProps = {
     isMoveAble:boolean;
     handleSelectedMapMarkerChange: (mapMarker:MapMarker) => void;
     handleUpdateMapMarker: () => void;
-    setShowArticle: (showArticle:boolean) => void;
+    handleArticleFrame: () => void;
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
@@ -43,9 +43,9 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                 left: coordinates.xPosition, /* Might depend on MapMarkerType */
                 top: coordinates.yPosition   /* Might depend on MapMarkerType */
             }}>
-                    <h2 className={props.isSelected ? "mapMarkerNameSelected" : "mapMarkerName"}>
-                        {props.mapMarker.name}
-                    </h2>
+                <h2 className={props.isSelected ? "mapMarkerNameSelected" : "mapMarkerName"}>
+                    {props.mapMarker.name}
+                </h2>
 
                 <IconContext.Provider value={iconContextObj}>
                     <button className={props.isSelected ? "mapMarkerCardImageSelected" : "mapMarkerCardImage"}
@@ -55,7 +55,12 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                     </button>
                 </IconContext.Provider>
 
-                {props.isSelected && <ToolBar handleUpdateMapMarker={props.handleUpdateMapMarker} setShowArticle={props.setShowArticle}/>}
+                {props.isSelected &&
+                    <ToolBar
+                        handleUpdateMapMarker={props.handleUpdateMapMarker}
+                        handleArticleFrame={props.handleArticleFrame}
+                    />
+                }
             </div>
         </Draggable>
     )

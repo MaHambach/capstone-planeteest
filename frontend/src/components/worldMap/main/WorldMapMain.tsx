@@ -36,7 +36,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
     const [worldMap, setWorldMap] = useState<WorldMap>(emptyWorldMap);
     const [addNewMapMarker, setAddNewMapMarker] = useState<boolean>(false);
     const [changeMapMarkerPosition, setChangeMapMarkerPosition] = useState<boolean>(false);
-    const [updateMapMarker, setUpdateMapMarker] = useState<boolean>(false);
+    const [showUpdateMapMarker, setShowUpdateMapMarker] = useState<boolean>(false);
     const [showArticle, setShowArticle] = useState<boolean>(false);
     const [selectedMapMarker, setSelectedMapMarker] = useState<MapMarker>(emptyMapMarker);
 
@@ -52,27 +52,28 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
             setSelectedMapMarker({...selectedMapMarker, xPosition: (event.clientX - rect.left), yPosition: (event.clientY - rect.top)})
         } else {
             setSelectedMapMarker(emptyMapMarker);
-            setUpdateMapMarker(false);
+            setShowUpdateMapMarker(false);
+            setShowArticle(false);
         }
     }
 
-    function handleCloseArticleFrame():void{
-        setShowArticle(false);
+    function handleArticleFrame():void{
+        setShowArticle(!showArticle);
     }
 
     function handleSelectedMapMarkerChange(mapMarker:MapMarker):void {
         setSelectedMapMarker(mapMarker);
-        setUpdateMapMarker(false);
+        setShowUpdateMapMarker(false);
         setChangeMapMarkerPosition(false);
     }
 
     function handleMapMarkerUpdateEnd():void {
         setChangeMapMarkerPosition(false);
-        setUpdateMapMarker(false);
+        setShowUpdateMapMarker(false);
     }
 
     function handleUpdateMapMarker():void {
-        setUpdateMapMarker(!updateMapMarker);
+        setShowUpdateMapMarker(!showUpdateMapMarker);
     }
 
     function toggleAddNewMapMarker(event: React.MouseEvent<HTMLElement>):void {
@@ -103,14 +104,14 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     isSelected={mapMarker.id === selectedMapMarker.id}
                     handleSelectedMapMarkerChange={handleSelectedMapMarkerChange}
                     handleUpdateMapMarker={handleUpdateMapMarker}
-                    setShowArticle={setShowArticle}
+                    handleArticleFrame={handleArticleFrame}
                 />
             })}
             {(showArticle && selectedMapMarker !== emptyMapMarker) &&
                 <ArticleWindow
                     title={selectedMapMarker.name}
                     article={props.getArticleById(selectedMapMarker.articleId)}
-                    closeWindow={handleCloseArticleFrame}
+                    closeWindow={handleArticleFrame}
                 />
             }
             {(addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&
@@ -123,7 +124,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     markerTypeId={''} /* For later: When MarkerType is implemented */
                 />
             }
-            {(updateMapMarker && selectedMapMarker !== emptyMapMarker) &&
+            {(showUpdateMapMarker && selectedMapMarker !== emptyMapMarker) &&
                 <MapMarkerUpdateWindow
                     mapMarker={selectedMapMarker}
                     updateMapMarker={props.updateMapMarker}
