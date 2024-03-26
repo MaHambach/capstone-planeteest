@@ -18,7 +18,7 @@ export default function ArticleWindow(props:Readonly<ArticleWindowProps>):React.
         <DraggableSubWindow
             closeFrame={props.closeWindow}
             initialPosition={{
-                left: props.coordinates.x + 300,
+                left: props.coordinates.x + 250,
                 top: props.coordinates.y,
                 width:640,
                 height:800

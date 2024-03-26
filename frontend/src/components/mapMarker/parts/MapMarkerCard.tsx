@@ -10,7 +10,7 @@ type MapMarkerCardProps = {
     mapMarker: MapMarker;
     offsetWorldMapFrame: {xOffset:number, yOffset:number};
     isSelected:boolean;
-    isMoveAble:boolean;
+    isMovable:boolean;
     handleArticleFrame: () => void;
     handleMapMarkerUpdate: () => void;
     handleSelectedMapMarkerChange: (mapMarker:MapMarker) => void;
@@ -23,7 +23,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
-        if(!props.isMoveAble) props.handleSelectedMapMarkerChange(props.mapMarker);
+        if(!props.isMovable) props.handleSelectedMapMarkerChange(props.mapMarker);
     }
 
     useEffect(() => {
@@ -37,7 +37,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
 
     function handleDrag(event: DraggableEvent, ui: DraggableData):void {
         event.preventDefault();
-        if(props.isMoveAble) {
+        if(props.isMovable) {
             props.setSelectedMapMarker(
                 {...props.mapMarker,
                     xPosition: props.mapMarker.xPosition + ui.x,
@@ -60,7 +60,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                 <h2 className={props.isSelected ? "mapMarkerNameSelected" : "mapMarkerName"}>
                     {props.mapMarker.name}
                 </h2>
-                { props.isMoveAble ?
+                { props.isMovable ?
                     <strong>
                         <MapMarkerIcon isSelected={props.isSelected} handleClick={handleClick} />
                     </strong> :

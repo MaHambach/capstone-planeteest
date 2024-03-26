@@ -104,7 +104,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     key={mapMarker.id}
                     mapMarker={mapMarker}
                     offsetWorldMapFrame={{xOffset: 100, yOffset: 100}} /* Offset the padding. */
-                    isMoveAble={mapMarker.id === selectedMapMarker.id && changeMapMarkerPosition}
+                    isMovable={mapMarker.id === selectedMapMarker.id && changeMapMarkerPosition}
                     isSelected={mapMarker.id === selectedMapMarker.id}
                     handleSelectedMapMarkerChange={handleSelectedMapMarkerChange}
                     handleMapMarkerUpdate={handleMapMarkerUpdate}
