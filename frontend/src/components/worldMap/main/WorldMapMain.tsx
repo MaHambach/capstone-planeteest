@@ -56,9 +56,11 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
             setShowArticle(false);
         }
     }
+
     function updateSelectedMapMarker():void {
         props.updateMapMarker(selectedMapMarker);
     }
+
     function handleArticleFrame():void{
         setShowArticle(!showArticle);
     }

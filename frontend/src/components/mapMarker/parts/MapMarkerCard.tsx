@@ -2,7 +2,7 @@ import './MapMarkerCard.css'
 import {MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
 import ToolBar from "./ToolBar/ToolBar.tsx";
-import Draggable from "react-draggable";
+import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
 import MapMarkerIcon from "./MapMarkerIcon.tsx";
 
 
@@ -11,9 +11,9 @@ type MapMarkerCardProps = {
     offsetWorldMapFrame: {xOffset:number, yOffset:number};
     isSelected:boolean;
     isMoveAble:boolean;
-    handleSelectedMapMarkerChange: (mapMarker:MapMarker) => void;
-    handleMapMarkerUpdate: () => void;
     handleArticleFrame: () => void;
+    handleMapMarkerUpdate: () => void;
+    handleSelectedMapMarkerChange: (mapMarker:MapMarker) => void;
     setSelectedMapMarker: (mapMarker:MapMarker) => void;
 }
 
@@ -23,7 +23,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
-        props.handleSelectedMapMarkerChange(props.mapMarker);
+        if(!props.isMoveAble) props.handleSelectedMapMarkerChange(props.mapMarker);
     }
 
     useEffect(() => {
@@ -35,9 +35,22 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
         // eslint-disable-next-line
     }, [props]);
 
+    function handleDrag(event: DraggableEvent, ui: DraggableData):void {
+        event.preventDefault();
+        if(props.isMoveAble) {
+            props.setSelectedMapMarker(
+                {...props.mapMarker,
+                    xPosition: props.mapMarker.xPosition + ui.x,
+                    yPosition: props.mapMarker.yPosition + ui.y
+                }
+            );
+        }
+    }
+
     return (
         <Draggable
             handle="strong"
+            onDrag={handleDrag}
         >
             <div className={"mapMarkerCard"} style={{
                 position:"absolute",
@@ -55,7 +68,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                 }
                 {props.isSelected &&
                     <ToolBar
-                        handleUpdateMapMarker={props.handleMapMarkerUpdate}
+                        handleMapMarkerUpdate={props.handleMapMarkerUpdate}
                         handleArticleFrame={props.handleArticleFrame}
                     />
                 }
