@@ -5,27 +5,27 @@ import UpdateArticleForm from "./UpdateArticleForm.tsx";
 import {Article} from "../../../types/Article.ts";
 import ArticleCard from "./ArticleCard.tsx";
 
-type ArticleFrameProps = {
+type ArticleWindowProps = {
     article:Article;
     title:string;
-    closeFrame: () => void;
+    closeWindow: () => void;
 }
-export default function ArticleWindow(props:Readonly<ArticleFrameProps>):React.ReactElement {
+export default function ArticleWindow(props:Readonly<ArticleWindowProps>):React.ReactElement {
     const [isBeingEdited, setIsBeingEdited] = React.useState<boolean>(false);
 
     return (
         <DraggableSubWindow
-            closeFrame={props.closeFrame}
+            closeFrame={props.closeWindow}
             initialPosition={{left:200, top:200, width:640, height:800}}
         >
-            <div className={"articleCardTitleLine"}>
+            <div className={"articleWindowTitleLine"}>
                 <span><b>{props.title}</b></span>
                 <button onClick={(): void => setIsBeingEdited(!isBeingEdited)}>Bearbeiten</button>
             </div>
             {isBeingEdited ?
                 <UpdateArticleForm
                     article={props.article}
-                    closeArticleCard={props.closeFrame}
+                    closeArticleCard={props.closeWindow}
                 />
                 :
                 <ArticleCard  article={props.article}/>

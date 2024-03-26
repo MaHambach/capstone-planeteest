@@ -1,16 +1,16 @@
-import './UpdateMapMarkerForm.css';
+import './MapMarkerUpdateWindow.css';
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
 import DraggableSubWindow from "../../parts/DraggableSubWindow.tsx";
 
-type UpdateMapMarkerCardProps = {
+type MapMarkerUpdateWindowProps = {
     mapMarker: MapMarker;
     updateMapMarker: (mapMarker: MapMarker) => void;
     deleteMapMarker: (id:string) => void;
     closeMapMarkerCard: () => void;
     setChangeMapMarkerPosition: (changeMapMarkerPosition:boolean) => void;
 }
-export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardProps>):React.ReactElement {
+export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWindowProps>):React.ReactElement {
     const [formData, setFormData] = useState<MapMarker>(emptyMapMarker);
     const [changingPosition, setChangingPosition] = useState<boolean>(false);
 
@@ -51,7 +51,7 @@ export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardPr
             closeFrame={props.closeMapMarkerCard}
             initialPosition={{left:100, top:200, width:200, height:200}}
         >
-            <form className={"updateMapMarkerForm"}>
+            <form className={"mapMarkerUpdateWindow"}>
                 <div>
                 <label htmlFor={"name"}>Name: </label>
                     <input id={"name"} name={"name"}

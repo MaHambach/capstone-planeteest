@@ -1,4 +1,4 @@
-.updateMapMarkerFormFrame {
+.mapMarkerUpdateWindow {
     position: absolute;
     left: 100px;
     top: 200px;
@@ -12,6 +12,6 @@
     border: 1px solid black;
 }
 
-.updateMapMarkerFormFrame .deleteButton {
+.mapMarkerUpdateWindow .deleteButton {
     color: red;
 }

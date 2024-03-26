@@ -10,7 +10,7 @@ import ToolBar from "../parts/WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 import {Article, emptyArticle} from "../../../types/Article.ts";
 import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
-import UpdateMapMarkerForm from "../../mapMarker/parts/UpdateMapMarkerForm.tsx";
+import MapMarkerUpdateWindow from "../../mapMarker/parts/MapMarkerUpdateWindow.tsx";
 import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
 
 type WorldMapMainProps = {
@@ -113,7 +113,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                 <ArticleWindow
                     title={selectedMapMarker.name}
                     article={props.getArticleById(selectedMapMarker.articleId)}
-                    closeFrame={handleCloseArticleFrame}
+                    closeWindow={handleCloseArticleFrame}
                 />
             }
             {(addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&
@@ -127,7 +127,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                 />
             }
             {(updateMapMarker && selectedMapMarker !== emptyMapMarker) &&
-                <UpdateMapMarkerForm
+                <MapMarkerUpdateWindow
                     mapMarker={selectedMapMarker}
                     updateMapMarker={props.updateMapMarker}
                     deleteMapMarker={props.deleteMapMarker}
