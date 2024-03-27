@@ -10,6 +10,7 @@ type MapMarkerUpdateWindowProps = {
     closeMapMarkerCard: () => void;
     setSelectedMapMarker: (mapMarker:MapMarker) => void;
     setChangeMapMarkerPosition: (changeMapMarkerPosition:boolean) => void;
+    deleteArticle: (id:string) => void;
 }
 export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWindowProps>):React.ReactElement {
     const [formData, setFormData] = useState<MapMarker>(emptyMapMarker);
@@ -41,8 +42,9 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
     }
 
     function handleDeleteMapMarker():void {
-        if (window.confirm("Möchten Sie dieses Produkt wirklich löschen?")) {
+        if (window.confirm("Möchten Sie diesen MapMarker und seinen zugehörigen Artikel wirklich löschen?")) {
             props.deleteMapMarker(formData.id);
+            props.deleteArticle(formData.articleId);
             props.closeMapMarkerCard();
         }
     }

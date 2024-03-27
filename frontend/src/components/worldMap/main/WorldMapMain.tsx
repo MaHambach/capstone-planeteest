@@ -15,13 +15,17 @@ import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
 
 type WorldMapMainProps = {
     getWorldMap: (id:string) => WorldMap;
+
     getMapMarkerType: (id:string) => MapMarkerType;
     mapMarkers: MapMarker[];
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
     updateMapMarker: (mapMarker:MapMarker) => void;
     deleteMapMarker: (id:string) => void;
+
     articles: Article[];
     getArticleById: (id:string) => Article;
+    updateArticle: (article:Article) => void;
+    deleteArticle: (id:string) => void;
 };
 
 
@@ -118,6 +122,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     title={selectedMapMarker.name}
                     article={props.getArticleById(selectedMapMarker.articleId)}
                     closeWindow={handleArticleFrame}
+                    updateArticle={props.updateArticle}
                 />
             }
             {(addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&
@@ -138,6 +143,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     closeMapMarkerCard={handleMapMarkerUpdateEnd}
                     setSelectedMapMarker={setSelectedMapMarker}
                     setChangeMapMarkerPosition={setChangeMapMarkerPosition}
+                    deleteArticle={props.deleteArticle}
                 />
             }
         </main>
