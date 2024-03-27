@@ -11,6 +11,8 @@
 }
 
 .draggableSubWindow .draggableSubWindowBody {
+    display: flex;
+    flex-direction: column;
     position: relative;
     padding: 10px;
 }

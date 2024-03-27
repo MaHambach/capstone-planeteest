@@ -11,7 +11,7 @@ export default function ArticleCard(props:Readonly<ArticleDetailsCardProps>):Rea
 
     return (
         <div className={"articleCard"}>
-            <article >{props.article.content}</article>
+            <article className={"articleContent"}>{props.article.content}</article>
             {props.article.npcIds.length > 0 &&
                 <DisplayTileGallery
                     urlPrefix={"/npc/"}

@@ -1,0 +1,15 @@
+.updateArticleForm {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.updateArticleForm .contentInput {
+    flex: 1;
+}
+
+.updateArticleForm .buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}

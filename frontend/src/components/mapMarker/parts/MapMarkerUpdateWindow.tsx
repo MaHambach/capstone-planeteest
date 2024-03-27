@@ -35,7 +35,7 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
         props.setChangeMapMarkerPosition(!changingPosition);
     }
 
-    function handleUpdateMapMarker(event: React.MouseEvent<HTMLElement>):void {
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault();
         props.updateMapMarker();
         props.closeMapMarkerCard();
@@ -59,7 +59,7 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
                 height:200
             }}
         >
-            <form className={"mapMarkerUpdateWindow"}>
+            <form className={"mapMarkerUpdateWindow"} onSubmit={handleSubmit}>
                 <div>
                 <label htmlFor={"name"}>Name: </label>
                     <input id={"name"} name={"name"}
@@ -71,7 +71,7 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
                 {changingPosition &&
                     <button onClick={toggleChangingPosition}>Abbrechen</button>
                 }</p>
-                <p><button onClick={handleUpdateMapMarker}>Übernehmen</button></p>
+                <p><button type={"submit"}>Übernehmen</button></p>
                 <p><button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button></p>
             </form>
         </DraggableSubWindow>

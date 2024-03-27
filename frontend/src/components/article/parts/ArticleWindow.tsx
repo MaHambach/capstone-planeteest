@@ -1,5 +1,5 @@
 import './ArticleWindow.css';
-import React from "react";
+import React, {useState} from "react";
 import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
 import UpdateArticleForm from "./UpdateArticleForm.tsx";
 import {Article} from "../../../types/Article.ts";
@@ -13,13 +13,9 @@ type ArticleWindowProps = {
     closeWindow: () => void;
 }
 export default function ArticleWindow(props:Readonly<ArticleWindowProps>):React.ReactElement {
-    const [isBeingEdited, setIsBeingEdited] = React.useState<boolean>(false);
+    const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
+    const [article, setArticle] = useState<Article>(props.article);
 
-    function handleArticleUpdate(event:React.MouseEvent<HTMLElement>): void {
-        event.preventDefault();
-        props.updateArticle(props.article);
-        setIsBeingEdited(false);
-    }
 
     return (
         <DraggableSubWindow
@@ -32,16 +28,17 @@ export default function ArticleWindow(props:Readonly<ArticleWindowProps>):React.
         }}>
             <div className={"articleWindowTitleLine"}>
                 <span><b>{props.title}</b></span>
-                <button onClick={(): void => setIsBeingEdited(!isBeingEdited)}>Bearbeiten</button>
-                {isBeingEdited && <button onClick={handleArticleUpdate}>Speichern</button>}
+                {!isBeingEdited && <button onClick={(): void => setIsBeingEdited(!isBeingEdited)}>Bearbeiten</button>}
             </div>
             {isBeingEdited ?
                 <UpdateArticleForm
-                    article={props.article}
-                    closeArticleCard={props.closeWindow}
+                    article={article}
+                    updateArticle={props.updateArticle}
+                    setIsBeingEdited={setIsBeingEdited}
+                    setArticle={setArticle}
                 />
                 :
-                <ArticleCard  article={props.article}/>
+                <ArticleCard  article={article}/>
             }
         </DraggableSubWindow>
     )
