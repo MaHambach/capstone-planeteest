@@ -41,7 +41,6 @@ export default function NewWorldMapForm(props:Readonly<NewWorldMapFormProps>):Re
         if(event.target.name === "worldMapUrl") img.src = event.target.value;
     }
 
-
     return (
         <main className={"newWorldMapForm"}>
             <h2>Neue Weltkarte anlegen</h2>

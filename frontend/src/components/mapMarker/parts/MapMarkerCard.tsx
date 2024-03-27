@@ -20,6 +20,7 @@ type MapMarkerCardProps = {
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
     const mapMarkerSize={xSize: 80, ySize: 80};
     const [coordinates, setCoordinates] = useState({xPosition: 0, yPosition: 0});
+    const nodeRef:React.MutableRefObject<null> = React.useRef(null);
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
@@ -48,10 +49,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
     }
 
     return (
-        <Draggable
-            handle="strong"
-            onDrag={handleDrag}
-        >
+
             <div className={"mapMarkerCard"} style={{
                 position:"absolute",
                 left: coordinates.xPosition,
@@ -61,9 +59,16 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                     {props.mapMarker.name}
                 </h2>
                 { props.isMovable ?
-                    <strong>
+                    <Draggable
+                        handle="strong"
+                        nodeRef={nodeRef}
+                        onDrag={handleDrag}
+                    >
+                    <strong ref={nodeRef}>
                         <MapMarkerIcon isSelected={props.isSelected} handleClick={handleClick} />
-                    </strong> :
+                    </strong>
+                    </Draggable>
+                        :
                     <MapMarkerIcon isSelected={props.isSelected} handleClick={handleClick} />
                 }
                 {props.isSelected &&
@@ -73,6 +78,5 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                     />
                 }
             </div>
-        </Draggable>
     )
 }

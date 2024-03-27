@@ -21,6 +21,7 @@ export default function DraggableSubWindow(props:Readonly<DraggableSubWindowProp
     return (
         <Draggable
             handle="strong"
+            nodeRef={nodeRef}
         >
             <div
                 className={"draggableSubWindow"}
