@@ -8,9 +8,10 @@ public record MapMarkerType(
         @Id
         String id,
         String name,
-        String iconUrl
+        String iconUrl,
+        String color
 ) {
         public MapMarkerType (MapMarkerTypeDto mapMarkerTypeDto){
-                this(null, mapMarkerTypeDto.name(), mapMarkerTypeDto.iconUrl());
+                this(null, mapMarkerTypeDto.name(), mapMarkerTypeDto.iconUrl(), mapMarkerTypeDto.color());
         }
 }

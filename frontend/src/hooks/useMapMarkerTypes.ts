@@ -20,7 +20,7 @@ export function useMapMarkerTypes() {
 
         if(mapMarkerTypeWithId.length === 0) console.error('Keine MapMarkerType mit der ID ' + id + ' gefunden.');
         else return mapMarkerTypeWithId[0];
-        return {id:'', name:'', iconUrl:''};
+        return {id:'', name:'', icon:''};
     }
 
     useEffect(()=> fetchMapMarkerTypes(), []);
