@@ -29,9 +29,7 @@ export default function useMapMarkers() {
 
     function updateMapMarker(updatedMapMarker: MapMarker):void {
         axios.put(`/api/map-markers/${updatedMapMarker.id}`, updatedMapMarker)
-            .then(() => {
-                fetchMapMarkers();
-            })
+            .then(fetchMapMarkers)
             .catch(error => {
                 if (error?.response?.status === 400) {
                     alert('Fehler: ' + error.response.data.errorMsg);
@@ -58,8 +56,3 @@ export default function useMapMarkers() {
         deleteMapMarker
     }
 }
-
-/*
-* 65fc6c1b61c9ee65bcf96d7e
-* 65fc6c1b61c9ee65bcf96d7f
-* */

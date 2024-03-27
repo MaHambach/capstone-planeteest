@@ -12,7 +12,7 @@ import {useArticles} from "./hooks/useArticles.ts";
 export default function App():React.ReactElement {
     const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
     const {mapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
-    const {articles, fetchArticles, getArticleById} = useArticles();
+    const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
     const {getMapMarkerTypeById} = useMapMarkerTypes();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,6 +38,8 @@ export default function App():React.ReactElement {
                     deleteMapMarker={deleteMapMarker}
                     articles={articles}
                     getArticleById={getArticleById}
+                    updateArticle={updateArticle}
+                    deleteArticle={deleteArticle}
             />}/>
             <Route path={"/worldmap/:id/edit"} element={
                 <UpdateWorldMapForm

@@ -1,6 +1,6 @@
 import './ArticleCard.css';
 import {Article} from "../../../types/Article.ts";
-import DisplayTileGallery from "../../parts/DisplayTileGallery.tsx";
+import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
 import React from "react";
 
 type ArticleDetailsCardProps = {
@@ -11,7 +11,7 @@ export default function ArticleCard(props:Readonly<ArticleDetailsCardProps>):Rea
 
     return (
         <div className={"articleCard"}>
-            <article >{props.article.content}</article>
+            <article className={"articleContent"}>{props.article.content}</article>
             {props.article.npcIds.length > 0 &&
                 <DisplayTileGallery
                     urlPrefix={"/npc/"}

@@ -1,7 +1,7 @@
 import "./WorldMapGallery.css";
 import React from "react";
 import {WorldMap} from "../../../types/WorldMap.ts";
-import DisplayTileGallery from "../../parts/DisplayTileGallery.tsx";
+import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
 
 
 type WorldMapGalleryProps = {

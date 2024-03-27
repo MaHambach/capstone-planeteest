@@ -1,6 +1,6 @@
 import "./DisplayTileGallery.css";
 import React from "react";
-import {TileAble} from "../../types/TileAble.ts";
+import {TileAble} from "../../../types/TileAble.ts";
 import DisplayTile from "./DisplayTile.tsx";
 
 type DisplayTileGalleryProps = {

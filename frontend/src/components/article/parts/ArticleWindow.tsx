@@ -1,6 +1,6 @@
 import './ArticleWindow.css';
-import React from "react";
-import DraggableSubWindow from "../../parts/DraggableSubWindow.tsx";
+import React, {useState} from "react";
+import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
 import UpdateArticleForm from "./UpdateArticleForm.tsx";
 import {Article} from "../../../types/Article.ts";
 import ArticleCard from "./ArticleCard.tsx";
@@ -9,10 +9,13 @@ type ArticleWindowProps = {
     coordinates: {x:number, y:number};
     article:Article;
     title:string;
+    updateArticle: (article:Article) => void;
     closeWindow: () => void;
 }
 export default function ArticleWindow(props:Readonly<ArticleWindowProps>):React.ReactElement {
-    const [isBeingEdited, setIsBeingEdited] = React.useState<boolean>(false);
+    const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
+    const [article, setArticle] = useState<Article>(props.article);
+
 
     return (
         <DraggableSubWindow
@@ -25,15 +28,17 @@ export default function ArticleWindow(props:Readonly<ArticleWindowProps>):React.
         }}>
             <div className={"articleWindowTitleLine"}>
                 <span><b>{props.title}</b></span>
-                <button onClick={(): void => setIsBeingEdited(!isBeingEdited)}>Bearbeiten</button>
+                {!isBeingEdited && <button onClick={(): void => setIsBeingEdited(!isBeingEdited)}>Bearbeiten</button>}
             </div>
             {isBeingEdited ?
                 <UpdateArticleForm
-                    article={props.article}
-                    closeArticleCard={props.closeWindow}
+                    article={article}
+                    updateArticle={props.updateArticle}
+                    setIsBeingEdited={setIsBeingEdited}
+                    setArticle={setArticle}
                 />
                 :
-                <ArticleCard  article={props.article}/>
+                <ArticleCard  article={article}/>
             }
         </DraggableSubWindow>
     )

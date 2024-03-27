@@ -1,7 +1,7 @@
 import './MapMarkerUpdateWindow.css';
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
-import DraggableSubWindow from "../../parts/DraggableSubWindow.tsx";
+import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
 
 type MapMarkerUpdateWindowProps = {
     mapMarker: MapMarker;
@@ -10,6 +10,7 @@ type MapMarkerUpdateWindowProps = {
     closeMapMarkerCard: () => void;
     setSelectedMapMarker: (mapMarker:MapMarker) => void;
     setChangeMapMarkerPosition: (changeMapMarkerPosition:boolean) => void;
+    deleteArticle: (id:string) => void;
 }
 export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWindowProps>):React.ReactElement {
     const [formData, setFormData] = useState<MapMarker>(emptyMapMarker);
@@ -34,15 +35,16 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
         props.setChangeMapMarkerPosition(!changingPosition);
     }
 
-    function handleUpdateMapMarker(event: React.MouseEvent<HTMLElement>):void {
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault();
         props.updateMapMarker();
         props.closeMapMarkerCard();
     }
 
     function handleDeleteMapMarker():void {
-        if (window.confirm("Möchten Sie dieses Produkt wirklich löschen?")) {
+        if (window.confirm("Möchten Sie diesen MapMarker und seinen zugehörigen Artikel wirklich löschen?")) {
             props.deleteMapMarker(formData.id);
+            props.deleteArticle(formData.articleId);
             props.closeMapMarkerCard();
         }
     }
@@ -57,7 +59,7 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
                 height:200
             }}
         >
-            <form className={"mapMarkerUpdateWindow"}>
+            <form className={"mapMarkerUpdateWindow"} onSubmit={handleSubmit}>
                 <div>
                 <label htmlFor={"name"}>Name: </label>
                     <input id={"name"} name={"name"}
@@ -69,7 +71,7 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
                 {changingPosition &&
                     <button onClick={toggleChangingPosition}>Abbrechen</button>
                 }</p>
-                <p><button onClick={handleUpdateMapMarker}>Übernehmen</button></p>
+                <p><button type={"submit"}>Übernehmen</button></p>
                 <p><button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button></p>
             </form>
         </DraggableSubWindow>
