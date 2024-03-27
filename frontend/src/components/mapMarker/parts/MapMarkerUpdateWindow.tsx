@@ -1,7 +1,7 @@
 import './MapMarkerUpdateWindow.css';
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
-import DraggableSubWindow from "../../parts/DraggableSubWindow.tsx";
+import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
 
 type MapMarkerUpdateWindowProps = {
     mapMarker: MapMarker;
