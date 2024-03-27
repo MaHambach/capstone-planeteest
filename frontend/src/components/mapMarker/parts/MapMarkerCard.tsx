@@ -38,14 +38,12 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
 
     function handleDrag(event: DraggableEvent, ui: DraggableData):void {
         event.preventDefault();
-        if(props.isMovable) {
-            props.setSelectedMapMarker(
-                {...props.mapMarker,
-                    xPosition: props.mapMarker.xPosition + ui.x,
-                    yPosition: props.mapMarker.yPosition + ui.y
-                }
-            );
-        }
+        props.setSelectedMapMarker(
+            {...props.mapMarker,
+                xPosition: props.mapMarker.xPosition + ui.x,
+                yPosition: props.mapMarker.yPosition + ui.y
+            }
+        );
     }
 
     return (

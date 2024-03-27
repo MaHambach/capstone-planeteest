@@ -6,12 +6,9 @@
     color: white;
     justify-content: flex-end;
     border-bottom: 1px solid black;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
 }
 
 .headerDraggableFrame .closeWindowButton {
     border:none;
-    border-top-right-radius: 10px;
     cursor: pointer;
 }
