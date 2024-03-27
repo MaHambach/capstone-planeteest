@@ -18,7 +18,7 @@ export default function ArticleCard(props:Readonly<ArticleDetailsCardProps>):Rea
                     tileData={props.article.npcIds.map((npcId: string) => ({
                         id: npcId,
                         name: "Jürgen"
-                    }))} /* For later: get the npc name, when there are npcs. */
+                    }))}
                     addNewName={"Neuer Nsc"}
                     addNewUrl={"/npc/new"}
                     tileSize={100}

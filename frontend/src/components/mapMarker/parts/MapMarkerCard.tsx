@@ -27,10 +27,10 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
     }
 
     useEffect(() => {
-        const yOffset:number = 34; /* Height of the headline. */
+        const headlineHeight:number = 34;
         setCoordinates({
             xPosition: props.mapMarker.xPosition + props.offsetWorldMapFrame.xOffset - 0.5 * mapMarkerSize.xSize,
-            yPosition: props.mapMarker.yPosition + props.offsetWorldMapFrame.yOffset - 0.5 * mapMarkerSize.ySize - yOffset
+            yPosition: props.mapMarker.yPosition + props.offsetWorldMapFrame.yOffset - 0.5 * mapMarkerSize.ySize - headlineHeight
         });
         // eslint-disable-next-line
     }, [props]);
@@ -54,8 +54,8 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
         >
             <div className={"mapMarkerCard"} style={{
                 position:"absolute",
-                left: coordinates.xPosition, /* Might depend on MapMarkerType */
-                top: coordinates.yPosition   /* Might depend on MapMarkerType */
+                left: coordinates.xPosition,
+                top: coordinates.yPosition
             }}>
                 <h2 className={props.isSelected ? "mapMarkerNameSelected" : "mapMarkerName"}>
                     {props.mapMarker.name}
