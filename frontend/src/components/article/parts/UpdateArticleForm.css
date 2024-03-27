@@ -2,10 +2,12 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    padding-top: 10px;
 }
 
 .updateArticleForm .contentInput {
     flex: 1;
+    resize: none;
 }
 
 .updateArticleForm .buttons {
