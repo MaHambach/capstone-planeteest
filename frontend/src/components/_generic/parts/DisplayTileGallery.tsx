@@ -9,6 +9,7 @@ type DisplayTileGalleryProps = {
     addNewName: string;
     addNewUrl: string;
     tileSize:number;
+    color:string;
 }
 export default function DisplayTileGallery(props:Readonly<DisplayTileGalleryProps>): React.ReactElement {
     return (
@@ -20,6 +21,7 @@ export default function DisplayTileGallery(props:Readonly<DisplayTileGalleryProp
                         name={tile.name}
                         url={props.urlPrefix + tile.id}
                         tileSize={props.tileSize}
+                        backgroundColor={props.color}
                     />
                 );
             })}
@@ -27,6 +29,7 @@ export default function DisplayTileGallery(props:Readonly<DisplayTileGalleryProp
                 name={props.addNewName}
                 url={props.addNewUrl}
                 tileSize={props.tileSize}
+                backgroundColor={props.color}
             />
         </div>
     );

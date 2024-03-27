@@ -8,12 +8,14 @@ import UpdateWorldMapForm from "./components/worldMap/main/UpdateWorldMapForm.ts
 import useMapMarkers from "./hooks/useMapMarkers.ts";
 import {useMapMarkerTypes} from "./hooks/useMapMarkerTypes.ts";
 import {useArticles} from "./hooks/useArticles.ts";
+import MapMarkerTypeGallery from "./components/mapMarkerType/main/MapMarkerTypeGallery.tsx";
+import AddMapMarkerType from "./components/mapMarkerType/main/AddMapMarkerType.tsx";
 
 export default function App():React.ReactElement {
     const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
     const {mapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
+    const {mapMarkerTypes, saveMapMarkerType, getMapMarkerTypeById} = useMapMarkerTypes();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
-    const {getMapMarkerTypeById} = useMapMarkerTypes();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(fetchArticles, [mapMarkers]);
@@ -24,7 +26,7 @@ export default function App():React.ReactElement {
                 <WorldMapGallery
                     worldMaps={worldMaps}
             />}/>
-            <Route path={"/worldmap/new"} element={
+            <Route path={"/worldmap/add"} element={
                 <NewWorldMapForm
                     saveWorldMap={saveWorldMap}
             />}/>
@@ -46,6 +48,15 @@ export default function App():React.ReactElement {
                     updateWorldMap={updateWorldMap}
                     deleteWorldMap={deleteWorldMap}
                     getWorldMap={getWorldMapById}
+            />}/>
+
+            <Route path={"/mapMarkerType"} element={
+                <MapMarkerTypeGallery
+                    mapMarkerTypes={mapMarkerTypes}
+            />}/>
+            <Route path={"/mapMarkerType/add"} element={
+                <AddMapMarkerType
+                    saveMapMarkerType={saveMapMarkerType}
             />}/>
 
         </Routes>

@@ -1,18 +1,30 @@
 import axios from "axios";
 import {MapMarkerType} from "../types/MapMarkerType.ts";
 import {useEffect, useState} from "react";
+import {MapMarkerTypeDto} from "../types/MapMarkerTypeDto.ts";
 
 export function useMapMarkerTypes() {
     const [mapMarkerTypes, setMapMarkerTypes] = useState<MapMarkerType[]>([]);
 
     function fetchMapMarkerTypes():void {
-        axios.get('/api/worldmaps')
+        axios.get('/api/mapMarkerTypes')
             .then(response => {
                 setMapMarkerTypes(response.data);
             })
             .catch(error => {
                 console.error('Es gab ein Problem beim Abrufen der MapMarker Typen:', error.message);
             });
+    }
+
+    function saveMapMarkerType(newMapMarkerType:MapMarkerTypeDto):void {
+        axios.post('/api/mapMarkerTypes', newMapMarkerType)
+            .then((response) => {
+                console.log("New map marker type added with id " + response.data.id + ".");
+                fetchMapMarkerTypes();
+            })
+            .catch(error => {
+                console.error("Error creating map marker type: ", error.message);
+            })
     }
 
     function getMapMarkerTypeById(id:string):MapMarkerType {
@@ -23,9 +35,20 @@ export function useMapMarkerTypes() {
         return {id:'', name:'', icon:'', color: ''};
     }
 
+    function deleteMapMarkerType(id:string):void{
+        axios.delete(`/api/mapMarkerTypes/${id}`)
+            .then(fetchMapMarkerTypes)
+            .catch(error => {
+                console.log(error)
+            });
+    }
+
     useEffect(()=> fetchMapMarkerTypes(), []);
 
     return {
-        getMapMarkerTypeById
+        mapMarkerTypes,
+        saveMapMarkerType,
+        getMapMarkerTypeById,
+        deleteMapMarkerType
     }
 }

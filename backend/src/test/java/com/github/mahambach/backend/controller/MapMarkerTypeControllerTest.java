@@ -33,7 +33,7 @@ class MapMarkerTypeControllerTest {
     @Test
     void getAllMapMarkerTypes_whenSomething_thenSomething() throws Exception {
         // Given
-        MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "iconUrl", "#000000");
+        MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "icon", "#000000");
         String mapMarkerTypeDtoJson = objectMapper.writeValueAsString(mapMarkerTypeDto);
 
         MvcResult expectedJson = mvc.perform(post("/api/mapMarkerTypes")
@@ -89,7 +89,7 @@ class MapMarkerTypeControllerTest {
     @Test
     void getMapMarkerTypeById_whenSuchMapMarkerType_thenReturn() throws Exception {
         // Given
-        MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "iconUrl", "#000000");
+        MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "icon", "#000000");
 
         String mapMarkerTypeDtoJson = objectMapper.writeValueAsString(mapMarkerTypeDto);
 
@@ -116,7 +116,7 @@ class MapMarkerTypeControllerTest {
     @Test
     void createMapMarkerType_whenSomething_thenCreateAndReturn() throws Exception {
         // Given
-        MapMarkerTypeDto expectedDto = new MapMarkerTypeDto("name", "iconUrl", "#000000");
+        MapMarkerTypeDto expectedDto = new MapMarkerTypeDto("name", "icon", "#000000");
 
         String mapMarkerTypeDtoJson = objectMapper.writeValueAsString(expectedDto);
 
@@ -131,7 +131,7 @@ class MapMarkerTypeControllerTest {
 
         // Then
         assertEquals(expectedDto.name(), actual.name());
-        assertEquals(expectedDto.iconUrl(), actual.iconUrl());
+        assertEquals(expectedDto.icon(), actual.icon());
         assertNotNull(actual.id());
     }
 
@@ -139,7 +139,7 @@ class MapMarkerTypeControllerTest {
     void updateMapMarkerType_whenNoSuchMapMarkerType_thenThrow() throws Exception{
         // Given
         String id = "1";
-        MapMarkerType mapMarkerType = new MapMarkerType("1", "name", "iconUrl", "#000000");
+        MapMarkerType mapMarkerType = new MapMarkerType("1", "name", "icon", "#000000");
 
         String mapMarkerTypeJson = objectMapper.writeValueAsString(mapMarkerType);
 
@@ -161,7 +161,7 @@ class MapMarkerTypeControllerTest {
     void updateMapMarkerType_whenPathAndBodyIdDiffer_thenThrow() throws Exception{
         // Given
         String id = "2";
-        MapMarkerType mapMarkerType = new MapMarkerType("1", "name", "iconUrl", "#000000");
+        MapMarkerType mapMarkerType = new MapMarkerType("1", "name", "icon", "#000000");
 
         String mapMarkerTypeJson = objectMapper.writeValueAsString(mapMarkerType);
 
@@ -186,7 +186,7 @@ class MapMarkerTypeControllerTest {
     @Test
     void updateMapMarkerType_whenSuchMapMarkerType_thenUpdateAndReturn() throws Exception{
         // Given
-        MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "iconUrl", "#000000");
+        MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "icon", "#000000");
 
         MvcResult mapMarkerTypeOldJson = mvc.perform(MockMvcRequestBuilders.post("/api/mapMarkerTypes")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -196,7 +196,7 @@ class MapMarkerTypeControllerTest {
 
         MapMarkerType mapMarkerTypeOld = objectMapper.readValue(mapMarkerTypeOldJson.getResponse().getContentAsString(), MapMarkerType.class);
 
-        MapMarkerType expected = mapMarkerTypeOld.withName("newName").withIconUrl("newIconUrl");
+        MapMarkerType expected = mapMarkerTypeOld.withName("newName").withIcon("newIconUrl");
 
         // When
         MvcResult actualJson = mvc.perform(MockMvcRequestBuilders.put("/api/mapMarkerTypes/" + expected.id())
@@ -230,7 +230,7 @@ class MapMarkerTypeControllerTest {
     @Test
     void deleteMapMarkerTypeById_whenSuchWorld_thenDeleteAndReturnDeleted() throws Exception {
         // Given
-        MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "iconUrl", "#000000");
+        MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "icon", "#000000");
 
         MvcResult mapMarkerTypeJson = mvc.perform(MockMvcRequestBuilders.post("/api/mapMarkerTypes")
                         .contentType(MediaType.APPLICATION_JSON)
