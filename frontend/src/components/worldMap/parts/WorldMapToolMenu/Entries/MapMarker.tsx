@@ -1,5 +1,6 @@
 import './MapMarker.css';
 import React from "react";
+import {BsFillGearFill} from "react-icons/bs";
 
 
 type MapMarkerProps = {
@@ -11,7 +12,7 @@ export default function MapMarker(props:Readonly<MapMarkerProps>):React.ReactEle
 
     return (
         <button className={"worldMapToolBarEntry"} onClick={props.toggleAddNewMapMarker}>
-            <p>{props.name}</p>
+            <BsFillGearFill />
         </button>
     )
 }

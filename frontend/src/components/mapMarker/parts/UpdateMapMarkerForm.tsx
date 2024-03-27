@@ -54,13 +54,13 @@ export default function UpdateMapMarkerForm(props:Readonly<UpdateMapMarkerCardPr
                        value={formData.name}
                        onChange={handleChangeInput}/>
             </div>
-            <button onClick={toggleChangingPosition}>Marker verschieben</button>
+            <p><button onClick={toggleChangingPosition}>Marker verschieben</button>
             {changingPosition &&
                 <button onClick={toggleChangingPosition}>Abbrechen</button>
-            }
-            <button onClick={handleUpdateMapMarker}>Übernehmen</button>
-            <button onClick={props.closeMapMarkerCard}>Schließen</button>
-            <button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button>
+            }</p>
+            <p><button onClick={handleUpdateMapMarker}>Übernehmen</button></p>
+            <p><button onClick={props.closeMapMarkerCard}>Schließen</button></p>
+            <p><button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button></p>
         </form>
     )
 }
