@@ -1,65 +1,78 @@
 import './MapMarkerCard.css'
 import {MapMarker} from "../../../types/MapMarker.ts";
-import React, {useMemo} from "react";
+import React, {useEffect, useState} from "react";
 import ToolBar from "./ToolBar/ToolBar.tsx";
-import {BsGeoAltFill} from "react-icons/bs";
-import {IconContext} from "react-icons";
+import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
+import MapMarkerIcon from "./MapMarkerIcon.tsx";
 
 
 type MapMarkerCardProps = {
     mapMarker: MapMarker;
-    handleArticleChange: (articleId:string) => void;
     offsetWorldMapFrame: {xOffset:number, yOffset:number};
     isSelected:boolean;
+    isMovable:boolean;
+    handleArticleFrame: () => void;
+    handleMapMarkerUpdate: () => void;
     handleSelectedMapMarkerChange: (mapMarker:MapMarker) => void;
-    handleUpdateMapMarker: () => void;
+    setSelectedMapMarker: (mapMarker:MapMarker) => void;
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
-    const mapIconSize={xSize: 80, ySize: 80};
-    const iconContextObj = useMemo(() => ({className: 'mapMarkerIcon'}), []); // value is cached by useMemo
+    const mapMarkerSize={xSize: 80, ySize: 80};
+    const [coordinates, setCoordinates] = useState({xPosition: 0, yPosition: 0});
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
-        props.handleArticleChange(props.mapMarker.articleId);
-        props.handleSelectedMapMarkerChange(props.mapMarker);
-        console.log("Click");
+        if(!props.isMovable) props.handleSelectedMapMarkerChange(props.mapMarker);
+    }
+
+    useEffect(() => {
+        const headlineHeight:number = 34;
+        setCoordinates({
+            xPosition: props.mapMarker.xPosition + props.offsetWorldMapFrame.xOffset - 0.5 * mapMarkerSize.xSize,
+            yPosition: props.mapMarker.yPosition + props.offsetWorldMapFrame.yOffset - 0.5 * mapMarkerSize.ySize - headlineHeight
+        });
+        // eslint-disable-next-line
+    }, [props]);
+
+    function handleDrag(event: DraggableEvent, ui: DraggableData):void {
+        event.preventDefault();
+        if(props.isMovable) {
+            props.setSelectedMapMarker(
+                {...props.mapMarker,
+                    xPosition: props.mapMarker.xPosition + ui.x,
+                    yPosition: props.mapMarker.yPosition + ui.y
+                }
+            );
+        }
     }
 
     return (
-        <div className={"mapMarkerCard"}>
-            {props.isSelected &&
-                <h2
-                    className={"mapMarkerName"}
-                    style={{
-                        position:"absolute",
-                        left: (props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * mapIconSize.xSize), /* Might depend on MapMarkerType */
-                        top: (props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - mapIconSize.ySize -10) /* Might depend on MapMarkerType */
-                }}>
+        <Draggable
+            handle="strong"
+            onDrag={handleDrag}
+        >
+            <div className={"mapMarkerCard"} style={{
+                position:"absolute",
+                left: coordinates.xPosition,
+                top: coordinates.yPosition
+            }}>
+                <h2 className={props.isSelected ? "mapMarkerNameSelected" : "mapMarkerName"}>
                     {props.mapMarker.name}
                 </h2>
-            }
-            <IconContext.Provider value={iconContextObj}>
-                <button className={props.isSelected ? "mapMarkerCardImageSelected" : "mapMarkerCardImage"}
-                     onClick={handleClick}
-                     style={{
-                         position:"absolute",
-                         left: props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition - 0.5 * mapIconSize.xSize, /* Might depend on MapMarkerType */
-                         top: props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition - 0.5 * mapIconSize.ySize   /* Might depend on MapMarkerType */
-                }}>
-                    <BsGeoAltFill />
-                </button>
-            </IconContext.Provider>
-
-            {props.isSelected &&
-                <ToolBar handleUpdateMapMarker={props.handleUpdateMapMarker}
-                         offsetMapMarkerCard={
-                                {
-                                    xSize:(0.5 * props.offsetWorldMapFrame.xOffset + props.mapMarker.xPosition),
-                                    ySize:(1.5 * props.offsetWorldMapFrame.yOffset + props.mapMarker.yPosition +5)
-                                }
-                            }
-            />}
-        </div>
+                { props.isMovable ?
+                    <strong>
+                        <MapMarkerIcon isSelected={props.isSelected} handleClick={handleClick} />
+                    </strong> :
+                    <MapMarkerIcon isSelected={props.isSelected} handleClick={handleClick} />
+                }
+                {props.isSelected &&
+                    <ToolBar
+                        handleMapMarkerUpdate={props.handleMapMarkerUpdate}
+                        handleArticleFrame={props.handleArticleFrame}
+                    />
+                }
+            </div>
+        </Draggable>
     )
 }
