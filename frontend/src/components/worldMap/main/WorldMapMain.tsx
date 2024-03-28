@@ -91,6 +91,11 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
         setAddNewMapMarker(!addNewMapMarker);
     }
 
+    function handleCloseMapMarkerForm():void {
+        setCoordinates(initialCoordinates);
+        setAddNewMapMarker(false);
+    }
+
     useEffect(():void => {
         setWorldMap(props.getWorldMap(id))
         // eslint-disable-next-line
@@ -100,6 +105,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
         <main className={"worldMapMain"}>
             <ToolBar
                 toggleAddNewMapMarker={toggleAddNewMapMarker}
+                addNewMapMarker={addNewMapMarker}
             />
             <WorldMapImage
                 worldMap={worldMap}
@@ -134,8 +140,8 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     worldMapId={worldMap.id}
                     xPosition={coordinates.xPosition}
                     yPosition={coordinates.yPosition}
-                    closeAddMapMarkerForm={() => setCoordinates(initialCoordinates)}
-                    markerTypeId={''} /* For later: When MarkerType is implemented */
+                    closeAddMapMarkerForm={handleCloseMapMarkerForm}
+                    mapMarkerTypes={props.mapMarkerTypes}
                 />
             }
             {(showMapMarkerUpdate && selectedMapMarker !== emptyMapMarker) &&
