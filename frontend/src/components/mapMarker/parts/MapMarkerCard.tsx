@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import ToolBar from "./ToolBar/ToolBar.tsx";
 import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
 import MapMarkerIcon from "./MapMarkerIcon.tsx";
+import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 
 
 type MapMarkerCardProps = {
@@ -15,6 +16,7 @@ type MapMarkerCardProps = {
     handleMapMarkerUpdate: () => void;
     handleSelectedMapMarkerChange: (mapMarker:MapMarker) => void;
     setSelectedMapMarker: (mapMarker:MapMarker) => void;
+    getMapMarkerType: (id:string) => MapMarkerType;
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
@@ -63,11 +65,19 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                         onDrag={handleDrag}
                     >
                     <strong ref={nodeRef}>
-                        <MapMarkerIcon isSelected={props.isSelected} handleClick={handleClick} />
+                        <MapMarkerIcon
+                            isSelected={props.isSelected}
+                            handleClick={handleClick}
+                            mapMarkerType={props.getMapMarkerType(props.mapMarker.markerTypeId)}
+                        />
                     </strong>
                     </Draggable>
                         :
-                    <MapMarkerIcon isSelected={props.isSelected} handleClick={handleClick} />
+                    <MapMarkerIcon
+                        isSelected={props.isSelected}
+                        handleClick={handleClick}
+                        mapMarkerType={props.getMapMarkerType(props.mapMarker.markerTypeId)}
+                    />
                 }
                 {props.isSelected &&
                     <ToolBar

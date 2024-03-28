@@ -16,11 +16,13 @@ import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
 type WorldMapMainProps = {
     getWorldMap: (id:string) => WorldMap;
 
-    getMapMarkerType: (id:string) => MapMarkerType;
     mapMarkers: MapMarker[];
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
     updateMapMarker: (mapMarker:MapMarker) => void;
     deleteMapMarker: (id:string) => void;
+
+    mapMarkerTypes: MapMarkerType[];
+    getMapMarkerType: (id:string) => MapMarkerType;
 
     articles: Article[];
     getArticleById: (id:string) => Article;
@@ -114,6 +116,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     handleMapMarkerUpdate={handleMapMarkerUpdate}
                     handleArticleFrame={handleArticleFrame}
                     setSelectedMapMarker={setSelectedMapMarker}
+                    getMapMarkerType={props.getMapMarkerType}
                 />
             })}
             {(showArticle && selectedMapMarker !== emptyMapMarker) &&
@@ -144,6 +147,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     setSelectedMapMarker={setSelectedMapMarker}
                     setChangeMapMarkerPosition={setChangeMapMarkerPosition}
                     deleteArticle={props.deleteArticle}
+                    mapMarkerTypes={props.mapMarkerTypes}
                 />
             }
         </main>

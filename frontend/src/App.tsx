@@ -34,11 +34,12 @@ export default function App():React.ReactElement {
             <Route path={"/worldmap/:id"} element={
                 <WorldMapMain
                     getWorldMap={getWorldMapById}
-                    getMapMarkerType={getMapMarkerTypeById}
                     mapMarkers={mapMarkers}
                     saveMapMarker={saveMapMarker}
                     updateMapMarker={updateMapMarker}
                     deleteMapMarker={deleteMapMarker}
+                    mapMarkerTypes={mapMarkerTypes}
+                    getMapMarkerType={getMapMarkerTypeById}
                     articles={articles}
                     getArticleById={getArticleById}
                     updateArticle={updateArticle}
