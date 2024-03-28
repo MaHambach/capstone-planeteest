@@ -1,23 +1,27 @@
-import "./AddMapMarkerType.css";
-import React, {useState} from "react";
+import {emptyMapMarkerType, MapMarkerType} from "../../../types/MapMarkerType.ts";
+import React, {useEffect, useState} from "react";
+import MapMarkerTypeIconTile from "../part/MapMarkerTypeIconTile.tsx";
 import MapMarkerTypeIconGallery from "../part/MapMarkerTypeIconGallery.tsx";
 import {mapMarkerTypeIconList} from "../../../data/MapMarkerTypeIconList.ts";
 import MapMarkerTypeColorGallery from "../part/MapMarkerTypeColorGallery.tsx";
 import {mapMarkerTypeColorList} from "../../../data/MapMarkerTypeColorList.ts";
-import MapMarkerTypeIconTile from "../part/MapMarkerTypeIconTile.tsx";
-import {emptyMapMarkerTypeDto, MapMarkerTypeDto} from "../../../types/MapMarkerTypeDto.ts";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
-type AddMapMarkerTypeProps = {
-    saveMapMarkerType: (mapMarkerTypeDto:MapMarkerTypeDto) => void;
+type UpdateMapMarkerTypeProps = {
+    updateMapMarkerType: (mapMarkerType:MapMarkerType) => void;
+    getMapMarkerType: (id:string) => MapMarkerType;
+    deleteMapMarkerType: (id:string) => void;
 }
-export default function AddMapMarkerType(props:Readonly<AddMapMarkerTypeProps>):React.ReactElement {
-    const [formData, setFormData] = useState(emptyMapMarkerTypeDto);
+export default function UpdateMapMarkerType(props:Readonly<UpdateMapMarkerTypeProps>): React.ReactElement {
+    const {id= ''} = useParams<string>();
+    const [formData, setFormData] = useState<MapMarkerType>(emptyMapMarkerType);
     const navigate = useNavigate();
+
+    useEffect(() => setFormData(props.getMapMarkerType(id)), [id, props]);
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-        props.saveMapMarkerType(formData);
+        props.updateMapMarkerType(formData);
         navigate('/mapMarkerType');
     }
 
@@ -48,6 +52,15 @@ export default function AddMapMarkerType(props:Readonly<AddMapMarkerTypeProps>):
         )
     }
 
+
+    function handleDeleteMapMarkerType(event: React.MouseEvent<HTMLElement>):void {
+        event.preventDefault();
+        if (window.confirm("Möchten Sie diesen MapMarkerType wirklich löschen?")) {
+            props.deleteMapMarkerType(formData.id);
+            navigate('/mapMarkerType');
+        }
+    }
+
     return (
         <main className={"addMapMarkerType"}>
             <div className={"addMapMarkerTypeTop"}>
@@ -62,6 +75,9 @@ export default function AddMapMarkerType(props:Readonly<AddMapMarkerTypeProps>):
                     </p>
                     <p>
                         <button onClick={() => navigate('/mapMarkerType')}>Abbrechen</button>
+                    </p>
+                    <p>
+                        <button onClick={handleDeleteMapMarkerType}>Löschen</button>
                     </p>
                 </form>
                 <div>

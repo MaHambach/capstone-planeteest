@@ -13,7 +13,7 @@ export default function MapMarkerTypeIconGallery(props:Readonly<MapMarkerTypeIco
                 return (
                     <MapMarkerTypeIconTile
                         iconName={icon}
-                        color={"#FFFFFF"}
+                        borderColor={"#FFFFFF"}
                         key={icon}
                         handleClick={props.setIcon}
                         tileSize={50}

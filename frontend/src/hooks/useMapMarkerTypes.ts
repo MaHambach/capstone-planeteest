@@ -27,6 +27,18 @@ export function useMapMarkerTypes() {
             })
     }
 
+    function updateMapMarkerType(updatedMapMarkerType: MapMarkerType):void {
+        axios.put(`/api/mapMarkerTypes/${updatedMapMarkerType.id}`, updatedMapMarkerType)
+            .then(fetchMapMarkerTypes)
+            .catch(error => {
+                if (error?.response?.status === 400) {
+                    alert('Fehler: ' + error.response.data.errorMsg);
+                } else {
+                    alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+                }
+            });
+    }
+
     function getMapMarkerTypeById(id:string):MapMarkerType {
         const mapMarkerTypeWithId:MapMarkerType[] = mapMarkerTypes.filter((mapMarkerType:MapMarkerType) => mapMarkerType.id === id)
 
@@ -48,6 +60,7 @@ export function useMapMarkerTypes() {
     return {
         mapMarkerTypes,
         saveMapMarkerType,
+        updateMapMarkerType,
         getMapMarkerTypeById,
         deleteMapMarkerType
     }

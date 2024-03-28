@@ -1,3 +1,4 @@
+import './MapMarkerTypeColorTile.css';
 import React from "react";
 
 type MapMarkerTypeColorTileProps = {
@@ -18,8 +19,6 @@ export default function MapMarkerTypeColorTile(props:Readonly<MapMarkerTypeColor
     }
 
     return (
-        <button className={"mapMarkerTypeColorTile"} style={colorTileStyle} onClick={handleClick}>
-            {props.color}
-        </button>
+        <button className={"mapMarkerTypeColorTile"} style={colorTileStyle} onClick={handleClick}/>
     );
 }

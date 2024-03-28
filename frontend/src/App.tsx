@@ -10,11 +10,12 @@ import {useMapMarkerTypes} from "./hooks/useMapMarkerTypes.ts";
 import {useArticles} from "./hooks/useArticles.ts";
 import MapMarkerTypeGallery from "./components/mapMarkerType/main/MapMarkerTypeGallery.tsx";
 import AddMapMarkerType from "./components/mapMarkerType/main/AddMapMarkerType.tsx";
+import UpdateMapMarkerType from "./components/mapMarkerType/main/UpdateMapMarkerType.tsx";
 
 export default function App():React.ReactElement {
     const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
     const {mapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
-    const {mapMarkerTypes, saveMapMarkerType, getMapMarkerTypeById} = useMapMarkerTypes();
+    const {mapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,7 +59,12 @@ export default function App():React.ReactElement {
                 <AddMapMarkerType
                     saveMapMarkerType={saveMapMarkerType}
             />}/>
-
+            <Route path={"/mapMarkerType/:id/edit"} element={
+                <UpdateMapMarkerType
+                    updateMapMarkerType={updateMapMarkerType}
+                    getMapMarkerType={getMapMarkerTypeById}
+                    deleteMapMarkerType={deleteMapMarkerType}
+            />}/>
         </Routes>
     )
 }

@@ -4,3 +4,10 @@ export type MapMarkerType = {
     icon: string,
     color: string
 }
+
+export const emptyMapMarkerType:MapMarkerType = {
+    id: '',
+    name: '',
+    icon: '',
+    color: ''
+}
