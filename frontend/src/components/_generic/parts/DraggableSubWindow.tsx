@@ -21,14 +21,16 @@ export default function DraggableSubWindow(props:Readonly<DraggableSubWindowProp
     return (
         <Draggable
             handle="strong"
+            nodeRef={nodeRef}
         >
             <div
                 className={"draggableSubWindow"}
                 style={{
-                    left:props.initialPosition.left,
-                    top:props.initialPosition.top,
-                    width:props.initialPosition.width,
-                    height:props.initialPosition.height
+                    position: "absolute",
+                    left: props.initialPosition.left,
+                    top: props.initialPosition.top,
+                    width: props.initialPosition.width,
+                    height: props.initialPosition.height
                 }}
             >
                 <HeaderDraggableFrame closeWindow={props.closeFrame} nodeRef={nodeRef} />
