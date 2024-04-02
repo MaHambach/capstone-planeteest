@@ -35,7 +35,6 @@ export const mapMarkerTypeIconList:string[] = [
     "GiAncientRuins",
     "GiAncientSword",
     "GiChessRook",
-    "GiCrystalGrowth",
     "GiDoorway",
     "GiDungeonGate",
     "GiFuji",
