@@ -16,3 +16,49 @@
     padding: 0;
     margin: 0;
 }
+
+.mapMarkerUpdateWindow .mapMarkerUpdateDiv {
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivMarkerPositionButton_changeable {
+    background-color: darkgray;
+    border-radius: 5px;
+}
+
+.mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivPadlockClosed_changeable,
+.mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivPadlockClosed,
+.mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivPadlockOpen_changeable,
+.mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivPadlockOpen {
+    height: 20px;
+    width: 20px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivPadlockClosed_changeable{
+    background-color: darkgray;
+
+}
+
+.mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivPadlockClosed{
+    background-color: lawngreen;
+}
+
+.mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivPadlockOpen_changeable{
+    background-color: lawngreen;
+
+}
+
+.mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivPadlockOpen{
+    background-color: darkgray;
+}

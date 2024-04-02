@@ -1,0 +1,40 @@
+.mapMarkerTypeGallery {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.mapMarkerTypeGallery .mapMarkerTypeGalleryTile, .mapMarkerTypeGallery .mapMarkerTypeGalleryAddTile{
+    margin: 0.5rem;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;
+    background-color: transparent;
+}
+
+.mapMarkerTypeGallery .mapMarkerTypeGalleryAddButton{
+    border: none;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+}
+
+.mapMarkerTypeGallery .mapMarkerTypeGalleryAddTile:hover {
+    box-shadow: inset 0 0 20px lawngreen;
+    border: 1px solid lawngreen;
+}
+
+.mapMarkerTypeGallery .mapMarkerTypeGalleryTile:hover {
+    box-shadow: inset 0 0 20px black;
+    border: 1px solid black;
+}

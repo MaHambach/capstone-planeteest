@@ -1,0 +1,30 @@
+.changeMapMarkerType {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 20px 0 0 0;
+}
+
+.changeMapMarkerType .changeMapMarkerTypeTitle {
+    margin: 20px 0 0 0;
+    padding: 0;
+}
+
+.changeMapMarkerType .changeMapMarkerTypeTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.changeMapMarkerType .changeMapMarkerTypeSelectionGalleries {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.changeMapMarkerType .changeMapMarkerTypeTop .addMapMarkerTypeForm .deleteButton {
+    color: red;
+}

@@ -1,0 +1,17 @@
+.mapMarkerTypeIconTile {
+    border: 1px solid black;
+    background-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 5px;
+    padding: 0;
+    transition: 0.2s;
+    width: 70px;
+    height: 70px;
+}
+
+.mapMarkerTypeIconTile:hover {
+    box-shadow: inset 0 0 20px black;
+    border: 1px solid black;
+}

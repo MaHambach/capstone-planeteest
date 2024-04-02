@@ -21,7 +21,7 @@ class MapMarkerTypeServiceTest {
     @Test
     void getAllMapMarkerTypes_whenSomething_thenSomething() {
         // Given
-        MapMarkerType mapMarkerType = new MapMarkerType("1", "name", "iconUrl");
+        MapMarkerType mapMarkerType = new MapMarkerType("1", "name", "icon", "color");
         List<MapMarkerType> expected = List.of(mapMarkerType);
 
         // When
@@ -68,7 +68,7 @@ class MapMarkerTypeServiceTest {
     void getMapMarkerTypeById_whenSuchMapMarkerType_thenReturn()  {
         // Given
         String id = "1";
-        MapMarkerType expected = new MapMarkerType("1", "name", "iconUrl");
+        MapMarkerType expected = new MapMarkerType("1", "name", "iconUrl", "color");
 
         // When
         when(mapMarkerTypeRepo.findById(id)).thenReturn(java.util.Optional.of(expected));
@@ -83,8 +83,8 @@ class MapMarkerTypeServiceTest {
     @Test
     void createMapMarkerType_whenSomething_thenCreateAndReturn() {
         // Given
-        MapMarkerType expected = new MapMarkerType("1", "name", "iconUrl");
-        MapMarkerTypeDto input = new MapMarkerTypeDto("name", "iconUrl");
+        MapMarkerType expected = new MapMarkerType("1", "name", "iconUrl", "color");
+        MapMarkerTypeDto input = new MapMarkerTypeDto("name", "iconUrl", "color");
 
         // When
         when(mapMarkerTypeRepo.save(new MapMarkerType(input))).thenReturn(expected);
@@ -98,7 +98,7 @@ class MapMarkerTypeServiceTest {
     void updateMapMarkerType_whenNoSuchMapMarkerType_thenThrow() {
         // Given
         String id = "1";
-        MapMarkerType mapMarkerType = new MapMarkerType("1", "name", "iconUrl");
+        MapMarkerType mapMarkerType = new MapMarkerType("1", "name", "iconUrl", "color");
 
         // When
         when(mapMarkerTypeRepo.existsById(id)).thenReturn(false);
@@ -114,7 +114,7 @@ class MapMarkerTypeServiceTest {
     void updateMapMarkerType_whenPathAndBodyIdDiffer_thenThrow() {
         // Given
         String id = "2";
-        MapMarkerType mapMarkerType = new MapMarkerType("1", "name", "iconUrl");
+        MapMarkerType mapMarkerType = new MapMarkerType("1", "name", "iconUrl", "color");
 
         // When
         // Then
@@ -125,8 +125,8 @@ class MapMarkerTypeServiceTest {
     @Test
     void updateMapMarkerType_whenSuchMapMarkerType_thenUpdateAndReturn() {
         // Given
-        MapMarkerType mapMarkerTypeOld = new MapMarkerType("1", "name", "iconUrl");
-        MapMarkerType expected = mapMarkerTypeOld.withName("newName").withIconUrl("newIconUrl");
+        MapMarkerType mapMarkerTypeOld = new MapMarkerType("1", "name", "iconUrl", "color");
+        MapMarkerType expected = mapMarkerTypeOld.withName("newName").withIcon("newIconUrl").withColor("newColor");
 
         // When
         when(mapMarkerTypeRepo.existsById(mapMarkerTypeOld.id())).thenReturn(true);
@@ -157,7 +157,7 @@ class MapMarkerTypeServiceTest {
     @Test
     void deleteMapMarkerTypeById_whenSuchWorld_thenDeleteAndReturnDeleted() {
         // Given
-        MapMarkerType expected = new MapMarkerType("1", "name", "iconUrl");
+        MapMarkerType expected = new MapMarkerType("1", "name", "iconUrl", "color");
 
         // When
         when(mapMarkerTypeRepo.findById(expected.id())).thenReturn(java.util.Optional.of(expected));

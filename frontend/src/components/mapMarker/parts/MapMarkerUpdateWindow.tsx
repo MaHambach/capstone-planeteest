@@ -2,9 +2,12 @@ import './MapMarkerUpdateWindow.css';
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
 import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
+import {MapMarkerType} from "../../../types/MapMarkerType.ts";
+import {GiPadlock, GiPadlockOpen} from "react-icons/gi";
 
 type MapMarkerUpdateWindowProps = {
     mapMarker: MapMarker;
+    mapMarkerTypes: MapMarkerType[];
     updateMapMarker: () => void;
     deleteMapMarker: (id:string) => void;
     closeMapMarkerCard: () => void;
@@ -60,19 +63,42 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
             }}
         >
             <form className={"mapMarkerUpdateWindow"} onSubmit={handleSubmit}>
-                <div>
-                <label htmlFor={"name"}>Name: </label>
+                <div className={"mapMarkerUpdateDiv"}>
+                    <label htmlFor={"name"}>Name: </label>
                     <input id={"name"} name={"name"}
                            type={"text"}
                            value={formData.name}
                            onChange={handleChangeInput}/>
                 </div>
-                <p><button onClick={toggleChangingPosition}>Marker verschieben</button>
-                {changingPosition &&
-                    <button onClick={toggleChangingPosition}>Abbrechen</button>
-                }</p>
-                <p><button type={"submit"}>Übernehmen</button></p>
-                <p><button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button></p>
+                <div className={"mapMarkerUpdateDiv"}>
+                    <label htmlFor={"markerTypeId"}>Typ: </label>
+                    <select id={"markerTypeId"} name={"markerTypeId"} value={formData.markerTypeId}
+                            onChange={(e:React.ChangeEvent<HTMLSelectElement>) => props.setSelectedMapMarker({...formData, markerTypeId: e.target.value})}>
+                        {props.mapMarkerTypes.map((mapMarkerType:MapMarkerType) => {
+                            return <option key={mapMarkerType.id}
+                                           value={mapMarkerType.id}>
+                                {mapMarkerType.name}
+                            </option>
+                        })}
+                    </select>
+                </div>
+                <div className={"mapMarkerUpdateDiv"}>
+                    <button
+                        className={changingPosition ?
+                            "mapMarkerPositionDivMarkerPositionButton_changeable" :
+                            "mapMarkerPositionDivMarkerPositionButton"}
+                        onClick={toggleChangingPosition}>Marker Position</button>
+                    <div
+                        className={changingPosition ?
+                            "mapMarkerPositionDivPadlockClosed_changeable" :
+                            "mapMarkerPositionDivPadlockClosed"}><GiPadlock /></div>
+                    <div
+                        className={changingPosition ?
+                            "mapMarkerPositionDivPadlockOpen_changeable" :
+                            "mapMarkerPositionDivPadlockOpen"}><GiPadlockOpen /></div>
+                </div>
+                <div className={"mapMarkerUpdateDiv"}><button type={"submit"}>Übernehmen</button></div>
+                <div className={"mapMarkerUpdateDiv"}><button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button></div>
             </form>
         </DraggableSubWindow>
     )

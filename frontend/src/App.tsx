@@ -8,12 +8,15 @@ import UpdateWorldMapForm from "./components/worldMap/main/UpdateWorldMapForm.ts
 import useMapMarkers from "./hooks/useMapMarkers.ts";
 import {useMapMarkerTypes} from "./hooks/useMapMarkerTypes.ts";
 import {useArticles} from "./hooks/useArticles.ts";
+import MapMarkerTypeGallery from "./components/mapMarkerType/main/MapMarkerTypeGallery.tsx";
+import AddMapMarkerType from "./components/mapMarkerType/main/AddMapMarkerType.tsx";
+import UpdateMapMarkerType from "./components/mapMarkerType/main/UpdateMapMarkerType.tsx";
 
 export default function App():React.ReactElement {
     const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
     const {mapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
+    const {mapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
-    const {getMapMarkerTypeById} = useMapMarkerTypes();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(fetchArticles, [mapMarkers]);
@@ -24,18 +27,19 @@ export default function App():React.ReactElement {
                 <WorldMapGallery
                     worldMaps={worldMaps}
             />}/>
-            <Route path={"/worldmap/new"} element={
+            <Route path={"/worldmap/add"} element={
                 <NewWorldMapForm
                     saveWorldMap={saveWorldMap}
             />}/>
             <Route path={"/worldmap/:id"} element={
                 <WorldMapMain
                     getWorldMap={getWorldMapById}
-                    getMapMarkerType={getMapMarkerTypeById}
                     mapMarkers={mapMarkers}
                     saveMapMarker={saveMapMarker}
                     updateMapMarker={updateMapMarker}
                     deleteMapMarker={deleteMapMarker}
+                    mapMarkerTypes={mapMarkerTypes}
+                    getMapMarkerType={getMapMarkerTypeById}
                     articles={articles}
                     getArticleById={getArticleById}
                     updateArticle={updateArticle}
@@ -48,6 +52,20 @@ export default function App():React.ReactElement {
                     getWorldMap={getWorldMapById}
             />}/>
 
+            <Route path={"/mapMarkerType"} element={
+                <MapMarkerTypeGallery
+                    mapMarkerTypes={mapMarkerTypes}
+            />}/>
+            <Route path={"/mapMarkerType/add"} element={
+                <AddMapMarkerType
+                    saveMapMarkerType={saveMapMarkerType}
+            />}/>
+            <Route path={"/mapMarkerType/:id/edit"} element={
+                <UpdateMapMarkerType
+                    updateMapMarkerType={updateMapMarkerType}
+                    getMapMarkerType={getMapMarkerTypeById}
+                    deleteMapMarkerType={deleteMapMarkerType}
+            />}/>
         </Routes>
     )
 }

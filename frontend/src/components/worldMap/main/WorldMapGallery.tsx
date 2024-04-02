@@ -14,8 +14,9 @@ export default function WorldMapGallery(props:Readonly<WorldMapGalleryProps>):Re
                 urlPrefix={"/worldmap/"}
                 tileData={props.worldMaps.map((worldMap:WorldMap) => ({id:worldMap.id, name:worldMap.name}))}
                 addNewName={"Neue Weltkarte"}
-                addNewUrl={"/worldmap/new"}
+                addNewUrl={"/worldmap/add"}
                 tileSize={220}
+                color={"#FFFFFF"}
             />
         </main>
     )
