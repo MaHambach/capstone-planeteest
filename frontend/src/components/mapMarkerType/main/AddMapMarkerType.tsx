@@ -1,4 +1,3 @@
-import "./AddMapMarkerType.css";
 import React from "react";
 import {emptyMapMarkerTypeDto, MapMarkerTypeDto} from "../../../types/MapMarkerTypeDto.ts";
 import {useNavigate} from "react-router-dom";

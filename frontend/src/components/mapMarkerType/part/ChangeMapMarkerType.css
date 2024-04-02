@@ -1,4 +1,4 @@
-.addMapMarkerType {
+.changeMapMarkerType {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,20 +7,24 @@
     margin: 20px 0 0 0;
 }
 
-.addMapMarkerType h2 {
+.changeMapMarkerType .changeMapMarkerTypeTitle {
     margin: 20px 0 0 0;
     padding: 0;
 }
 
-.addMapMarkerType .addMapMarkerTypeTop {
+.changeMapMarkerType .changeMapMarkerTypeTop {
     display: flex;
     align-items: center;
     justify-content: space-around;
     width: 100%;
 }
 
-.addMapMarkerType .addMapMarkerTypeSelectionGalleries {
+.changeMapMarkerType .changeMapMarkerTypeSelectionGalleries {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.changeMapMarkerType .changeMapMarkerTypeTop .addMapMarkerTypeForm .deleteButton {
+    color: red;
 }

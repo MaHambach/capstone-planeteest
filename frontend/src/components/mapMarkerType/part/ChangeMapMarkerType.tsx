@@ -1,3 +1,4 @@
+import "./ChangeMapMarkerType.css";
 import MapMarkerTypeIconTile from "./MapMarkerTypeIconTile.tsx";
 import MapMarkerTypeIconGallery from "./MapMarkerTypeIconGallery.tsx";
 import {mapMarkerTypeIconList} from "../../../data/MapMarkerTypeIconList.ts";
@@ -50,8 +51,8 @@ export default function ChangeMapMarkerType (props:Readonly<ChangeMapMarkerTypeP
     }
 
     return (
-        <main className={"addMapMarkerType"}>
-            <div className={"addMapMarkerTypeTop"}>
+        <main className={"changeMapMarkerType"}>
+            <div className={"changeMapMarkerTypeTop"}>
                 <form className={"addMapMarkerTypeForm"} onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor={"name"}>Name:</label>
@@ -65,11 +66,11 @@ export default function ChangeMapMarkerType (props:Readonly<ChangeMapMarkerTypeP
                         <button onClick={() => props.handleCancel()}>Abbrechen</button>
                     </p>
                     <p>
-                        {props.isDeleteAble && <button onClick={props.handleDeleteMapMarkerType}>Löschen</button>}
+                        {props.isDeleteAble && <button className={"deleteButton"} onClick={props.handleDeleteMapMarkerType}>Löschen</button>}
                     </p>
                 </form>
                 <div>
-                    <h2>Vorschau:</h2>
+                    <h2 className={"changeMapMarkerTypeTitle"}>Vorschau:</h2>
                     <MapMarkerTypeIconTile
                         iconName={formData.icon}
                         handleClick={function () {
@@ -79,7 +80,7 @@ export default function ChangeMapMarkerType (props:Readonly<ChangeMapMarkerTypeP
                     />
                 </div>
             </div>
-            <div className={"addMapMarkerTypeSelectionGalleries"}>
+            <div className={"changeMapMarkerTypeSelectionGalleries"}>
                 <div className={"addMapMarkerTypeIconGallery"}>
                     <h2>Icon: </h2>
                     <MapMarkerTypeIconGallery iconList={mapMarkerTypeIconList} setIcon={handleChangeIcon}/>

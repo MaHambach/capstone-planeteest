@@ -17,6 +17,7 @@ export default function MapMarkerTypeCard(props: Readonly<MapMarkerTypeCardProps
         <button
             className={"mapMarkerTypeGalleryTile"}
             onClick={handleClick}
+            title={props.mapMarkerType.name}
         >
             <MapMarkerTypeIcon
                 iconName={props.mapMarkerType.icon}
