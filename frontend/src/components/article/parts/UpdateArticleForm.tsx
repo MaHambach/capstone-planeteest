@@ -1,6 +1,7 @@
 import "./UpdateArticleForm.css";
 import {Article} from "../../../types/Article.ts";
 import React, {useEffect, useState} from "react";
+import RichTextEditor from "../../_generic/editor/RichTextEditor.tsx";
 
 type UpdateArticleFormProps = {
     article:Article;
@@ -19,15 +20,6 @@ export default function UpdateArticleForm(props:Readonly<UpdateArticleFormProps>
         props.setIsBeingEdited(false);
     }
 
-    function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>):void {
-        setFormData(
-            {
-                ...formData,
-                content: event.target.value
-            }
-        )
-    }
-
     function cancelUpdate():void {
         props.setIsBeingEdited(false);
     }
@@ -38,11 +30,7 @@ export default function UpdateArticleForm(props:Readonly<UpdateArticleFormProps>
 
     return (
         <form className={"updateArticleForm"} onSubmit={handleSubmit}>
-            <textarea
-                className={"contentInput"}
-                value={formData.content}
-                onChange={handleChange}
-            />
+            <RichTextEditor />
             <div className={"buttons"}>
                 <button className={"saveButton"} type={"submit"}>Speichern</button>
                 <button className={"cancelButton"} onClick={cancelUpdate}>Abbrechen</button>
