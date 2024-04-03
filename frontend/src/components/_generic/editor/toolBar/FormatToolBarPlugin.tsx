@@ -6,7 +6,7 @@ type FormatPluginProps = {
     editor: Editor | null;
 }
 
-export default function FormatPlugin({editor}:Readonly<FormatPluginProps>):React.ReactElement {
+export default function FormatToolBarPlugin({editor}:Readonly<FormatPluginProps>):React.ReactElement {
 
     if (!editor) {
         return <h2>Loading...</h2>

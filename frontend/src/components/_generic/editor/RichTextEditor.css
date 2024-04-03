@@ -3,6 +3,7 @@
     padding: 0 10px;
     overflow: scroll;
     overflow-x: hidden;
+    height: 90%;
 }
 
 .richTextEditor > * + * {
@@ -21,6 +22,12 @@
 .richTextEditor h5,
 .richTextEditor h6 {
     line-height: 1.1;
+    margin: 0.5em 0;
+}
+
+.richTextEditor p {
+    margin: 0.5rem 0;
+    padding: 0;
 }
 
 .richTextEditor code {

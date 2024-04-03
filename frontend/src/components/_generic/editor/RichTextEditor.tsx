@@ -29,12 +29,18 @@ const extensions = [
 
 type RichTextEditorProps = {
     content: string;
+    setContent: (content:string) => void;
 }
 export default function RichTextEditor(props:Readonly<RichTextEditorProps>):React.ReactElement{
+
     const editor = useEditor(
         {
             extensions: extensions,
-            content: props.content
+            content: props.content,
+            onUpdate: ({ editor }) => {
+                const html = editor.getHTML();
+                props.setContent(html);
+            }
         }
     )
 

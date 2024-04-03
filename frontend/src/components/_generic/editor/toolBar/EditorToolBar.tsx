@@ -7,11 +7,10 @@ import {
     FaListUl,
     FaParagraph,
     FaQuoteLeft,
-    FaRedo,
     FaRulerHorizontal,
-    FaUndo,
 } from "react-icons/fa";
-import FormatPlugin from "./FormatPlugin.tsx";
+import FormatToolBarPlugin from "./FormatToolBarPlugin.tsx";
+import UndoRedoToolbarPlugin from "./UndoRedoToolbarPlugin.tsx";
 
 
 type EditorToolBarProps = {
@@ -25,7 +24,8 @@ export default function EditorToolBar({editor}:Readonly<EditorToolBarProps>):Rea
 
     return (
         <div className={"editorToolBar"}>
-            <FormatPlugin editor={editor}/>
+            <UndoRedoToolbarPlugin editor={editor} />
+            <FormatToolBarPlugin editor={editor}/>
             <button
                 className={(editor.isActive('bold') ? 'editorToolBarButton is-active' : 'editorToolBarButton')}
                 onClick={(event:React.MouseEvent) => {
@@ -150,38 +150,7 @@ export default function EditorToolBar({editor}:Readonly<EditorToolBarProps>):Rea
             }}>
                 <FaRulerHorizontal />
             </button>
-            <button
-                className={"editorToolBarButton"}
-                onClick={(event:React.MouseEvent) => {
-                    event.preventDefault();
-                    editor.chain().focus().undo().run()
-                }}
-                disabled={
-                    !editor.can()
-                        .chain()
-                        .focus()
-                        .undo()
-                        .run()
-                }
-            >
-                <FaUndo />
-            </button>
-            <button
-                className={"editorToolBarButton"}
-                onClick={(event:React.MouseEvent) => {
-                    event.preventDefault();
-                    editor.chain().focus().redo().run()
-                }}
-                disabled={
-                    !editor.can()
-                        .chain()
-                        .focus()
-                        .redo()
-                        .run()
-                }
-            >
-                <FaRedo />
-            </button>
+
         </div>
     )
 }

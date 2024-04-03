@@ -1,13 +1,6 @@
 .articleCard {
     display: flex;
     flex-direction: column;
-    height: 95%;
-    padding-top: 10px;
-    overflow: scroll;
+    height: 100%;
     overflow-x: hidden;
-}
-
-.articleCard .articleContent {
-    flex: 1;
-    white-space: pre-wrap;
 }

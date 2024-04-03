@@ -13,6 +13,10 @@ type UpdateArticleFormProps = {
 export default function UpdateArticleForm(props:Readonly<UpdateArticleFormProps>):React.ReactElement {
     const [formData, setFormData] = useState<Article>(props.article);
 
+    function setContent(content:string):void {
+        setFormData({...formData, content: content});
+    }
+
     function handleSubmit(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault();
         props.updateArticle(formData);
@@ -30,7 +34,7 @@ export default function UpdateArticleForm(props:Readonly<UpdateArticleFormProps>
 
     return (
         <form className={"updateArticleForm"} onSubmit={handleSubmit}>
-            <RichTextEditor content={props.article.content}/>
+            <RichTextEditor content={props.article.content} setContent={setContent}/>
             <div className={"buttons"}>
                 <button className={"saveButton"} type={"submit"}>Speichern</button>
                 <button className={"cancelButton"} onClick={cancelUpdate}>Abbrechen</button>
