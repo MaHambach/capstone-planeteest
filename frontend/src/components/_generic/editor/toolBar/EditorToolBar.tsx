@@ -1,24 +1,23 @@
-import {useEditor} from "@tiptap/react";
+import './EditorToolBar.css';
+import {Editor} from "@tiptap/react";
 import React from "react";
 import {
-    FaCode,
+    FaCode, FaEraser,
     FaListOl,
-    FaListUl, FaParagraph,
+    FaListUl,
+    FaParagraph,
     FaQuoteLeft,
+    FaRedo,
     FaRulerHorizontal,
+    FaUndo,
 } from "react-icons/fa";
-import StarterKit from "@tiptap/starter-kit";
-import Underline from '@tiptap/extension-underline'
+import FormatPlugin from "./FormatPlugin.tsx";
 
-export default function EditorToolBar():React.ReactElement {
-    const editor = useEditor({
-        extensions: [StarterKit, Document, Paragraph, Text, Underline],
-        content: `
-        <p>There is no underline here.</p>
-        <p><u>This is underlined though.</u></p>
-        <p style="text-decoration: underline">And this as well.</p>
-      `,
-    })
+
+type EditorToolBarProps = {
+    editor: Editor | null;
+}
+export default function EditorToolBar({editor}:Readonly<EditorToolBarProps>):React.ReactElement {
 
     if (!editor) {
         return <h2>Loading...</h2>
@@ -26,7 +25,9 @@ export default function EditorToolBar():React.ReactElement {
 
     return (
         <div className={"editorToolBar"}>
+            <FormatPlugin editor={editor}/>
             <button
+                className={(editor.isActive('bold') ? 'editorToolBarButton is-active' : 'editorToolBarButton')}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleCode().run()
@@ -38,126 +39,119 @@ export default function EditorToolBar():React.ReactElement {
                         .toggleCode()
                         .run()
                 }
-                className={editor.isActive('code') ? 'is-active' : ''}
             >
                 <FaCode />
             </button>
-            <button onClick={(event:React.MouseEvent) => {
+            <button
+                className={"editorToolBarButton"}
+                onClick={(event:React.MouseEvent) => {
                 event.preventDefault();
                 editor.chain().focus().unsetAllMarks().run()
-            }}>
-                clear marks
-            </button>
-            <button onClick={(event:React.MouseEvent) => {
-                event.preventDefault();
                 editor.chain().focus().clearNodes().run()
             }}>
-                clear nodes
+                <FaEraser />
             </button>
             <button
+                className={editor.isActive('paragraph') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().setParagraph().run();
                 }}
-                className={editor.isActive('paragraph') ? 'is-active' : ''}
             >
                 <FaParagraph />
             </button>
             <button
+                className={editor.isActive('heading', { level: 1 }) ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleHeading({ level: 1 }).run()
                 }}
-                className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
             >
                 h1
             </button>
             <button
+                className={editor.isActive('heading', { level: 2 }) ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleHeading({ level: 2 }).run()}}
-                className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
             >
                 h2
             </button>
             <button
+                className={editor.isActive('heading', { level: 3 }) ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleHeading({ level: 3 }).run()}}
-                className={editor.isActive('heading', { level: 3 }) ? 'is-active' : ''}
             >
                 h3
             </button>
             <button
+                className={editor.isActive('heading', { level: 4 }) ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleHeading({ level: 4 }).run()}}
-                className={editor.isActive('heading', { level: 4 }) ? 'is-active' : ''}
             >
                 h4
             </button>
             <button
+                className={editor.isActive('heading', { level: 5 }) ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleHeading({ level: 5 }).run()}}
-                className={editor.isActive('heading', { level: 5 }) ? 'is-active' : ''}
             >
                 h5
             </button>
             <button
+                className={editor.isActive('heading', { level: 6 }) ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleHeading({ level: 6 }).run()}}
-                className={editor.isActive('heading', { level: 6 }) ? 'is-active' : ''}
             >
                 h6
             </button>
             <button
+                className={editor.isActive('bulletList') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleBulletList().run()}}
-                className={editor.isActive('bulletList') ? 'is-active' : ''}
             >
                 <FaListUl />
             </button>
             <button
+                className={editor.isActive("orderedList") ? "editorToolBarButton is-active" : "editorToolBarButton"}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleOrderedList().run()}}
-                className={editor.isActive('orderedList') ? 'is-active' : ''}
             >
                 <FaListOl />
             </button>
             <button
+                className={editor.isActive('codeBlock') ? "editorToolBarButton is-active" : "editorToolBarButton"}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleCodeBlock().run()}}
-                className={editor.isActive('codeBlock') ? 'is-active' : ''}
             >
                 <FaCode />
             </button>
             <button
+                className={editor.isActive('blockquote') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleBlockquote().run()
                 }}
-                className={editor.isActive('blockquote') ? 'is-active' : ''}
             >
                 <FaQuoteLeft />
             </button>
-            <button onClick={(event:React.MouseEvent) => {
+            <button
+                className={"editorToolBarButton"}
+                onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().setHorizontalRule().run()
             }}>
                 <FaRulerHorizontal />
             </button>
-            <button onClick={(event:React.MouseEvent) => {
-                    event.preventDefault();
-                    editor.chain().focus().setHardBreak().run()
-            }}>
-                hard break
-            </button>
             <button
+                className={"editorToolBarButton"}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().undo().run()
@@ -170,9 +164,10 @@ export default function EditorToolBar():React.ReactElement {
                         .run()
                 }
             >
-                undo
+                <FaUndo />
             </button>
             <button
+                className={"editorToolBarButton"}
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().redo().run()
@@ -185,16 +180,7 @@ export default function EditorToolBar():React.ReactElement {
                         .run()
                 }
             >
-                redo
-            </button>
-            <button
-                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                    event.preventDefault();
-                    editor.chain().focus().setColor('#958DF1').run();
-                }}
-                className={editor.isActive('textStyle', { color: '#958DF1' }) ? 'is-active' : ''}
-            >
-                purple
+                <FaRedo />
             </button>
         </div>
     )

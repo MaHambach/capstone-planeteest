@@ -1,0 +1,16 @@
+.editorToolBar {
+    position: sticky;
+    display: flex;
+    justify-content: space-between;
+}
+
+.editorToolBar .editorToolBarButton {
+    margin-right: 0;
+    text-align: center;
+}
+
+.editorToolBar .is-active {
+
+    background-color: #616161;
+}
+

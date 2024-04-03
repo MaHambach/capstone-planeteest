@@ -1,36 +1,44 @@
 /* Basic editor styles */
-.tiptap {}
-.tiptap > * + * {
+.richTextEditor {
+    padding: 0 10px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.richTextEditor > * + * {
     margin-top: 0.75em;
 }
 
-.tiptap ul,
-.tiptap ol {
+.richTextEditor ul,
+.richTextEditor ol {
     padding: 0 1rem;
 }
 
-.tiptap h1,
-.tiptap h2,
-.tiptap h3,
-.tiptap h4,
-.tiptap h5,
-.tiptap h6 {
+.richTextEditor h1,
+.richTextEditor h2,
+.richTextEditor h3,
+.richTextEditor h4,
+.richTextEditor h5,
+.richTextEditor h6 {
     line-height: 1.1;
 }
 
-.tiptap code {
-    background-color: rgba(#616161, 0.1);
-    color: #616161;
+.richTextEditor code {
+    background-color: #e3e3e3;
+    color: #000000;
+    border: 1px solid #ffffff;
+    border-radius: 0.4rem;
+    padding: 0 0.25rem;
 }
 
-.tiptap pre {
+.richTextEditor pre {
     background: #0D0D0D;
     color: #FFF;
     font-family: 'JetBrainsMono', monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
 }
-.tiptap pre code {
+.richTextEditor pre code {
     color: inherit;
     padding: 0;
     background: none;
@@ -38,22 +46,20 @@
 }
 
 
-.tiptap img {
+.richTextEditor img {
     max-width: 100%;
     height: auto;
 }
 
-.tiptap blockquote {
+.richTextEditor blockquote {
+    margin-left: 1rem;
     padding-left: 1rem;
-    border-left: 2px solid rgba();
+    border-left: 2px solid #800080;
+    background-color: #80008011;
 }
 
-.tiptap hr {
+.richTextEditor hr {
     border: none;
-    border-top: 2px solid rgba(#0D0D0D, 0.1);
-    margin: 2rem 0;
-}
-
-.tiptap .is-active {
-    background-color: #616161;
+    border-top: 2px solid #000000;
+    margin: 1rem 0;
 }

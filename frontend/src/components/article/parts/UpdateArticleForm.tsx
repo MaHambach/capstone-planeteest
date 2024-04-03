@@ -30,7 +30,7 @@ export default function UpdateArticleForm(props:Readonly<UpdateArticleFormProps>
 
     return (
         <form className={"updateArticleForm"} onSubmit={handleSubmit}>
-            <RichTextEditor />
+            <RichTextEditor content={props.article.content}/>
             <div className={"buttons"}>
                 <button className={"saveButton"} type={"submit"}>Speichern</button>
                 <button className={"cancelButton"} onClick={cancelUpdate}>Abbrechen</button>

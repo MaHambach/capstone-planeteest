@@ -5,7 +5,9 @@ import {Editor} from "@tiptap/react";
 type FormatPluginProps = {
     editor: Editor | null;
 }
-export default function FormatPlugin({editor}: Readonly<FormatPluginProps>):React.ReactElement {
+
+export default function FormatPlugin({editor}:Readonly<FormatPluginProps>):React.ReactElement {
+
     if (!editor) {
         return <h2>Loading...</h2>
     }
@@ -24,7 +26,7 @@ export default function FormatPlugin({editor}: Readonly<FormatPluginProps>):Reac
                         .toggleBold()
                         .run()
                 }
-                className={editor.isActive('bold') ? 'is-active' : ''}
+                className={editor.isActive('bold') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
             >
                 <FaBold/>
             </button>
@@ -40,7 +42,7 @@ export default function FormatPlugin({editor}: Readonly<FormatPluginProps>):Reac
                         .toggleItalic()
                         .run()
                 }
-                className={editor.isActive('italic') ? 'is-active' : ''}
+                className={editor.isActive('italic') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
             >
                 <FaItalic/>
             </button>
@@ -56,7 +58,7 @@ export default function FormatPlugin({editor}: Readonly<FormatPluginProps>):Reac
                         .toggleUnderline()
                         .run()
                 }
-                className={editor.isActive('italic') ? 'is-active' : ''}
+                className={editor.isActive('underline') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
             >
                 <FaUnderline/>
             </button>
@@ -72,7 +74,7 @@ export default function FormatPlugin({editor}: Readonly<FormatPluginProps>):Reac
                         .toggleStrike()
                         .run()
                 }
-                className={editor.isActive('strike') ? 'is-active' : ''}
+                className={editor.isActive('strike') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
             >
                 <FaStrikethrough/>
             </button>
