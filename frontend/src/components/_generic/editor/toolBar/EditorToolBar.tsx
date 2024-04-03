@@ -1,4 +1,4 @@
-import {useCurrentEditor} from "@tiptap/react";
+import {useEditor} from "@tiptap/react";
 import React from "react";
 import {
     FaCode,
@@ -7,10 +7,18 @@ import {
     FaQuoteLeft,
     FaRulerHorizontal,
 } from "react-icons/fa";
-import FormatPlugin from "./FormatPlugin.tsx";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from '@tiptap/extension-underline'
 
 export default function EditorToolBar():React.ReactElement {
-    const { editor } = useCurrentEditor()
+    const editor = useEditor({
+        extensions: [StarterKit, Document, Paragraph, Text, Underline],
+        content: `
+        <p>There is no underline here.</p>
+        <p><u>This is underlined though.</u></p>
+        <p style="text-decoration: underline">And this as well.</p>
+      `,
+    })
 
     if (!editor) {
         return <h2>Loading...</h2>
@@ -18,7 +26,6 @@ export default function EditorToolBar():React.ReactElement {
 
     return (
         <div className={"editorToolBar"}>
-            <FormatPlugin editor={editor} />
             <button
                 onClick={(event:React.MouseEvent) => {
                     event.preventDefault();
