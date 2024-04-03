@@ -47,7 +47,9 @@ export default function RichTextEditor(props:Readonly<RichTextEditorProps>):Reac
     return (
         <div className={"richTextEditor"}>
             <EditorToolBar editor={editor}/>
-            <EditorContent editor={editor} />
+            <div className={"textWindow"}>
+                <EditorContent editor={editor} />
+            </div>
         </div>
     )
 }
