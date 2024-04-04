@@ -1,5 +1,6 @@
 package com.github.mahambach.backend.security;
 
+import com.github.mahambach.backend.model.AppUserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -25,9 +26,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
-                        .requestMatchers("/api/auth/me").authenticated()
-                        .requestMatchers("/api/secured").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/mapMarkerTypes").hasRole(AppUserRole.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/mapMarkerTypes/*").hasRole(AppUserRole.ADMIN.name())
+                        .requestMatchers(HttpMethod.DELETE, "/api/mapMarkerTypes/*").hasRole(AppUserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout.logoutUrl("/api/users/logout")
