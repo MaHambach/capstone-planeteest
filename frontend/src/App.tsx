@@ -19,10 +19,13 @@ export default function App():React.ReactElement {
     const {mapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
-    const {loginAppUser, registerAppUser} = useAppUser();
+    const {appUser, fetchMe, loginAppUser, registerAppUser} = useAppUser();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(fetchArticles, [mapMarkers]);
+    useEffect(() => {
+        fetchArticles();
+        fetchMe();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mapMarkers]);
 
     return (
         <Routes>

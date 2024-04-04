@@ -1,7 +1,24 @@
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import {useState} from "react";
+import {AppUser} from "../types/AppUser.ts";
 
 
 export function useAppUser() {
+    const [appUser, setAppUser] = useState<AppUser | null | undefined>(undefined);
+
+    const navigate = useNavigate();
+
+    function fetchMe() {
+        axios.get("/api/users/me")
+            .then(response => {
+                setAppUser(response.data);
+            })
+            .catch(e => {
+                console.error(e)
+            });
+    }
+
     function loginAppUser(username:string, password:string):void {
         axios.post("/api/users/login", {}, {
             auth: {
@@ -11,9 +28,12 @@ export function useAppUser() {
         })
             .then(() => {
                 console.log("Login successful");
+                fetchMe();
+                navigate("/");
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
+                setAppUser(null);
             });
     }
 
@@ -24,6 +44,7 @@ export function useAppUser() {
         })
             .then(() => {
                 console.log("User registered successfully")
+                navigate("/");
             })
             .catch(e => {
                 console.error(e)
@@ -34,13 +55,19 @@ export function useAppUser() {
         axios.post("/api/users/logout")
             .then(() => {
                 console.log("User logged out successfully")
+                navigate("/");
             })
             .catch(e => {
                 console.error(e)
+            })
+            .finally(() => {
+                    setAppUser(null);
             });
     }
 
     return {
+        appUser,
+        fetchMe,
         loginAppUser,
         registerAppUser,
         logoutAppUser

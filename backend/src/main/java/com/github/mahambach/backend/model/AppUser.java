@@ -9,7 +9,6 @@ public record AppUser(
         AppUserRole role,
         String username,
         String password
-
 ) {
     public AppUser(AppUserRegister appUserRegister) {
         this(null, AppUserRole.USER, appUserRegister.username(), appUserRegister.password());

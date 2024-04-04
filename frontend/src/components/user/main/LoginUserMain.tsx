@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {emptyAppUserDto} from "../../../types/AppUserDto.ts";
+import {emptyAppUserDto} from "../../../types/AppUserRegister.ts";
 
 type LoginUserMainProps = {
     loginAppUser: (username:string, password:string) => void;
