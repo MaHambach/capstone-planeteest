@@ -12,12 +12,14 @@ import MapMarkerTypeGallery from "./components/mapMarkerType/main/MapMarkerTypeG
 import AddMapMarkerType from "./components/mapMarkerType/main/AddMapMarkerType.tsx";
 import UpdateMapMarkerType from "./components/mapMarkerType/main/UpdateMapMarkerType.tsx";
 import LoginUserMain from "./components/user/main/LoginUserMain.tsx";
+import {useAppUser} from "./hooks/useAppUser.ts";
 
 export default function App():React.ReactElement {
     const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
     const {mapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
+    const {loginAppUser, registerAppUser} = useAppUser();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(fetchArticles, [mapMarkers]);
@@ -25,7 +27,7 @@ export default function App():React.ReactElement {
     return (
         <Routes>
             <Route path={"/login"} element={
-                <LoginUserMain />
+                <LoginUserMain loginAppUser={loginAppUser} registerAppUser={registerAppUser}/>
             }/>
             <Route path="/" element={
                 <WorldMapGallery

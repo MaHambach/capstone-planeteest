@@ -1,36 +1,44 @@
-import RegisterUserForm from "../parts/RegisterUserForm.tsx";
-import LoginUserForm from "../parts/LoginUserForm.tsx";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {emptyAppUserDto} from "../../../types/AppUserDto.ts";
 
-export default function LoginUserMain():React.ReactElement {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+type LoginUserMainProps = {
+    loginAppUser: (username:string, password:string) => void;
+    registerAppUser: (username:string, password:string) => void;
+}
 
-    const alreadyRegistered:boolean = false;
+export default function LoginUserMain(props:Readonly<LoginUserMainProps>):React.ReactElement {
+    const [appUserDto, setAppUserDto] = useState(emptyAppUserDto);
 
     const navigate = useNavigate();
 
-    function handleChangeUsername(event: React.ChangeEvent<HTMLInputElement>):void {
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>):void {
         event.preventDefault()
-        setUsername(event.target.value);
+        setAppUserDto({...appUserDto, [event.target.name]: event.target.value});
     }
 
-    function handleChangePassword(event: React.ChangeEvent<HTMLInputElement>):void {
+    function handleLogin(event: React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault()
-        setPassword(event.target.value);
+        props.loginAppUser(appUserDto.username, appUserDto.password);
+        navigate("/");
+    }
+
+    function handleRegister(event: React.MouseEvent<HTMLButtonElement>):void {
+        event.preventDefault()
+        props.registerAppUser(appUserDto.username, appUserDto.password);
+        navigate("/");
     }
 
     return (
-        <main>
-            {alreadyRegistered ?
-                <LoginUserForm handleChangeUsername={handleChangeUsername}
-                               handleChangePassword={handleChangePassword}
-                />
-                :
-                <RegisterUserForm handleChangeUsername={handleChangeUsername}
-                                  handleChangePassword={handleChangePassword}
-                /> }
+        <main className={"loginUserMain"}>
+            <form className={"inputFormForm"}>
+                <input placeholder={"Username"} value={"username"} onChange={handleChange}/>
+                <input placeholder={"Password"} value={"password"} onChange={handleChange}/>
+                <div>
+                    <button onClick={handleLogin}>Login</button>
+                    <button onClick={handleRegister}>Register</button>
+                </div>
+            </form>
         </main>
     );
 }
