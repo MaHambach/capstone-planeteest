@@ -1,7 +1,8 @@
 package com.github.mahambach.backend.controller;
 
 import com.github.mahambach.backend.model.AppUser;
-import com.github.mahambach.backend.model.AppUserDto;
+import com.github.mahambach.backend.model.AppUserRegister;
+import com.github.mahambach.backend.model.AppUserResponse;
 import com.github.mahambach.backend.service.AppUserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -16,14 +17,14 @@ public class AppUserController {
     private final AppUserService appUserService;
 
     @GetMapping("/{username}")
-    public AppUser getAppUserByUsername(@PathVariable String username) {
+    public AppUserResponse getAppUserByUsername(@PathVariable String username) {
         return appUserService.findAppUserByUsername(username);
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public AppUserDto createAppUser(@RequestBody AppUserDto appUserDto) {
-        return appUserService.createAppUser(appUserDto);
+    public AppUserResponse createAppUser(@RequestBody AppUserRegister appUserRegister) {
+        return appUserService.createAppUser(appUserRegister);
     }
 
     @PostMapping("/login")

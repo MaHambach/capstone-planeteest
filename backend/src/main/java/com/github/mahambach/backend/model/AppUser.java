@@ -11,7 +11,7 @@ public record AppUser(
         String password
 
 ) {
-    public AppUser(AppUserDto appUserDto) {
-        this(null, appUserDto.role(), appUserDto.username(), appUserDto.password());
+    public AppUser(AppUserRegister appUserRegister) {
+        this(null, AppUserRole.USER, appUserRegister.username(), appUserRegister.password());
     }
 }
