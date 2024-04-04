@@ -1,6 +1,5 @@
 package com.github.mahambach.backend.controller;
 
-import com.github.mahambach.backend.model.AppUser;
 import com.github.mahambach.backend.model.AppUserRegister;
 import com.github.mahambach.backend.model.AppUserResponse;
 import com.github.mahambach.backend.service.AppUserService;
