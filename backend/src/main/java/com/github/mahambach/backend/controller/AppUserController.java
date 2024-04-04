@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,9 +17,10 @@ import org.springframework.web.bind.annotation.*;
 public class AppUserController {
     private final AppUserService appUserService;
 
-    @GetMapping("/{username}")
-    public AppUserResponse getAppUserByUsername(@PathVariable String username) {
-        return appUserService.findAppUserByUsername(username);
+    @GetMapping("/me")
+    public AppUserResponse getAppUserByUsername() {
+        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return appUserService.findAppUserByUsername(principal.getUsername());
     }
 
     @PostMapping("/register")

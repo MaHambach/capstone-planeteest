@@ -5,18 +5,24 @@ import com.github.mahambach.backend.model.AppUserRegister;
 import com.github.mahambach.backend.model.AppUserResponse;
 import com.github.mahambach.backend.repository.AppUserRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class AppUserService {
     private final AppUserRepo appUserRepo;
+    private final PasswordEncoder passwordEncoder;
 
     public AppUserResponse findAppUserByUsername(String username) {
-        return new AppUserResponse(appUserRepo.findAppUserByUsername(username).orElseThrow(() -> new RuntimeException("User not found")));
+        AppUser appUser= appUserRepo.findAppUserByUsername(username)
+                                     .orElseThrow(() -> new RuntimeException("User not found"));
+        return new AppUserResponse(appUser);
     }
 
     public AppUserResponse createAppUser(AppUserRegister appUserRegister) {
-        return new AppUserResponse(appUserRepo.save(new AppUser(appUserRegister)));
+        String password = passwordEncoder.encode(appUserRegister.password());
+        AppUser newAppUser = appUserRepo.save(new AppUser(appUserRegister).withPassword(password));
+        return new AppUserResponse(newAppUser);
     }
 }
