@@ -18,7 +18,7 @@ public class AppUserController {
         return appUserService.findAppUserByUsername(username);
     }
 
-    @PostMapping
+    @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public AppUserDto createAppUser(@RequestBody AppUserDto appUserDto) {
         return appUserService.createAppUser(appUserDto);

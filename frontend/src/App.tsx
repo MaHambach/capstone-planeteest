@@ -11,6 +11,7 @@ import {useArticles} from "./hooks/useArticles.ts";
 import MapMarkerTypeGallery from "./components/mapMarkerType/main/MapMarkerTypeGallery.tsx";
 import AddMapMarkerType from "./components/mapMarkerType/main/AddMapMarkerType.tsx";
 import UpdateMapMarkerType from "./components/mapMarkerType/main/UpdateMapMarkerType.tsx";
+import LoginUserMain from "./components/user/main/LoginUserMain.tsx";
 
 export default function App():React.ReactElement {
     const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
@@ -23,6 +24,9 @@ export default function App():React.ReactElement {
 
     return (
         <Routes>
+            <Route path={"/login"} element={
+                <LoginUserMain />
+            }/>
             <Route path="/" element={
                 <WorldMapGallery
                     worldMaps={worldMaps}
