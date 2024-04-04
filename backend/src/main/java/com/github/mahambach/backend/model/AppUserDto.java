@@ -5,11 +5,11 @@ import org.springframework.data.annotation.Id;
 
 @With
 public record AppUserDto(
-        String gitHubId,
+        AppUserRole role,
         String username,
         String password
 ) {
     public AppUserDto(AppUser appUser) {
-        this(appUser.gitHubId(), appUser.username(), appUser.password());
+        this(appUser.role(), appUser.username(), appUser.password());
     }
 }
