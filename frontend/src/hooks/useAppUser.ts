@@ -54,7 +54,7 @@ export function useAppUser() {
         axios.post("/api/users/logout")
             .then(() => {
                 console.log("User logged out successfully")
-                navigate("/");
+                navigate("/login");
             })
             .catch(e => {
                 console.error(e)

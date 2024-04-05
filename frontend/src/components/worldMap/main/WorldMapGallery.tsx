@@ -8,11 +8,13 @@ import {AppUser} from "../../../types/AppUser.ts";
 type WorldMapGalleryProps = {
     appUser: AppUser;
     worldMaps: WorldMap[];
+    logoutAppUser: () => void;
 }
 export default function WorldMapGallery(props:Readonly<WorldMapGalleryProps>):React.ReactElement {
 
     return (
         <main className={"worldMapGallery"}>
+            <button onClick={props.logoutAppUser}>Logout</button>
             <h2>Meine Weltkarten</h2>
             <DisplayTileGallery
                 urlPrefix={"/worldmap/"}

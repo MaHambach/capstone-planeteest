@@ -15,7 +15,7 @@ import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
 
 type WorldMapMainProps = {
-    appUser: AppUser | null | undefined;
+    appUser: AppUser;
 
     getWorldMap: (id:string) => WorldMap;
 
@@ -114,7 +114,10 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                 worldMap={worldMap}
                 handleWorldMapClick={handleWorldMapClick}
             />
-            {props.mapMarkers.filter((mapMarker:MapMarker) => mapMarker.worldMapId === id).map((mapMarker:MapMarker) => {
+            {props.mapMarkers
+                .filter((mapMarker:MapMarker) => mapMarker.worldMapId === id)
+                .filter((mapMarker:MapMarker) => props.appUser.myWorldMapIds.includes(worldMap.id) || mapMarker.visibility === "OWNER_AND_OBSERVERS")
+                .map((mapMarker:MapMarker) => {
                 return <MapMarkerCard
                     key={mapMarker.id}
                     mapMarker={mapMarker}
