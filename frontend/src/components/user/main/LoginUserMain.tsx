@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {AppUserRegister, emptyAppUserRegister} from "../../../types/AppUserRegister.ts";
 
 type LoginUserMainProps = {
-    loginAppUser: (username:string, password:string) => void;
+    loginAppUser: (appUserRegister:AppUserRegister) => void;
     registerAppUser: (appUserRegister:AppUserRegister) => void;
 }
 
@@ -24,7 +24,7 @@ export default function LoginUserMain(props:Readonly<LoginUserMainProps>):React.
 
     function handleLogin(event: React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault()
-        props.loginAppUser(formData.username, formData.password);
+        props.loginAppUser(formData);
         navigate("/");
     }
 

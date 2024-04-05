@@ -20,21 +20,20 @@ export function useAppUser() {
             });
     }
 
-    function loginAppUser(username:string, password:string):void {
+    function loginAppUser(appUserRegister:AppUserRegister):void {
         axios.post("/api/users/login", {}, {
-            auth: {
-                username: username,
-                password: password
-            }
+            auth: appUserRegister
         })
             .then(() => {
                 console.log("Login successful");
                 fetchMe();
-                navigate("/");
             })
             .catch(e => {
                 console.error(e);
                 setAppUser(null);
+            })
+            .finally(() => {
+                    navigate("/")
             });
     }
 
@@ -45,6 +44,9 @@ export function useAppUser() {
             })
             .catch(e => {
                 console.error(e);
+            })
+            .finally(() => {
+                loginAppUser(appUserRegister);
             });
     }
 
