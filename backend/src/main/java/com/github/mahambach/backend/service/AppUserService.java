@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AppUserService {
@@ -36,21 +39,31 @@ public class AppUserService {
             throw new MissMatchingIdsAppUserException(appUserId, appUser.id());
         }
 
-        AppUser updatedAppUser = appUser.withMyWorldMapIds(appUserResponse.myWorldMapIds())
-                                        .withObservedWorldMapIds(appUserResponse.observedWorldMapIds());
+        AppUser updatedAppUser = new AppUser(appUserResponse).withPassword(appUser.password());
 
-        return new AppUserResponse(appUserRepo.save(updatedAppUser));
+        updatedAppUser = appUserRepo.save(updatedAppUser);
+
+        return new AppUserResponse(updatedAppUser);
     }
 
     public AppUserResponse addMyWorldMapAppUser(String username, String appUserId, String worldMapId) {
         AppUserResponse appUserResponse = findAppUserByUsername(username);
 
-        return updateAppUser(username, appUserId, appUserResponse.addMyWorldMapId(worldMapId));
+        List<String> newMyWorldMapIds = new ArrayList<>(appUserResponse.observedWorldMapIds());
+
+        newMyWorldMapIds.add(worldMapId);
+
+        appUserResponse = appUserResponse.withMyWorldMapIds(newMyWorldMapIds);
+
+        return updateAppUser(username, appUserId, appUserResponse);
     }
 
     public AppUserResponse addObservedWorldMapAppUser(String username, String appUserId, String worldMapId) {
         AppUserResponse appUserResponse = findAppUserByUsername(username);
+        List<String> newObservedWorldMapIds = new ArrayList<>(appUserResponse.observedWorldMapIds());
+        newObservedWorldMapIds.add(worldMapId);
+        appUserResponse = appUserResponse.withObservedWorldMapIds(newObservedWorldMapIds);
 
-        return updateAppUser(username, appUserId, appUserResponse.addObservedWorldMapId(worldMapId));
+        return updateAppUser(username, appUserId, appUserResponse);
     }
 }

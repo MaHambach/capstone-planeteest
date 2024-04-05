@@ -7,6 +7,7 @@ import com.github.mahambach.backend.repository.MapMarkerRepo;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -58,7 +59,7 @@ class MapMarkerServiceTest {
         String id = "1";
 
         // When
-        when(mapMarkerRepo.findById(id)).thenReturn(java.util.Optional.empty());
+        when(mapMarkerRepo.findById(id)).thenReturn(Optional.empty());
 
 
         // Then
@@ -76,7 +77,7 @@ class MapMarkerServiceTest {
 
 
         // When
-        when(mapMarkerRepo.findById(id)).thenReturn(java.util.Optional.of(expected));
+        when(mapMarkerRepo.findById(id)).thenReturn(Optional.of(expected));
         MapMarker result = mapMarkerService.getMapMarkerById(id);
 
         // Then
