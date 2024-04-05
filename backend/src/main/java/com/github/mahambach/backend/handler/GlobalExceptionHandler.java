@@ -12,14 +12,13 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // #    #  #####    #####  #   #
-    // ##   #  #   #    #   #  #   #
-    // # #  #  #   #    #      #   #
-    // # #  #  #   #    #####  #   #
-    // #  # #  #   #        #  #   #
-    // #   ##  #   #    #   #  #   #
-    // #    #  #####    #####  #####
     // No Such Element Exceptions
+    @ExceptionHandler(NoSuchAppUserException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorMessage handleNoSuchAppUserException(NoSuchAppUserException exception) {
+        return handleNoSuchObjectException("User", exception.getMessage());
+    }
+
     @ExceptionHandler(NoSuchArticleException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorMessage handleNoSuchArticleException(NoSuchArticleException exception) {
@@ -52,6 +51,12 @@ public class GlobalExceptionHandler {
     }
 
     // Miss Matching Element Exceptions
+    @ExceptionHandler(MissMatchingIdsAppUserException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleMissMatchingIdsAppUserException(MissMatchingIdsAppUserException exception) {
+        return handleMissMatchingIdsException("User", exception.getPathId(), exception.getBodyId());
+    }
+
     @ExceptionHandler(MissMatchingIdsArticleException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessage handleMissMatchingIdsArticleException(MissMatchingIdsArticleException exception) {

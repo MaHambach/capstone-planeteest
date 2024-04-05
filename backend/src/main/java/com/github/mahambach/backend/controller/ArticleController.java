@@ -17,8 +17,8 @@ public class ArticleController {
 
 
     @GetMapping
-    public List<Article> getAllArticles(@RequestBody String appUserId) {
-        return articleService.getAllArticles(appUserId);
+    public List<Article> getAllArticles() {
+        return articleService.getAllArticles();
     }
 
     @GetMapping("/{articleId}")

@@ -12,9 +12,11 @@ public record MapMarker(
         int xPosition,
         int yPosition,
         String markerTypeId,
-        String articleId
+        String articleId,
+
+        Visibility visibility
 ) {
     public MapMarker(MapMarkerDto mapMarkerDto) {
-        this(null, mapMarkerDto.worldMapId(), mapMarkerDto.name(), mapMarkerDto.xPosition(), mapMarkerDto.yPosition(), mapMarkerDto.markerTypeId(), mapMarkerDto.articleId());
+        this(null, mapMarkerDto.worldMapId(), mapMarkerDto.name(), mapMarkerDto.xPosition(), mapMarkerDto.yPosition(), mapMarkerDto.markerTypeId(), mapMarkerDto.articleId(), mapMarkerDto.visibility());
     }
 }

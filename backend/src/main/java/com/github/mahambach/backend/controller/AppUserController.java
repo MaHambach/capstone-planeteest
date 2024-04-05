@@ -40,4 +40,24 @@ public class AppUserController {
         session.invalidate();
         SecurityContextHolder.clearContext();
     }
+
+    @PutMapping("/{appUserId}")
+    public AppUserResponse updateAppUser(@PathVariable String appUserId,
+                                         @RequestBody AppUserResponse appUserResponse) {
+        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return appUserService.updateAppUser(principal.getUsername(), appUserId, appUserResponse);
+    }
+
+    @PutMapping("/{appUserId}/add-my-world-map/{worldMapId}")
+    public AppUserResponse addMyWorldMapAppUser(@PathVariable String appUserId,
+                                         @PathVariable String worldMapId) {
+        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return appUserService.addMyWorldMapAppUser(principal.getUsername(), appUserId, worldMapId);
+    }
+    @PutMapping("/{appUserId}/add-observed/{worldMapId}")
+    public AppUserResponse addObservedWorldMapAppUser(@PathVariable String appUserId,
+                                         @PathVariable String worldMapId) {
+        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return appUserService.addObservedWorldMapAppUser(principal.getUsername(), appUserId, worldMapId);
+    }
 }

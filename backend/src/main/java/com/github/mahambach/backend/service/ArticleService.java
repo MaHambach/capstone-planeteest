@@ -15,7 +15,7 @@ import java.util.List;
 public class ArticleService {
     private final ArticleRepo articleRepo;
 
-    public List<Article> getAllArticles(String appUserId) {
+    public List<Article> getAllArticles() {
         return articleRepo.findAll();
     }
 
