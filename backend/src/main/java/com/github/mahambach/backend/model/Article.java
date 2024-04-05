@@ -9,11 +9,9 @@ import java.util.List;
 public record Article(
         @Id String id,
         String content,
-        String ownerId,
-        List<String> observerIds,
         List<String> npcIds
 ) {
     public Article(ArticleDto articleDto) {
-        this(null, articleDto.content(), null, null, articleDto.npcIds());
+        this(null, articleDto.content(), articleDto.npcIds());
     }
 }
