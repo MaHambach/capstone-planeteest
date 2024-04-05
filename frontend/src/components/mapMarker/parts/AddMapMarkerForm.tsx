@@ -27,7 +27,7 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                 ...formData,
                 [event.target.name]: event.target.value
             }
-        )
+        );
     }
 
     useEffect(() => {
@@ -37,9 +37,9 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                 worldMapId: props.worldMapId,
                 xPosition: props.xPosition,
                 yPosition: props.yPosition,
-                markerTypeId: '' /* For later: When MarkerType is implemented */
+                markerTypeId: ''
             }
-        )
+        );
         // eslint-disable-next-line
     }, [props]);
 

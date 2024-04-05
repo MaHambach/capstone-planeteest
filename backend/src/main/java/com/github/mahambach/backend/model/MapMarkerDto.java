@@ -7,7 +7,6 @@ public record MapMarkerDto(
         int yPosition,
         String markerTypeId,
         String articleId,
-
         Visibility visibility
 ) {
 }

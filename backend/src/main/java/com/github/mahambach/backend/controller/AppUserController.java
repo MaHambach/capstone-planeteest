@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/app-users")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class AppUserController {
     private final AppUserService appUserService;

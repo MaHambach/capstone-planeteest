@@ -2,6 +2,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import {AppUser} from "../types/AppUser.ts";
+import {AppUserRegister} from "../types/AppUserRegister.ts";
 
 
 export function useAppUser() {
@@ -37,17 +38,13 @@ export function useAppUser() {
             });
     }
 
-    function registerAppUser(username:string, password:string):void {
-        axios.post("/api/users/register", {
-            "username": username,
-            "password": password
-        })
+    function registerAppUser(appUserRegister:AppUserRegister):void {
+        axios.post("/api/users/register", appUserRegister)
             .then(() => {
-                console.log("User registered successfully")
-                navigate("/");
+                console.log("User registered successfully");
             })
             .catch(e => {
-                console.error(e)
+                console.error(e);
             });
     }
 

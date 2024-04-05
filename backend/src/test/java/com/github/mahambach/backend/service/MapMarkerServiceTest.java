@@ -2,10 +2,7 @@ package com.github.mahambach.backend.service;
 
 import com.github.mahambach.backend.exception.MissMatchingIdsMapMarkerException;
 import com.github.mahambach.backend.exception.NoSuchMapMarkerException;
-import com.github.mahambach.backend.model.Article;
-import com.github.mahambach.backend.model.ArticleDto;
-import com.github.mahambach.backend.model.MapMarker;
-import com.github.mahambach.backend.model.MapMarkerDto;
+import com.github.mahambach.backend.model.*;
 import com.github.mahambach.backend.repository.MapMarkerRepo;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +22,7 @@ class MapMarkerServiceTest {
     @Test
     void getAllMapMarkers_whenOneMapMarker_thenReturnListOfMapMarker() {
         // Given
-        MapMarker mapMarker = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker mapMarker = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
         List<MapMarker> expected = List.of(mapMarker);
 
         // When
@@ -75,7 +72,7 @@ class MapMarkerServiceTest {
     void getMapMarkerById_whenSuchMapMarker_thenReturn() {
         // Given
         String id = "1";
-        MapMarker expected = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker expected = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
 
         // When
@@ -93,8 +90,8 @@ class MapMarkerServiceTest {
     void createMapMarker_whenSomething_thenCreateAndReturn() {
         // Given
         String id = "1";
-        MapMarker expected = new MapMarker(id, "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
-        MapMarkerDto input = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker expected = new MapMarker(id, "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
+        MapMarkerDto input = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
         ArticleDto newArticleDto = new ArticleDto("", List.of());
         String newArticleId = "newArticleId";
         Article newArticle = new Article(newArticleDto).withId(newArticleId);
@@ -119,7 +116,7 @@ class MapMarkerServiceTest {
     void updateMapMarker_whenNoSuchMapMarker_thenThrow() {
         // Given
         String id = "1";
-        MapMarker mapMarker = new MapMarker(id, "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker mapMarker = new MapMarker(id, "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
         // When
         when(mapMarkerRepo.existsById(id)).thenReturn(false);
@@ -136,7 +133,7 @@ class MapMarkerServiceTest {
     void updateMapMarker_whenPathAndBodyIdDiffer_thenThrow() {
         // Given
         String id = "1";
-        MapMarker mapMarker = new MapMarker("2", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker mapMarker = new MapMarker("2", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
         // When
         // Then
@@ -148,7 +145,7 @@ class MapMarkerServiceTest {
     @Test
     void updateMapMarker_whenSuchMapMarker_thenUpdateAndReturn() {
         // Given
-        MapMarker mapMarkerOld = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker mapMarkerOld = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
         MapMarker expected = mapMarkerOld.withWorldMapId("WorldMapIdNew").withName("MapMarkerNameNew").withXPosition(1986).withYPosition(768).withMarkerTypeId("MapMarkerTypeIdNew").withArticleId("ArticleIdNew");
 
@@ -183,7 +180,7 @@ class MapMarkerServiceTest {
     @Test
     void deleteMapMarkerById_whenSuchWorld_thenDeleteAndReturnDeleted() {
         // Given
-        MapMarker expected = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker expected = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
         // When
         when(mapMarkerRepo.findById(expected.id())).thenReturn(java.util.Optional.of(expected));

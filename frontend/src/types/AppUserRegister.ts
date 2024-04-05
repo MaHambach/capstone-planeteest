@@ -3,7 +3,7 @@ export type AppUserRegister = {
     password: string;
 };
 
-export const emptyAppUserDto: AppUserRegister = {
+export const emptyAppUserRegister: AppUserRegister = {
     username: '',
     password: '',
 };

@@ -21,22 +21,22 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/mapMarkerTypes").hasRole(AppUserRole.ADMIN.name())
-                        .requestMatchers(HttpMethod.PUT, "/api/mapMarkerTypes/*").hasRole(AppUserRole.ADMIN.name())
-                        .requestMatchers(HttpMethod.DELETE, "/api/mapMarkerTypes/*").hasRole(AppUserRole.ADMIN.name())
-                        .anyRequest().authenticated()
-                )
-                .logout(logout -> logout.logoutUrl("/api/users/logout")
-                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
-                )
-                .httpBasic(httpSecurityHttpBasicConfigurer -> httpSecurityHttpBasicConfigurer.authenticationEntryPoint(((request, response, authException) -> response.sendError(401))));
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+            .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                .requestMatchers(HttpMethod.POST, "/api/users/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/mapMarkerTypes").hasRole(AppUserRole.ADMIN.name())
+                .requestMatchers(HttpMethod.PUT, "/api/mapMarkerTypes/*").hasRole(AppUserRole.ADMIN.name())
+                .requestMatchers(HttpMethod.DELETE, "/api/mapMarkerTypes/*").hasRole(AppUserRole.ADMIN.name())
+                .anyRequest().authenticated()
+            )
+            .logout(logout -> logout.logoutUrl("/api/users/logout")
+                .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
+            )
+            .httpBasic(httpSecurityHttpBasicConfigurer -> httpSecurityHttpBasicConfigurer.authenticationEntryPoint(((request, response, authException) -> response.sendError(401))));
 
         return http.build();
     }
