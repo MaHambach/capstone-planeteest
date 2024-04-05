@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -31,6 +32,7 @@ class MapMarkerControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser
     void getAllMapMarkers_whenOneMarker_thenReturnListOfMarker() throws Exception {
         // Given
         MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
@@ -55,6 +57,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getAllMapMarkers_whenEmpty_thenEmpty() throws Exception {
         // Given
         List<MapMarker> expected = List.of();
@@ -70,6 +73,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getMapMarkerById_whenNoSuchMapMarker_thenThrow() throws Exception {
         // Given
         String id = "1";
@@ -87,6 +91,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getMapMarkerById_whenSuchMapMarker_thenReturn() throws Exception {
         // Given
         MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
@@ -113,6 +118,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void createMapMarker_whenValidInput_thenCreateAndReturn() throws Exception {
         // Given
         MapMarkerDto expectedDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", null, Visibility.OWNER_ONLY);
@@ -138,6 +144,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateMapMarker_whenNoSuchMapMarker_thenThrow() throws Exception{
         // Given
         String id = "1000";
@@ -159,6 +166,7 @@ class MapMarkerControllerTest {
 
 
     @Test
+    @WithMockUser
     void updateMapMarker_whenPathAndBodyIdDiffer_thenThrow() throws Exception{
         // Given
         String id = "1";
@@ -184,6 +192,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateMapMarker_whenSuchMapMarker_thenUpdateAndReturn() throws Exception{
         // Given
         MapMarkerDto mapMarkerDto = new MapMarkerDto("WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
@@ -212,6 +221,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteMapMarkerById_whenNoSuchMapMarker_thenThrow() throws Exception {
         // Given
         String id = "1";
@@ -228,6 +238,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteMapMarkerById_whenSuchWorld_thenDeleteAndReturnDeleted() throws Exception {
         // Given
         MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);

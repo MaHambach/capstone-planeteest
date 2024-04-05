@@ -57,6 +57,7 @@ class ArticleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getAllArticles_whenEmpty_thenEmpty() throws Exception {
         // Given
         List<Article> expected = List.of();
@@ -72,6 +73,7 @@ class ArticleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getArticleById_whenNoSuchArticle_thenThrow() throws Exception {
         // Given
         String id = "1";
@@ -88,6 +90,7 @@ class ArticleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getArticleById_whenSuchArticle_thenReturn() throws Exception {
         // Given
         ArticleDto articleDto = new ArticleDto("Content", List.of("NpcId1", "NpcId2"));
@@ -115,6 +118,7 @@ class ArticleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void createArticle_whenValidInput_thenCreateAndReturn() throws Exception {
         // Given
         ArticleDto expectedDto = new ArticleDto("Content", List.of("NpcId1", "NpcId2"));
@@ -137,6 +141,7 @@ class ArticleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateArticle_whenNoSuchArticle_thenThrow() throws Exception{
         // Given
         String id = "1";
@@ -159,6 +164,7 @@ class ArticleControllerTest {
 
 
     @Test
+    @WithMockUser
     void updateArticle_whenPathAndBodyIdDiffer_thenThrow() throws Exception{
         // Given
         String id = "1";
@@ -185,6 +191,7 @@ class ArticleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateArticle_whenSuchArticle_thenUpdateAndReturn() throws Exception{
         // Given
         ArticleDto articleDto = new ArticleDto("Content", List.of("NpcId1", "NpcId2"));
@@ -213,6 +220,7 @@ class ArticleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteArticleById_whenNoSuchArticle_thenThrow() throws Exception {
         // Given
         String id = "1";
@@ -229,6 +237,7 @@ class ArticleControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteArticleById_whenSuchWorld_thenDeleteAndReturnDeleted() throws Exception {
         // Given
         ArticleDto articleDto = new ArticleDto("Content", List.of("NpcId1", "NpcId2"));

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -32,6 +33,7 @@ class WorldMapControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser
     void getAllWorldMaps_whenOneWorldMap_thenReturnListOfWorldMap() throws Exception {
         // Given
         WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
@@ -55,6 +57,7 @@ class WorldMapControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getAllWorldMaps_whenEmpty_thenEmpty() throws Exception {
         // Given
         List<WorldMap> expected = List.of();
@@ -70,6 +73,7 @@ class WorldMapControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getWorldMapById_whenNoSuchWorldMap_thenThrow() throws Exception {
         // Given
         String id = "1";
@@ -87,6 +91,7 @@ class WorldMapControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getWorldMapById_whenSuchWorldMap_thenReturn() throws Exception {
         // Given
         WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
@@ -113,6 +118,7 @@ class WorldMapControllerTest {
     }
 
     @Test
+    @WithMockUser
     void createWorldMap_whenValidInput_thenCreateAndReturn() throws Exception {
         // Given
         WorldMapDto expectedDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
@@ -136,6 +142,7 @@ class WorldMapControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateWorldMap_whenNoSuchWorldMap_thenThrow() throws Exception{
         // Given
         String id = "1000";
@@ -157,6 +164,7 @@ class WorldMapControllerTest {
 
 
     @Test
+    @WithMockUser
     void updateWorldMap_whenPathAndBodyIdDiffer_thenThrow() throws Exception{
         // Given
         String id = "1";
@@ -182,6 +190,7 @@ class WorldMapControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateWorldMap_whenSuchWorldMap_thenUpdateAndReturn() throws Exception{
         // Given
         WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
@@ -210,6 +219,7 @@ class WorldMapControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteWorldMapById_whenNoSuchWorldMap_thenThrow() throws Exception {
         // Given
         String id = "1";
@@ -226,6 +236,7 @@ class WorldMapControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteWorldMapById_whenSuchWorld_thenDeleteAndReturnDeleted() throws Exception {
         // Given
         WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
