@@ -1,7 +1,9 @@
 import './ArticleCard.css';
+import '../../_generic/editor/RichTextEditor.css';
 import {Article} from "../../../types/Article.ts";
 import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
 import React from "react";
+import parser from "html-react-parser";
 
 type ArticleDetailsCardProps = {
     article:Article;
@@ -11,7 +13,7 @@ export default function ArticleCard(props:Readonly<ArticleDetailsCardProps>):Rea
 
     return (
         <div className={"articleCard"}>
-            <article className={"articleContent"}>{props.article.content}</article>
+            <article className={"richTextEditor"}>{parser(props.article.content)}</article>
             {props.article.npcIds.length > 0 &&
                 <DisplayTileGallery
                     urlPrefix={"/npc/"}

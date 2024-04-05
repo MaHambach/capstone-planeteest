@@ -1,6 +1,7 @@
 import "./UpdateArticleForm.css";
 import {Article} from "../../../types/Article.ts";
 import React, {useEffect, useState} from "react";
+import RichTextEditor from "../../_generic/editor/RichTextEditor.tsx";
 
 type UpdateArticleFormProps = {
     article:Article;
@@ -12,20 +13,15 @@ type UpdateArticleFormProps = {
 export default function UpdateArticleForm(props:Readonly<UpdateArticleFormProps>):React.ReactElement {
     const [formData, setFormData] = useState<Article>(props.article);
 
+    function setContent(content:string):void {
+        setFormData({...formData, content: content});
+    }
+
     function handleSubmit(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault();
         props.updateArticle(formData);
         props.setArticle(formData);
         props.setIsBeingEdited(false);
-    }
-
-    function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>):void {
-        setFormData(
-            {
-                ...formData,
-                content: event.target.value
-            }
-        )
     }
 
     function cancelUpdate():void {
@@ -38,11 +34,7 @@ export default function UpdateArticleForm(props:Readonly<UpdateArticleFormProps>
 
     return (
         <form className={"updateArticleForm"} onSubmit={handleSubmit}>
-            <textarea
-                className={"contentInput"}
-                value={formData.content}
-                onChange={handleChange}
-            />
+            <RichTextEditor content={props.article.content} setContent={setContent}/>
             <div className={"buttons"}>
                 <button className={"saveButton"} type={"submit"}>Speichern</button>
                 <button className={"cancelButton"} onClick={cancelUpdate}>Abbrechen</button>
