@@ -60,14 +60,20 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                 </div>
                 <div className={"mapMarkerUpdateDiv"}>
                     <label htmlFor={"markerTypeId"}>Typ: </label>
-                    <select id={"markerTypeId"} name={"markerTypeId"} value={formData.markerTypeId}
-                            onChange={handleChangeInput}>
+                    <select id={"markerTypeId"} name={"markerTypeId"} value={formData.markerTypeId} onChange={handleChangeInput}>
                         {props.mapMarkerTypes.map((mapMarkerType: MapMarkerType) => {
                             return <option key={mapMarkerType.id}
                                            value={mapMarkerType.id}>
                                 {mapMarkerType.name}
                             </option>
                         })}
+                    </select>
+                </div>
+                <div className={"mapMarkerUpdateDiv"}>
+                    <label htmlFor={"Visibility"}>Sichtbarkeit: </label>
+                    <select id={"visibility"} name={"visibility"} value={formData.visibility} onChange={handleChangeInput}>
+                        <option value={"OWNER_ONLY"}>Nur für mich</option>
+                        <option value={"OWNER_AND_OBSERVERS"}>Für alle</option>
                     </select>
                 </div>
                 <div>

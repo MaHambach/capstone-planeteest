@@ -23,7 +23,7 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
         setFormData(props.mapMarker);
     }, [props]);
 
-    function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>):void {
+    function handleChangeInput(event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>):void {
         props.setSelectedMapMarker(
             {
                 ...formData,
@@ -73,8 +73,11 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
                 <div className={"mapMarkerUpdateDiv"}>
                     <label htmlFor={"markerTypeId"}>Typ: </label>
                     <select id={"markerTypeId"} name={"markerTypeId"} value={formData.markerTypeId}
-                            onChange={(e:React.ChangeEvent<HTMLSelectElement>) => props.setSelectedMapMarker({...formData, markerTypeId: e.target.value})}>
-                        {props.mapMarkerTypes.map((mapMarkerType:MapMarkerType) => {
+                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => props.setSelectedMapMarker({
+                                ...formData,
+                                markerTypeId: e.target.value
+                            })}>
+                        {props.mapMarkerTypes.map((mapMarkerType: MapMarkerType) => {
                             return <option key={mapMarkerType.id}
                                            value={mapMarkerType.id}>
                                 {mapMarkerType.name}
@@ -87,18 +90,30 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
                         className={changingPosition ?
                             "mapMarkerPositionDivMarkerPositionButton_changeable" :
                             "mapMarkerPositionDivMarkerPositionButton"}
-                        onClick={toggleChangingPosition}>Marker Position</button>
+                        onClick={toggleChangingPosition}>Marker Position
+                    </button>
                     <div
                         className={changingPosition ?
                             "mapMarkerPositionDivPadlockClosed_changeable" :
-                            "mapMarkerPositionDivPadlockClosed"}><GiPadlock /></div>
+                            "mapMarkerPositionDivPadlockClosed"}><GiPadlock/></div>
                     <div
                         className={changingPosition ?
                             "mapMarkerPositionDivPadlockOpen_changeable" :
-                            "mapMarkerPositionDivPadlockOpen"}><GiPadlockOpen /></div>
+                            "mapMarkerPositionDivPadlockOpen"}><GiPadlockOpen/></div>
                 </div>
-                <div className={"mapMarkerUpdateDiv"}><button type={"submit"}>Übernehmen</button></div>
-                <div className={"mapMarkerUpdateDiv"}><button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button></div>
+                <div className={"mapMarkerUpdateDiv"}>
+                    <label htmlFor={"Visibility"}>Sichtbarkeit: </label>
+                    <select id={"visibility"} name={"visibility"} value={formData.visibility} onChange={handleChangeInput}>
+                        <option value={"OWNER_ONLY"}>Nur für mich</option>
+                        <option value={"OWNER_AND_OBSERVERS"}>Für alle</option>
+                    </select>
+                </div>
+                <div className={"mapMarkerUpdateDiv"}>
+                    <button type={"submit"}>Übernehmen</button>
+                </div>
+                <div className={"mapMarkerUpdateDiv"}>
+                    <button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button>
+                </div>
             </form>
         </DraggableSubWindow>
     )
