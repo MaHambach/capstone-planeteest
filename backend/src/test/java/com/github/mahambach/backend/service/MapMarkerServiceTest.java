@@ -180,7 +180,7 @@ class MapMarkerServiceTest {
     @Test
     void deleteMapMarkerById_whenSuchWorld_thenDeleteAndReturnDeleted() {
         // Given
-        MapMarker expected = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
+        MapMarker expected = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_AND_OBSERVERS);
 
         // When
         when(mapMarkerRepo.findById(expected.id())).thenReturn(java.util.Optional.of(expected));

@@ -45,7 +45,7 @@ export default function App():React.ReactElement {
             <Route element={<PrivateRoute appUser={appUser}/>}>
                 <Route path="/" element={
                     <WorldMapGallery
-                        // @ts-ignore
+                        // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                         appUser={appUser}
                         worldMaps={worldMaps}
                         logoutAppUser={logoutAppUser}
@@ -58,7 +58,7 @@ export default function App():React.ReactElement {
                 }/>
                 <Route path={"/worldmap/:id"} element={
                     <WorldMapMain
-                        // @ts-ignore
+                        // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                         appUser={appUser}
                         getWorldMap={getWorldMapById}
                         mapMarkers={mapMarkers}
