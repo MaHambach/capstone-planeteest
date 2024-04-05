@@ -45,6 +45,7 @@ export default function App():React.ReactElement {
             <Route element={<PrivateRoute appUser={appUser}/>}>
                 <Route path="/" element={
                     <WorldMapGallery
+                        // @ts-ignore
                         appUser={appUser}
                         worldMaps={worldMaps}
                         logoutAppUser={logoutAppUser}
@@ -57,6 +58,7 @@ export default function App():React.ReactElement {
                 }/>
                 <Route path={"/worldmap/:id"} element={
                     <WorldMapMain
+                        // @ts-ignore
                         appUser={appUser}
                         getWorldMap={getWorldMapById}
                         mapMarkers={mapMarkers}
