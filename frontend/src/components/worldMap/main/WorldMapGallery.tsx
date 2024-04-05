@@ -2,9 +2,11 @@ import "./WorldMapGallery.css";
 import React from "react";
 import {WorldMap} from "../../../types/WorldMap.ts";
 import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
+import {AppUser} from "../../../types/AppUser.ts";
 
 
 type WorldMapGalleryProps = {
+    appUser: AppUser | null | undefined;
     worldMaps: WorldMap[];
 }
 export default function WorldMapGallery(props:Readonly<WorldMapGalleryProps>):React.ReactElement {

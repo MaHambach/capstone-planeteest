@@ -12,8 +12,11 @@ import {Article} from "../../../types/Article.ts";
 import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
 import MapMarkerUpdateWindow from "../../mapMarker/parts/MapMarkerUpdateWindow.tsx";
 import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
+import {AppUser} from "../../../types/AppUser.ts";
 
 type WorldMapMainProps = {
+    appUser: AppUser | null | undefined;
+
     getWorldMap: (id:string) => WorldMap;
 
     mapMarkers: MapMarker[];

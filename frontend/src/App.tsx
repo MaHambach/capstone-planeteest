@@ -13,6 +13,7 @@ import AddMapMarkerType from "./components/mapMarkerType/main/AddMapMarkerType.t
 import UpdateMapMarkerType from "./components/mapMarkerType/main/UpdateMapMarkerType.tsx";
 import LoginUserMain from "./components/user/main/LoginUserMain.tsx";
 import {useAppUser} from "./hooks/useAppUser.ts";
+import PrivateRoute from "./components/_generic/parts/PrivateRoute.tsx";
 
 export default function App():React.ReactElement {
     const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
@@ -32,49 +33,53 @@ export default function App():React.ReactElement {
             <Route path={"/login"} element={
                 <LoginUserMain loginAppUser={loginAppUser} registerAppUser={registerAppUser}/>
             }/>
-            <Route path="/" element={
-                <WorldMapGallery
-                    worldMaps={worldMaps}
-            />}/>
-            <Route path={"/worldmap/add"} element={
-                <NewWorldMapForm
-                    saveWorldMap={saveWorldMap}
-            />}/>
-            <Route path={"/worldmap/:id"} element={
-                <WorldMapMain
-                    getWorldMap={getWorldMapById}
-                    mapMarkers={mapMarkers}
-                    saveMapMarker={saveMapMarker}
-                    updateMapMarker={updateMapMarker}
-                    deleteMapMarker={deleteMapMarker}
-                    mapMarkerTypes={mapMarkerTypes}
-                    getMapMarkerType={getMapMarkerTypeById}
-                    articles={articles}
-                    getArticleById={getArticleById}
-                    updateArticle={updateArticle}
-                    deleteArticle={deleteArticle}
-            />}/>
-            <Route path={"/worldmap/:id/edit"} element={
-                <UpdateWorldMapForm
-                    updateWorldMap={updateWorldMap}
-                    deleteWorldMap={deleteWorldMap}
-                    getWorldMap={getWorldMapById}
-            />}/>
+            <Route element={<PrivateRoute appUser={appUser}/>}>
+                <Route path="/" element={
+                    <WorldMapGallery
+                        appUser={appUser}
+                        worldMaps={worldMaps}
+                />}/>
+                <Route path={"/worldmap/add"} element={
+                    <NewWorldMapForm
+                        saveWorldMap={saveWorldMap}
+                />}/>
+                <Route path={"/worldmap/:id"} element={
+                    <WorldMapMain
+                        appUser={appUser}
+                        getWorldMap={getWorldMapById}
+                        mapMarkers={mapMarkers}
+                        saveMapMarker={saveMapMarker}
+                        updateMapMarker={updateMapMarker}
+                        deleteMapMarker={deleteMapMarker}
+                        mapMarkerTypes={mapMarkerTypes}
+                        getMapMarkerType={getMapMarkerTypeById}
+                        articles={articles}
+                        getArticleById={getArticleById}
+                        updateArticle={updateArticle}
+                        deleteArticle={deleteArticle}
+                />}/>
+                <Route path={"/worldmap/:id/edit"} element={
+                    <UpdateWorldMapForm
+                        updateWorldMap={updateWorldMap}
+                        deleteWorldMap={deleteWorldMap}
+                        getWorldMap={getWorldMapById}
+                />}/>
 
-            <Route path={"/mapMarkerType"} element={
-                <MapMarkerTypeGallery
-                    mapMarkerTypes={mapMarkerTypes}
-            />}/>
-            <Route path={"/mapMarkerType/add"} element={
-                <AddMapMarkerType
-                    saveMapMarkerType={saveMapMarkerType}
-            />}/>
-            <Route path={"/mapMarkerType/:id/edit"} element={
-                <UpdateMapMarkerType
-                    updateMapMarkerType={updateMapMarkerType}
-                    getMapMarkerType={getMapMarkerTypeById}
-                    deleteMapMarkerType={deleteMapMarkerType}
-            />}/>
+                <Route path={"/mapMarkerType"} element={
+                    <MapMarkerTypeGallery
+                        mapMarkerTypes={mapMarkerTypes}
+                />}/>
+                <Route path={"/mapMarkerType/add"} element={
+                    <AddMapMarkerType
+                        saveMapMarkerType={saveMapMarkerType}
+                />}/>
+                <Route path={"/mapMarkerType/:id/edit"} element={
+                    <UpdateMapMarkerType
+                        updateMapMarkerType={updateMapMarkerType}
+                        getMapMarkerType={getMapMarkerTypeById}
+                        deleteMapMarkerType={deleteMapMarkerType}
+                />}/>
+            </Route>
         </Routes>
     )
 }
