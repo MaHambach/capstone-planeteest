@@ -16,17 +16,25 @@ import {useAppUser} from "./hooks/useAppUser.ts";
 import PrivateRoute from "./components/_generic/parts/PrivateRoute.tsx";
 
 export default function App():React.ReactElement {
-    const {worldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
-    const {mapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
-    const {mapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
+    const {appUser, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
-    const {appUser, fetchMe, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
+    const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
+    const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
+    const {worldMaps, fetchWorldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
     useEffect(() => {
-        fetchArticles();
-        fetchMe();
+        appUser && fetchArticles();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mapMarkers]);
+
+    useEffect(() => {
+        if(appUser) {
+            fetchArticles();
+            fetchWorldMaps();
+            fetchMapMarkers();
+            fetchMapMarkerTypes();
+        }
+    }, [appUser]);
 
     return (
         <Routes>

@@ -33,7 +33,7 @@ export function useAppUser() {
                 setAppUser(null);
             })
             .finally(() => {
-                    navigate("/")
+                    navigate("/");
             });
     }
 

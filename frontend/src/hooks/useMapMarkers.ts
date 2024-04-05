@@ -1,6 +1,6 @@
 import axios from "axios";
 import {MapMarker} from "../types/MapMarker.ts";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {MapMarkerDto} from "../types/MapMarkerDto.ts";
 
 export default function useMapMarkers() {
@@ -47,10 +47,9 @@ export default function useMapMarkers() {
             });
     }
 
-    useEffect(()=> fetchMapMarkers(), []);
-
     return {
         mapMarkers,
+        fetchMapMarkers,
         saveMapMarker,
         updateMapMarker,
         deleteMapMarker

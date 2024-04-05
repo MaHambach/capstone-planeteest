@@ -1,6 +1,6 @@
 import axios from "axios";
 import {MapMarkerType} from "../types/MapMarkerType.ts";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {MapMarkerTypeDto} from "../types/MapMarkerTypeDto.ts";
 
 export function useMapMarkerTypes() {
@@ -55,10 +55,9 @@ export function useMapMarkerTypes() {
             });
     }
 
-    useEffect(()=> fetchMapMarkerTypes(), []);
-
     return {
         mapMarkerTypes,
+        fetchMapMarkerTypes,
         saveMapMarkerType,
         updateMapMarkerType,
         getMapMarkerTypeById,

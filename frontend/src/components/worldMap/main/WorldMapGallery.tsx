@@ -3,6 +3,7 @@ import React from "react";
 import {WorldMap} from "../../../types/WorldMap.ts";
 import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
+import {useNavigate} from "react-router-dom";
 
 
 type WorldMapGalleryProps = {
@@ -11,10 +12,12 @@ type WorldMapGalleryProps = {
     logoutAppUser: () => void;
 }
 export default function WorldMapGallery(props:Readonly<WorldMapGalleryProps>):React.ReactElement {
+    const navigate = useNavigate();
 
     return (
         <main className={"worldMapGallery"}>
             <button onClick={props.logoutAppUser}>Logout</button>
+            {props.appUser.role === "ADMIN" && <button onClick={() => {navigate("/mapMarkerType")}}>MapMarkerTypes</button>}
             <h2>Meine Weltkarten</h2>
             <DisplayTileGallery
                 urlPrefix={"/worldmap/"}
