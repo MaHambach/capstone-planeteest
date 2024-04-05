@@ -37,7 +37,7 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                 worldMapId: props.worldMapId,
                 xPosition: props.xPosition,
                 yPosition: props.yPosition,
-                markerTypeId: ''
+                markerTypeId: props.mapMarkerTypes[0].id,
             }
         );
         // eslint-disable-next-line
