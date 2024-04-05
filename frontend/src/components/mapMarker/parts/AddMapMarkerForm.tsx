@@ -70,6 +70,9 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                         })}
                     </select>
                 </div>
+                <div>
+                    <button type={"submit"}>Speichern</button>
+                </div>
             </form>
         </DraggableSubWindow>
     )
