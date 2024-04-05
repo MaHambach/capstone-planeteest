@@ -34,6 +34,7 @@ export default function App():React.ReactElement {
             fetchMapMarkers();
             fetchMapMarkerTypes();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [appUser]);
 
     return (
