@@ -3,19 +3,26 @@ package com.github.mahambach.backend.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mahambach.backend.model.AppUserRegister;
 import com.github.mahambach.backend.model.AppUserResponse;
-import jakarta.servlet.http.HttpSession;
+import com.github.mahambach.backend.model.AppUserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.test.web.servlet.MvcResult;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -27,43 +34,116 @@ class AppUserControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-
-    @Test
-    void getAppUserByUsername_whenLoggedInUser_expectUser() throws Exception  {
-        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.findAppUserByUsername(principal.getUsername());
-    }
-
     @Test
     void createAppUser() throws Exception  {
-        return appUserService.createAppUser(appUserRegister);
+        // Given
+        AppUserRegister appUserRegister = new AppUserRegister("username", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+
+        // When
+        MvcResult resultJson = mvc.perform(post("/api/users/register")
+                .contentType("application/json")
+                .content(appUserRegisterJson))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        AppUserResponse appUserResponse = objectMapper.readValue(resultJson.getResponse().getContentAsString(), AppUserResponse.class);
+
+        //Then
+        assertEquals(appUserRegister.username(), appUserResponse.username());
+        assertEquals(AppUserRole.USER, appUserResponse.role());
+        assertNotNull(appUserResponse.id());
+        assertTrue(appUserResponse.myWorldMapIds().isEmpty());
+        assertTrue(appUserResponse.observedWorldMapIds().isEmpty());
+    }
+
+
+    @Test
+    @WithMockUser(username = "username")
+    void getAppUserByUsername_whenLoggedInUser_expectUser() throws Exception  {
+        // Given
+        AppUserRegister appUserRegister = new AppUserRegister("username", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated());
+
+        // When
+        MvcResult resultJson = mvc.perform(get("/api/users/me"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        AppUserResponse appUserResponse = objectMapper.readValue(resultJson.getResponse().getContentAsString(), AppUserResponse.class);
+
+        // Then
+        assertEquals(appUserRegister.username(), appUserResponse.username());
+        assertEquals(AppUserRole.USER, appUserResponse.role());
+        assertNotNull(appUserResponse.id());
+        assertTrue(appUserResponse.myWorldMapIds().isEmpty());
+        assertTrue(appUserResponse.observedWorldMapIds().isEmpty());
     }
 
     @Test
-    void login(){
-        // This is a dummy method to simulate a login.
+    void getAppUserByUsername_whenNotLoggedIn_expectIsUnauthorized() throws Exception  {
+        // Given
+        // When
+        // Then
+        mvc.perform(get("/api/users/me"))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
-    void logout() throws Exception {
-        session.invalidate();
-        SecurityContextHolder.clearContext();
+    @WithMockUser
+    void updateAppUser_whenSuchAppUser_thenUpdate() throws Exception  {
+        // Given
+        AppUserRegister appUserRegister = new AppUserRegister("username", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        MvcResult json = mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String appUserId = objectMapper.readValue(json.getResponse().getContentAsString(), AppUserResponse.class).id();
+
+        AppUserResponse newAppUserResponse = new AppUserResponse(appUserId, AppUserRole.ADMIN, "new username", List.of("1"), List.of("2"));
+        String newAppUserResponseJson = objectMapper.writeValueAsString(newAppUserResponse);
+
+        mvc.perform(post("/api/user/login")).andExpect(status().isNotFound());
+
+        // When
+        MvcResult resultJson = mvc.perform(put("/api/users/" + appUserId)
+                .contentType("application/json")
+                .content(newAppUserResponseJson))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        AppUserResponse updatedAppUserResponse = objectMapper.readValue(resultJson.getResponse().getContentAsString(), AppUserResponse.class);
+
+        // Then
+        assertEquals(appUserId, updatedAppUserResponse.id());
+        assertEquals(AppUserRole.ADMIN, updatedAppUserResponse.role());
+        assertEquals("new username", updatedAppUserResponse.username());
+        assertEquals(List.of("1"), updatedAppUserResponse.myWorldMapIds());
+        assertEquals(List.of("2"), updatedAppUserResponse.observedWorldMapIds());
     }
 
     @Test
-    void updateAppUser() throws Exception  {
-        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.updateAppUser(principal.getUsername(), appUserId, appUserResponse);
-    }
-
-    @Test
+    @WithMockUser
     void addMyWorldMapAppUser() throws Exception  {
+
+        /*
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return appUserService.addMyWorldMapAppUser(principal.getUsername(), appUserId, worldMapId);
+         */
     }
     @Test
+    @WithMockUser
     void addObservedWorldMapAppUser() throws Exception  {
+        /*
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return appUserService.addObservedWorldMapAppUser(principal.getUsername(), appUserId, worldMapId);
+         */
     }
 }

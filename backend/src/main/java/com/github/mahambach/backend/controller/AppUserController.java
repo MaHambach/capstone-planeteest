@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.*;
 public class AppUserController {
     private final AppUserService appUserService;
 
-    @GetMapping("/me")
-    public AppUserResponse getAppUserByUsername() {
-        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.findAppUserByUsername(principal.getUsername());
-    }
-
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public AppUserResponse createAppUser(@RequestBody AppUserRegister appUserRegister) {
         return appUserService.createAppUser(appUserRegister);
+    }
+
+    @GetMapping("/me")
+    public AppUserResponse getAppUserByUsername() {
+        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return appUserService.findAppUserByUsername(principal.getUsername());
     }
 
     @PostMapping("/login")
