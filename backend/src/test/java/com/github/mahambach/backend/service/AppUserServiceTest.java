@@ -72,7 +72,7 @@ class AppUserServiceTest {
     }
 
     @Test
-    void updateAppUser_whenNoSuchUser_thenThrow() {
+    void updateAppUser_whenNoSuchUser_thenThrowNoSuchAppUserException() {
         // Given
         String username = "username";
         String appUserId = "1";
@@ -82,24 +82,23 @@ class AppUserServiceTest {
         when(appUserRepo.findAppUserByUsername(username)).thenReturn(java.util.Optional.empty());
 
         // Then
-        assertThrows(NoSuchAppUserException.class, () -> appUserService.updateAppUser(username, appUserId, appUserUpdate));
+        assertThrows(NoSuchAppUserException.class, () -> appUserService.updateAppUser(username, appUserUpdate));
         verify(appUserRepo).findAppUserByUsername(username);
         verifyNoMoreInteractions(appUserRepo);
     }
 
     @Test
-    void updateAppUser_whenPathAndBodyIdDifferent_thenThrow() {
+    void updateAppUser_whenUserIsNotUpdatedUser_thenThrowMissMatchingIdsAppUserException() {
         // Given
         String username = "username";
-        String appUserId = "1";
-        AppUser appUser = new AppUser("2", AppUserRole.USER, "username", "password", List.of(), List.of());
-        AppUserUpdateObject appUserUpdate = new AppUserUpdateObject(new AppUserResponse(appUser));
+        AppUser appUser = new AppUser("1", AppUserRole.USER, "username", "password", List.of(), List.of());
+        AppUserUpdateObject appUserUpdate = new AppUserUpdateObject(new AppUserResponse(appUser)).withId("2");
 
         // When
         when(appUserRepo.findAppUserByUsername(username)).thenReturn(Optional.of(appUser));
 
         // Then
-        assertThrows(MissMatchingIdsAppUserException.class, () -> appUserService.updateAppUser(username, appUserId, appUserUpdate));
+        assertThrows(MissMatchingIdsAppUserException.class, () -> appUserService.updateAppUser(username, appUserUpdate));
         verify(appUserRepo).findAppUserByUsername(username);
         verifyNoMoreInteractions(appUserRepo);
     }
@@ -118,7 +117,7 @@ class AppUserServiceTest {
         when(appUserRepo.findAppUserByUsername(username)).thenReturn(Optional.of(appUser));
         when(appUserRepo.save(updatedAppUser)).thenReturn(updatedAppUser);
 
-        AppUserResponse actual = appUserService.updateAppUser(username, appUserId, appUserUpdateObject);
+        AppUserResponse actual = appUserService.updateAppUser(username, appUserUpdateObject);
 
         // Then
         assertEquals(expected, actual);
@@ -155,7 +154,7 @@ class AppUserServiceTest {
         // When
         when(appUserRepo.findAppUserByUsername(username)).thenReturn(Optional.of(appUser));
         when(appUserRepo.save(any())).thenReturn(updatedAppUser);
-        AppUserResponse actual = appUserService.addMyWorldMapAppUser(username, appUserId, worldMapId);
+        AppUserResponse actual = appUserService.addMyWorldMapAppUser(username, worldMapId);
 
         // Then
         assertEquals(expected, actual);
@@ -178,7 +177,7 @@ class AppUserServiceTest {
         // When
         when(appUserRepo.findAppUserByUsername(username)).thenReturn(Optional.of(appUser));
         when(appUserRepo.save(updatedAppUser)).thenReturn(updatedAppUser);
-        AppUserResponse actual = appUserService.addObservedWorldMapAppUser(username, appUserId, worldMapId);
+        AppUserResponse actual = appUserService.addObservedWorldMapAppUser(username, worldMapId);
 
         // Then
         assertEquals(expected, actual);

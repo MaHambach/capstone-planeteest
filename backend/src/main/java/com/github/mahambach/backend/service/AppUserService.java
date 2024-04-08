@@ -32,12 +32,12 @@ public class AppUserService {
         return new AppUserResponse(newAppUser);
     }
 
-    public AppUserResponse updateAppUser(String username, String appUserId, AppUserUpdateObject appUserUpdateObject) {
+    public AppUserResponse updateAppUser(String username, AppUserUpdateObject appUserUpdateObject) {
         AppUser appUser = appUserRepo.findAppUserByUsername(username)
-                                     .orElseThrow(() -> new NoSuchAppUserException(appUserId));
+                                     .orElseThrow(() -> new NoSuchAppUserException(username));
 
-        if (!appUser.id().equals(appUserId)) {
-            throw new MissMatchingIdsAppUserException(appUserId, appUser.id());
+        if (!appUser.id().equals(appUserUpdateObject.id())) {
+            throw new MissMatchingIdsAppUserException(appUser.id(), appUserUpdateObject.id());
         }
 
         AppUser updatedAppUser = new AppUser(appUserUpdateObject)
@@ -49,21 +49,21 @@ public class AppUserService {
         return new AppUserResponse(updatedAppUser);
     }
 
-    public AppUserResponse addMyWorldMapAppUser(String username, String appUserId, String worldMapId) {
+    public AppUserResponse addMyWorldMapAppUser(String username, String worldMapId) {
         AppUserUpdateObject appUserUpdateObject = new AppUserUpdateObject(findAppUserByUsername(username));
 
         List<String> newMyWorldMapIds = new ArrayList<>(appUserUpdateObject.observedWorldMapIds());
 
         newMyWorldMapIds.add(worldMapId);
 
-        return updateAppUser(username, appUserId, appUserUpdateObject.withMyWorldMapIds(newMyWorldMapIds));
+        return updateAppUser(username, appUserUpdateObject.withMyWorldMapIds(newMyWorldMapIds));
     }
 
-    public AppUserResponse addObservedWorldMapAppUser(String username, String appUserId, String worldMapId) {
+    public AppUserResponse addObservedWorldMapAppUser(String username, String worldMapId) {
         AppUserUpdateObject appUserUpdateObject = new AppUserUpdateObject(findAppUserByUsername(username));
         List<String> newObservedWorldMapIds = new ArrayList<>(appUserUpdateObject.observedWorldMapIds());
         newObservedWorldMapIds.add(worldMapId);
 
-        return updateAppUser(username, appUserId, appUserUpdateObject.withObservedWorldMapIds(newObservedWorldMapIds));
+        return updateAppUser(username, appUserUpdateObject.withObservedWorldMapIds(newObservedWorldMapIds));
     }
 }

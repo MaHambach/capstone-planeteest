@@ -42,23 +42,20 @@ public class AppUserController {
         SecurityContextHolder.clearContext();
     }
 
-    @PutMapping("/{appUserId}")
-    public AppUserResponse updateAppUser(@PathVariable String appUserId,
-                                         @RequestBody AppUserUpdateObject appUserUpdateObject) {
+    @PutMapping
+    public AppUserResponse updateAppUser(@RequestBody AppUserUpdateObject appUserUpdateObject) {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.updateAppUser(principal.getUsername(), appUserId, appUserUpdateObject);
+        return appUserService.updateAppUser(principal.getUsername(), appUserUpdateObject);
     }
 
-    @PutMapping("/{appUserId}/add-my-world-map/{worldMapId}")
-    public AppUserResponse addMyWorldMapAppUser(@PathVariable String appUserId,
-                                         @PathVariable String worldMapId) {
+    @PutMapping("/add-my-world-map/{worldMapId}")
+    public AppUserResponse addMyWorldMapAppUser(@PathVariable String worldMapId) {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.addMyWorldMapAppUser(principal.getUsername(), appUserId, worldMapId);
+        return appUserService.addMyWorldMapAppUser(principal.getUsername(), worldMapId);
     }
-    @PutMapping("/{appUserId}/add-observed/{worldMapId}")
-    public AppUserResponse addObservedWorldMapAppUser(@PathVariable String appUserId,
-                                         @PathVariable String worldMapId) {
+    @PutMapping("/add-observed/{worldMapId}")
+    public AppUserResponse addObservedWorldMapAppUser(@PathVariable String worldMapId) {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.addObservedWorldMapAppUser(principal.getUsername(), appUserId, worldMapId);
+        return appUserService.addObservedWorldMapAppUser(principal.getUsername(), worldMapId);
     }
 }

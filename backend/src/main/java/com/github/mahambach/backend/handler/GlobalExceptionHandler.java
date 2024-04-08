@@ -16,7 +16,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoSuchAppUserException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorMessage handleNoSuchAppUserException(NoSuchAppUserException exception) {
-        return handleNoSuchObjectException("User", exception.getMessage());
+        return new ErrorMessage(
+                "User with username " + exception.getMessage() + " not found.",
+                LocalDateTime.now()
+        );
     }
 
     @ExceptionHandler(NoSuchArticleException.class)
@@ -54,7 +57,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissMatchingIdsAppUserException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessage handleMissMatchingIdsAppUserException(MissMatchingIdsAppUserException exception) {
-        return handleMissMatchingIdsException("User", exception.getPathId(), exception.getBodyId());
+        return new ErrorMessage(
+                "User with id " + exception.userId + " can't update user with id " + exception.updateId + ".",
+                LocalDateTime.now()
+        );
     }
 
     @ExceptionHandler(MissMatchingIdsArticleException.class)

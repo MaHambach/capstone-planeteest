@@ -1,16 +1,11 @@
 package com.github.mahambach.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.mahambach.backend.model.AppUserRegister;
-import com.github.mahambach.backend.model.AppUserResponse;
-import com.github.mahambach.backend.model.AppUserRole;
-import com.github.mahambach.backend.model.ErrorMessage;
+import com.github.mahambach.backend.model.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
@@ -86,12 +81,27 @@ class AppUserControllerTest {
     }
 
     @Test
-    void getAppUserByUsername_whenNotLoggedIn_expectIsUnauthorized() throws Exception  {
+    void getAppUserByUsername_whenNotLoggedIn_thenIsUnauthorized() throws Exception  {
         // Given
         // When
         // Then
         mvc.perform(get("/api/users/me"))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser
+    void getAppUserByUsername_whenNoSuchUser_thenThrow() throws Exception {
+        // Given
+        // When
+        MvcResult resultJson = mvc.perform(get("/api/users/me"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(), ErrorMessage.class);
+
+        // Then
+        assertEquals("User with username user not found.", result.errorMsg());
     }
 
     @Test
@@ -108,11 +118,11 @@ class AppUserControllerTest {
 
         String appUserId = objectMapper.readValue(json.getResponse().getContentAsString(), AppUserResponse.class).id();
 
-        AppUserResponse newAppUserResponse = new AppUserResponse(appUserId, AppUserRole.ADMIN, "new username", List.of("1"), List.of("2"));
-        String newAppUserResponseJson = objectMapper.writeValueAsString(newAppUserResponse);
+        AppUserUpdateObject appUserUpdateObject = new AppUserUpdateObject(appUserId, AppUserRole.ADMIN, List.of("1"), List.of("2"));
+        String newAppUserResponseJson = objectMapper.writeValueAsString(appUserUpdateObject);
 
         // When
-        MvcResult resultJson = mvc.perform(put("/api/users/" + appUserId)
+        MvcResult resultJson = mvc.perform(put("/api/users/")
                 .contentType("application/json")
                 .content(newAppUserResponseJson))
                 .andExpect(status().isOk())
@@ -123,7 +133,7 @@ class AppUserControllerTest {
         // Then
         assertEquals(appUserId, updatedAppUserResponse.id());
         assertEquals(AppUserRole.ADMIN, updatedAppUserResponse.role());
-        assertEquals("new username", updatedAppUserResponse.username());
+        assertEquals("username", updatedAppUserResponse.username());
         assertEquals(List.of("1"), updatedAppUserResponse.myWorldMapIds());
         assertEquals(List.of("2"), updatedAppUserResponse.observedWorldMapIds());
     }
@@ -131,13 +141,13 @@ class AppUserControllerTest {
 
     @Test
     @WithMockUser
-    void updateAppUser_whenNoSuchAppUser_thenThrowNotFound() throws Exception  {
+    void updateAppUser_whenNoSuchAppUser_thenThrowNoSuchAppUserException() throws Exception  {
         // Given
         AppUserResponse updateAppUser = new AppUserResponse("1", AppUserRole.ADMIN, "new username", List.of("1"), List.of("2"));
         String updateAppUserJson = objectMapper.writeValueAsString(updateAppUser);
 
         // When
-        MvcResult resultJson = mvc.perform(put("/api/users/1")
+        MvcResult resultJson = mvc.perform(put("/api/users/")
                         .contentType("application/json")
                         .content(updateAppUserJson))
                 .andExpect(status().isNotFound())
@@ -163,13 +173,13 @@ class AppUserControllerTest {
 
         String appUserId = objectMapper.readValue(json.getResponse().getContentAsString(), AppUserResponse.class).id();
 
-        AppUserResponse updateAppUser = new AppUserResponse("2", AppUserRole.ADMIN, "new username", List.of("1"), List.of("2"));
-        String updateAppUserJson = objectMapper.writeValueAsString(updateAppUser);
+        AppUserUpdateObject appUserUpdateObject = new AppUserUpdateObject("2", AppUserRole.ADMIN, List.of("1"), List.of("2"));
+        String updateAppUserJson = objectMapper.writeValueAsString(appUserUpdateObject);
 
         // When
 
         // Then
-        MvcResult resultJson = mvc.perform(put("/api/users/" + appUserId)
+        MvcResult resultJson = mvc.perform(put("/api/users/")
                         .contentType("application/json")
                         .content(updateAppUserJson))
                 .andExpect(status().isBadRequest())
@@ -178,7 +188,7 @@ class AppUserControllerTest {
         ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(), ErrorMessage.class);
 
         // Then
-        assertEquals("User with id " + appUserId + " in path and 2 in body do not match.", result.errorMsg());
+        assertEquals("User with id " + appUserId + " can't update user with id 2.", result.errorMsg());
     }
 
     @Test

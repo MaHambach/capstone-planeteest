@@ -4,13 +4,13 @@ import lombok.Getter;
 
 @Getter
 public class MissMatchingIdsAppUserException extends RuntimeException {
-    public final String pathId;
+    public final String userId;
 
-    public final String bodyId;
+    public final String updateId;
 
-    public MissMatchingIdsAppUserException(String pathId, String bodyId) {
+    public MissMatchingIdsAppUserException(String userId, String updateId) {
         super("");
-        this.pathId = pathId;
-        this.bodyId = bodyId;
+        this.userId = userId;
+        this.updateId = updateId;
     }
 }
