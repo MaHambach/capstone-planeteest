@@ -68,7 +68,7 @@ public class AppUserService {
         return updateAppUser(username, appUserUpdateObject.withObservedWorldMapIds(newObservedWorldMapIds));
     }
 
-    public void removeWorldmapFromAllUsers(String worldMapId, String username) {
+    public void removeWorldmapFromAllUsers(String username, String worldMapId) {
         AppUserResponse owner = findAppUserByUsername(username);
 
         if(!owner.myWorldMapIds().contains(worldMapId)) throw new NonOwnerTriesToDeleteWorldMapException(owner.username(), worldMapId);
@@ -82,7 +82,10 @@ public class AppUserService {
             myWorldMapIds.remove(worldMapId);
             observedWorldMapIds.remove(worldMapId);
 
-            appUserRepo.save(appUser.withMyWorldMapIds(myWorldMapIds).withObservedWorldMapIds(observedWorldMapIds));
+            appUserRepo.save(appUser
+                    .withMyWorldMapIds(myWorldMapIds)
+                    .withObservedWorldMapIds(observedWorldMapIds)
+            );
         }
     }
 }

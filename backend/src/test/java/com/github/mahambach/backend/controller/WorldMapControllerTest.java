@@ -1,6 +1,7 @@
 package com.github.mahambach.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.mahambach.backend.model.AppUserRegister;
 import com.github.mahambach.backend.model.ErrorMessage;
 import com.github.mahambach.backend.model.WorldMap;
 import com.github.mahambach.backend.model.WorldMapDto;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -33,11 +35,18 @@ class WorldMapControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "username")
     void getAllWorldMaps_whenOneWorldMap_thenReturnListOfWorldMap() throws Exception {
         // Given
         WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
         String worldMapDtoJson = objectMapper.writeValueAsString(worldMapDto);
+
+        AppUserRegister appUserRegister = new AppUserRegister("username", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated());
 
         MvcResult expectedJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldmaps")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -91,9 +100,16 @@ class WorldMapControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "username")
     void getWorldMapById_whenSuchWorldMap_thenReturn() throws Exception {
         // Given
+        AppUserRegister appUserRegister = new AppUserRegister("username", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated());
+
         WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
         String worldMapDtoJson = objectMapper.writeValueAsString(worldMapDto);
 
@@ -118,9 +134,16 @@ class WorldMapControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "username")
     void createWorldMap_whenValidInput_thenCreateAndReturn() throws Exception {
         // Given
+        AppUserRegister appUserRegister = new AppUserRegister("username", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated());
+
         WorldMapDto expectedDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
         String worldMapDtoJson = objectMapper.writeValueAsString(expectedDto);
 
@@ -164,9 +187,16 @@ class WorldMapControllerTest {
 
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "username")
     void updateWorldMap_whenPathAndBodyIdDiffer_thenThrow() throws Exception{
         // Given
+        AppUserRegister appUserRegister = new AppUserRegister("username", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated());
+
         String id = "1";
         WorldMap worldMap = new WorldMap("2", "WorldMapName", "WorldMapUrl", 1024, 768);
         String worldMapJson = objectMapper.writeValueAsString(worldMap);
@@ -190,9 +220,16 @@ class WorldMapControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "username")
     void updateWorldMap_whenSuchWorldMap_thenUpdateAndReturn() throws Exception{
         // Given
+        AppUserRegister appUserRegister = new AppUserRegister("username", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated());
+
         WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
 
         MvcResult worldMapOldJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldmaps")
@@ -236,9 +273,16 @@ class WorldMapControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "username")
     void deleteWorldMapById_whenSuchWorld_thenDeleteAndReturnDeleted() throws Exception {
         // Given
+        AppUserRegister appUserRegister = new AppUserRegister("username", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated());
+
         WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
         MvcResult worldMapJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldmaps")
                         .contentType(MediaType.APPLICATION_JSON)

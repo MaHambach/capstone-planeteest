@@ -2,6 +2,7 @@ package com.github.mahambach.backend.service;
 
 import com.github.mahambach.backend.exception.MissMatchingIdsAppUserException;
 import com.github.mahambach.backend.exception.NoSuchAppUserException;
+import com.github.mahambach.backend.exception.NonOwnerTriesToDeleteWorldMapException;
 import com.github.mahambach.backend.model.*;
 import com.github.mahambach.backend.repository.AppUserRepo;
 import org.junit.jupiter.api.Test;
@@ -50,6 +51,7 @@ class AppUserServiceTest {
         assertThrows(NoSuchAppUserException.class, () -> appUserService.findAppUserByUsername(username));
         verify(appUserRepo).findAppUserByUsername(username);
         verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
     }
 
     @Test
@@ -75,7 +77,6 @@ class AppUserServiceTest {
     void updateAppUser_whenNoSuchUser_thenThrowNoSuchAppUserException() {
         // Given
         String username = "username";
-        String appUserId = "1";
         AppUserUpdateObject appUserUpdate = new AppUserUpdateObject(new AppUserResponse("1", AppUserRole.USER, "username", List.of(), List.of()));
 
         // When
@@ -85,6 +86,7 @@ class AppUserServiceTest {
         assertThrows(NoSuchAppUserException.class, () -> appUserService.updateAppUser(username, appUserUpdate));
         verify(appUserRepo).findAppUserByUsername(username);
         verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
     }
 
     @Test
@@ -101,6 +103,7 @@ class AppUserServiceTest {
         assertThrows(MissMatchingIdsAppUserException.class, () -> appUserService.updateAppUser(username, appUserUpdate));
         verify(appUserRepo).findAppUserByUsername(username);
         verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
     }
 
     @Test
@@ -124,6 +127,7 @@ class AppUserServiceTest {
         verify(appUserRepo).findAppUserByUsername(username);
         verify(appUserRepo).save(updatedAppUser);
         verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
     }
 
     @Test
@@ -140,7 +144,6 @@ class AppUserServiceTest {
                 new ArrayList<>(),
                 new ArrayList<>()
         );
-        AppUserResponse appUserResponse = new AppUserResponse(appUser);
         AppUser updatedAppUser = new AppUser(
                 appUserId,
                 AppUserRole.USER,
@@ -161,16 +164,15 @@ class AppUserServiceTest {
         verify(appUserRepo, times(2)).findAppUserByUsername(username);
         verify(appUserRepo).save(updatedAppUser);
         verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
     }
 
     @Test
     void addObservedWorldMapAppUser_whenValidInput_thenUpdateAndReturnResponse() {
         // Given
         String username = "username";
-        String appUserId = "1";
         String worldMapId = "1";
         AppUser appUser = new AppUser("1", AppUserRole.USER, "username", "password", List.of(), List.of());
-        AppUserResponse appUserResponse = new AppUserResponse(appUser);
         AppUser updatedAppUser = new AppUser("1", AppUserRole.USER, "username", "password", List.of(), List.of("1"));
         AppUserResponse expected = new AppUserResponse(updatedAppUser);
 
@@ -184,5 +186,56 @@ class AppUserServiceTest {
         verify(appUserRepo, times(2)).findAppUserByUsername(username);
         verify(appUserRepo).save(updatedAppUser);
         verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
+    }
+
+    @Test
+    void removeWorldmapFromAllUsers_whenUserIsNotOwner_thenThrowNonOwnerTriesToDeleteWorldMapException() {
+        // Given
+        String username = "username";
+        String worldMapId = "1";
+        AppUser appUser = new AppUser("1", AppUserRole.USER, "username", "password", List.of(), List.of());
+
+        // When
+        when(appUserRepo.findAppUserByUsername(username)).thenReturn(Optional.of(appUser));
+
+        // Then
+        assertThrows(NonOwnerTriesToDeleteWorldMapException.class, () -> appUserService.removeWorldmapFromAllUsers(username, worldMapId));
+        verify(appUserRepo).findAppUserByUsername(username);
+        verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
+    }
+
+    @Test
+    void removeWorldmapFromAllUsers_whenUserIsOwner_deleteFromAllUsers() {
+        // Given
+        String username = "username";
+        String worldMapId = "1";
+        AppUser appUser1 = new AppUser("1", AppUserRole.USER, "username", "password", new ArrayList<>(List.of(worldMapId, "2")), new ArrayList<>());
+        AppUser appUser2 = new AppUser("2", AppUserRole.USER, "username2", "password", new ArrayList<>(List.of(worldMapId)), new ArrayList<>(List.of("2")));
+        AppUser appUser3 = new AppUser("3", AppUserRole.USER, "username3", "password", new ArrayList<>(), new ArrayList<>(List.of(worldMapId)));
+        List<AppUser> appUsers = List.of(appUser1, appUser2, appUser3);
+
+        AppUser expectedAppUser1 = new AppUser("1", AppUserRole.USER, "username", "password", List.of("2"), List.of());
+        AppUser expectedAppUser2 = new AppUser("2", AppUserRole.USER, "username2", "password", List.of(), List.of("2"));
+        AppUser expectedAppUser3 = new AppUser("3", AppUserRole.USER, "username3", "password", List.of(), List.of());
+
+        // When
+        when(appUserRepo.findAppUserByUsername(username)).thenReturn(Optional.of(appUser1));
+        when(appUserRepo.findAll()).thenReturn(appUsers);
+        when(appUserRepo.save(expectedAppUser1)).thenReturn(expectedAppUser1);
+        when(appUserRepo.save(expectedAppUser2)).thenReturn(expectedAppUser2);
+        when(appUserRepo.save(expectedAppUser3)).thenReturn(expectedAppUser3);
+
+        appUserService.removeWorldmapFromAllUsers(username, worldMapId);
+
+        // Then
+        verify(appUserRepo).findAppUserByUsername(username);
+        verify(appUserRepo).findAll();
+        verify(appUserRepo, times(1)).save(expectedAppUser1);
+        verify(appUserRepo, times(1)).save(expectedAppUser2);
+        verify(appUserRepo, times(1)).save(expectedAppUser3);
+        verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
     }
 }

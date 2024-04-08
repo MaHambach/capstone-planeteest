@@ -16,8 +16,9 @@ class WorldMapServiceTest {
 
     private final WorldMapRepo worldMapRepo = mock(WorldMapRepo.class);
     private final AppUserService appUserService = mock(AppUserService.class);
+    private final MapMarkerService mapMarkerService = mock(MapMarkerService.class);
 
-    private final WorldMapService worldMapService = new WorldMapService(worldMapRepo, appUserService);
+    private final WorldMapService worldMapService = new WorldMapService(worldMapRepo, appUserService, mapMarkerService);
 
 
     @Test
@@ -34,6 +35,8 @@ class WorldMapServiceTest {
         assertEquals(expected, actual);
         verify(worldMapRepo).findAll();
         verifyNoMoreInteractions(worldMapRepo);
+        verifyNoInteractions(appUserService);
+        verifyNoInteractions(mapMarkerService);
     }
 
     @Test
@@ -49,6 +52,8 @@ class WorldMapServiceTest {
         assertEquals(expected, actual);
         verify(worldMapRepo).findAll();
         verifyNoMoreInteractions(worldMapRepo);
+        verifyNoInteractions(appUserService);
+        verifyNoInteractions(mapMarkerService);
     }
 
     @Test
@@ -64,6 +69,8 @@ class WorldMapServiceTest {
         assertThrows(NoSuchWorldMapException.class, () -> worldMapService.getWorldMapById(id));
         verify(worldMapRepo).findById(id);
         verifyNoMoreInteractions(worldMapRepo);
+        verifyNoInteractions(appUserService);
+        verifyNoInteractions(mapMarkerService);
     }
 
     @Test
@@ -81,6 +88,8 @@ class WorldMapServiceTest {
         assertEquals(expected, result);
         verify(worldMapRepo).findById(id);
         verifyNoMoreInteractions(worldMapRepo);
+        verifyNoInteractions(appUserService);
+        verifyNoInteractions(mapMarkerService);
     }
 
     @Test
@@ -96,6 +105,10 @@ class WorldMapServiceTest {
 
         // Then
         assertEquals(expected, result);
+        verify(worldMapRepo).save(new WorldMap(input));
+        verify(appUserService).addMyWorldMapAppUser(username, expected.id());
+        verifyNoMoreInteractions(appUserService);
+        verifyNoInteractions(mapMarkerService);
     }
 
     @Test
@@ -111,6 +124,8 @@ class WorldMapServiceTest {
         assertThrows(NoSuchWorldMapException.class, () -> worldMapService.updateWorldMap(id, worldMap));
         verify(worldMapRepo).existsById(id);
         verifyNoMoreInteractions(worldMapRepo);
+        verifyNoInteractions(appUserService);
+        verifyNoInteractions(mapMarkerService);
     }
 
 
@@ -124,6 +139,8 @@ class WorldMapServiceTest {
         // Then
         assertThrows(MissMatchingIdsWorldMapException.class, () -> worldMapService.updateWorldMap(id, worldMap));
         verifyNoInteractions(worldMapRepo);
+        verifyNoInteractions(appUserService);
+        verifyNoInteractions(mapMarkerService);
     }
 
     @Test
@@ -143,6 +160,8 @@ class WorldMapServiceTest {
         verify(worldMapRepo).existsById(worldMapOld.id());
         verify(worldMapRepo).save(expected);
         verifyNoMoreInteractions(worldMapRepo);
+        verifyNoInteractions(appUserService);
+        verifyNoInteractions(mapMarkerService);
     }
 
     @Test
@@ -158,6 +177,8 @@ class WorldMapServiceTest {
         assertThrows(NoSuchWorldMapException.class, () -> worldMapService.deleteWorldMapById(id,username));
         verify(worldMapRepo).findById(id);
         verifyNoMoreInteractions(worldMapRepo);
+        verifyNoInteractions(appUserService);
+        verifyNoInteractions(mapMarkerService);
     }
 
     @Test
@@ -175,5 +196,9 @@ class WorldMapServiceTest {
         verify(worldMapRepo).findById(expected.id());
         verify(worldMapRepo).deleteById(expected.id());
         verifyNoMoreInteractions(worldMapRepo);
+        verify(appUserService).removeWorldmapFromAllUsers(username, expected.id());
+        verifyNoMoreInteractions(appUserService);
+        verify(mapMarkerService).deleteAllMapMarkersByWorldMapId(expected.id());
+        verifyNoMoreInteractions(mapMarkerService);
     }
 }

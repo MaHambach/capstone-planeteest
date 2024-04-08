@@ -48,8 +48,8 @@ public class WorldMapService {
 
     public WorldMap deleteWorldMapById(String worldMapId, String ownerId) {
         WorldMap worldMap = getWorldMapById(worldMapId);
+        appUserService.removeWorldmapFromAllUsers(ownerId, worldMapId);
         worldMapRepo.deleteById(worldMapId);
-        appUserService.removeWorldmapFromAllUsers(worldMapId, ownerId);
         mapMarkerService.deleteAllMapMarkersByWorldMapId(worldMapId);
         return worldMap;
     }
