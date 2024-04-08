@@ -1,6 +1,6 @@
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {AppUser} from "../types/AppUser.ts";
 import {AppUserRegister} from "../types/AppUserRegister.ts";
 
@@ -17,34 +17,31 @@ export function useAppUser() {
             })
             .catch(e => {
                 console.error(e)
+                setAppUser(null);
             });
     }
 
-    function loginAppUser(appUserRegister:AppUserRegister):void {
-        axios.post("/api/users/login", {}, {
+    async function loginAppUser(appUserRegister:AppUserRegister):Promise<void> {
+        return axios.post("/api/users/login", {}, {
             auth: appUserRegister
         })
             .then(() => {
                 console.log("Login successful");
-                fetchMe();
-                navigate("/");
             })
             .catch(e => {
                 console.error(e);
-                setAppUser(null);
-            });
+            })
+            .finally(fetchMe);
     }
 
     function registerAppUser(appUserRegister:AppUserRegister):void {
         axios.post("/api/users/register", appUserRegister)
             .then(() => {
                 console.log("User registered successfully");
+                loginAppUser(appUserRegister);
             })
             .catch(e => {
                 console.error(e);
-            })
-            .finally(() => {
-                loginAppUser(appUserRegister);
             });
     }
 
@@ -62,9 +59,10 @@ export function useAppUser() {
             });
     }
 
+    useEffect(fetchMe, []);
+
     return {
         appUser,
-        fetchMe,
         loginAppUser,
         registerAppUser,
         logoutAppUser

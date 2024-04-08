@@ -1,10 +1,10 @@
 import './LoginUserMain.css';
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {AppUserRegister, emptyAppUserRegister} from "../../../types/AppUserRegister.ts";
+import {useNavigate} from "react-router-dom";
 
 type LoginUserMainProps = {
-    loginAppUser: (appUserRegister:AppUserRegister) => void;
+    loginAppUser: (appUserRegister:AppUserRegister) => Promise<void>;
     registerAppUser: (appUserRegister:AppUserRegister) => void;
 }
 
@@ -22,21 +22,23 @@ export default function LoginUserMain(props:Readonly<LoginUserMainProps>):React.
         );
     }
 
-    function handleLogin(event: React.MouseEvent<HTMLButtonElement>):void {
+    function handleLogin(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault()
-        props.loginAppUser(formData);
-        navigate("/");
+        props.loginAppUser(formData).then(
+            () => {
+                navigate("/");
+            }
+        );
     }
 
     function handleRegister(event: React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault()
         props.registerAppUser(formData);
-        navigate("/");
     }
 
     return (
         <main className={"loginUserMain"}>
-            <form className={"inputFormForm"}>
+            <form className={"inputFormForm"} onSubmit={handleLogin}>
                 <div>
                     <input name={"username"} placeholder={"Username"} type={"text"} value={formData.username} onChange={handleChange}/>
                 </div>
@@ -44,7 +46,7 @@ export default function LoginUserMain(props:Readonly<LoginUserMainProps>):React.
                     <input name={"password"} placeholder={"Password"} type={"password"} value={formData.password} onChange={handleChange}/>
                 </div>
                 <div>
-                    <button onClick={handleLogin}>Login</button>
+                    <button type={"submit"}>Login</button>
                     <button onClick={handleRegister}>Register</button>
                 </div>
             </form>
