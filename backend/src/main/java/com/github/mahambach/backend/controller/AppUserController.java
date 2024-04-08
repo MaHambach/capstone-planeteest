@@ -30,7 +30,6 @@ public class AppUserController {
     }
 
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public AppUserResponse login(){
         return getAppUserByUsername();
     }
