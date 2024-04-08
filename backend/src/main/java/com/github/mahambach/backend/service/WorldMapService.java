@@ -16,6 +16,7 @@ public class WorldMapService {
     private final WorldMapRepo worldMapRepo;
 
     private final AppUserService appUserService;
+    private final MapMarkerService mapMarkerService;
 
     public List<WorldMap> getAllWorldMaps() {
         return worldMapRepo.findAll();
@@ -49,6 +50,7 @@ public class WorldMapService {
         WorldMap worldMap = getWorldMapById(worldMapId);
         worldMapRepo.deleteById(worldMapId);
         appUserService.removeWorldmapFromAllUsers(worldMapId, ownerId);
+        mapMarkerService.deleteAllMapMarkersByWorldMapId(worldMapId);
         return worldMap;
     }
 
