@@ -1,6 +1,7 @@
 package com.github.mahambach.backend.controller;
 
 import com.github.mahambach.backend.model.WorldMapInvite;
+import com.github.mahambach.backend.model.WorldMapInviteDto;
 import com.github.mahambach.backend.service.WorldMapInviteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,9 +29,9 @@ public class WorldMapInviteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public WorldMapInvite createWorldMapInvite(@RequestBody WorldMapInvite worldMapObserveInvite) {
+    public WorldMapInvite createWorldMapInvite(@RequestBody WorldMapInviteDto worldMapInviteDto) {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return worldMapObserveInviteService.createWorldMapInvite(worldMapObserveInvite, principal.getUsername());
+        return worldMapObserveInviteService.createWorldMapInvite(worldMapInviteDto, principal.getUsername());
     }
 
 

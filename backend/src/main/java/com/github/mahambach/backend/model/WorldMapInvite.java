@@ -8,4 +8,8 @@ public record WorldMapInvite(
         String ownerId,
         String inviteeId,
         String worldMapId) {
+
+        public WorldMapInvite (WorldMapInviteDto worldMapInviteDto) {
+                this(null, worldMapInviteDto.ownerId(), worldMapInviteDto.inviteeId(), worldMapInviteDto.worldMapId());
+        }
 }

@@ -46,6 +46,12 @@ public class GlobalExceptionHandler {
         return handleNoSuchObjectException("World map", exception.getMessage());
     }
 
+    @ExceptionHandler(NoSuchWorldMapInviteException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleNoSuchWorldMapInviteException(NoSuchWorldMapInviteException exception) {
+        return handleNoSuchObjectException("World map invite", exception.getMessage());
+    }
+
     private ErrorMessage handleNoSuchObjectException(String className, String objectId) {
         return new ErrorMessage(
                 className + " with id " + objectId + " not found.",
@@ -100,6 +106,15 @@ public class GlobalExceptionHandler {
     public ErrorMessage handleNonOwnerTriesToDeleteWorldMapException(NonOwnerTriesToDeleteWorldMapException exception) {
         return new ErrorMessage(
                 "User with id " + exception.userId + " is not the owner of the world map with id " + exception.worldMapId + ".",
+                LocalDateTime.now()
+        );
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleIllegalArgumentException(IllegalArgumentException exception) {
+        return new ErrorMessage(
+                exception.getMessage(),
                 LocalDateTime.now()
         );
     }
