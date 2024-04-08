@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mahambach.backend.model.AppUserRegister;
 import com.github.mahambach.backend.model.AppUserResponse;
 import com.github.mahambach.backend.model.AppUserRole;
+import com.github.mahambach.backend.model.ErrorMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -94,7 +95,7 @@ class AppUserControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "username")
     void updateAppUser_whenSuchAppUser_thenUpdate() throws Exception  {
         // Given
         AppUserRegister appUserRegister = new AppUserRegister("username", "password");
@@ -109,8 +110,6 @@ class AppUserControllerTest {
 
         AppUserResponse newAppUserResponse = new AppUserResponse(appUserId, AppUserRole.ADMIN, "new username", List.of("1"), List.of("2"));
         String newAppUserResponseJson = objectMapper.writeValueAsString(newAppUserResponse);
-
-        mvc.perform(post("/api/user/login")).andExpect(status().isNotFound());
 
         // When
         MvcResult resultJson = mvc.perform(put("/api/users/" + appUserId)
@@ -127,6 +126,59 @@ class AppUserControllerTest {
         assertEquals("new username", updatedAppUserResponse.username());
         assertEquals(List.of("1"), updatedAppUserResponse.myWorldMapIds());
         assertEquals(List.of("2"), updatedAppUserResponse.observedWorldMapIds());
+    }
+
+
+    @Test
+    @WithMockUser
+    void updateAppUser_whenNoSuchAppUser_thenThrowNotFound() throws Exception  {
+        // Given
+        AppUserResponse updateAppUser = new AppUserResponse("1", AppUserRole.ADMIN, "new username", List.of("1"), List.of("2"));
+        String updateAppUserJson = objectMapper.writeValueAsString(updateAppUser);
+
+        // When
+        MvcResult resultJson = mvc.perform(put("/api/users/1")
+                        .contentType("application/json")
+                        .content(updateAppUserJson))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(), ErrorMessage.class);
+
+        // Then
+        assertEquals("User with id 1 not found.", result.errorMsg());
+    }
+
+    @Test
+    @WithMockUser
+    void updateAppUser_whenPathAndBodyIdMissMatch_thenThrowBadRequest() throws Exception  {
+        // Given
+        AppUserRegister appUserRegister = new AppUserRegister("user", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        MvcResult json = mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String appUserId = objectMapper.readValue(json.getResponse().getContentAsString(), AppUserResponse.class).id();
+
+        AppUserResponse updateAppUser = new AppUserResponse("2", AppUserRole.ADMIN, "new username", List.of("1"), List.of("2"));
+        String updateAppUserJson = objectMapper.writeValueAsString(updateAppUser);
+
+        // When
+
+        // Then
+        MvcResult resultJson = mvc.perform(put("/api/users/" + appUserId)
+                        .contentType("application/json")
+                        .content(updateAppUserJson))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(), ErrorMessage.class);
+
+        // Then
+        assertEquals("User with id " + appUserId + " in path and 2 in body do not match.", result.errorMsg());
     }
 
     @Test

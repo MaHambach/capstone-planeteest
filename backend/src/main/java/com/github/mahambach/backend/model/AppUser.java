@@ -19,7 +19,7 @@ public record AppUser(
         this(null, AppUserRole.USER, appUserRegister.username(), appUserRegister.password(), new ArrayList<>(), new ArrayList<>());
     }
 
-    public AppUser(AppUserResponse appUserResponse) {
-        this(appUserResponse.id(), appUserResponse.role(), appUserResponse.username(), null, appUserResponse.myWorldMapIds(), appUserResponse.observedWorldMapIds());
+    public AppUser(AppUserUpdateObject appUserUpdateObject) {
+        this(appUserUpdateObject.id(), appUserUpdateObject.role(), null, null, appUserUpdateObject.myWorldMapIds(), appUserUpdateObject.observedWorldMapIds());
     }
 }

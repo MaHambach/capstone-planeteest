@@ -2,6 +2,7 @@ package com.github.mahambach.backend.controller;
 
 import com.github.mahambach.backend.model.AppUserRegister;
 import com.github.mahambach.backend.model.AppUserResponse;
+import com.github.mahambach.backend.model.AppUserUpdateObject;
 import com.github.mahambach.backend.service.AppUserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +44,9 @@ public class AppUserController {
 
     @PutMapping("/{appUserId}")
     public AppUserResponse updateAppUser(@PathVariable String appUserId,
-                                         @RequestBody AppUserResponse appUserResponse) {
+                                         @RequestBody AppUserUpdateObject appUserUpdateObject) {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.updateAppUser(principal.getUsername(), appUserId, appUserResponse);
+        return appUserService.updateAppUser(principal.getUsername(), appUserId, appUserUpdateObject);
     }
 
     @PutMapping("/{appUserId}/add-my-world-map/{worldMapId}")

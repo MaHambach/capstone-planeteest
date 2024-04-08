@@ -2,10 +2,7 @@ package com.github.mahambach.backend.service;
 
 import com.github.mahambach.backend.exception.MissMatchingIdsAppUserException;
 import com.github.mahambach.backend.exception.NoSuchAppUserException;
-import com.github.mahambach.backend.model.AppUser;
-import com.github.mahambach.backend.model.AppUserRegister;
-import com.github.mahambach.backend.model.AppUserResponse;
-import com.github.mahambach.backend.model.AppUserRole;
+import com.github.mahambach.backend.model.*;
 import com.github.mahambach.backend.repository.AppUserRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -79,13 +76,13 @@ class AppUserServiceTest {
         // Given
         String username = "username";
         String appUserId = "1";
-        AppUserResponse appUserResponse = new AppUserResponse(new AppUser("1", AppUserRole.USER, "username", "password", List.of(), List.of()));
+        AppUserUpdateObject appUserUpdate = new AppUserUpdateObject(new AppUserResponse("1", AppUserRole.USER, "username", List.of(), List.of()));
 
         // When
         when(appUserRepo.findAppUserByUsername(username)).thenReturn(java.util.Optional.empty());
 
         // Then
-        assertThrows(NoSuchAppUserException.class, () -> appUserService.updateAppUser(username, appUserId, appUserResponse));
+        assertThrows(NoSuchAppUserException.class, () -> appUserService.updateAppUser(username, appUserId, appUserUpdate));
         verify(appUserRepo).findAppUserByUsername(username);
         verifyNoMoreInteractions(appUserRepo);
     }
@@ -96,13 +93,13 @@ class AppUserServiceTest {
         String username = "username";
         String appUserId = "1";
         AppUser appUser = new AppUser("2", AppUserRole.USER, "username", "password", List.of(), List.of());
-        AppUserResponse appUserResponse = new AppUserResponse(appUser);
+        AppUserUpdateObject appUserUpdate = new AppUserUpdateObject(new AppUserResponse(appUser));
 
         // When
         when(appUserRepo.findAppUserByUsername(username)).thenReturn(Optional.of(appUser));
 
         // Then
-        assertThrows(MissMatchingIdsAppUserException.class, () -> appUserService.updateAppUser(username, appUserId, appUserResponse));
+        assertThrows(MissMatchingIdsAppUserException.class, () -> appUserService.updateAppUser(username, appUserId, appUserUpdate));
         verify(appUserRepo).findAppUserByUsername(username);
         verifyNoMoreInteractions(appUserRepo);
     }
@@ -113,15 +110,15 @@ class AppUserServiceTest {
         String username = "username";
         String appUserId = "1";
         AppUser appUser = new AppUser(appUserId, AppUserRole.USER, username, "password", List.of(), List.of());
-        AppUserResponse appUserResponse = new AppUserResponse(appUser);
         AppUser updatedAppUser = new AppUser(appUserId, AppUserRole.ADMIN, "new username", "password", List.of("1"), List.of("1"));
         AppUserResponse expected = new AppUserResponse(updatedAppUser);
+        AppUserUpdateObject appUserUpdateObject = new AppUserUpdateObject(expected);
 
         // When
         when(appUserRepo.findAppUserByUsername(username)).thenReturn(Optional.of(appUser));
         when(appUserRepo.save(updatedAppUser)).thenReturn(updatedAppUser);
 
-        AppUserResponse actual = appUserService.updateAppUser(username, appUserId, expected);
+        AppUserResponse actual = appUserService.updateAppUser(username, appUserId, appUserUpdateObject);
 
         // Then
         assertEquals(expected, actual);

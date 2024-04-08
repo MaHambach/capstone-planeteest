@@ -5,6 +5,7 @@ import com.github.mahambach.backend.exception.NoSuchAppUserException;
 import com.github.mahambach.backend.model.AppUser;
 import com.github.mahambach.backend.model.AppUserRegister;
 import com.github.mahambach.backend.model.AppUserResponse;
+import com.github.mahambach.backend.model.AppUserUpdateObject;
 import com.github.mahambach.backend.repository.AppUserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,7 +32,7 @@ public class AppUserService {
         return new AppUserResponse(newAppUser);
     }
 
-    public AppUserResponse updateAppUser(String username, String appUserId, AppUserResponse appUserResponse) {
+    public AppUserResponse updateAppUser(String username, String appUserId, AppUserUpdateObject appUserUpdateObject) {
         AppUser appUser = appUserRepo.findAppUserByUsername(username)
                                      .orElseThrow(() -> new NoSuchAppUserException(appUserId));
 
@@ -39,7 +40,9 @@ public class AppUserService {
             throw new MissMatchingIdsAppUserException(appUserId, appUser.id());
         }
 
-        AppUser updatedAppUser = new AppUser(appUserResponse).withPassword(appUser.password());
+        AppUser updatedAppUser = new AppUser(appUserUpdateObject)
+                .withPassword(appUser.password())
+                .withUsername(appUser.username());
 
         updatedAppUser = appUserRepo.save(updatedAppUser);
 
@@ -47,23 +50,20 @@ public class AppUserService {
     }
 
     public AppUserResponse addMyWorldMapAppUser(String username, String appUserId, String worldMapId) {
-        AppUserResponse appUserResponse = findAppUserByUsername(username);
+        AppUserUpdateObject appUserUpdateObject = new AppUserUpdateObject(findAppUserByUsername(username));
 
-        List<String> newMyWorldMapIds = new ArrayList<>(appUserResponse.observedWorldMapIds());
+        List<String> newMyWorldMapIds = new ArrayList<>(appUserUpdateObject.observedWorldMapIds());
 
         newMyWorldMapIds.add(worldMapId);
 
-        appUserResponse = appUserResponse.withMyWorldMapIds(newMyWorldMapIds);
-
-        return updateAppUser(username, appUserId, appUserResponse);
+        return updateAppUser(username, appUserId, appUserUpdateObject.withMyWorldMapIds(newMyWorldMapIds));
     }
 
     public AppUserResponse addObservedWorldMapAppUser(String username, String appUserId, String worldMapId) {
-        AppUserResponse appUserResponse = findAppUserByUsername(username);
-        List<String> newObservedWorldMapIds = new ArrayList<>(appUserResponse.observedWorldMapIds());
+        AppUserUpdateObject appUserUpdateObject = new AppUserUpdateObject(findAppUserByUsername(username));
+        List<String> newObservedWorldMapIds = new ArrayList<>(appUserUpdateObject.observedWorldMapIds());
         newObservedWorldMapIds.add(worldMapId);
-        appUserResponse = appUserResponse.withObservedWorldMapIds(newObservedWorldMapIds);
 
-        return updateAppUser(username, appUserId, appUserResponse);
+        return updateAppUser(username, appUserId, appUserUpdateObject.withObservedWorldMapIds(newObservedWorldMapIds));
     }
 }
