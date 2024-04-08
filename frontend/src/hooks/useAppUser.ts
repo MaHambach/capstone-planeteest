@@ -25,8 +25,8 @@ export function useAppUser() {
         return axios.post("/api/users/login", {}, {
             auth: appUserRegister
         })
-            .then((r) => {
-                setAppUser(r.data)
+            .then((response) => {
+                setAppUser(response.data)
                 console.log("Login successful");
             })
             .catch(e => {
