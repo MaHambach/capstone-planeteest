@@ -48,13 +48,13 @@ public class AppUserController {
         return appUserService.updateAppUser(principal.getUsername(), appUserUpdateObject);
     }
 
-    @PutMapping("/add-my-world-map/{worldMapId}")
-    public AppUserResponse addMyWorldMapAppUser(@PathVariable String worldMapId) {
+    @PutMapping("/add-my-world-map")
+    public AppUserResponse addMyWorldMapAppUser(@RequestBody String worldMapId) {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return appUserService.addMyWorldMapAppUser(principal.getUsername(), worldMapId);
     }
-    @PutMapping("/add-observed/{worldMapId}")
-    public AppUserResponse addObservedWorldMapAppUser(@PathVariable String worldMapId) {
+    @PutMapping("/add-observed")
+    public AppUserResponse addObservedWorldMapAppUser(@RequestBody String worldMapId) {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return appUserService.addObservedWorldMapAppUser(principal.getUsername(), worldMapId);
     }

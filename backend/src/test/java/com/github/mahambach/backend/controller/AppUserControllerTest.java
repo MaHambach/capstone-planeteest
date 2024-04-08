@@ -122,7 +122,7 @@ class AppUserControllerTest {
         String newAppUserResponseJson = objectMapper.writeValueAsString(appUserUpdateObject);
 
         // When
-        MvcResult resultJson = mvc.perform(put("/api/users/")
+        MvcResult resultJson = mvc.perform(put("/api/users")
                 .contentType("application/json")
                 .content(newAppUserResponseJson))
                 .andExpect(status().isOk())
@@ -147,7 +147,7 @@ class AppUserControllerTest {
         String updateAppUserJson = objectMapper.writeValueAsString(updateAppUser);
 
         // When
-        MvcResult resultJson = mvc.perform(put("/api/users/")
+        MvcResult resultJson = mvc.perform(put("/api/users")
                         .contentType("application/json")
                         .content(updateAppUserJson))
                 .andExpect(status().isNotFound())
@@ -156,7 +156,7 @@ class AppUserControllerTest {
         ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(), ErrorMessage.class);
 
         // Then
-        assertEquals("User with id 1 not found.", result.errorMsg());
+        assertEquals("User with username user not found.", result.errorMsg());
     }
 
     @Test
@@ -177,9 +177,7 @@ class AppUserControllerTest {
         String updateAppUserJson = objectMapper.writeValueAsString(appUserUpdateObject);
 
         // When
-
-        // Then
-        MvcResult resultJson = mvc.perform(put("/api/users/")
+        MvcResult resultJson = mvc.perform(put("/api/users")
                         .contentType("application/json")
                         .content(updateAppUserJson))
                 .andExpect(status().isBadRequest())
@@ -194,18 +192,64 @@ class AppUserControllerTest {
     @Test
     @WithMockUser
     void addMyWorldMapAppUser() throws Exception  {
+        // Given
+        AppUserRegister appUserRegister = new AppUserRegister("user", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        MvcResult json = mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated())
+                .andReturn();
 
-        /*
-        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.addMyWorldMapAppUser(principal.getUsername(), appUserId, worldMapId);
-         */
+        String appUserId = objectMapper.readValue(json.getResponse().getContentAsString(), AppUserResponse.class).id();
+        String worldMapId = "1";
+
+        // When
+        MvcResult resultJson = mvc.perform(put("/api/users/add-my-world-map")
+                        .contentType("application/json")
+                        .content(worldMapId))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        AppUserResponse updatedAppUserResponse = objectMapper.readValue(resultJson.getResponse().getContentAsString(), AppUserResponse.class);
+
+        // Then
+        assertEquals(appUserId, updatedAppUserResponse.id());
+        assertEquals(AppUserRole.USER, updatedAppUserResponse.role());
+        assertEquals("user", updatedAppUserResponse.username());
+        assertEquals(List.of(worldMapId), updatedAppUserResponse.myWorldMapIds());
+        assertTrue(updatedAppUserResponse.observedWorldMapIds().isEmpty());
     }
+
     @Test
     @WithMockUser
     void addObservedWorldMapAppUser() throws Exception  {
-        /*
-        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.addObservedWorldMapAppUser(principal.getUsername(), appUserId, worldMapId);
-         */
+        // Given
+        AppUserRegister appUserRegister = new AppUserRegister("user", "password");
+        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
+        MvcResult json = mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(appUserRegisterJson))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String appUserId = objectMapper.readValue(json.getResponse().getContentAsString(), AppUserResponse.class).id();
+        String worldMapId = "1";
+
+        // When
+        MvcResult resultJson = mvc.perform(put("/api/users/add-observed")
+                        .contentType("application/json")
+                        .content(worldMapId))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        AppUserResponse updatedAppUserResponse = objectMapper.readValue(resultJson.getResponse().getContentAsString(), AppUserResponse.class);
+
+        // Then
+        assertEquals(appUserId, updatedAppUserResponse.id());
+        assertEquals(AppUserRole.USER, updatedAppUserResponse.role());
+        assertEquals("user", updatedAppUserResponse.username());
+        assertTrue(updatedAppUserResponse.myWorldMapIds().isEmpty());
+        assertEquals(List.of(worldMapId), updatedAppUserResponse.observedWorldMapIds());
     }
 }
