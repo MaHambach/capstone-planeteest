@@ -109,6 +109,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
             <ToolBar
                 toggleAddNewMapMarker={toggleAddNewMapMarker}
                 addNewMapMarker={addNewMapMarker}
+                isOwner={props.appUser.myWorldMapIds.includes(worldMap.id)}
             />
             <WorldMapImage
                 worldMap={worldMap}
@@ -129,6 +130,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     handleArticleFrame={handleArticleFrame}
                     setSelectedMapMarker={setSelectedMapMarker}
                     getMapMarkerType={props.getMapMarkerType}
+                    isOwner={props.appUser.myWorldMapIds.includes(worldMap.id)}
                 />
             })}
             {(showArticle && selectedMapMarker !== emptyMapMarker) &&
@@ -138,6 +140,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     article={props.getArticleById(selectedMapMarker.articleId)}
                     closeWindow={handleArticleFrame}
                     updateArticle={props.updateArticle}
+                    isOwner={props.appUser.myWorldMapIds.includes(worldMap.id)}
                 />
             }
             {(addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&

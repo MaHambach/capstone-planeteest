@@ -17,6 +17,7 @@ type MapMarkerCardProps = {
     handleSelectedMapMarkerChange: (mapMarker:MapMarker) => void;
     setSelectedMapMarker: (mapMarker:MapMarker) => void;
     getMapMarkerType: (id:string) => MapMarkerType;
+    isOwner:boolean;
 }
 
 export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
@@ -55,9 +56,6 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                 left: coordinates.xPosition,
                 top: coordinates.yPosition
             }}>
-                <h2 className={props.isSelected ? "mapMarkerNameSelected" : "mapMarkerName"}>
-                    {props.mapMarker.name}
-                </h2>
                 { props.isMovable ?
                     <Draggable
                         handle="strong"
@@ -80,10 +78,16 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                     />
                 }
                 {props.isSelected &&
-                    <ToolBar
-                        handleMapMarkerUpdate={props.handleMapMarkerUpdate}
-                        handleArticleFrame={props.handleArticleFrame}
-                    />
+                    <>
+                        <h2 className={"mapMarkerName"}>
+                            {props.mapMarker.name}
+                        </h2>
+                        <ToolBar
+                            isOwner={props.isOwner}
+                            handleMapMarkerUpdate={props.handleMapMarkerUpdate}
+                            handleArticleFrame={props.handleArticleFrame}
+                        />
+                    </>
                 }
             </div>
     )

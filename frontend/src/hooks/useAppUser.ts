@@ -27,13 +27,11 @@ export function useAppUser() {
             .then(() => {
                 console.log("Login successful");
                 fetchMe();
+                navigate("/");
             })
             .catch(e => {
                 console.error(e);
                 setAppUser(null);
-            })
-            .finally(() => {
-                    navigate("/");
             });
     }
 

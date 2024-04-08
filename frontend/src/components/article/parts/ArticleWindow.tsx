@@ -11,6 +11,7 @@ type ArticleWindowProps = {
     title:string;
     updateArticle: (article:Article) => void;
     closeWindow: () => void;
+    isOwner:boolean;
 }
 export default function ArticleWindow(props:Readonly<ArticleWindowProps>):React.ReactElement {
     const [isBeingEdited, setIsBeingEdited] = useState<boolean>(false);
@@ -28,7 +29,7 @@ export default function ArticleWindow(props:Readonly<ArticleWindowProps>):React.
         }}>
             <div className={"articleWindowTitleLine"}>
                 <span><b>{props.title}</b></span>
-                {!isBeingEdited && <button onClick={(): void => setIsBeingEdited(!isBeingEdited)}>Bearbeiten</button>}
+                {(props.isOwner && !isBeingEdited) && <button onClick={(): void => setIsBeingEdited(!isBeingEdited)}>Bearbeiten</button>}
             </div>
             {isBeingEdited ?
                 <UpdateArticleForm
