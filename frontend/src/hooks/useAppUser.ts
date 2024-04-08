@@ -25,13 +25,13 @@ export function useAppUser() {
         return axios.post("/api/users/login", {}, {
             auth: appUserRegister
         })
-            .then(() => {
+            .then((r) => {
+                setAppUser(r.data)
                 console.log("Login successful");
             })
             .catch(e => {
                 console.error(e);
-            })
-            .finally(fetchMe);
+            });
     }
 
     function registerAppUser(appUserRegister:AppUserRegister):void {

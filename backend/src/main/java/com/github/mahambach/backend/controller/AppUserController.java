@@ -31,8 +31,8 @@ public class AppUserController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void login(){
-        // This is a dummy method to simulate a login.
+    public AppUserResponse login(){
+        return getAppUserByUsername();
     }
 
     @PostMapping("/logout")

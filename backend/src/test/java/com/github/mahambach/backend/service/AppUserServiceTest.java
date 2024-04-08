@@ -110,9 +110,9 @@ class AppUserServiceTest {
         String username = "username";
         String appUserId = "1";
         AppUser appUser = new AppUser(appUserId, AppUserRole.USER, username, "password", List.of(), List.of());
-        AppUser updatedAppUser = new AppUser(appUserId, AppUserRole.ADMIN, "new username", "password", List.of("1"), List.of("1"));
+        AppUserUpdateObject appUserUpdateObject = new AppUserUpdateObject(appUserId, AppUserRole.ADMIN, List.of("1"), List.of("1"));
+        AppUser updatedAppUser = new AppUser(appUserUpdateObject).withPassword(appUser.password()).withUsername(appUser.username());
         AppUserResponse expected = new AppUserResponse(updatedAppUser);
-        AppUserUpdateObject appUserUpdateObject = new AppUserUpdateObject(expected);
 
         // When
         when(appUserRepo.findAppUserByUsername(username)).thenReturn(Optional.of(appUser));
