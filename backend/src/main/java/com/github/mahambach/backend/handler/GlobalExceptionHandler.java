@@ -93,4 +93,14 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
     }
+
+    // Special Exceptions
+    @ExceptionHandler(NonOwnerTriesToDeleteWorldMapException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorMessage handleNonOwnerTriesToDeleteWorldMapException(NonOwnerTriesToDeleteWorldMapException exception) {
+        return new ErrorMessage(
+                "User with id " + exception.userId + " is not the owner of the world map with id " + exception.worldMapId + ".",
+                LocalDateTime.now()
+        );
+    }
 }

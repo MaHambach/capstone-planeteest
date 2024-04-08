@@ -15,8 +15,9 @@ import static org.mockito.Mockito.*;
 class WorldMapServiceTest {
 
     private final WorldMapRepo worldMapRepo = mock(WorldMapRepo.class);
+    private final AppUserService appUserService = mock(AppUserService.class);
 
-    private final WorldMapService worldMapService = new WorldMapService(worldMapRepo);
+    private final WorldMapService worldMapService = new WorldMapService(worldMapRepo, appUserService);
 
 
     @Test
@@ -85,12 +86,13 @@ class WorldMapServiceTest {
     @Test
     void createWorldMap_whenValidInput_thenCreateAndReturn() {
         // Given
+        String username = "username";
         WorldMap expected = new WorldMap("1", "WorldMapName", "WorldMapUrl", 1024, 768);
         WorldMapDto input = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
 
         // When
         when(worldMapRepo.save(new WorldMap(input))).thenReturn(expected);
-        WorldMap result = worldMapService.createWorldMap(input);
+        WorldMap result = worldMapService.createWorldMap(input, username);
 
         // Then
         assertEquals(expected, result);
@@ -146,13 +148,14 @@ class WorldMapServiceTest {
     @Test
     void deleteWorldMapById_whenNoSuchWorldMap_thenThrow() {
         // Given
+        String username = "username";
         String id = "1";
 
         // When
         when(worldMapRepo.findById(id)).thenReturn(java.util.Optional.empty());
 
         // Then
-        assertThrows(NoSuchWorldMapException.class, () -> worldMapService.deleteWorldMapById(id));
+        assertThrows(NoSuchWorldMapException.class, () -> worldMapService.deleteWorldMapById(id,username));
         verify(worldMapRepo).findById(id);
         verifyNoMoreInteractions(worldMapRepo);
     }
@@ -160,11 +163,12 @@ class WorldMapServiceTest {
     @Test
     void deleteWorldMapById_whenSuchWorld_thenDeleteAndReturnDeleted() {
         // Given
+        String username = "username";
         WorldMap expected = new WorldMap("1", "WorldMapName", "WorldMapUrl", 1024, 768);
 
         // When
         when(worldMapRepo.findById(expected.id())).thenReturn(java.util.Optional.of(expected));
-        WorldMap actual = worldMapService.deleteWorldMapById(expected.id());
+        WorldMap actual = worldMapService.deleteWorldMapById(expected.id(), username);
 
         // Then
         assertEquals(expected, actual);

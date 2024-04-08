@@ -2,6 +2,7 @@ package com.github.mahambach.backend.service;
 
 import com.github.mahambach.backend.exception.MissMatchingIdsAppUserException;
 import com.github.mahambach.backend.exception.NoSuchAppUserException;
+import com.github.mahambach.backend.exception.NonOwnerTriesToDeleteWorldMapException;
 import com.github.mahambach.backend.model.AppUser;
 import com.github.mahambach.backend.model.AppUserRegister;
 import com.github.mahambach.backend.model.AppUserResponse;
@@ -65,5 +66,23 @@ public class AppUserService {
         newObservedWorldMapIds.add(worldMapId);
 
         return updateAppUser(username, appUserUpdateObject.withObservedWorldMapIds(newObservedWorldMapIds));
+    }
+
+    public void removeWorldmapFromAllUsers(String worldMapId, String username) {
+        AppUserResponse owner = findAppUserByUsername(username);
+
+        if(!owner.myWorldMapIds().contains(worldMapId)) throw new NonOwnerTriesToDeleteWorldMapException(owner.username(), worldMapId);
+
+        List<AppUser> appUsers = appUserRepo.findAll();
+
+        for(AppUser appUser : appUsers){
+            List<String> myWorldMapIds = new ArrayList<>(appUser.myWorldMapIds());
+            List<String> observedWorldMapIds = new ArrayList<>(appUser.observedWorldMapIds());
+
+            myWorldMapIds.remove(worldMapId);
+            observedWorldMapIds.remove(worldMapId);
+
+            appUserRepo.save(appUser.withMyWorldMapIds(myWorldMapIds).withObservedWorldMapIds(observedWorldMapIds));
+        }
     }
 }
