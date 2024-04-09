@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {emptyWorldMapInviteDto, WorldMapInviteDto} from "../../../types/WorldMapInviteDto.ts";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
@@ -22,17 +22,28 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
         event.preventDefault();
         setFormData(
             {
-                ownerId: props.ownerId,
-                inviteeId: event.target.value,
-                worldMapId: props.worldMapId
+                ...formData,
+                [event.target.name]: event.target.value
             }
         )
     }
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-        console.log(formData);
+        props.saveWorldMapInvite(formData);
     }
+
+    useEffect(() => {
+        setFormData(
+            {
+                ...formData,
+                ownerId: props.ownerId,
+                worldMapId: props.worldMapId,
+                inviteeId: props.appUsersWithoutObservers[0].id
+            }
+        );
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <DraggableSubWindow
@@ -52,7 +63,10 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
                 <select id={"inviteeId"} name={"inviteeId"} value={formData.inviteeId} onChange={handleChange}>
                     {props.appUsersWithoutObservers.map((appUser:AppUserMinimal) => {
                         return (
-                            <option key={appUser.id} value={formData.inviteeId}>{appUser.username}</option>
+                            <option key={appUser.id}
+                                    value={appUser.id}>
+                                {appUser.username}
+                            </option>
                         );
                     })}
                 </select>

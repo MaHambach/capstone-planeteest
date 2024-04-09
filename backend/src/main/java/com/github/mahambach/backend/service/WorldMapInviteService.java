@@ -7,6 +7,7 @@ import com.github.mahambach.backend.repository.WorldMapInviteRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,6 +26,19 @@ public class WorldMapInviteService {
         return worldMapInviteRepo
                 .findById(worldMapInviteId)
                 .orElseThrow(() -> new NoSuchWorldMapInviteException(worldMapInviteId));
+    }
+
+    public List<WorldMapInvite> getAllWorldMapInvitesToWorldMap(String worldMapId) {
+        List<WorldMapInvite> worldMapInvites = getAllWorldMapInvites();
+        List<WorldMapInvite> worldMapInvitesToWorldMap = new ArrayList<>();
+
+        for(WorldMapInvite invite : worldMapInvites){
+            if(invite.worldMapId().equals(worldMapId)){
+                worldMapInvitesToWorldMap.add(invite);
+            }
+        }
+
+        return worldMapInvitesToWorldMap;
     }
 
     public WorldMapInvite createWorldMapInvite(WorldMapInviteDto worldMapInviteDto, String username) {
@@ -63,4 +77,17 @@ public class WorldMapInviteService {
         return worldMapInvite;
     }
 
+    public WorldMapInvite acceptWorldMapInvite(String worldMapObserveInviteId, String username) {
+        String appUserId = appUserService.findAppUserByUsername(username).id();
+        WorldMapInvite worldMapInvite = getWorldMapInviteById(worldMapObserveInviteId);
+
+        if(!worldMapInvite.inviteeId().equals(appUserId)){
+            throw new IllegalArgumentException("Only the invitee of the invite can accept a world map invite.");
+        }
+
+        worldMapInviteRepo.deleteById(worldMapObserveInviteId);
+        appUserService.addObservedWorldMapAppUser(worldMapInvite.worldMapId(), appUserId);
+
+        return worldMapInvite;
+    }
 }

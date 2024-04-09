@@ -36,6 +36,12 @@ public class AppUserController {
         return appUserService.getAllObserversOfWorldMapById(worldMapId);
     }
 
+    @GetMapping("/possibleObservers")
+    public List<AppUserResponse> getAllPossibleObservers(@RequestBody String worldMapId) {
+        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return appUserService.getAllPossibleObservers(principal.getUsername(), worldMapId);
+    }
+
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public AppUserResponse createAppUser(@RequestBody AppUserRegister appUserRegister) {

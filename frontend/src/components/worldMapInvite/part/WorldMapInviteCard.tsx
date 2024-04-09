@@ -10,7 +10,7 @@ type WorldMapInviteCardProps = {
 export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):React.ReactElement {
     function handleDelete(event:React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault();
-        if (window.confirm("Möchten die Einladung zu \"" + props.worldMapName + "\" für " + props.displayName + "wirklich löschen?")) {
+        if (window.confirm("Möchten die Einladung zu \"" + props.worldMapName + "\" für \"" + props.displayName + "\" wirklich löschen?")) {
             props.deleteWorldMapInvite(props.worldMapInviteId);
         }
     }

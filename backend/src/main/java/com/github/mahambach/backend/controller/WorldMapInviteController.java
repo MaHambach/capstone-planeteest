@@ -27,6 +27,11 @@ public class WorldMapInviteController {
         return worldMapObserveInviteService.getWorldMapInviteById(worldMapObserveInviteId);
     }
 
+    @GetMapping("/worldMap/{worldMapId}")
+    public List<WorldMapInvite> getAllWorldMapInvitesToWorldMap(@PathVariable String worldMapId) {
+        return worldMapObserveInviteService.getAllWorldMapInvitesToWorldMap(worldMapId);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public WorldMapInvite createWorldMapInvite(@RequestBody WorldMapInviteDto worldMapInviteDto) {
@@ -34,6 +39,11 @@ public class WorldMapInviteController {
         return worldMapObserveInviteService.createWorldMapInvite(worldMapInviteDto, principal.getUsername());
     }
 
+    @PostMapping("/{worldMapObserveInviteId}/accept")
+    public WorldMapInvite acceptWorldMapInvite(@PathVariable String worldMapObserveInviteId) {
+        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return worldMapObserveInviteService.acceptWorldMapInvite(worldMapObserveInviteId, principal.getUsername());
+    }
 
     @DeleteMapping("/{worldMapObserveInviteId}")
     public WorldMapInvite deleteWorldMapInviteById(@PathVariable String worldMapObserveInviteId) {

@@ -3,10 +3,7 @@ package com.github.mahambach.backend.service;
 import com.github.mahambach.backend.exception.MissMatchingIdsAppUserException;
 import com.github.mahambach.backend.exception.NoSuchAppUserException;
 import com.github.mahambach.backend.exception.NonOwnerTriesToDeleteWorldMapException;
-import com.github.mahambach.backend.model.AppUser;
-import com.github.mahambach.backend.model.AppUserRegister;
-import com.github.mahambach.backend.model.AppUserResponse;
-import com.github.mahambach.backend.model.AppUserUpdateObject;
+import com.github.mahambach.backend.model.*;
 import com.github.mahambach.backend.repository.AppUserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppUserService {
     private final AppUserRepo appUserRepo;
+    private final WorldMapInviteService worldMapInviteService;
     private final PasswordEncoder passwordEncoder;
 
     public List<AppUserResponse> getAllAppUsers(){
@@ -122,5 +120,29 @@ public class AppUserService {
         newObservedWorldMapIds.remove(worldMapId);
 
         return updateAppUser(observerName, observer.withObservedWorldMapIds(newObservedWorldMapIds));
+    }
+
+    public List<AppUserResponse> getAllPossibleObservers(String username, String worldMapId) {
+        AppUserResponse owner = findAppUserByUsername(username);
+        if(!owner.myWorldMapIds().contains(worldMapId)){
+            throw new IllegalArgumentException("You are not allowed to see possible observers for this world map.");
+        }
+
+        List<AppUserResponse> possibleObserver = new ArrayList<>();
+        List<AppUserResponse> appUsers = getAllAppUsers();
+        for(AppUserResponse appUser : appUsers){
+            if(!appUser.myWorldMapIds().contains(worldMapId) && !appUser.observedWorldMapIds().contains(worldMapId)){
+                possibleObserver.add(appUser);
+            }
+        }
+
+        List<WorldMapInvite> worldMapInvites = worldMapInviteService.getAllWorldMapInvitesToWorldMap(worldMapId);
+        List<AppUserResponse> alreadyInvited = worldMapInvites.stream()
+                .map(invite -> findAppUserByUsername(invite.inviteeId()))
+                .toList();
+
+        possibleObserver.removeAll(alreadyInvited);
+
+        return possibleObserver;
     }
 }
