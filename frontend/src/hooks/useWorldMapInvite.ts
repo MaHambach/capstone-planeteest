@@ -29,6 +29,26 @@ export default function useWorldMapInvite() {
             });
     }
 
+    function fetchAllWorldMapInvitesToUser(setWorldMapInvitesToUser:(worldMapInvite:WorldMapInvite[]) => void):void {
+        axios.get("/api/worldMapInvites/to")
+            .then(response => {
+                setWorldMapInvitesToUser(response.data);
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
+    function fetchAllWorldMapInvitesFromUser(setWorldMapInvitesFromUser:(worldMapInvite:WorldMapInvite[]) => void):void {
+        axios.get("/api/worldMapInvites/from")
+            .then(response => {
+                setWorldMapInvitesFromUser(response.data);
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
     function fetchAllWorldMapInvitesToWorldMap(worldMapId: string, setWorldMapInvites:(worldMapInvites:WorldMapInvite[]) => void):void {
         axios.get("/api/worldMapInvites/worldMap/" + worldMapId)
             .then(response => {
@@ -63,6 +83,8 @@ export default function useWorldMapInvite() {
         fetchWorldMapInvites,
         fetchAllWorldMapInvitesToWorldMap,
         fetchAllPossibleInviteesForWorldMap,
+        fetchAllWorldMapInvitesToUser,
+        fetchAllWorldMapInvitesFromUser,
         saveWorldMapInvite,
         deleteWorldMapInvite
     }
