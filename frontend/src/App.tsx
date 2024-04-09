@@ -18,11 +18,11 @@ import useWorldMapInvite from "./hooks/useWorldMapInvite.ts";
 import UserDetails from "./components/user/main/UserDetails.tsx";
 
 export default function App():React.ReactElement {
-    const {appUser, appUsers,fetchAllObserversOfWorldmap, fetchAllPossibleObserverOfWorldMap, removeObserverFromWorldMap, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
+    const {appUser, appUsers,fetchAllObserversOfWorldmap, removeObserverFromWorldMap, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
     const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
-    const {worldMapInvites, fetchWorldMapInvites, saveWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
+    const {fetchWorldMapInvites, fetchAllWorldMapInvitesToWorldMap, fetchAllPossibleInviteesForWorldMap, saveWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
     const {worldMaps, fetchWorldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
     useEffect(() => {
@@ -87,9 +87,9 @@ export default function App():React.ReactElement {
                         appUsers={appUsers}
                         removeObserverFromWorldMap={removeObserverFromWorldMap}
                         saveWorldMapInvite={saveWorldMapInvite}
-                        worldMapInvites={worldMapInvites}
                         fetchAllObserversOfWorldmap={fetchAllObserversOfWorldmap}
-                        fetchAllPossibleObserverOfWorldMap={fetchAllPossibleObserverOfWorldMap}
+                        fetchAllPossibleInviteesForWorldMap={fetchAllPossibleInviteesForWorldMap}
+                        fetchAllWorldMapInvitesToWorldMap={fetchAllWorldMapInvitesToWorldMap}
                         deleteWorldMapInvite={deleteWorldMapInvite}
                     />
                 }/>

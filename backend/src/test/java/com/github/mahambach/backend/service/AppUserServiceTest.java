@@ -18,10 +18,9 @@ import static org.mockito.Mockito.*;
 
 class AppUserServiceTest {
     private final AppUserRepo appUserRepo = mock(AppUserRepo.class);
-    private final WorldMapInviteService worldMapInviteService = mock(WorldMapInviteService.class);
     private final PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
 
-    private final AppUserService appUserService = new AppUserService(appUserRepo, worldMapInviteService, passwordEncoder);
+    private final AppUserService appUserService = new AppUserService(appUserRepo, passwordEncoder);
 
 
     @Test

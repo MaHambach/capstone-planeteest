@@ -30,16 +30,11 @@ public class WorldMapInviteService {
     }
 
     public List<WorldMapInvite> getAllWorldMapInvitesToWorldMap(String worldMapId) {
-        List<WorldMapInvite> worldMapInvites = getAllWorldMapInvites();
-        List<WorldMapInvite> worldMapInvitesToWorldMap = new ArrayList<>();
+        worldMapService.getWorldMapById(worldMapId);
 
-        for(WorldMapInvite invite : worldMapInvites){
-            if(invite.worldMapId().equals(worldMapId)){
-                worldMapInvitesToWorldMap.add(invite);
-            }
-        }
-
-        return worldMapInvitesToWorldMap;
+        return getAllWorldMapInvites().stream()
+                .filter(invite -> invite.worldMapId().equals(worldMapId))
+                .toList();
     }
 
     public WorldMapInvite createWorldMapInvite(WorldMapInviteDto worldMapInviteDto, String username) {
@@ -115,5 +110,21 @@ public class WorldMapInviteService {
         possibleObserver.removeAll(alreadyInvited);
 
         return possibleObserver;
+    }
+
+    public List<WorldMapInvite> getAllWorldMapInvitesFromUser(String username) {
+        AppUserResponse user = appUserService.findAppUserByUsername(username);
+
+        return getAllWorldMapInvites().stream()
+                .filter(invite -> invite.ownerId().equals(user.id()))
+                .toList();
+    }
+
+    public List<WorldMapInvite> getAllWorldMapInvitesToUser(String username) {
+        AppUserResponse user = appUserService.findAppUserByUsername(username);
+
+        return getAllWorldMapInvites().stream()
+                .filter(invite -> invite.inviteeId().equals(user.id()))
+                .toList();
     }
 }

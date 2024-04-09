@@ -33,8 +33,20 @@ public class WorldMapInviteController {
         return worldMapObserveInviteService.getAllWorldMapInvitesToWorldMap(worldMapId);
     }
 
-    @GetMapping("/possibleObservers")
-    public List<AppUserResponse> getAllPossibleObserverOfWorldMap(@RequestBody String worldMapId) {
+    @GetMapping("/to")
+    public List<WorldMapInvite> getAllWorldMapInvitesToUser() {
+        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return worldMapObserveInviteService.getAllWorldMapInvitesToUser(principal.getUsername());
+    }
+
+    @GetMapping("/from")
+    public List<WorldMapInvite> getAllWorldMapInvitesFromUser() {
+        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return worldMapObserveInviteService.getAllWorldMapInvitesFromUser(principal.getUsername());
+    }
+
+    @GetMapping("/possibleObservers/{worldMapId}")
+    public List<AppUserResponse> getAllPossibleObserverOfWorldMap(@PathVariable String worldMapId) {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return worldMapObserveInviteService.getAllPossibleObservers(principal.getUsername(), worldMapId);
     }

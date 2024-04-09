@@ -17,10 +17,10 @@ type UpdateWorldMapFormProps = {
     appUsers: AppUserMinimal[];
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
     removeObserverFromWorldMap: (observerId:string, worldMapId:string) => void;
-    worldMapInvites: WorldMapInvite[];
     fetchAllObserversOfWorldmap: (worldMapId:string, setObservers:(observers:AppUserMinimal[]) => void) => void;
     deleteWorldMapInvite: (id:string) => void;
-    fetchAllPossibleObserverOfWorldMap: (worldMapId:string, setPossibleObserver:(possibleObserver:AppUserMinimal[]) => void) => void;
+    fetchAllPossibleInviteesForWorldMap: (worldMapId:string, setPossibleObserver:(possibleObserver:AppUserMinimal[]) => void) => void;
+    fetchAllWorldMapInvitesToWorldMap: (worldMapId:string, setWorldMapInvites:(worldMapInvites:WorldMapInvite[]) => void) => void;
 }
 
 export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProps>):React.ReactElement {
@@ -29,6 +29,7 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
     const [observers, setObservers] = useState<AppUserMinimal[]>([]);
     const [possibleObservers, setPossibleObservers] = useState<AppUserMinimal[]>([]);
     const [isInvitingObserver, setIsInvitingObserver] = useState<boolean>(false);
+    const [worldMapInvites, setWorldMapInvites] = useState<WorldMapInvite[]>([]);
 
     const navigate = useNavigate();
 
@@ -69,7 +70,8 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
     useEffect(() => {
         setFormData(props.getWorldMap(id));
         props.fetchAllObserversOfWorldmap(id, setObservers);
-        props.fetchAllPossibleObserverOfWorldMap(id, setPossibleObservers);
+        props.fetchAllPossibleInviteesForWorldMap(id, setPossibleObservers);
+        props.fetchAllWorldMapInvitesToWorldMap(id, setWorldMapInvites);
     }, [id, props]);
 
     return (
@@ -120,7 +122,7 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                     isOwner={true}
                     title={"Offene Einladungen"}
                     appUsers={props.appUsers}
-                    worldMapInvites={props.worldMapInvites}
+                    worldMapInvites={worldMapInvites}
                     getWorldMap={props.getWorldMap}
                     deleteWorldMapInvite={props.deleteWorldMapInvite}
                 />
