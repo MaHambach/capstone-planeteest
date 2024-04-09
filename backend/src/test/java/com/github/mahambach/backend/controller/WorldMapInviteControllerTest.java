@@ -1,6 +1,5 @@
 package com.github.mahambach.backend.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mahambach.backend.model.*;
 import org.junit.jupiter.api.Test;
@@ -14,10 +13,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -137,39 +136,18 @@ class WorldMapInviteControllerTest {
 
     @Test
     @WithMockUser(username = "owner")
-    void getWorldMapInviteById_whenNoSuchWorldMap_thenThrowNoSuchWorldMapInviteException() throws Exception {
+    void getWorldMapInviteById_whenNoSuchWorldMapInvite_thenThrowNoSuchWorldMapInviteException() throws Exception {
         // Given
-        AppUserRegister ownerRegister = new AppUserRegister("owner", "password");
-        MvcResult ownerJson = mvc.perform(post("/api/users/register")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(ownerRegister)))
-                .andExpect(status().isCreated())
-                .andReturn();
-
-        AppUserRegister inviteeRegister = new AppUserRegister("invitee", "password");
-        MvcResult inviteeJson = mvc.perform(post("/api/users/register")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(inviteeRegister)))
-                .andExpect(status().isCreated())
-                .andReturn();
-
-        String ownerId = objectMapper.readValue(ownerJson.getResponse().getContentAsString(), AppUserResponse.class).id();
-        String inviteeId = objectMapper.readValue(inviteeJson.getResponse().getContentAsString(), AppUserResponse.class).id();
-        String worldMapId = "1";
-
-        WorldMapInviteDto worldMapInviteDto = new WorldMapInviteDto(ownerId, inviteeId, worldMapId);
-
+        String worldMapInviteId = "1";
         // When
-        MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldMapInvites")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(worldMapInviteDto)))
+        MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.get("/api/worldMapInvites/" + worldMapInviteId))
                 .andExpect(status().isNotFound())
                 .andReturn();
 
         ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(),ErrorMessage.class);
 
         // Then
-        assertEquals("World map with id " + worldMapId + " not found.", result.errorMsg());
+        assertEquals("World map invite with id " + worldMapInviteId + " not found.", result.errorMsg());
     }
 
     @Test
@@ -402,4 +380,217 @@ class WorldMapInviteControllerTest {
         assertNotNull(result.id());
     }
 
+    @Test
+    @WithMockUser(username = "owner")
+    void deleteWorldMapInviteById_whenNoSuchAppUser_thenThrowNoSuchAppUserException() throws Exception {
+        // Given
+        String worldMapInviteId = "1";
+        // When
+        MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.delete("/api/worldMapInvites/" + worldMapInviteId))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(),ErrorMessage.class);
+        // Then
+        assertEquals("User with username owner not found.", result.errorMsg());
+    }
+
+    @Test
+    @WithMockUser(username = "owner")
+    void deleteWorldMapInviteById_whenNoSuchWorldMapInvite_thenThrowNoSuchWorldMapInviteException() throws Exception {
+        // Given
+        AppUserRegister ownerRegister = new AppUserRegister("owner", "password");
+        mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(ownerRegister)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        // When
+        MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.delete("/api/worldMapInvites/" + "1"))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(),ErrorMessage.class);
+
+        // Then
+        assertEquals("World map invite with id 1 not found.", result.errorMsg());
+    }
+
+    @Test
+    @WithMockUser(username = "another")
+    void deleteWorldMapInviteById_whenUserNotOwnerOrInvitee_thenThrowNoSuchWorldMapInviteException() throws Exception {
+        // Given
+        AppUserRegister anotherRegister = new AppUserRegister("another", "password");
+        mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(anotherRegister)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        AppUserRegister ownerRegister = new AppUserRegister("owner", "password");
+        MvcResult ownerJson = mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(ownerRegister)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        AppUserRegister inviteeRegister = new AppUserRegister("invitee", "password");
+        MvcResult inviteeJson = mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(inviteeRegister)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
+        MvcResult worldMapJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldmaps")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(worldMapDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String ownerId = objectMapper.readValue(ownerJson.getResponse().getContentAsString(), AppUserResponse.class).id();
+        String inviteeId = objectMapper.readValue(inviteeJson.getResponse().getContentAsString(), AppUserResponse.class).id();
+        String worldMapId = objectMapper.readValue(worldMapJson.getResponse().getContentAsString(), WorldMap.class).id();
+
+        WorldMapInviteDto worldMapInviteDto = new WorldMapInviteDto(ownerId, inviteeId, worldMapId);
+
+        MvcResult worldMapInviteJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldMapInvites")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(worldMapInviteDto))
+                        .with(user("owner")))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String worldMapInviteId = objectMapper.readValue(worldMapInviteJson.getResponse().getContentAsString(), WorldMapInvite.class).id();
+
+        // When
+        MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.delete("/api/worldMapInvites/" + worldMapInviteId))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
+        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(),ErrorMessage.class);
+
+        // Then
+        assertEquals("Only the owner or invitee of the invite can delete a world map invite.", result.errorMsg());
+    }
+
+    @Test
+    @WithMockUser(username = "owner")
+    void deleteWorldMapInviteById_whenInputIsValidAndUserIsOwner_thenDeleteAndReturn() throws Exception {
+        // Given
+        AppUserRegister ownerRegister = new AppUserRegister("owner", "password");
+        MvcResult ownerJson = mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(ownerRegister)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        AppUserRegister inviteeRegister = new AppUserRegister("invitee", "password");
+        MvcResult inviteeJson = mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(inviteeRegister)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
+        MvcResult worldMapJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldmaps")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(worldMapDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String ownerId = objectMapper.readValue(ownerJson.getResponse().getContentAsString(), AppUserResponse.class).id();
+        String inviteeId = objectMapper.readValue(inviteeJson.getResponse().getContentAsString(), AppUserResponse.class).id();
+        String worldMapId = objectMapper.readValue(worldMapJson.getResponse().getContentAsString(), WorldMap.class).id();
+
+        WorldMapInviteDto worldMapInviteDto = new WorldMapInviteDto(ownerId, inviteeId, worldMapId);
+
+        MvcResult worldMapInviteJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldMapInvites")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(worldMapInviteDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String worldMapInviteId = objectMapper.readValue(worldMapInviteJson.getResponse().getContentAsString(), WorldMapInvite.class).id();
+
+        // When
+        MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.delete("/api/worldMapInvites/" + worldMapInviteId))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        WorldMapInvite deletedWorldMapInvite = objectMapper.readValue(resultJson.getResponse().getContentAsString(),WorldMapInvite.class);
+
+        resultJson = mvc.perform(MockMvcRequestBuilders.delete("/api/worldMapInvites/" + worldMapInviteId))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        ErrorMessage resultError = objectMapper.readValue(resultJson.getResponse().getContentAsString(),ErrorMessage.class);
+        // Then
+        assertEquals(worldMapInviteId, deletedWorldMapInvite.id());
+        assertEquals(ownerId, deletedWorldMapInvite.ownerId());
+        assertEquals(inviteeId, deletedWorldMapInvite.inviteeId());
+        assertEquals(worldMapId, deletedWorldMapInvite.worldMapId());
+        assertEquals("World map invite with id " + worldMapInviteId + " not found.", resultError.errorMsg());
+    }
+
+    @Test
+    @WithMockUser(username = "invitee")
+    void deleteWorldMapInviteById_whenInputIsValidAndUserIsInvitee_thenDeleteAndReturn() throws Exception {
+        // Given
+        AppUserRegister ownerRegister = new AppUserRegister("owner", "password");
+        MvcResult ownerJson = mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(ownerRegister)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        AppUserRegister inviteeRegister = new AppUserRegister("invitee", "password");
+        MvcResult inviteeJson = mvc.perform(post("/api/users/register")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(inviteeRegister)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
+        MvcResult worldMapJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldmaps")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(worldMapDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String ownerId = objectMapper.readValue(ownerJson.getResponse().getContentAsString(), AppUserResponse.class).id();
+        String inviteeId = objectMapper.readValue(inviteeJson.getResponse().getContentAsString(), AppUserResponse.class).id();
+        String worldMapId = objectMapper.readValue(worldMapJson.getResponse().getContentAsString(), WorldMap.class).id();
+
+        WorldMapInviteDto worldMapInviteDto = new WorldMapInviteDto(ownerId, inviteeId, worldMapId);
+
+        MvcResult worldMapInviteJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldMapInvites")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(worldMapInviteDto))
+                        .with(user("owner")))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String worldMapInviteId = objectMapper.readValue(worldMapInviteJson.getResponse().getContentAsString(), WorldMapInvite.class).id();
+
+        // When
+        MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.delete("/api/worldMapInvites/" + worldMapInviteId))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        WorldMapInvite deletedWorldMapInvite = objectMapper.readValue(resultJson.getResponse().getContentAsString(),WorldMapInvite.class);
+
+        resultJson = mvc.perform(MockMvcRequestBuilders.delete("/api/worldMapInvites/" + worldMapInviteId))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        ErrorMessage resultError = objectMapper.readValue(resultJson.getResponse().getContentAsString(),ErrorMessage.class);
+        // Then
+        assertEquals(worldMapInviteId, deletedWorldMapInvite.id());
+        assertEquals(ownerId, deletedWorldMapInvite.ownerId());
+        assertEquals(inviteeId, deletedWorldMapInvite.inviteeId());
+        assertEquals(worldMapId, deletedWorldMapInvite.worldMapId());
+        assertEquals("World map invite with id " + worldMapInviteId + " not found.", resultError.errorMsg());
+    }
 }

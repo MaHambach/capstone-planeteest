@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NoSuchWorldMapInviteException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorMessage handleNoSuchWorldMapInviteException(NoSuchWorldMapInviteException exception) {
         return handleNoSuchObjectException("World map invite", exception.getMessage());
     }

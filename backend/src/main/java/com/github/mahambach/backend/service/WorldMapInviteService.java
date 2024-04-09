@@ -21,10 +21,10 @@ public class WorldMapInviteService {
         return worldMapInviteRepo.findAll();
     }
 
-    public WorldMapInvite getWorldMapInviteById(String worldMapId) {
+    public WorldMapInvite getWorldMapInviteById(String worldMapInviteId) {
         return worldMapInviteRepo
-                .findById(worldMapId)
-                .orElseThrow(() -> new NoSuchWorldMapInviteException(worldMapId));
+                .findById(worldMapInviteId)
+                .orElseThrow(() -> new NoSuchWorldMapInviteException(worldMapInviteId));
     }
 
     public WorldMapInvite createWorldMapInvite(WorldMapInviteDto worldMapInviteDto, String username) {
@@ -54,8 +54,8 @@ public class WorldMapInviteService {
         String appUserId = appUserService.findAppUserByUsername(username).id();
         WorldMapInvite worldMapInvite = getWorldMapInviteById(worldMapInviteId);
 
-        if(!worldMapInvite.ownerId().equals(appUserId) || !worldMapInvite.inviteeId().equals(appUserId)){
-            throw new IllegalArgumentException("Only the owner of the invite can delete a world map invite.");
+        if(!worldMapInvite.ownerId().equals(appUserId) && !worldMapInvite.inviteeId().equals(appUserId)){
+            throw new IllegalArgumentException("Only the owner or invitee of the invite can delete a world map invite.");
         }
 
         worldMapInviteRepo.deleteById(worldMapInviteId);
