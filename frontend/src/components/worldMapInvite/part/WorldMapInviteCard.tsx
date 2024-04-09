@@ -10,6 +10,7 @@ type WorldMapInviteCardProps = {
     inviteeName: string;
     worldMapName: string;
     deleteWorldMapInvite: (worldMapInviteId: string) => void;
+    acceptWorldMapInvite?: (worldMapInviteId: string) => void;
 }
 export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):React.ReactElement {
     function handleDelete(event:React.MouseEvent<HTMLButtonElement>):void {
@@ -26,6 +27,9 @@ export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):Reac
                 {props.displayOwnerName && <span>{props.ownerName}</span>}
                 {props.displayInviteeName && <span>{props.inviteeName}</span>}
             </div>
+
+            {// @ts-ignore
+                props.acceptWorldMapInvite && <button onClick={() => props.acceptWorldMapInvite(props.worldMapInviteId)}>Accept</button>}
             <button onClick={handleDelete}><ImCross /></button>
         </div>
     )

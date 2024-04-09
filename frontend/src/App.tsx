@@ -22,7 +22,7 @@ export default function App():React.ReactElement {
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
     const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
-    const {fetchWorldMapInvites, fetchAllWorldMapInvitesToUser, fetchAllWorldMapInvitesFromUser, fetchAllWorldMapInvitesToWorldMap, fetchAllPossibleInviteesForWorldMap, saveWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
+    const {acceptWorldMapInvite, fetchWorldMapInvites, fetchAllWorldMapInvitesToUser, fetchAllWorldMapInvitesFromUser, fetchAllWorldMapInvitesToWorldMap, fetchAllPossibleInviteesForWorldMap, saveWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
     const {worldMaps, fetchWorldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
     useEffect(() => {
@@ -120,6 +120,7 @@ export default function App():React.ReactElement {
                         fetchAllWorldMapInvitesToUser={fetchAllWorldMapInvitesToUser}
                         fetchAllWorldMapInvitesFromUser={fetchAllWorldMapInvitesFromUser}
                         deleteWorldMapInvite={deleteWorldMapInvite}
+                        acceptWorldMapInvite={acceptWorldMapInvite}
                     />
                 }/>
             </Route>

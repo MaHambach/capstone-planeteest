@@ -80,9 +80,11 @@ public class WorldMapInviteService {
         if(!worldMapInvite.inviteeId().equals(appUserId)){
             throw new IllegalArgumentException("Only the invitee of the invite can accept a world map invite.");
         }
+        System.out.println("worldMapInvite.worldMapId() = " + worldMapInvite.worldMapId()
+                + ", username = " + username);
+        appUserService.addObservedWorldMapAppUser(username, worldMapInvite.worldMapId());
 
         worldMapInviteRepo.deleteById(worldMapObserveInviteId);
-        appUserService.addObservedWorldMapAppUser(worldMapInvite.worldMapId(), appUserId);
 
         return worldMapInvite;
     }

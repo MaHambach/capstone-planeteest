@@ -59,6 +59,14 @@ export default function useWorldMapInvite() {
             });
     }
 
+    function acceptWorldMapInvite(worldMapInviteId:string):void {
+        axios.post("/api/worldMapInvites/" + worldMapInviteId + "/accept")
+            .then(fetchWorldMapInvites)
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
     function saveWorldMapInvite(newWorldMapInviteDto:WorldMapInviteDto):void {
         axios.post('/api/worldMapInvites', newWorldMapInviteDto)
             .then((response) => {
@@ -80,6 +88,7 @@ export default function useWorldMapInvite() {
 
     return {
         worldMapInvites,
+        acceptWorldMapInvite,
         fetchWorldMapInvites,
         fetchAllWorldMapInvitesToWorldMap,
         fetchAllPossibleInviteesForWorldMap,

@@ -17,13 +17,19 @@ export default function WorldMapGallery(props:Readonly<WorldMapGalleryProps>):Re
     return (
         <main className={"worldMapGallery"}>
             <button onClick={props.logoutAppUser}>Logout</button>
-            {props.appUser.role === "ADMIN" && <button onClick={() => {navigate("/mapMarkerType")}}>MapMarkerTypes</button>}
+            {props.appUser.role === "ADMIN" && <button onClick={() => {
+                navigate("/mapMarkerType")
+            }}>MapMarkerTypes</button>}
+            <button onClick={() => {
+                navigate("/user/" + props.appUser.id)
+            }}>UserDetails
+            </button>
             <h2>Meine Weltkarten</h2>
             <DisplayTileGallery
                 urlPrefix={"/worldmap/"}
                 tileData={props.worldMaps
-                    .filter((worldMap:WorldMap) => props.appUser.myWorldMapIds.includes(worldMap.id))
-                    .map((worldMap:WorldMap) => ({id:worldMap.id, name:worldMap.name}))}
+                    .filter((worldMap: WorldMap) => props.appUser.myWorldMapIds.includes(worldMap.id))
+                    .map((worldMap: WorldMap) => ({id: worldMap.id, name: worldMap.name}))}
                 addNewName={"Neue Weltkarte"}
                 addNewUrl={"/worldmap/add"}
                 tileSize={220}
@@ -35,8 +41,8 @@ export default function WorldMapGallery(props:Readonly<WorldMapGalleryProps>):Re
             <DisplayTileGallery
                 urlPrefix={"/worldmap/"}
                 tileData={props.worldMaps
-                    .filter((worldMap:WorldMap) => props.appUser.observedWorldMapIds.includes(worldMap.id))
-                    .map((worldMap:WorldMap) => ({id:worldMap.id, name:worldMap.name}))}
+                    .filter((worldMap: WorldMap) => props.appUser.observedWorldMapIds.includes(worldMap.id))
+                    .map((worldMap: WorldMap) => ({id: worldMap.id, name: worldMap.name}))}
                 addNewName={"Neue Weltkarte"}
                 addNewUrl={"/worldmap/add"}
                 tileSize={220}

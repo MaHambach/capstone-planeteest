@@ -13,6 +13,7 @@ type WorldMapInviteGalleryProps = {
     displayOwnerName?: boolean;
     displayInviteeName?: boolean;
     displayWorldMapName?: boolean;
+    acceptWorldMapInvite?: (worldMapInviteId: string) => void;
 }
 export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalleryProps>):React.ReactElement {
 
@@ -32,6 +33,7 @@ export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalle
                             inviteeName={props.appUsers.filter((appUser:AppUserMinimal):boolean => appUser.id === worldMapInvite.inviteeId)[0].username}
                             worldMapName={props.getWorldMap(worldMapInvite.worldMapId).name}
                             deleteWorldMapInvite={props.deleteWorldMapInvite}
+                            acceptWorldMapInvite={props.acceptWorldMapInvite}
                         />
                     )
                 })}
