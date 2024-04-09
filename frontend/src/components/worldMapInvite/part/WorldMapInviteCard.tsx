@@ -1,5 +1,6 @@
 import React from "react";
 import {ImCross} from "react-icons/im";
+import {FaCheck} from "react-icons/fa";
 
 type WorldMapInviteCardProps = {
     worldMapInviteId: string;
@@ -29,7 +30,7 @@ export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):Reac
             </div>
 
             {// @ts-ignore
-                props.acceptWorldMapInvite && <button onClick={() => props.acceptWorldMapInvite(props.worldMapInviteId)}>Accept</button>}
+                props.acceptWorldMapInvite && <button onClick={() => props.acceptWorldMapInvite(props.worldMapInviteId)}><FaCheck /></button>}
             <button onClick={handleDelete}><ImCross /></button>
         </div>
     )
