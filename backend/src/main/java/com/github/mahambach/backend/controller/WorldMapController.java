@@ -27,6 +27,11 @@ public class WorldMapController {
         return worldMapService.getWorldMapById(worldMapId);
     }
 
+    @GetMapping("/observer/{worldMapId}")
+    public List<AppUserResponse> getAllObserversOfWorldMapById(@PathVariable worldMapId) {
+        return worldMapService.getAllObserversOfWorldMapById(worldMapId);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public WorldMap createWorldMap(@RequestBody WorldMapDto worldMapDto) {

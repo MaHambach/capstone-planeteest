@@ -11,22 +11,29 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class AppUserController {
     private final AppUserService appUserService;
 
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public AppUserResponse createAppUser(@RequestBody AppUserRegister appUserRegister) {
-        return appUserService.createAppUser(appUserRegister);
+    @GetMapping
+    public List<AppUserResponse> getAllAppUsers() {
+        return appUserService.getAllAppUsers();
     }
 
     @GetMapping("/me")
     public AppUserResponse getAppUserByUsername() {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return appUserService.findAppUserByUsername(principal.getUsername());
+    }
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AppUserResponse createAppUser(@RequestBody AppUserRegister appUserRegister) {
+        return appUserService.createAppUser(appUserRegister);
     }
 
     @PostMapping("/login")

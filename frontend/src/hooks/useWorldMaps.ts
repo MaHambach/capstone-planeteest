@@ -49,8 +49,8 @@ export default function useWorldMaps() {
             });
     }
 
-    function deleteWorldMap(id:string):void{
-        axios.delete(`/api/worldmaps/${id}`)
+    function deleteWorldMap(worldMapId:string):void{
+        axios.delete(`/api/worldmaps/${worldMapId}`)
             .then(fetchWorldMaps)
             .catch(error => {
                 console.log(error)

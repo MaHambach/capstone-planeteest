@@ -21,6 +21,15 @@ public class AppUserService {
     private final AppUserRepo appUserRepo;
     private final PasswordEncoder passwordEncoder;
 
+    public List<AppUserResponse> getAllAppUsers(){
+        List<AppUser> appUsers = appUserRepo.findAll();
+        List<AppUserResponse> appUserResponses = new ArrayList<>();
+        for(AppUser appUser : appUsers){
+            appUserResponses.add(new AppUserResponse(appUser));
+        }
+        return appUserResponses;
+    }
+
     public AppUserResponse findAppUserByUsername(String username) {
         AppUser appUser = appUserRepo.findAppUserByUsername(username)
                                      .orElseThrow(() -> new NoSuchAppUserException(username));
