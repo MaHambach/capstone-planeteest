@@ -22,7 +22,7 @@ export default function App():React.ReactElement {
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
     const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
-    const {fetchWorldMapInvites, fetchAllWorldMapInvitesToWorldMap, fetchAllPossibleInviteesForWorldMap, saveWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
+    const {fetchWorldMapInvites, fetchAllWorldMapInvitesToUser, fetchAllWorldMapInvitesFromUser, fetchAllWorldMapInvitesToWorldMap, fetchAllPossibleInviteesForWorldMap, saveWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
     const {worldMaps, fetchWorldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
     useEffect(() => {
@@ -117,7 +117,8 @@ export default function App():React.ReactElement {
                         appUser={appUser}
                         appUsers={appUsers}
                         getWorldMap={getWorldMapById}
-                        worldMapInvites={worldMapInvites}
+                        fetchAllWorldMapInvitesToUser={fetchAllWorldMapInvitesToUser}
+                        fetchAllWorldMapInvitesFromUser={fetchAllWorldMapInvitesFromUser}
                         deleteWorldMapInvite={deleteWorldMapInvite}
                     />
                 }/>

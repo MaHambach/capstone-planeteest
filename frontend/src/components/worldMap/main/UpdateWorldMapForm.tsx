@@ -119,7 +119,7 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                     }
                 </div>
                 <WorldMapInviteGallery
-                    isOwner={true}
+                    displayInviteeName={true}
                     title={"Offene Einladungen"}
                     appUsers={props.appUsers}
                     worldMapInvites={worldMapInvites}

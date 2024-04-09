@@ -20,7 +20,7 @@ export default function useWorldMapInvite() {
 
 
     function fetchAllPossibleInviteesForWorldMap(worldMapId:string, setPossibleObserver:(possibleObserver:AppUserMinimal[]) => void):void {
-        axios.get("/api/worldMapInvites/possibleObservers/" + worldMapId)
+        axios.get("/api/worldMapInvites/possibleInvitees/" + worldMapId)
             .then(response => {
                 setPossibleObserver(response.data.map((appUser:AppUser):AppUserMinimal => ({id: appUser.id, username: appUser.username})));
             })

@@ -10,7 +10,9 @@ type WorldMapInviteGalleryProps = {
     worldMapInvites: WorldMapInvite[];
     getWorldMap: (id: string) => WorldMap;
     deleteWorldMapInvite: (worldMapInviteId: string) => void;
-    isOwner: boolean;
+    displayOwnerName?: boolean;
+    displayInviteeName?: boolean;
+    displayWorldMapName?: boolean;
 }
 export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalleryProps>):React.ReactElement {
 
@@ -23,10 +25,11 @@ export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalle
                         <WorldMapInviteCard
                             key={worldMapInvite.id}
                             worldMapInviteId={worldMapInvite.id}
-                            displayName={props.isOwner ?
-                                props.appUsers.filter((appUserMinimal:AppUserMinimal) => appUserMinimal.id === worldMapInvite.inviteeId)[0].username
-                                :
-                                props.appUsers.filter((appUserMinimal:AppUserMinimal) => appUserMinimal.id === worldMapInvite.ownerId)[0].username}
+                            displayOwnerName={props.displayOwnerName}
+                            displayInviteeName={props.displayInviteeName}
+                            displayWorldMapName={props.displayWorldMapName}
+                            ownerName={props.appUsers.filter((appUser:AppUserMinimal):boolean => appUser.id === worldMapInvite.ownerId)[0].username}
+                            inviteeName={props.appUsers.filter((appUser:AppUserMinimal):boolean => appUser.id === worldMapInvite.inviteeId)[0].username}
                             worldMapName={props.getWorldMap(worldMapInvite.worldMapId).name}
                             deleteWorldMapInvite={props.deleteWorldMapInvite}
                         />

@@ -3,14 +3,18 @@ import {ImCross} from "react-icons/im";
 
 type WorldMapInviteCardProps = {
     worldMapInviteId: string;
-    displayName: string;
+    displayOwnerName?: boolean;
+    displayInviteeName?: boolean;
+    displayWorldMapName?: boolean;
+    ownerName: string;
+    inviteeName: string;
     worldMapName: string;
     deleteWorldMapInvite: (worldMapInviteId: string) => void;
 }
 export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):React.ReactElement {
     function handleDelete(event:React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault();
-        if (window.confirm("Möchten die Einladung zu \"" + props.worldMapName + "\" für \"" + props.displayName + "\" wirklich löschen?")) {
+        if (window.confirm("Möchten die Einladung zu \"" + props.worldMapName + "\" von \"" + props.ownerName + "\" für \"" + props.inviteeName + "\" wirklich löschen?")) {
             props.deleteWorldMapInvite(props.worldMapInviteId);
         }
     }
@@ -18,8 +22,9 @@ export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):Reac
     return (
         <div className={"worldMapInviteCard"}>
             <div className={"worldMapInviteCardTextBox"}>
-                <p>{props.worldMapName}</p>
-                <p>{props.displayName}</p>
+                {props.displayWorldMapName && <span>{props.worldMapName}</span>}
+                {props.displayOwnerName && <span>{props.ownerName}</span>}
+                {props.displayInviteeName && <span>{props.inviteeName}</span>}
             </div>
             <button onClick={handleDelete}><ImCross /></button>
         </div>

@@ -5,7 +5,7 @@ import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
 
 type AddWorldMapInviteForm = {
     ownerId: string;
-    possibleInvitees: AppUserMinimal[];
+    possibleInvitees?: AppUserMinimal[];
     worldMapId: string;
     closeAddWorldMapInviteForm: () => void;
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
@@ -34,16 +34,26 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
     }
 
     useEffect(() => {
-        setFormData(
-            {
-                ...formData,
-                ownerId: props.ownerId,
-                worldMapId: props.worldMapId,
-                inviteeId: props.possibleInvitees[0].id
-            }
-        );
+        if (props.possibleInvitees?.length) {
+            setFormData(
+                {
+                    ...formData,
+                    ownerId: props.ownerId,
+                    worldMapId: props.worldMapId,
+                    inviteeId: props.possibleInvitees[0].id
+                }
+            )
+        } else {
+            setFormData(
+                {
+                    ...formData,
+                    ownerId: props.ownerId,
+                    worldMapId: props.worldMapId
+                }
+            )
+        }
         // eslint-disable-next-line
-    }, []);
+    }, [props]);
 
     return (
         <DraggableSubWindow
@@ -60,18 +70,22 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
                     <h3>Wen möchtest du einladen?</h3>
                 </div>
                 <div>
-                <select id={"inviteeId"} name={"inviteeId"} value={formData.inviteeId} onChange={handleChange}>
-                    {props.possibleInvitees.map((appUser:AppUserMinimal) => {
-                        return (
-                            <option key={appUser.id}
-                                    value={appUser.id}>
-                                {appUser.username}
-                            </option>
-                        );
-                    })}
-                </select>
+                    { props.possibleInvitees?.length ?
+                        <select id={"inviteeId"} name={"inviteeId"} value={formData.inviteeId} onChange={handleChange}>
+                            {props.possibleInvitees.map((appUser:AppUserMinimal) => {
+                                return (
+                                    <option key={appUser.id}
+                                            value={appUser.id}>
+                                        {appUser.username}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                        :
+                        <span>Keine Einladungen möglich</span>
+                    }
                 </div>
-                <button type={"submit"}>Save</button>
+                {props.possibleInvitees?.length && <button type={"submit"}>Save</button>}
                 <button onClick={handleCancel}>Abbrechen</button>
             </form>
         </DraggableSubWindow>
