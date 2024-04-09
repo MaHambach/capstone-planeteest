@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AppUserService {
     private final AppUserRepo appUserRepo;
-    private final WorldMapInviteService worldMapInviteService;
     private final PasswordEncoder passwordEncoder;
 
     public List<AppUserResponse> getAllAppUsers(){
