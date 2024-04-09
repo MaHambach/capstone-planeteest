@@ -1,6 +1,5 @@
 package com.github.mahambach.backend.controller;
 
-import com.github.mahambach.backend.model.AppUserResponse;
 import com.github.mahambach.backend.model.WorldMap;
 import com.github.mahambach.backend.model.WorldMapDto;
 import com.github.mahambach.backend.service.WorldMapService;
