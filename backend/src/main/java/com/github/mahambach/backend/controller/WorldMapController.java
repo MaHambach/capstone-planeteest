@@ -1,5 +1,6 @@
 package com.github.mahambach.backend.controller;
 
+import com.github.mahambach.backend.model.AppUserResponse;
 import com.github.mahambach.backend.model.WorldMap;
 import com.github.mahambach.backend.model.WorldMapDto;
 import com.github.mahambach.backend.service.WorldMapService;
@@ -25,11 +26,6 @@ public class WorldMapController {
     @GetMapping("/{worldMapId}")
     public WorldMap getWorldMapById(@PathVariable String worldMapId) {
         return worldMapService.getWorldMapById(worldMapId);
-    }
-
-    @GetMapping("/observer/{worldMapId}")
-    public List<AppUserResponse> getAllObserversOfWorldMapById(@PathVariable worldMapId) {
-        return worldMapService.getAllObserversOfWorldMapById(worldMapId);
     }
 
     @PostMapping

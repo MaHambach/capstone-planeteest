@@ -18,7 +18,7 @@ import useWorldMapInvite from "./hooks/useWorldMapInvite.ts";
 import UserDetails from "./components/user/main/UserDetails.tsx";
 
 export default function App():React.ReactElement {
-    const {appUser, appUsers, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
+    const {appUser, appUsers,fetchAllObserversOfWorldmap, removeObserverFromWorldMap, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
     const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
@@ -85,8 +85,11 @@ export default function App():React.ReactElement {
                         // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                         appUser={appUser}
                         appUsers={appUsers}
+                        removeObserverFromWorldMap={removeObserverFromWorldMap}
                         saveWorldMapInvite={saveWorldMapInvite}
                         worldMapInvites={worldMapInvites}
+                        fetchAllObserversOfWorldmap={fetchAllObserversOfWorldmap}
+                        deleteWorldMapInvite={deleteWorldMapInvite}
                     />
                 }/>
 

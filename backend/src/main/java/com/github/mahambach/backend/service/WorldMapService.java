@@ -2,6 +2,7 @@ package com.github.mahambach.backend.service;
 
 import com.github.mahambach.backend.exception.MissMatchingIdsWorldMapException;
 import com.github.mahambach.backend.exception.NoSuchWorldMapException;
+import com.github.mahambach.backend.model.AppUserResponse;
 import com.github.mahambach.backend.model.WorldMap;
 import com.github.mahambach.backend.model.WorldMapDto;
 import com.github.mahambach.backend.repository.WorldMapRepo;

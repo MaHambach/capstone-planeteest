@@ -32,6 +32,16 @@ export function useAppUser() {
             });
     }
 
+    function fetchAllObserversOfWorldmap(worldMapId:string, setObservers:(observers:AppUserMinimal[]) => void):void {
+        axios.get("/api/users/observers/" + worldMapId)
+            .then(response => {
+                setObservers(response.data.map((appUser:AppUser):AppUserMinimal => ({id: appUser.id, username: appUser.username})));
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
     async function loginAppUser(appUserRegister:AppUserRegister):Promise<void> {
         return axios.post("/api/users/login", {}, {
             auth: appUserRegister
@@ -52,6 +62,26 @@ export function useAppUser() {
                 fetchAllAppUsers()
                 loginAppUser(appUserRegister);
             })
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
+    function removeObserverFromWorldMap(observerName:string, worldMapId:string):void {
+        axios.put("/api/users/remove-observed",
+            {
+                observerName:observerName,
+                worldMapId:worldMapId
+            })
+            .then(fetchAllAppUsers)
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
+    function addObservedWorldMapAppUser(worldMapId:string):void {
+        axios.put("/api/users/add-observed", {worldMapId:worldMapId})
+            .then(fetchAllAppUsers)
             .catch(e => {
                 console.error(e);
             });
@@ -79,6 +109,9 @@ export function useAppUser() {
     return {
         appUser,
         appUsers,
+        addObservedWorldMapAppUser,
+        fetchAllObserversOfWorldmap,
+        removeObserverFromWorldMap,
         loginAppUser,
         registerAppUser,
         logoutAppUser

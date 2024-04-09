@@ -6,6 +6,7 @@ import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import {WorldMapInviteDto} from "../../../types/WorldMapInviteDto.ts";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 import WorldMapInviteGallery from "../../worldMapInvite/part/WorldMapInviteGallery.tsx";
+import {ImCross} from "react-icons/im";
 
 type UpdateWorldMapFormProps = {
     updateWorldMap: (worldMap:WorldMap) => void;
@@ -14,12 +15,16 @@ type UpdateWorldMapFormProps = {
     appUser: AppUser;
     appUsers: AppUserMinimal[];
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
+    removeObserverFromWorldMap: (observerId:string, worldMapId:string) => void;
     worldMapInvites: WorldMapInvite[];
+    fetchAllObserversOfWorldmap: (worldMapId:string, setObservers:(observers:AppUserMinimal[]) => void) => void;
+    deleteWorldMapInvite: (id:string) => void;
 }
 
 export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProps>):React.ReactElement {
     const {id= ''} = useParams<string>();
     const [formData, setFormData] = useState<WorldMap>(emptyWorldMap);
+    const [observers, setObservers] = useState<AppUserMinimal[]>([]);
 
     const navigate = useNavigate();
 
@@ -47,7 +52,15 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
         }
     }
 
-    useEffect(() => setFormData(props.getWorldMap(id)), [id, props]);
+    function handleRemoveObserver(event:React.MouseEvent<HTMLButtonElement>, observerName:string):void {
+        event.preventDefault();
+        props.removeObserverFromWorldMap(observerName, id);
+    }
+
+    useEffect(() => {
+        setFormData(props.getWorldMap(id));
+        props.fetchAllObserversOfWorldmap(id, setObservers);
+    }, [id, props]);
 
     return (
         <main className={"UpdateWorldMapForm"}>
@@ -77,19 +90,27 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
             </form>
             <div>
                 <div className={"observerListDiv"}>
-                    {props.appUsers.map((appUser:AppUserMinimal) => {
+                    <h3>Betrachter</h3>
+                    {observers.map((appUser:AppUserMinimal) => {
                         return (
                             <div className={"observerListEntry"}
                                  key={appUser.id}
                             >
-                                <p>{appUser.username}</p>
-                                <button onClick={() => props.saveWorldMapInvite({ownerId: props.appUser.id, inviteeId: appUser.id, worldMapId: id})}>Einladen</button>
+                                <span>{appUser.username}</span>
+                                <button onClick={(event:React.MouseEvent<HTMLButtonElement>) => handleRemoveObserver(event, appUser.username)}><ImCross /></button>
                             </div>
                         )
                         })
                     }
                 </div>
-                <WorldMapInviteGallery title={} appUsers={} worldMapInvites={} getWorldMap={} deleteWorldMapInvite={} />
+                <WorldMapInviteGallery
+                    isOwner={true}
+                    title={"Offene Einladungen"}
+                    appUsers={props.appUsers}
+                    worldMapInvites={props.worldMapInvites}
+                    getWorldMap={props.getWorldMap}
+                    deleteWorldMapInvite={props.deleteWorldMapInvite}
+                />
             </div>
         </main>
     )

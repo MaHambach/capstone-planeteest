@@ -7,7 +7,7 @@ export default function useWorldMapInvite() {
     const [worldMapInvites, setWorldMapInvites] = useState<WorldMapInvite[]>([]);
 
     function fetchWorldMapInvites():void {
-        axios.get('/api/worldmapinvites')
+        axios.get('/api/worldMapInvites')
             .then(response => {
                 setWorldMapInvites(response.data);
             })
@@ -17,7 +17,7 @@ export default function useWorldMapInvite() {
     }
 
     function saveWorldMapInvite(newWorldMapInviteDto:WorldMapInviteDto):void {
-        axios.post('/api/worldmapinvites', newWorldMapInviteDto)
+        axios.post('/api/worldMapInvites', newWorldMapInviteDto)
             .then((response) => {
                 console.log("New world map invite added with id " + response.data.id + ".");
                 fetchWorldMapInvites();
@@ -28,7 +28,7 @@ export default function useWorldMapInvite() {
     }
 
     function deleteWorldMapInvite(worldMapInviteId:string):void{
-        axios.delete(`/api/worldmapinvites/${worldMapInviteId}`)
+        axios.delete(`/api/worldMapInvites/${worldMapInviteId}`)
             .then(fetchWorldMapInvites)
             .catch(error => {
                 console.log(error)
