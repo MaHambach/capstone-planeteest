@@ -1,5 +1,6 @@
 package com.github.mahambach.backend.controller;
 
+import com.github.mahambach.backend.model.AppUserResponse;
 import com.github.mahambach.backend.model.WorldMapInvite;
 import com.github.mahambach.backend.model.WorldMapInviteDto;
 import com.github.mahambach.backend.service.WorldMapInviteService;
@@ -30,6 +31,12 @@ public class WorldMapInviteController {
     @GetMapping("/worldMap/{worldMapId}")
     public List<WorldMapInvite> getAllWorldMapInvitesToWorldMap(@PathVariable String worldMapId) {
         return worldMapObserveInviteService.getAllWorldMapInvitesToWorldMap(worldMapId);
+    }
+
+    @GetMapping("/possibleObservers")
+    public List<AppUserResponse> getAllPossibleObserverOfWorldMap(@RequestBody String worldMapId) {
+        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return worldMapObserveInviteService.getAllPossibleObservers(principal.getUsername(), worldMapId);
     }
 
     @PostMapping

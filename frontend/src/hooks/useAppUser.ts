@@ -32,6 +32,16 @@ export function useAppUser() {
             });
     }
 
+    function fetchAllPossibleObserverOfWorldMap(worldMapId:string, setPossibleObserver:(possibleObserver:AppUserMinimal[]) => void):void {
+        axios.get("/api/users/possible-observers/" + worldMapId)
+            .then(response => {
+                setPossibleObserver(response.data.map((appUser:AppUser):AppUserMinimal => ({id: appUser.id, username: appUser.username})));
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
     function fetchAllObserversOfWorldmap(worldMapId:string, setObservers:(observers:AppUserMinimal[]) => void):void {
         axios.get("/api/users/observers/" + worldMapId)
             .then(response => {
@@ -59,8 +69,8 @@ export function useAppUser() {
         axios.post("/api/users/register", appUserRegister)
             .then(() => {
                 console.log("User registered successfully");
-                fetchAllAppUsers()
-                loginAppUser(appUserRegister);
+                fetchAllAppUsers();
+                loginAppUser(appUserRegister).then();
             })
             .catch(e => {
                 console.error(e);
@@ -110,6 +120,7 @@ export function useAppUser() {
         appUser,
         appUsers,
         addObservedWorldMapAppUser,
+        fetchAllPossibleObserverOfWorldMap,
         fetchAllObserversOfWorldmap,
         removeObserverFromWorldMap,
         loginAppUser,

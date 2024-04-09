@@ -20,12 +20,14 @@ type UpdateWorldMapFormProps = {
     worldMapInvites: WorldMapInvite[];
     fetchAllObserversOfWorldmap: (worldMapId:string, setObservers:(observers:AppUserMinimal[]) => void) => void;
     deleteWorldMapInvite: (id:string) => void;
+    fetchAllPossibleObserverOfWorldMap: (worldMapId:string, setPossibleObserver:(possibleObserver:AppUserMinimal[]) => void) => void;
 }
 
 export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProps>):React.ReactElement {
     const {id= ''} = useParams<string>();
     const [formData, setFormData] = useState<WorldMap>(emptyWorldMap);
     const [observers, setObservers] = useState<AppUserMinimal[]>([]);
+    const [possibleObservers, setPossibleObservers] = useState<AppUserMinimal[]>([]);
     const [isInvitingObserver, setIsInvitingObserver] = useState<boolean>(false);
 
     const navigate = useNavigate();
@@ -67,6 +69,7 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
     useEffect(() => {
         setFormData(props.getWorldMap(id));
         props.fetchAllObserversOfWorldmap(id, setObservers);
+        props.fetchAllPossibleObserverOfWorldMap(id, setPossibleObservers);
     }, [id, props]);
 
     return (
@@ -125,7 +128,7 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
             {isInvitingObserver &&
                 <AddWorldMapInviteForm
                     ownerId={props.appUser.id}
-                    appUsersWithoutObservers={props.appUsers.filter((appUserMinimal:AppUserMinimal) => !observers.map((appUser:AppUserMinimal) => appUser.id).includes(appUserMinimal.id) && (props.appUser.id !== appUserMinimal.id))}
+                    possibleInvitees={possibleObservers}
                     worldMapId={id}
                     closeAddWorldMapInviteForm={() => setIsInvitingObserver(false)}
                     saveWorldMapInvite={props.saveWorldMapInvite}

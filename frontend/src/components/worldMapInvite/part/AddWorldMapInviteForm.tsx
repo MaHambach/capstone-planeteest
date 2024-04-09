@@ -5,7 +5,7 @@ import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
 
 type AddWorldMapInviteForm = {
     ownerId: string;
-    appUsersWithoutObservers: AppUserMinimal[];
+    possibleInvitees: AppUserMinimal[];
     worldMapId: string;
     closeAddWorldMapInviteForm: () => void;
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
@@ -39,7 +39,7 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
                 ...formData,
                 ownerId: props.ownerId,
                 worldMapId: props.worldMapId,
-                inviteeId: props.appUsersWithoutObservers[0].id
+                inviteeId: props.possibleInvitees[0].id
             }
         );
         // eslint-disable-next-line
@@ -61,7 +61,7 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
                 </div>
                 <div>
                 <select id={"inviteeId"} name={"inviteeId"} value={formData.inviteeId} onChange={handleChange}>
-                    {props.appUsersWithoutObservers.map((appUser:AppUserMinimal) => {
+                    {props.possibleInvitees.map((appUser:AppUserMinimal) => {
                         return (
                             <option key={appUser.id}
                                     value={appUser.id}>

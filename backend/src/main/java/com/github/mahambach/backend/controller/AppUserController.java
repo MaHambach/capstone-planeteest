@@ -32,14 +32,8 @@ public class AppUserController {
     }
 
     @GetMapping("/observers/{worldMapId}")
-    public List<AppUserResponse> getAllObserversOfWorldMapById(@PathVariable String worldMapId) {
+    public List<AppUserResponse> getAllObserverOfWorldMapById(@PathVariable String worldMapId) {
         return appUserService.getAllObserversOfWorldMapById(worldMapId);
-    }
-
-    @GetMapping("/possibleObservers")
-    public List<AppUserResponse> getAllPossibleObservers(@RequestBody String worldMapId) {
-        var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return appUserService.getAllPossibleObservers(principal.getUsername(), worldMapId);
     }
 
     @PostMapping("/register")

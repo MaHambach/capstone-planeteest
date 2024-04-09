@@ -122,27 +122,6 @@ public class AppUserService {
         return updateAppUser(observerName, observer.withObservedWorldMapIds(newObservedWorldMapIds));
     }
 
-    public List<AppUserResponse> getAllPossibleObservers(String username, String worldMapId) {
-        AppUserResponse owner = findAppUserByUsername(username);
-        if(!owner.myWorldMapIds().contains(worldMapId)){
-            throw new IllegalArgumentException("You are not allowed to see possible observers for this world map.");
-        }
 
-        List<AppUserResponse> possibleObserver = new ArrayList<>();
-        List<AppUserResponse> appUsers = getAllAppUsers();
-        for(AppUserResponse appUser : appUsers){
-            if(!appUser.myWorldMapIds().contains(worldMapId) && !appUser.observedWorldMapIds().contains(worldMapId)){
-                possibleObserver.add(appUser);
-            }
-        }
 
-        List<WorldMapInvite> worldMapInvites = worldMapInviteService.getAllWorldMapInvitesToWorldMap(worldMapId);
-        List<AppUserResponse> alreadyInvited = worldMapInvites.stream()
-                .map(invite -> findAppUserByUsername(invite.inviteeId()))
-                .toList();
-
-        possibleObserver.removeAll(alreadyInvited);
-
-        return possibleObserver;
-    }
 }
