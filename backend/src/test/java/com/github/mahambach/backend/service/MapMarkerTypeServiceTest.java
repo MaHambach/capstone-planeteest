@@ -17,7 +17,7 @@ class MapMarkerTypeServiceTest {
 
     private final MapMarkerTypeService mapMarkerTypeService = new MapMarkerTypeService(mapMarkerTypeRepo);
 
-
+    // getAllMapMarkerTypes()
     @Test
     void getAllMapMarkerTypes_whenSomething_thenSomething() {
         // Given
@@ -49,6 +49,7 @@ class MapMarkerTypeServiceTest {
         verifyNoMoreInteractions(mapMarkerTypeRepo);
     }
 
+    // getMapMarkerTypeById(String mapMarkerTypeId)
     @Test
     void getMapMarkerTypeById_whenNoSuchMapMarkerType_thenThrow() {
         // Given
@@ -80,6 +81,7 @@ class MapMarkerTypeServiceTest {
         verifyNoMoreInteractions(mapMarkerTypeRepo);
     }
 
+    // createMapMarkerType(MapMarkerTypeDto mapMarkerTypeDto)
     @Test
     void createMapMarkerType_whenSomething_thenCreateAndReturn() {
         // Given
@@ -94,6 +96,7 @@ class MapMarkerTypeServiceTest {
         assertEquals(expected, result);
     }
 
+    // updateMapMarkerType(String mapMarkerTypeId, MapMarkerType mapMarkerType)
     @Test
     void updateMapMarkerType_whenNoSuchMapMarkerType_thenThrow() {
         // Given
@@ -108,7 +111,6 @@ class MapMarkerTypeServiceTest {
         verify(mapMarkerTypeRepo).existsById(id);
         verifyNoMoreInteractions(mapMarkerTypeRepo);
     }
-
 
     @Test
     void updateMapMarkerType_whenPathAndBodyIdDiffer_thenThrow() {
@@ -140,6 +142,7 @@ class MapMarkerTypeServiceTest {
         verifyNoMoreInteractions(mapMarkerTypeRepo);
     }
 
+    // deleteMapMarkerTypeById(String mapMarkerTypeId)
     @Test
     void deleteMapMarkerTypeById_whenNoSuchMapMarkerType_thenThrow() {
         // Given

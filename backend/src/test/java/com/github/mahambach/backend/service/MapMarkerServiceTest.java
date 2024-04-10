@@ -19,7 +19,7 @@ class MapMarkerServiceTest {
 
     private final MapMarkerService mapMarkerService = new MapMarkerService(mapMarkerRepo, articleService);
 
-
+    // getAllMapMarkers()
     @Test
     void getAllMapMarkers_whenOneMapMarker_thenReturnListOfMapMarker() {
         // Given
@@ -53,6 +53,7 @@ class MapMarkerServiceTest {
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
+    // getMapMarkerById(String mapMarkerId)
     @Test
     void getMapMarkerById_whenNoSuchMapMarker_thenThrow() {
         // Given
@@ -87,6 +88,7 @@ class MapMarkerServiceTest {
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
+    // createMapMarker(MapMarkerDto mapMarkerDto)
     @Test
     void createMapMarker_whenSomething_thenCreateAndReturn() {
         // Given
@@ -113,6 +115,7 @@ class MapMarkerServiceTest {
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
+    // updateMapMarker(String mapMarkerId, MapMarker mapMarker)
     @Test
     void updateMapMarker_whenNoSuchMapMarker_thenThrow() {
         // Given
@@ -128,7 +131,6 @@ class MapMarkerServiceTest {
         verifyNoMoreInteractions(mapMarkerRepo);
         verifyNoInteractions(articleService);
     }
-
 
     @Test
     void updateMapMarker_whenPathAndBodyIdDiffer_thenThrow() {
@@ -163,6 +165,7 @@ class MapMarkerServiceTest {
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
+    // deleteMapMarkerById(String mapMarkerId)
     @Test
     void deleteMapMarkerById_whenNoSuchMapMarker_thenThrow() {
         // Given
@@ -195,6 +198,7 @@ class MapMarkerServiceTest {
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
+    // deleteAllMapMarkersByWorldMapId(String worldMapId)
     @Test
     void deleteAllMapMarkersByWorldMapId_whenNoMapMarkers_thenDoNothing() {
         // Given

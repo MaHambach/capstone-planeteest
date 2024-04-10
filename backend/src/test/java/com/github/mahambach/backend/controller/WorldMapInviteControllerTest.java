@@ -461,6 +461,43 @@ class WorldMapInviteControllerTest {
         assertEquals(user2, result.getFirst());
     }
 
+    @Test
+    @WithMockUser(username = "another")
+    void getAllPossibleInviteesToWorldMap_whenUserNotOwner_thenThrowIllegalArgumentException() throws Exception {
+        // Given
+        AppUserRegister ownerRegister = new AppUserRegister("owner", "password");
+        mvc.perform(post("/api/users/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(ownerRegister)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        AppUserRegister anotherRegister = new AppUserRegister("another", "password");
+        mvc.perform(post("/api/users/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(anotherRegister)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
+        MvcResult worldMapJson = mvc.perform(post("/api/worldmaps")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(worldMapDto))
+                        .with(user("owner")))
+                .andExpect(status().isCreated())
+                .andReturn();
+        String worldMapId = objectMapper.readValue(worldMapJson.getResponse().getContentAsString(), WorldMap.class).id();
+
+        // When
+        MvcResult resultJson = mvc.perform(get("/api/worldMapInvites/possibleInvitees/" + worldMapId))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(),ErrorMessage.class);
+
+        // Then
+        assertEquals("You are not allowed to see possible observers for this world map.", result.errorMsg());
+    }
+
     //@PostMapping
     @Test
     @WithMockUser(username = "owner")
@@ -828,7 +865,7 @@ class WorldMapInviteControllerTest {
 
     @Test
     @WithMockUser(username = "another")
-    void deleteWorldMapInviteById_whenUserNotOwnerOrInvitee_thenThrowNoSuchWorldMapInviteException() throws Exception {
+    void deleteWorldMapInviteById_whenUserNotOwnerOrInvitee_thenThrowIllegalArgumentException() throws Exception {
         // Given
         AppUserRegister anotherRegister = new AppUserRegister("another", "password");
         mvc.perform(post("/api/users/register")

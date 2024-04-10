@@ -28,14 +28,7 @@ public class AppUserService {
     }
 
     public List<AppUserResponse> getAllObserversOfWorldMapById(String worldMapId) {
-        List<AppUser> appUsers = appUserRepo.findAll();
-        List<AppUserResponse> appUserResponses = new ArrayList<>();
-        for(AppUser appUser : appUsers){
-            if(appUser.observedWorldMapIds().contains(worldMapId)){
-                appUserResponses.add(new AppUserResponse(appUser));
-            }
-        }
-        return appUserResponses;
+        return getAllAppUsers().stream().filter(appUser -> appUser.observedWorldMapIds().contains(worldMapId)).toList();
     }
 
     public AppUserResponse findAppUserByUsername(String username) {
@@ -110,8 +103,12 @@ public class AppUserService {
         AppUserUpdateObject loggedInAppUser = new AppUserUpdateObject(findAppUserByUsername(loggedInUsername));
         AppUserUpdateObject observer = new AppUserUpdateObject(findAppUserByUsername(observerName));
 
-        if(!loggedInAppUser.myWorldMapIds().contains(worldMapId) && !observer.observedWorldMapIds().contains(worldMapId)){
+        if(!(loggedInAppUser.myWorldMapIds().contains(worldMapId) || observerName.equals(loggedInUsername))) {
             throw new IllegalArgumentException("You are not allowed to remove this world map from this user.");
+        }
+
+        if(!observer.observedWorldMapIds().contains(worldMapId)) {
+            throw new IllegalArgumentException("This user does not observe this world map.");
         }
 
         List<String> newObservedWorldMapIds = new ArrayList<>(observer.observedWorldMapIds());
@@ -120,7 +117,4 @@ public class AppUserService {
 
         return updateAppUser(observerName, observer.withObservedWorldMapIds(newObservedWorldMapIds));
     }
-
-
-
 }

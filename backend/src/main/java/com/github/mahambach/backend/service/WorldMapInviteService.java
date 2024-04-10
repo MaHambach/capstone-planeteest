@@ -64,7 +64,7 @@ public class WorldMapInviteService {
         String appUserId = appUserService.findAppUserByUsername(username).id();
         WorldMapInvite worldMapInvite = getWorldMapInviteById(worldMapInviteId);
 
-        if(!worldMapInvite.ownerId().equals(appUserId) && !worldMapInvite.inviteeId().equals(appUserId)){
+        if(!(worldMapInvite.ownerId().equals(appUserId) || worldMapInvite.inviteeId().equals(appUserId))){
             throw new IllegalArgumentException("Only the owner or invitee of the invite can delete a world map invite.");
         }
 
@@ -91,6 +91,7 @@ public class WorldMapInviteService {
 
     public List<AppUserResponse> getAllPossibleInviteesToWorldMap(String username, String worldMapId) {
         AppUserResponse owner = appUserService.findAppUserByUsername(username);
+        worldMapService.getWorldMapById(worldMapId);
 
         if(!owner.myWorldMapIds().contains(worldMapId)){
             throw new IllegalArgumentException("You are not allowed to see possible observers for this world map.");
@@ -99,7 +100,8 @@ public class WorldMapInviteService {
         List<AppUserResponse> possibleObserver = new ArrayList<>();
         List<AppUserResponse> appUsers = appUserService.getAllAppUsers();
         for(AppUserResponse appUser : appUsers){
-            if(!appUser.myWorldMapIds().contains(worldMapId) && !appUser.observedWorldMapIds().contains(worldMapId)){
+            if(!(   appUser.myWorldMapIds().contains(worldMapId) ||
+                    appUser.observedWorldMapIds().contains(worldMapId)  )){
                 possibleObserver.add(appUser);
             }
         }
