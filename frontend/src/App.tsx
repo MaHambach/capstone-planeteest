@@ -22,7 +22,7 @@ export default function App():React.ReactElement {
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
     const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
-    const {acceptWorldMapInvite, fetchWorldMapInvites, fetchAllWorldMapInvitesToUser, fetchAllWorldMapInvitesFromUser, fetchAllWorldMapInvitesToWorldMap, fetchAllPossibleInviteesForWorldMap, saveWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
+    const {fetchWorldMapInvites, saveWorldMapInvite} = useWorldMapInvite();
     const {worldMaps, fetchWorldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export default function App():React.ReactElement {
             fetchMapMarkerTypes();
             fetchWorldMapInvites();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line
     }, [appUser]);
 
     return (
@@ -88,9 +88,6 @@ export default function App():React.ReactElement {
                         removeObserverFromWorldMap={removeObserverFromWorldMap}
                         saveWorldMapInvite={saveWorldMapInvite}
                         fetchAllObserversOfWorldmap={fetchAllObserversOfWorldmap}
-                        fetchAllPossibleInviteesForWorldMap={fetchAllPossibleInviteesForWorldMap}
-                        fetchAllWorldMapInvitesToWorldMap={fetchAllWorldMapInvitesToWorldMap}
-                        deleteWorldMapInvite={deleteWorldMapInvite}
                     />
                 }/>
 
@@ -117,10 +114,6 @@ export default function App():React.ReactElement {
                         appUser={appUser}
                         appUsers={appUsers}
                         getWorldMap={getWorldMapById}
-                        fetchAllWorldMapInvitesToUser={fetchAllWorldMapInvitesToUser}
-                        fetchAllWorldMapInvitesFromUser={fetchAllWorldMapInvitesFromUser}
-                        deleteWorldMapInvite={deleteWorldMapInvite}
-                        acceptWorldMapInvite={acceptWorldMapInvite}
                     />
                 }/>
             </Route>
