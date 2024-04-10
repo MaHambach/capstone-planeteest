@@ -73,18 +73,17 @@ public class WorldMapInviteService {
         return worldMapInvite;
     }
 
-    public WorldMapInvite acceptWorldMapInvite(String worldMapObserveInviteId, String username) {
+    public WorldMapInvite acceptWorldMapInvite(String worldMapInviteId, String username) {
         String appUserId = appUserService.findAppUserByUsername(username).id();
-        WorldMapInvite worldMapInvite = getWorldMapInviteById(worldMapObserveInviteId);
+        WorldMapInvite worldMapInvite = getWorldMapInviteById(worldMapInviteId);
 
         if(!worldMapInvite.inviteeId().equals(appUserId)){
             throw new IllegalArgumentException("Only the invitee of the invite can accept a world map invite.");
         }
-        System.out.println("worldMapInvite.worldMapId() = " + worldMapInvite.worldMapId()
-                + ", username = " + username);
+
         appUserService.addObservedWorldMapAppUser(username, worldMapInvite.worldMapId());
 
-        worldMapInviteRepo.deleteById(worldMapObserveInviteId);
+        worldMapInviteRepo.deleteById(worldMapInviteId);
 
         return worldMapInvite;
     }
@@ -115,19 +114,19 @@ public class WorldMapInviteService {
         return possibleObserver;
     }
 
-    public List<WorldMapInvite> getAllWorldMapInvitesFromUser(String username) {
-        AppUserResponse user = appUserService.findAppUserByUsername(username);
-
-        return getAllWorldMapInvites().stream()
-                .filter(invite -> invite.ownerId().equals(user.id()))
-                .toList();
-    }
-
     public List<WorldMapInvite> getAllWorldMapInvitesToUser(String username) {
         AppUserResponse user = appUserService.findAppUserByUsername(username);
 
         return getAllWorldMapInvites().stream()
                 .filter(invite -> invite.inviteeId().equals(user.id()))
+                .toList();
+    }
+
+    public List<WorldMapInvite> getAllWorldMapInvitesFromUser(String username) {
+        AppUserResponse user = appUserService.findAppUserByUsername(username);
+
+        return getAllWorldMapInvites().stream()
+                .filter(invite -> invite.ownerId().equals(user.id()))
                 .toList();
     }
 }

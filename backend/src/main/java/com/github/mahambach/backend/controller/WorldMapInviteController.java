@@ -58,10 +58,10 @@ public class WorldMapInviteController {
         return worldMapObserveInviteService.createWorldMapInvite(worldMapInviteDto, principal.getUsername());
     }
 
-    @PostMapping("/{worldMapObserveInviteId}/accept")
-    public WorldMapInvite acceptWorldMapInvite(@PathVariable String worldMapObserveInviteId) {
+    @PostMapping("/{worldMapInviteId}/accept")
+    public WorldMapInvite acceptWorldMapInvite(@PathVariable String worldMapInviteId) {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return worldMapObserveInviteService.acceptWorldMapInvite(worldMapObserveInviteId, principal.getUsername());
+        return worldMapObserveInviteService.acceptWorldMapInvite(worldMapInviteId, principal.getUsername());
     }
 
     @DeleteMapping("/{worldMapObserveInviteId}")

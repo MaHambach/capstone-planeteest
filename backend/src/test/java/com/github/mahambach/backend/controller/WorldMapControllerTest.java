@@ -34,6 +34,7 @@ class WorldMapControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // @GetMapping
     @Test
     @WithMockUser(username = "username")
     void getAllWorldMaps_whenOneWorldMap_thenReturnListOfWorldMap() throws Exception {
@@ -81,6 +82,7 @@ class WorldMapControllerTest {
         assertEquals(expected, result);
     }
 
+    // @GetMapping("/{worldMapId}")
     @Test
     @WithMockUser
     void getWorldMapById_whenNoSuchWorldMap_thenThrow() throws Exception {
@@ -133,6 +135,7 @@ class WorldMapControllerTest {
         assertEquals(expected, result);
     }
 
+    // @PostMapping
     @Test
     @WithMockUser(username = "username")
     void createWorldMap_whenValidInput_thenCreateAndReturn() throws Exception {
@@ -164,6 +167,7 @@ class WorldMapControllerTest {
         assertNotNull(actual.id());
     }
 
+    // @PutMapping("/{worldMapId}")
     @Test
     @WithMockUser
     void updateWorldMap_whenNoSuchWorldMap_thenThrow() throws Exception{
@@ -184,7 +188,6 @@ class WorldMapControllerTest {
         // Then
         assertEquals("World map with id " + id + " not found.", result.errorMsg());
     }
-
 
     @Test
     @WithMockUser(username = "username")
@@ -255,6 +258,7 @@ class WorldMapControllerTest {
         assertEquals(expected, actual);
     }
 
+    // @DeleteMapping("/{worldMapId}")
     @Test
     @WithMockUser
     void deleteWorldMapById_whenNoSuchWorldMap_thenThrow() throws Exception {

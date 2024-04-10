@@ -76,4 +76,5 @@ public class AppUserController {
         var principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return appUserService.removeObservedWorldMapAppUser(principal.getUsername(), removeObservedRequest.observerName(), removeObservedRequest.worldMapId());
     }
+
 }

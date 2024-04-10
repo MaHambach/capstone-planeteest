@@ -19,10 +19,44 @@ import static org.mockito.Mockito.*;
 class AppUserServiceTest {
     private final AppUserRepo appUserRepo = mock(AppUserRepo.class);
     private final PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
-
     private final AppUserService appUserService = new AppUserService(appUserRepo, passwordEncoder);
 
+    // getAllAppUsers()
+    @Test
+    void getAllAppUsers_whenSome_thenReturnThose() {
+        // Given
+        AppUser appUser1 = new AppUser("1", AppUserRole.USER, "username1", "password", List.of(), List.of());
+        AppUser appUser2 = new AppUser("2", AppUserRole.USER, "username2", "password", List.of(), List.of());
+        List<AppUser> appUsers = List.of(appUser1, appUser2);
+        List<AppUserResponse> expected = List.of(new AppUserResponse(appUser1), new AppUserResponse(appUser2));
 
+        // When
+        when(appUserRepo.findAll()).thenReturn(appUsers);
+        List<AppUserResponse> actual = appUserService.getAllAppUsers();
+
+        // Then
+        assertEquals(expected, actual);
+        verify(appUserRepo).findAll();
+        verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
+    }
+
+    @Test
+    void getAllAppUsers_whenNone_thenReturnEmpty() {
+        // Given & When
+        when(appUserRepo.findAll()).thenReturn(new ArrayList<>());
+        List<AppUserResponse> actual = appUserService.getAllAppUsers();
+
+        // Then
+        assertEquals(new ArrayList<>(), actual);
+        verify(appUserRepo).findAll();
+        verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
+    }
+
+    // getAllObserversOfWorldMapById(String worldMapId)
+
+    // findAppUserByUsername(String username)
     @Test
     void findAppUserByUsername_whenUserExists_thenReturnUser() {
         // Given
