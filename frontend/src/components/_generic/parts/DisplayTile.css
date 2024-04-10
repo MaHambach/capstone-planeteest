@@ -14,8 +14,9 @@
 .displayTile:hover {
     box-shadow: inset 0 0 20px rgb(19, 217, 227);
     border: 2px solid rgb(19, 217, 227);
-
+    transition: 0.2s;
 }
+
 
 .displayTile .name {
     font-size: 2.5rem;
@@ -26,6 +27,13 @@
 .displayTile .displayTileButton{
     border: none;
     background-color: transparent;
+    transition: 0.2s;
+}
+
+.displayTile .displayTileButton_hover {
+    border: none;
+    box-shadow: inset 0 0 20px rgb(19, 217, 227);
+    transition: 0.2s;
 }
 
 .displayTile .propertiesButton {
