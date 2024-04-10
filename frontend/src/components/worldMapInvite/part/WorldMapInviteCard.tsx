@@ -29,7 +29,9 @@ export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):Reac
                 {props.displayInviteeName && <span>{props.inviteeName}</span>}
             </div>
 
-            {// @ts-ignore
+
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+                // @ts-expect-error /* acceptWorldMapInvite can't be undefined, if the button is displayed. No matter what sonarcloud hallucinates. */
                 props.acceptWorldMapInvite && <button onClick={() => props.acceptWorldMapInvite(props.worldMapInviteId)}><FaCheck /></button>}
             <button onClick={handleDelete}><ImCross /></button>
         </div>
