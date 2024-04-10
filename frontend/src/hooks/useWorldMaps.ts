@@ -1,6 +1,6 @@
 import {WorldMapDto} from "../types/WorldMapDto.ts";
 import {WorldMap} from "../types/WorldMap.ts";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
 
 export default function useWorldMaps() {
@@ -57,10 +57,9 @@ export default function useWorldMaps() {
             });
     }
 
-    useEffect(()=> fetchWorldMaps(), []);
-
     return {
         worldMaps,
+        fetchWorldMaps,
         getWorldMapById,
         saveWorldMap,
         updateWorldMap,

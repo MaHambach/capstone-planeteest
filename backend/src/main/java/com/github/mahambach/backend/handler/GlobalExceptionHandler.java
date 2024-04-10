@@ -12,14 +12,16 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // #    #  #####    #####  #   #
-    // ##   #  #   #    #   #  #   #
-    // # #  #  #   #    #      #   #
-    // # #  #  #   #    #####  #   #
-    // #  # #  #   #        #  #   #
-    // #   ##  #   #    #   #  #   #
-    // #    #  #####    #####  #####
     // No Such Element Exceptions
+    @ExceptionHandler(NoSuchAppUserException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorMessage handleNoSuchAppUserException(NoSuchAppUserException exception) {
+        return new ErrorMessage(
+                "User with username " + exception.getMessage() + " not found.",
+                LocalDateTime.now()
+        );
+    }
+
     @ExceptionHandler(NoSuchArticleException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorMessage handleNoSuchArticleException(NoSuchArticleException exception) {
@@ -52,6 +54,15 @@ public class GlobalExceptionHandler {
     }
 
     // Miss Matching Element Exceptions
+    @ExceptionHandler(MissMatchingIdsAppUserException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleMissMatchingIdsAppUserException(MissMatchingIdsAppUserException exception) {
+        return new ErrorMessage(
+                "User with id " + exception.userId + " can't update user with id " + exception.updateId + ".",
+                LocalDateTime.now()
+        );
+    }
+
     @ExceptionHandler(MissMatchingIdsArticleException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorMessage handleMissMatchingIdsArticleException(MissMatchingIdsArticleException exception) {
@@ -79,6 +90,16 @@ public class GlobalExceptionHandler {
     private ErrorMessage handleMissMatchingIdsException(String className, String pathId, String bodyId) {
         return new ErrorMessage(
                 className + " with id " + pathId + " in path and " + bodyId + " in body do not match.",
+                LocalDateTime.now()
+        );
+    }
+
+    // Special Exceptions
+    @ExceptionHandler(NonOwnerTriesToDeleteWorldMapException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorMessage handleNonOwnerTriesToDeleteWorldMapException(NonOwnerTriesToDeleteWorldMapException exception) {
+        return new ErrorMessage(
+                "User with id " + exception.userId + " is not the owner of the world map with id " + exception.worldMapId + ".",
                 LocalDateTime.now()
         );
     }

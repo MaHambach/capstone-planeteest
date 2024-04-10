@@ -12,8 +12,11 @@ import {Article} from "../../../types/Article.ts";
 import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
 import MapMarkerUpdateWindow from "../../mapMarker/parts/MapMarkerUpdateWindow.tsx";
 import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
+import {AppUser} from "../../../types/AppUser.ts";
 
 type WorldMapMainProps = {
+    appUser: AppUser;
+
     getWorldMap: (id:string) => WorldMap;
 
     mapMarkers: MapMarker[];
@@ -106,12 +109,16 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
             <ToolBar
                 toggleAddNewMapMarker={toggleAddNewMapMarker}
                 addNewMapMarker={addNewMapMarker}
+                isOwner={props.appUser.myWorldMapIds.includes(worldMap.id)}
             />
             <WorldMapImage
                 worldMap={worldMap}
                 handleWorldMapClick={handleWorldMapClick}
             />
-            {props.mapMarkers.filter((mapMarker:MapMarker) => mapMarker.worldMapId === id).map((mapMarker:MapMarker) => {
+            {props.mapMarkers
+                .filter((mapMarker:MapMarker) => mapMarker.worldMapId === id)
+                .filter((mapMarker:MapMarker) => props.appUser.myWorldMapIds.includes(worldMap.id) || mapMarker.visibility === "OWNER_AND_OBSERVERS")
+                .map((mapMarker:MapMarker) => {
                 return <MapMarkerCard
                     key={mapMarker.id}
                     mapMarker={mapMarker}
@@ -123,6 +130,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     handleArticleFrame={handleArticleFrame}
                     setSelectedMapMarker={setSelectedMapMarker}
                     getMapMarkerType={props.getMapMarkerType}
+                    isOwner={props.appUser.myWorldMapIds.includes(worldMap.id)}
                 />
             })}
             {(showArticle && selectedMapMarker !== emptyMapMarker) &&
@@ -132,6 +140,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     article={props.getArticleById(selectedMapMarker.articleId)}
                     closeWindow={handleArticleFrame}
                     updateArticle={props.updateArticle}
+                    isOwner={props.appUser.myWorldMapIds.includes(worldMap.id)}
                 />
             }
             {(addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&

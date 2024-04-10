@@ -15,6 +15,9 @@ import java.util.List;
 public class WorldMapService {
     private final WorldMapRepo worldMapRepo;
 
+    private final AppUserService appUserService;
+    private final MapMarkerService mapMarkerService;
+
     public List<WorldMap> getAllWorldMaps() {
         return worldMapRepo.findAll();
     }
@@ -25,8 +28,12 @@ public class WorldMapService {
                 .orElseThrow(() -> new NoSuchWorldMapException(worldMapId));
     }
 
-    public WorldMap createWorldMap(WorldMapDto worldMapDto) {
-        return worldMapRepo.save(new WorldMap(worldMapDto));
+    public WorldMap createWorldMap(WorldMapDto worldMapDto, String username) {
+        WorldMap worldMap = worldMapRepo.save(new WorldMap(worldMapDto));
+
+        appUserService.addMyWorldMapAppUser(username, worldMap.id());
+
+        return worldMap;
     }
 
     public WorldMap updateWorldMap(String worldMapId, WorldMap worldMap) {
@@ -39,9 +46,11 @@ public class WorldMapService {
         return worldMapRepo.save(worldMap);
     }
 
-    public WorldMap deleteWorldMapById(String worldMapId) {
+    public WorldMap deleteWorldMapById(String worldMapId, String ownerId) {
         WorldMap worldMap = getWorldMapById(worldMapId);
+        appUserService.removeWorldmapFromAllUsers(ownerId, worldMapId);
         worldMapRepo.deleteById(worldMapId);
+        mapMarkerService.deleteAllMapMarkersByWorldMapId(worldMapId);
         return worldMap;
     }
 

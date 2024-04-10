@@ -2,14 +2,12 @@ package com.github.mahambach.backend.service;
 
 import com.github.mahambach.backend.exception.MissMatchingIdsMapMarkerException;
 import com.github.mahambach.backend.exception.NoSuchMapMarkerException;
-import com.github.mahambach.backend.model.Article;
-import com.github.mahambach.backend.model.ArticleDto;
-import com.github.mahambach.backend.model.MapMarker;
-import com.github.mahambach.backend.model.MapMarkerDto;
+import com.github.mahambach.backend.model.*;
 import com.github.mahambach.backend.repository.MapMarkerRepo;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -25,7 +23,7 @@ class MapMarkerServiceTest {
     @Test
     void getAllMapMarkers_whenOneMapMarker_thenReturnListOfMapMarker() {
         // Given
-        MapMarker mapMarker = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker mapMarker = new MapMarker("1", "WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
         List<MapMarker> expected = List.of(mapMarker);
 
         // When
@@ -61,7 +59,7 @@ class MapMarkerServiceTest {
         String id = "1";
 
         // When
-        when(mapMarkerRepo.findById(id)).thenReturn(java.util.Optional.empty());
+        when(mapMarkerRepo.findById(id)).thenReturn(Optional.empty());
 
 
         // Then
@@ -75,11 +73,11 @@ class MapMarkerServiceTest {
     void getMapMarkerById_whenSuchMapMarker_thenReturn() {
         // Given
         String id = "1";
-        MapMarker expected = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker expected = new MapMarker("1", "WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
 
         // When
-        when(mapMarkerRepo.findById(id)).thenReturn(java.util.Optional.of(expected));
+        when(mapMarkerRepo.findById(id)).thenReturn(Optional.of(expected));
         MapMarker result = mapMarkerService.getMapMarkerById(id);
 
         // Then
@@ -93,8 +91,8 @@ class MapMarkerServiceTest {
     void createMapMarker_whenSomething_thenCreateAndReturn() {
         // Given
         String id = "1";
-        MapMarker expected = new MapMarker(id, "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
-        MapMarkerDto input = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker expected = new MapMarker(id, "WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
+        MapMarkerDto input = new MapMarkerDto("WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
         ArticleDto newArticleDto = new ArticleDto("", List.of());
         String newArticleId = "newArticleId";
         Article newArticle = new Article(newArticleDto).withId(newArticleId);
@@ -119,7 +117,7 @@ class MapMarkerServiceTest {
     void updateMapMarker_whenNoSuchMapMarker_thenThrow() {
         // Given
         String id = "1";
-        MapMarker mapMarker = new MapMarker(id, "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker mapMarker = new MapMarker(id, "WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
         // When
         when(mapMarkerRepo.existsById(id)).thenReturn(false);
@@ -136,7 +134,7 @@ class MapMarkerServiceTest {
     void updateMapMarker_whenPathAndBodyIdDiffer_thenThrow() {
         // Given
         String id = "1";
-        MapMarker mapMarker = new MapMarker("2", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker mapMarker = new MapMarker("2", "WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
         // When
         // Then
@@ -148,7 +146,7 @@ class MapMarkerServiceTest {
     @Test
     void updateMapMarker_whenSuchMapMarker_thenUpdateAndReturn() {
         // Given
-        MapMarker mapMarkerOld = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker mapMarkerOld = new MapMarker("1", "WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
         MapMarker expected = mapMarkerOld.withWorldMapId("WorldMapIdNew").withName("MapMarkerNameNew").withXPosition(1986).withYPosition(768).withMarkerTypeId("MapMarkerTypeIdNew").withArticleId("ArticleIdNew");
 
@@ -183,7 +181,7 @@ class MapMarkerServiceTest {
     @Test
     void deleteMapMarkerById_whenSuchWorld_thenDeleteAndReturnDeleted() {
         // Given
-        MapMarker expected = new MapMarker("1", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker expected = new MapMarker("1", "WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_AND_OBSERVERS);
 
         // When
         when(mapMarkerRepo.findById(expected.id())).thenReturn(java.util.Optional.of(expected));
@@ -195,5 +193,24 @@ class MapMarkerServiceTest {
         verify(mapMarkerRepo).deleteById(expected.id());
         verifyNoInteractions(articleService);
         verifyNoMoreInteractions(mapMarkerRepo);
+    }
+
+    @Test
+    void deleteAllMapMarkersByWorldMapId_whenNoMapMarkers_thenDoNothing() {
+        // Given
+        String worldMapId = "WorldMapId2";
+        MapMarker mapMarker1 = new MapMarker("1", "WorldMapId1", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_AND_OBSERVERS);
+        MapMarker mapMarker2 = new MapMarker("2", "WorldMapId2", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
+        MapMarker mapMarker3 = new MapMarker("3", "WorldMapId3", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
+
+        // When
+        when(mapMarkerRepo.findAll()).thenReturn(List.of(mapMarker1, mapMarker2, mapMarker3));
+
+        // Then
+        mapMarkerService.deleteAllMapMarkersByWorldMapId(worldMapId);
+        verify(mapMarkerRepo).findAll();
+        verify(mapMarkerRepo, times(1)).deleteById("2");
+        verifyNoMoreInteractions(mapMarkerRepo);
+        verifyNoInteractions(articleService);
     }
 }

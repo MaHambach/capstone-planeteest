@@ -55,11 +55,11 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                 </div>
                 <div>
                     <label htmlFor={"xSize"}>Breite:</label>
-                    <span>{formData.worldMapUrl}</span>
+                    <span>{formData.xSize}</span>
                 </div>
                 <div>
                     <label htmlFor={"ySize"}>Höhe:</label>
-                    <span>{formData.worldMapUrl}</span>
+                    <span>{formData.ySize}</span>
                 </div>
                 <button type={"submit"}>Speichern</button>
                 <button type={"button"} onClick={() => navigate('/')}>Abbrechen</button>

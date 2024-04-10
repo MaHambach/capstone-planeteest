@@ -27,7 +27,7 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                 ...formData,
                 [event.target.name]: event.target.value
             }
-        )
+        );
     }
 
     useEffect(() => {
@@ -37,9 +37,9 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                 worldMapId: props.worldMapId,
                 xPosition: props.xPosition,
                 yPosition: props.yPosition,
-                markerTypeId: '' /* For later: When MarkerType is implemented */
+                markerTypeId: props.mapMarkerTypes[0].id,
             }
-        )
+        );
         // eslint-disable-next-line
     }, [props]);
 
@@ -60,8 +60,7 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                 </div>
                 <div className={"mapMarkerUpdateDiv"}>
                     <label htmlFor={"markerTypeId"}>Typ: </label>
-                    <select id={"markerTypeId"} name={"markerTypeId"} value={formData.markerTypeId}
-                            onChange={handleChangeInput}>
+                    <select id={"markerTypeId"} name={"markerTypeId"} value={formData.markerTypeId} onChange={handleChangeInput}>
                         {props.mapMarkerTypes.map((mapMarkerType: MapMarkerType) => {
                             return <option key={mapMarkerType.id}
                                            value={mapMarkerType.id}>
@@ -69,6 +68,16 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                             </option>
                         })}
                     </select>
+                </div>
+                <div className={"mapMarkerUpdateDiv"}>
+                    <label htmlFor={"Visibility"}>Sichtbarkeit: </label>
+                    <select id={"visibility"} name={"visibility"} value={formData.visibility} onChange={handleChangeInput}>
+                        <option value={"OWNER_ONLY"}>Nur für mich</option>
+                        <option value={"OWNER_AND_OBSERVERS"}>Für alle</option>
+                    </select>
+                </div>
+                <div>
+                    <button type={"submit"}>Speichern</button>
                 </div>
             </form>
         </DraggableSubWindow>

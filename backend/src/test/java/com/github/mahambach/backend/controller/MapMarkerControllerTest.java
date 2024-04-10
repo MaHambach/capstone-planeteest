@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -31,9 +32,10 @@ class MapMarkerControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser
     void getAllMapMarkers_whenOneMarker_thenReturnListOfMarker() throws Exception {
         // Given
-        MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
         String mapMarkerDtoJson = objectMapper.writeValueAsString(mapMarkerDto);
 
         MvcResult expectedJson = mvc.perform(post("/api/map-markers")
@@ -43,7 +45,7 @@ class MapMarkerControllerTest {
                 .andReturn();
 
         List<MapMarker> expected = List.of(objectMapper.readValue(expectedJson.getResponse().getContentAsString(), MapMarker.class));
-        
+
         // When
         MvcResult resultJson = mvc.perform(get("/api/map-markers"))
                 .andExpect(status().isOk())
@@ -53,8 +55,9 @@ class MapMarkerControllerTest {
         // Then
         assertEquals(expected, result);
     }
-    
+
     @Test
+    @WithMockUser
     void getAllMapMarkers_whenEmpty_thenEmpty() throws Exception {
         // Given
         List<MapMarker> expected = List.of();
@@ -70,6 +73,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getMapMarkerById_whenNoSuchMapMarker_thenThrow() throws Exception {
         // Given
         String id = "1";
@@ -87,9 +91,10 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getMapMarkerById_whenSuchMapMarker_thenReturn() throws Exception {
         // Given
-        MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
         String mapMarkerDtoJson = objectMapper.writeValueAsString(mapMarkerDto);
 
         MvcResult expectedJson = mvc.perform(MockMvcRequestBuilders.post("/api/map-markers")
@@ -113,9 +118,10 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void createMapMarker_whenValidInput_thenCreateAndReturn() throws Exception {
         // Given
-        MapMarkerDto expectedDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", null);
+        MapMarkerDto expectedDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", null, Visibility.OWNER_ONLY);
         String mapMarkerDtoJson = objectMapper.writeValueAsString(expectedDto);
 
         // When
@@ -138,10 +144,11 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateMapMarker_whenNoSuchMapMarker_thenThrow() throws Exception{
         // Given
         String id = "1000";
-        MapMarker mapMarker = new MapMarker("1000", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker mapMarker = new MapMarker("1000", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
         String mapMarkerJson = objectMapper.writeValueAsString(mapMarker);
 
         // When
@@ -159,10 +166,11 @@ class MapMarkerControllerTest {
 
 
     @Test
+    @WithMockUser
     void updateMapMarker_whenPathAndBodyIdDiffer_thenThrow() throws Exception{
         // Given
         String id = "1";
-        MapMarker mapMarker = new MapMarker("2", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarker mapMarker = new MapMarker("2", "MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
         String mapMarkerJson = objectMapper.writeValueAsString(mapMarker);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/map-markers")
@@ -184,9 +192,10 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateMapMarker_whenSuchMapMarker_thenUpdateAndReturn() throws Exception{
         // Given
-        MapMarkerDto mapMarkerDto = new MapMarkerDto("WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarkerDto mapMarkerDto = new MapMarkerDto("WorldMapId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
         MvcResult mapMarkerOldJson = mvc.perform(MockMvcRequestBuilders.post("/api/map-markers")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -212,6 +221,7 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteMapMarkerById_whenNoSuchMapMarker_thenThrow() throws Exception {
         // Given
         String id = "1";
@@ -228,9 +238,10 @@ class MapMarkerControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteMapMarkerById_whenSuchWorld_thenDeleteAndReturnDeleted() throws Exception {
         // Given
-        MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId");
+        MapMarkerDto mapMarkerDto = new MapMarkerDto("MapMarkerId", "MapMarkerName", 128, 64, "MapMarkerTypeId", "ArticleId", Visibility.OWNER_ONLY);
 
         MvcResult mapMarkerJson = mvc.perform(MockMvcRequestBuilders.post("/api/map-markers")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,12 +33,14 @@ class MapMarkerTypeControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
+    @WithMockUser
     void getAllMapMarkerTypes_whenSomething_thenSomething() throws Exception {
         // Given
         MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "icon", "#000000");
         String mapMarkerTypeDtoJson = objectMapper.writeValueAsString(mapMarkerTypeDto);
 
         MvcResult expectedJson = mvc.perform(post("/api/mapMarkerTypes")
+                        .with(user("user").roles("ADMIN"))
                         .contentType("application/json")
                         .content(mapMarkerTypeDtoJson))
                 .andExpect(status().isCreated())
@@ -55,6 +59,7 @@ class MapMarkerTypeControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getAllMapMarkerTypes_whenEmpty_thenEmpty() throws Exception {
         // Given
         List<MapMarkerType> expected = List.of();
@@ -70,6 +75,7 @@ class MapMarkerTypeControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getMapMarkerTypeById_whenNoSuchMapMarkerType_thenThrow() throws Exception {
         // Given
         String id = "1";
@@ -87,6 +93,7 @@ class MapMarkerTypeControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getMapMarkerTypeById_whenSuchMapMarkerType_thenReturn() throws Exception {
         // Given
         MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "icon", "#000000");
@@ -94,6 +101,7 @@ class MapMarkerTypeControllerTest {
         String mapMarkerTypeDtoJson = objectMapper.writeValueAsString(mapMarkerTypeDto);
 
         MvcResult expectedJson = mvc.perform(MockMvcRequestBuilders.post("/api/mapMarkerTypes")
+                        .with(user("user").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapMarkerTypeDtoJson))
                 .andExpect(status().isCreated())
@@ -114,6 +122,7 @@ class MapMarkerTypeControllerTest {
     }
 
     @Test
+    @WithMockUser
     void createMapMarkerType_whenSomething_thenCreateAndReturn() throws Exception {
         // Given
         MapMarkerTypeDto expectedDto = new MapMarkerTypeDto("name", "icon", "#000000");
@@ -122,6 +131,7 @@ class MapMarkerTypeControllerTest {
 
         // When
         MvcResult expectedJson = mvc.perform(MockMvcRequestBuilders.post("/api/mapMarkerTypes")
+                        .with(user("user").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapMarkerTypeDtoJson))
                 .andExpect(status().isCreated())
@@ -136,6 +146,7 @@ class MapMarkerTypeControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateMapMarkerType_whenNoSuchMapMarkerType_thenThrow() throws Exception{
         // Given
         String id = "1";
@@ -145,6 +156,7 @@ class MapMarkerTypeControllerTest {
 
         // When
         MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.put("/api/mapMarkerTypes/" + id)
+                        .with(user("user").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapMarkerTypeJson))
                 .andExpect(status().isNotFound())
@@ -158,6 +170,7 @@ class MapMarkerTypeControllerTest {
 
 
     @Test
+    @WithMockUser
     void updateMapMarkerType_whenPathAndBodyIdDiffer_thenThrow() throws Exception{
         // Given
         String id = "2";
@@ -166,12 +179,14 @@ class MapMarkerTypeControllerTest {
         String mapMarkerTypeJson = objectMapper.writeValueAsString(mapMarkerType);
 
         mvc.perform(MockMvcRequestBuilders.post("/api/mapMarkerTypes")
+                        .with(user("user").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapMarkerTypeJson))
                 .andExpect(status().isCreated());
 
         // When
         MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.put("/api/mapMarkerTypes/" + id)
+                        .with(user("user").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapMarkerTypeJson))
                 .andExpect(status().isBadRequest())
@@ -184,11 +199,13 @@ class MapMarkerTypeControllerTest {
     }
 
     @Test
+    @WithMockUser
     void updateMapMarkerType_whenSuchMapMarkerType_thenUpdateAndReturn() throws Exception{
         // Given
         MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "icon", "#000000");
 
         MvcResult mapMarkerTypeOldJson = mvc.perform(MockMvcRequestBuilders.post("/api/mapMarkerTypes")
+                        .with(user("user").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(mapMarkerTypeDto)))
                 .andExpect(status().isCreated())
@@ -200,6 +217,7 @@ class MapMarkerTypeControllerTest {
 
         // When
         MvcResult actualJson = mvc.perform(MockMvcRequestBuilders.put("/api/mapMarkerTypes/" + expected.id())
+                        .with(user("user").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(expected)))
                 .andExpect(status().isOk())
@@ -212,12 +230,15 @@ class MapMarkerTypeControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteMapMarkerTypeById_whenNoSuchMapMarkerType_thenThrow() throws Exception {
         // Given
         String id = "1";
 
         // When
-        MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.delete("/api/mapMarkerTypes/" + id))
+        MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.delete("/api/mapMarkerTypes/" + id)
+                        .with(user("user").roles("ADMIN"))
+                )
                 .andExpect(status().isNotFound())
                 .andReturn();
 
@@ -228,11 +249,13 @@ class MapMarkerTypeControllerTest {
     }
 
     @Test
+    @WithMockUser
     void deleteMapMarkerTypeById_whenSuchWorld_thenDeleteAndReturnDeleted() throws Exception {
         // Given
         MapMarkerTypeDto mapMarkerTypeDto = new MapMarkerTypeDto("name", "icon", "#000000");
 
         MvcResult mapMarkerTypeJson = mvc.perform(MockMvcRequestBuilders.post("/api/mapMarkerTypes")
+                        .with(user("user").roles("ADMIN"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(mapMarkerTypeDto)))
                 .andExpect(status().isCreated())
@@ -241,7 +264,9 @@ class MapMarkerTypeControllerTest {
         MapMarkerType expectedMapMarkerType = objectMapper.readValue(mapMarkerTypeJson.getResponse().getContentAsString(), MapMarkerType.class);
 
         // When
-        MvcResult resultMapMarkerTypeJson = mvc.perform(MockMvcRequestBuilders.delete("/api/mapMarkerTypes/" + expectedMapMarkerType.id()))
+        MvcResult resultMapMarkerTypeJson = mvc.perform(MockMvcRequestBuilders.delete("/api/mapMarkerTypes/" + expectedMapMarkerType.id())
+                        .with(user("user").roles("ADMIN"))
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 

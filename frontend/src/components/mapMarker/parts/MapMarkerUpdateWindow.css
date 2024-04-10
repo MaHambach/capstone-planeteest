@@ -18,7 +18,7 @@
 }
 
 .mapMarkerUpdateWindow .mapMarkerUpdateDiv {
-    margin: 5px;
+    margin: 2px;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -47,7 +47,6 @@
 
 .mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivPadlockClosed_changeable{
     background-color: darkgray;
-
 }
 
 .mapMarkerUpdateWindow .mapMarkerUpdateDiv .mapMarkerPositionDivPadlockClosed{

@@ -1,8 +1,4 @@
 .displayTile {
-    display:flex;
-    justify-content: center;
-    align-items: center;
-
     overflow: hidden;
     background: rgb(255, 255, 255);
     border-radius: 20px;
@@ -18,11 +14,29 @@
 .displayTile:hover {
     box-shadow: inset 0 0 20px rgb(19, 217, 227);
     border: 2px solid rgb(19, 217, 227);
-
+    transition: 0.2s;
 }
+
 
 .displayTile .name {
     font-size: 2.5rem;
     text-decoration: none;
     color: black;
+}
+
+.displayTile .displayTileButton{
+    border: none;
+    background-color: transparent;
+    transition: 0.2s;
+}
+
+.displayTile .displayTileButton_hover {
+    border: none;
+    box-shadow: inset 0 0 20px rgb(19, 217, 227);
+    transition: 0.2s;
+}
+
+.displayTile .propertiesButton {
+    position: absolute;
+    z-index: 20;
 }

@@ -15,30 +15,30 @@ const initialFormData:WorldMapDto = {
 
 export default function NewWorldMapForm(props:Readonly<NewWorldMapFormProps>):React.ReactElement {
     const [formData, setFormData] = useState(initialFormData);
+    const [imageDimensions, setImageDimensions] = useState({x:0, y:0});
     const img = new Image();
-
-    img.onload = () =>{
-        formData.xSize = img.width;
-        formData.ySize = img.height;
-    }
 
     const navigate = useNavigate();
 
     function handleSubmit(event: FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-
-        props.saveWorldMap(formData);
+        props.saveWorldMap({...formData, xSize:imageDimensions.x, ySize:imageDimensions.y});
         navigate('/')
     }
 
+    img.onload = function() {
+        setImageDimensions({x:img.width, y:img.height});
+    }
+
     function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>):void {
+        if(event.target.name === "worldMapUrl") img.src = event.target.value;
+
         setFormData(
             {
                 ...formData,
                 [event.target.name]: event.target.value
             }
         )
-        if(event.target.name === "worldMapUrl") img.src = event.target.value;
     }
 
     return (

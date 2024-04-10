@@ -49,4 +49,9 @@ public class MapMarkerService {
         return mapMarker;
     }
 
+    public void deleteAllMapMarkersByWorldMapId(String worldMapId) {
+        mapMarkerRepo.findAll().stream()
+                .filter(mapMarker -> mapMarker.worldMapId().equals(worldMapId))
+                .forEach(mapMarker -> mapMarkerRepo.deleteById(mapMarker.id()));
+    }
 }
