@@ -1,27 +1,29 @@
 import React, {useEffect, useState} from "react";
-import {emptyWorldMap, WorldMap} from "../../../types/WorldMap.ts";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 import {WorldMapInviteCard} from "./WorldMapInviteCard.tsx";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import {AppUser} from "../../../types/AppUser.ts";
-import useWorldMaps from "../../../hooks/useWorldMaps.ts";
+import {WorldMap} from "../../../types/WorldMap.ts";
 
 type invitesType = "ToUser" | "FromUser" | "ToWorldMap";
 
 type WorldMapInviteGalleryProps = {
-    title: string;
+    // Data
     appUser: AppUser;
     appUsers: AppUserMinimal[];
     worldMapInvites: WorldMapInvite[];
+    worldMaps: WorldMap[];
+
+    // Props
+    title: string;
     invitesType: invitesType;
+    worldMapId?: string;
 }
 export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalleryProps>):React.ReactElement {
     const [displayedWorldMapInvites, setDisplayedWorldMapInvites] = useState<WorldMapInvite[]>([]);
     const [displayOwnerName, setDisplayOwnerName] = useState<boolean>(false);
     const [displayInviteeName, setDisplayInviteeName] = useState<boolean>(false);
     const [displayWorldMapName, setDisplayWorldMapName] = useState<boolean>(false);
-    const [worldMap, setWorldMap] = useState<WorldMap>(emptyWorldMap);
-    const {getWorldMapById} = useWorldMaps();
 
     function getAllWorldMapInvitesToUser(setWorldMapInvitesToUser:(worldMapInvite:WorldMapInvite[]) => void, appUserId:string):void {
         setWorldMapInvitesToUser(props.worldMapInvites.filter(
@@ -56,7 +58,8 @@ export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalle
                 setDisplayWorldMapName(true);
                 break;
             case "ToWorldMap":
-                getAllWorldMapInvitesToWorldMap(setDisplayedWorldMapInvites, worldMap.id);
+                if(props.worldMapId === undefined) break;
+                getAllWorldMapInvitesToWorldMap(setDisplayedWorldMapInvites, props.worldMapId);
                 setDisplayOwnerName(false);
                 setDisplayInviteeName(true);
                 setDisplayWorldMapName(false);
@@ -65,16 +68,7 @@ export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalle
                 break;
         }
         // eslint-disable-next-line
-    }, [props, worldMap]);
-
-    useEffect(
-        () => {
-            if((props.invitesType === "ToUser" || props.invitesType === "FromUser") && props.worldMapInvites.length > 0) {
-                setWorldMap(getWorldMapById(props.worldMapInvites[0].worldMapId));
-            }
-        // eslint-disable-next-line
-    }, [props]
-    )
+    }, [props]);
 
     return (
         <div className={"worldMapInviteGallery"}>
@@ -85,10 +79,11 @@ export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalle
                         <WorldMapInviteCard
                             key={worldMapInvite.id}
                             worldMapInvite={worldMapInvite}
+                            appUsers={props.appUsers}
+                            worldMaps={props.worldMaps}
                             displayOwnerName={displayOwnerName}
                             displayInviteeName={displayInviteeName}
                             displayWorldMapName={displayWorldMapName}
-                            worldMapName={worldMap.name}
                         />
                     )
                 })}

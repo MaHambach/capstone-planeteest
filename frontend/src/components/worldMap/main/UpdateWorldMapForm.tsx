@@ -10,12 +10,15 @@ import AddWorldMapInviteForm from "../../worldMapInvite/part/AddWorldMapInviteFo
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 
 type UpdateWorldMapFormProps = {
+    // Data
     appUser: AppUser;
+    appUsers: AppUserMinimal[];
+    worldMaps: WorldMap[];
     worldMapInvites: WorldMapInvite[];
+
+    // Functions
     updateWorldMap: (worldMap:WorldMap) => void;
     deleteWorldMap: (id:string) => void;
-    getWorldMap: (id:string) => WorldMap;
-    appUsers: AppUserMinimal[];
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
     removeObserverFromWorldMap: (observerId:string, worldMapId:string) => void;
     fetchAllObserversOfWorldmap: (worldMapId:string, setObservers:(observers:AppUserMinimal[]) => void) => void;
@@ -30,7 +33,7 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
     const navigate = useNavigate();
 
     useEffect(() => {
-        setFormData(props.getWorldMap(id));
+        setFormData(getWorldMapById(id));
         props.fetchAllObserversOfWorldmap(id, setObservers);
     }, [id, props]);
 
@@ -41,6 +44,13 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                 [event.target.name]: event.target.value
             }
         )
+    }
+
+    function getWorldMapById(id:string):WorldMap {
+        const filteredWorldMaps:WorldMap[] = props.worldMaps.filter((worldMap:WorldMap) => worldMap.id === id);
+        if(filteredWorldMaps.length === 0) console.error("No world map with id \"" + id + "\" found.");
+        else return filteredWorldMaps[0];
+        return emptyWorldMap;
     }
 
     function toggleAddNewObserver(event:React.MouseEvent<HTMLButtonElement>):void {
@@ -114,11 +124,13 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                 </div>
                 <div className={"inviteListDiv"}>
                     <WorldMapInviteGallery
-                        title={"Offene Einladungen"}
                         appUser={props.appUser}
                         appUsers={props.appUsers}
                         worldMapInvites={props.worldMapInvites}
+                        worldMaps={props.worldMaps}
+                        title={"Offene Einladungen"}
                         invitesType={"ToWorldMap"}
+                        worldMapId={id}
                     />
                     <button onClick={toggleAddNewObserver}>Einladung hinzufügen</button>
                 </div>

@@ -42,9 +42,10 @@ export function useAppUser() {
             });
     }
 
-    function fetchAppUserNameById(appUserId:string):string {
+    function getAppUserNameById(appUserId:string):string {
         const filteredAppUsers:AppUserMinimal[] = appUsers.filter((appUser:AppUserMinimal):boolean => appUser.id === appUserId);
-        if(filteredAppUsers.length > 0) return filteredAppUsers[0].username;
+        if(filteredAppUsers.length === 0) console.error("No app user with id \"" + appUserId + "\" found.");
+        else return filteredAppUsers[0].username;
         return "";
     }
 
@@ -108,7 +109,7 @@ export function useAppUser() {
         appUser,
         appUsers,
         fetchAllObserversOfWorldmap,
-        fetchAppUserNameById,
+        fetchAppUserNameById: getAppUserNameById,
         removeObserverFromWorldMap,
         loginAppUser,
         registerAppUser,

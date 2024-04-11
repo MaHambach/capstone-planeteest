@@ -1,16 +1,16 @@
 import {AppUser} from "../../../types/AppUser.ts";
-import {WorldMap} from "../../../types/WorldMap.ts";
 import React from "react";
 import WorldMapInviteGallery from "../../worldMapInvite/part/WorldMapInviteGallery.tsx";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import {useNavigate} from "react-router-dom";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
+import {WorldMap} from "../../../types/WorldMap.ts";
 
 type UserDetailsProps = {
-    worldMapInvites: WorldMapInvite[];
     appUser: AppUser;
     appUsers: AppUserMinimal[];
-    getWorldMap: (id: string) => WorldMap;
+    worldMapInvites: WorldMapInvite[];
+    worldMaps: WorldMap[];
 }
 export default function UserDetails(props:Readonly<UserDetailsProps>):React.ReactElement {
     const navigate = useNavigate();
@@ -25,6 +25,7 @@ export default function UserDetails(props:Readonly<UserDetailsProps>):React.Reac
                     appUser={props.appUser}
                     appUsers={props.appUsers}
                     worldMapInvites={props.worldMapInvites}
+                    worldMaps={props.worldMaps}
                     invitesType={"FromUser"}
                 />
                 <WorldMapInviteGallery
@@ -32,6 +33,7 @@ export default function UserDetails(props:Readonly<UserDetailsProps>):React.Reac
                     appUser={props.appUser}
                     appUsers={props.appUsers}
                     worldMapInvites={props.worldMapInvites}
+                    worldMaps={props.worldMaps}
                     invitesType={"ToUser"}
                 />
             </div>

@@ -79,13 +79,13 @@ export default function App():React.ReactElement {
                 }/>
                 <Route path={"/worldmap/:id/edit"} element={
                     <UpdateWorldMapForm
-                        worldMapInvites={worldMapInvites}
-                        updateWorldMap={updateWorldMap}
-                        deleteWorldMap={deleteWorldMap}
-                        getWorldMap={getWorldMapById}
                         // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                         appUser={appUser}
                         appUsers={appUsers}
+                        worldMapInvites={worldMapInvites}
+                        worldMaps={worldMaps}
+                        updateWorldMap={updateWorldMap}
+                        deleteWorldMap={deleteWorldMap}
                         removeObserverFromWorldMap={removeObserverFromWorldMap}
                         saveWorldMapInvite={saveWorldMapInvite}
                         fetchAllObserversOfWorldmap={fetchAllObserversOfWorldmap}
@@ -111,10 +111,11 @@ export default function App():React.ReactElement {
                 }/>
                 <Route path={"/user/:id"} element={
                     <UserDetails
-                        worldMapInvites={worldMapInvites}
                         // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                         appUser={appUser}
                         appUsers={appUsers}
+                        worldMapInvites={worldMapInvites}
+                        worldMaps={worldMaps}
                         getWorldMap={getWorldMapById}
                     />
                 }/>

@@ -2,31 +2,52 @@ import React, {useEffect, useState} from "react";
 import {ImCross} from "react-icons/im";
 import {FaCheck} from "react-icons/fa";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
-import {useAppUser} from "../../../hooks/useAppUser.ts";
 import useWorldMapInvite from "../../../hooks/useWorldMapInvite.ts";
+import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
+import {WorldMap} from "../../../types/WorldMap.ts";
 
 type WorldMapInviteCardProps = {
+    // Data
+    appUsers: AppUserMinimal[];
     worldMapInvite: WorldMapInvite;
+    worldMaps: WorldMap[];
+
+    // Props
     displayOwnerName?: boolean;
     displayInviteeName?: boolean;
     displayWorldMapName?: boolean;
-    worldMapName?: string;
 }
 export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):React.ReactElement {
-    const [ownerName, setOwnerName] = useState<string>("");
     const [inviteeName, setInviteeName] = useState<string>("");
-    const {fetchAppUserNameById} = useAppUser();
+    const [ownerName, setOwnerName] = useState<string>("");
+    const [worldMapName, setWorldMapName] = useState<string>("");
     const {acceptWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
 
     useEffect(() => {
-        if(props.displayOwnerName) setOwnerName(fetchAppUserNameById(props.worldMapInvite.ownerId));
-        if(props.displayInviteeName) setInviteeName(fetchAppUserNameById(props.worldMapInvite.inviteeId));
+        if(props.displayInviteeName) setInviteeName(getAppUserNameById(props.worldMapInvite.inviteeId));
+        if(props.displayOwnerName) setOwnerName(getAppUserNameById(props.worldMapInvite.ownerId));
+        if(props.displayWorldMapName) setWorldMapName(getWorldMapNameById(props.worldMapInvite.worldMapId));
         // eslint-disable-next-line
     }, []);
 
+    function getWorldMapNameById(id:string):string {
+        const worldMapWithId:WorldMap | undefined = props.worldMaps.find((worldMap:WorldMap) => worldMap.id === id);
+        if(!worldMapWithId) console.error("No world map with id \"" + id + "\" found.");
+        else return worldMapWithId.name;
+        return "";
+    }
+
+    function getAppUserNameById(id:string):string {
+        const appUserWithId:AppUserMinimal | undefined = props.appUsers.find((appUser:AppUserMinimal) => appUser.id === id);
+
+        if(!appUserWithId) console.error("No app user with id \"" + id + "\" found.");
+        else return appUserWithId.username;
+        return "";
+    }
+
     function handleDelete(event:React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault();
-        if (window.confirm("Möchten die Einladung zu \"" + props.worldMapName + "\" von \"" + ownerName + "\" für \"" + inviteeName + "\" wirklich löschen?")) {
+        if (window.confirm("Möchten die Einladung zu \"" + worldMapName + "\" von \"" + ownerName + "\" für \"" + inviteeName + "\" wirklich löschen?")) {
             deleteWorldMapInvite(props.worldMapInvite.id);
         }
     }
@@ -34,7 +55,7 @@ export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):Reac
     return (
         <div className={"worldMapInviteCard"}>
             <div className={"worldMapInviteCardTextBox"}>
-                {props.displayWorldMapName && <span>{props.worldMapName}</span>}
+                {props.displayWorldMapName && <span>{worldMapName}</span>}
                 {props.displayOwnerName && <span>{ownerName}</span>}
                 {props.displayInviteeName && <span>{inviteeName}</span>}
             </div>
