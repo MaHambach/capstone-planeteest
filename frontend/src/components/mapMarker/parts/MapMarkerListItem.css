@@ -8,15 +8,23 @@
 }
 
 .mapMarkerListItem .icon {
-
+    height: 20px;
+    width: 20px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
 }
 
 .mapMarkerListItem .visibleToOwnerOnly_ownerOnly,
 .mapMarkerListItem .visibleToEveryone_ownerOnly {
-    color: #ff0000;
+    background-color: darkgray;
 }
 
 .mapMarkerListItem .visibleToEveryone_everyone,
 .mapMarkerListItem .visibleToOwnerOnly_everyone {
-    color: #00ff00;
+    background-color: lawngreen;
 }
