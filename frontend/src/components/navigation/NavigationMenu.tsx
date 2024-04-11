@@ -49,6 +49,14 @@ export default function NavigationMenu({data}:Readonly<NavigationMenuProps>):Rea
                 'aria-labelledby': 'navigation-button'
             }}
             onClose={handleClose}
+            anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+            }}
         >
             <MenuItem onClick={() => navigate("/user/" + data.appUser.id)}>
                 <ListItemIcon>
