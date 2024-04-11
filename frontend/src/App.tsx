@@ -84,18 +84,22 @@ export default function App():React.ReactElement {
                 }/>
                 <Route path={"/worldmap/:id/edit"} element={
                     <UpdateWorldMapForm
-                        // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
-                        appUser={appUser}
-                        appUsers={appUsers}
-                        worldMapInvites={worldMapInvites}
-                        worldMaps={worldMaps}
-                        updateWorldMap={updateWorldMap}
-                        deleteWorldMap={deleteWorldMap}
-                        removeObserverFromWorldMap={removeObserverFromWorldMap}
-                        saveWorldMapInvite={saveWorldMapInvite}
-                        fetchAllObserversOfWorldmap={fetchAllObserversOfWorldmap}
-                        acceptWorldMapInvite={acceptWorldMapInvite}
-                        deleteWorldMapInvite={deleteWorldMapInvite}
+                        data={{
+                            // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
+                            appUser: appUser,
+                            appUsers: appUsers,
+                            worldMaps: worldMaps,
+                            worldMapInvites: worldMapInvites
+                        }}
+                        functions={{
+                            updateWorldMap: updateWorldMap,
+                            deleteWorldMap: deleteWorldMap,
+                            acceptWorldMapInvite: acceptWorldMapInvite,
+                            saveWorldMapInvite: saveWorldMapInvite,
+                            deleteWorldMapInvite: deleteWorldMapInvite,
+                            removeObserverFromWorldMap: removeObserverFromWorldMap,
+                            fetchAllObserversOfWorldmap: fetchAllObserversOfWorldmap
+                        }}
                     />
                 }/>
 
@@ -118,13 +122,17 @@ export default function App():React.ReactElement {
                 }/>
                 <Route path={"/user/:id"} element={
                     <UserDetails
-                        // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
-                        appUser={appUser}
-                        appUsers={appUsers}
-                        worldMapInvites={worldMapInvites}
-                        worldMaps={worldMaps}
-                        acceptWorldMapInvite={acceptWorldMapInvite}
-                        deleteWorldMapInvite={deleteWorldMapInvite}
+                        data={{
+                            // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
+                            appUser: appUser,
+                            appUsers: appUsers,
+                            worldMapInvites: worldMapInvites,
+                            worldMaps: worldMaps
+                        }}
+                        functions={{
+                            acceptWorldMapInvite: acceptWorldMapInvite,
+                            deleteWorldMapInvite: deleteWorldMapInvite
+                        }}
                     />
                 }/>
             </Route>
