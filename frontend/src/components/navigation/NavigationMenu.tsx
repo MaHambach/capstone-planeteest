@@ -18,7 +18,6 @@ type NavigationMenuProps = {
     data: Data,
     functions: Functions
 }
-
 export default function NavigationMenu({data, functions}:Readonly<NavigationMenuProps>):React.ReactElement {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -46,6 +45,9 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
                 className={"navigationMenu"}
             >
                 <MdMenuBook />
+            </Button>
+            <Button>
+
             </Button>
             <Menu
                 id={"navigation-menu"}

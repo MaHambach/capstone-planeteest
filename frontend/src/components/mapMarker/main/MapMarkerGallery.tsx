@@ -5,6 +5,7 @@ import {MapMarker} from "../../../types/MapMarker.ts";
 import MapMarkerListItem from "../parts/MapMarkerListItem.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {useParams} from "react-router-dom";
+import {Paper, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
 type Data = {
     appUser: AppUser;
@@ -38,19 +39,28 @@ export default function MapMarkerGallery({data, functions}: Readonly<MapMarkerGa
     return (
         <main>
             <h2>{worldMap.name} - Map Marker Gallery</h2>
-            <div className={"mapMarkerGalleryList"}>
-            {
-                data.mapMarkers
-                    .filter((mapMarker: MapMarker) => mapMarker.worldMapId === worldMap.id)
-                    .map((mapMarker: MapMarker) =>
-                        <MapMarkerListItem
-                            key={mapMarker.id}
-                            data={{appUser: data.appUser, mapMarkerTypes: data.mapMarkerTypes}}
-                            functions={functions}
-                            props={{mapMarker: mapMarker}}
-                        />)
-            }
-            </div>
+            <TableContainer component={Paper}>
+                <TableHead>
+                    <TableRow>
+                        <TableCell><b>Name</b></TableCell>
+                        <TableCell><b>Type</b></TableCell>
+                        <TableCell><b>Visibility</b></TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                {
+                    data.mapMarkers
+                        .filter((mapMarker: MapMarker) => mapMarker.worldMapId === worldMap.id)
+                        .map((mapMarker: MapMarker) =>
+                            <MapMarkerListItem
+                                key={mapMarker.id}
+                                data={{appUser: data.appUser, mapMarkerTypes: data.mapMarkerTypes}}
+                                functions={functions}
+                                props={{mapMarker: mapMarker}}
+                            />)
+                }
+                </TableBody>
+            </TableContainer>
         </main>
     );
 }

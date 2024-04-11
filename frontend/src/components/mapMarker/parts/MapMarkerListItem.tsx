@@ -1,10 +1,11 @@
 import './MapMarkerListItem.css';
 import {AppUser} from "../../../types/AppUser.ts";
 import {MapMarker} from "../../../types/MapMarker.ts";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {emptyMapMarkerType, MapMarkerType} from "../../../types/MapMarkerType.ts";
 import MapMarkerTypeCard from "../../mapMarkerType/part/MapMarkerTypeCard.tsx";
-import {FaRegEye, FaRegEyeSlash} from "react-icons/fa";
+import {MdVisibility, MdVisibilityOff} from "react-icons/md";
+import {TableRow, TableCell} from "@mui/material";
 
 type Data = {
     appUser: AppUser;
@@ -22,6 +23,10 @@ type MapMarkerListItemProps = {
     props: Props,
 }
 export default function MapMarkerListItem({data, functions, props}: Readonly<MapMarkerListItemProps>): React.ReactElement {
+    const [mapMarker, setMapMarker] = useState<MapMarker>(props.mapMarker);
+    useEffect(() => {
+        setMapMarker(props.mapMarker);
+    }, [props.mapMarker]);
 
     function getMapMarkerTypeById(mapMarkerTypeId: string): MapMarkerType {
         const mapMarkerTypeWithId: MapMarkerType | undefined = data.mapMarkerTypes.find((mapMarkerType: MapMarkerType) => mapMarkerType.id === mapMarkerTypeId);
@@ -35,34 +40,33 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
     function handleVisibilityChange(event:React.MouseEvent<HTMLButtonElement>): void {
         event.preventDefault();
         functions.updateMapMarker({
-            ...props.mapMarker,
-            visibility: props.mapMarker.visibility === "OWNER_ONLY" ? "OWNER_AND_OBSERVERS" : "OWNER_ONLY"
+            ...mapMarker,
+            visibility: mapMarker.visibility === "OWNER_ONLY" ? "OWNER_AND_OBSERVERS" : "OWNER_ONLY"
         });
     }
 
     return (
-        <form className={"mapMarkerListItem"}>
-            <p>
-                {props.mapMarker.name}
-            </p>
-            <p>
+        <TableRow className={"mapMarkerListItem"}>
+            <TableCell>{mapMarker.name}</TableCell>
+            <TableCell>
                 <MapMarkerTypeCard
-                    mapMarkerType={getMapMarkerTypeById(props.mapMarker.markerTypeId)}
+                    mapMarkerType={getMapMarkerTypeById(mapMarker.markerTypeId)}
                     tileSize={30}
                 />
-            </p>
-            <p>
-                <button onClick={handleVisibilityChange}>
+            </TableCell>
+            <TableCell>
+                <button onClick={handleVisibilityChange}
+                        className={"button"}>
                     <div
-                        className={props.mapMarker.visibility === "OWNER_ONLY" ?
-                            "icon visibleToOwnerOnly_ownerOnly" :
-                            "icon visibleToEveryone_ownerOnly"}><FaRegEyeSlash/></div>
+                        className={mapMarker.visibility === "OWNER_ONLY" ?
+                            "icon visibleIsOwnerOnly_ownerOnly" :
+                            "icon visibleIsEveryone_ownerOnly"}><MdVisibilityOff/></div>
                     <div
-                        className={props.mapMarker.visibility === "OWNER_ONLY" ?
-                            "icon visibleToOwnerOnly_everyone" :
-                            "icon visibleToEveryone_everyone"}><FaRegEye/></div>
+                        className={mapMarker.visibility === "OWNER_ONLY" ?
+                            "icon visibleIsOwnerOnly_everyone" :
+                            "icon visibleIsEveryone_everyone"}><MdVisibility/></div>
                 </button>
-            </p>
-        </form>
+            </TableCell>
+        </TableRow>
     );
 }

@@ -114,11 +114,13 @@ export default function WorldMapMain({data, functions}:Readonly<WorldMapMainProp
 
     return (
         <main className={"worldMapMain"}>
-            <ToolBar
-                toggleAddNewMapMarker={toggleAddNewMapMarker}
-                addNewMapMarker={addNewMapMarker}
-                isOwner={data.appUser.myWorldMapIds.includes(worldMap.id)}
-            />
+            { data.appUser.myWorldMapIds.includes(worldMap.id) &&
+                <ToolBar
+                    functions={{toggleAddNewMapMarker: toggleAddNewMapMarker}}
+                    props={{worldMapId: worldMap.id, addNewMapMarker: addNewMapMarker}}
+                />
+            }
+
             <WorldMapImage
                 worldMap={worldMap}
                 handleWorldMapClick={handleWorldMapClick}

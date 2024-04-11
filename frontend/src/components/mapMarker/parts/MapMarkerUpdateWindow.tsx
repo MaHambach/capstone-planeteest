@@ -4,7 +4,6 @@ import React, {useEffect, useState} from "react";
 import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {GiPadlock, GiPadlockOpen} from "react-icons/gi";
-import {MdVisibility, MdVisibilityOff} from "react-icons/md";
 
 type MapMarkerUpdateWindowProps = {
     mapMarker: MapMarker;
@@ -105,8 +104,8 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
                 <div className={"mapMarkerUpdateDiv"}>
                     <label htmlFor={"Visibility"}>Sichtbarkeit: </label>
                     <select id={"visibility"} name={"visibility"} value={formData.visibility} onChange={handleChangeInput}>
-                        <option value={"OWNER_ONLY"}><MdVisibilityOff /></option>
-                        <option value={"OWNER_AND_OBSERVERS"}><MdVisibility /></option>
+                        <option value={"OWNER_ONLY"}>OWNER_ONLY</option>
+                        <option value={"OWNER_AND_OBSERVERS"}>OWNER_AND_OBSERVERS</option>
                     </select>
                 </div>
                 <div className={"mapMarkerUpdateDiv"}>
