@@ -4,6 +4,7 @@ import {emptyWorldMap, WorldMap} from "../../../types/WorldMap.ts";
 import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
 import {useNavigate} from "react-router-dom";
+import NavigationMenu from "../../navigation/NavigationMenu.tsx";
 
 type Data = {
     appUser: AppUser;
@@ -35,6 +36,7 @@ export default function WorldMapGallery({data, functions, props}:Readonly<WorldM
 
     return (
         <main className={"worldMapGallery"}>
+            <NavigationMenu data={{appUser: data.appUser}}/>
             <button onClick={functions.logoutAppUser}>Logout</button>
             {data.appUser.role === "ADMIN" && <button onClick={() => {
                 navigate("/mapMarkerType")
