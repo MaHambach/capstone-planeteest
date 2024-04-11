@@ -13,33 +13,36 @@ import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
 import MapMarkerUpdateWindow from "../../mapMarker/parts/MapMarkerUpdateWindow.tsx";
 import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
+import NavigationMenu from "../../navigation/NavigationMenu.tsx";
 
-type WorldMapMainProps = {
+type Data = {
     appUser: AppUser;
-
-    getWorldMap: (id:string) => WorldMap;
-
+    worldMaps: WorldMap[];
     mapMarkers: MapMarker[];
+    mapMarkerTypes: MapMarkerType[];
+    articles: Article[];
+
+}
+type Functions = {
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
     updateMapMarker: (mapMarker:MapMarker) => void;
     deleteMapMarker: (id:string) => void;
-
-    mapMarkerTypes: MapMarkerType[];
     getMapMarkerType: (id:string) => MapMarkerType;
-
-    articles: Article[];
     getArticleById: (id:string) => Article;
     updateArticle: (article:Article) => void;
     deleteArticle: (id:string) => void;
+}
+type WorldMapMainProps = {
+    data: Data,
+    functions: Functions,
 };
-
 
 const initialCoordinates = {
     xPosition: -10,
     yPosition: -10
 }
 
-export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.ReactElement{
+export default function WorldMapMain({data, functions}:Readonly<WorldMapMainProps>):React.ReactElement{
     const {id= ''} = useParams<string>();
     const [coordinates, setCoordinates] = useState(initialCoordinates);
     const [worldMap, setWorldMap] = useState<WorldMap>(emptyWorldMap);
@@ -67,7 +70,7 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
     }
 
     function updateSelectedMapMarker():void {
-        props.updateMapMarker(selectedMapMarker);
+        functions.updateMapMarker(selectedMapMarker);
     }
 
     function handleArticleFrame():void{
@@ -99,25 +102,33 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
         setAddNewMapMarker(false);
     }
 
+    function getWorldMapById(id:string):WorldMap {
+        const filteredWorldMaps:WorldMap[] = data.worldMaps.filter((worldMap:WorldMap) => worldMap.id === id);
+        if(filteredWorldMaps.length === 0) console.error("No world map with id \"" + id + "\" found.");
+        else return filteredWorldMaps[0];
+        return emptyWorldMap;
+    }
+
     useEffect(():void => {
-        setWorldMap(props.getWorldMap(id))
+        setWorldMap(getWorldMapById(id))
         // eslint-disable-next-line
-    }, [id, props]);
+    }, [id, data]);
 
     return (
         <main className={"worldMapMain"}>
+            <NavigationMenu data={{appUser: data.appUser}}/>
             <ToolBar
                 toggleAddNewMapMarker={toggleAddNewMapMarker}
                 addNewMapMarker={addNewMapMarker}
-                isOwner={props.appUser.myWorldMapIds.includes(worldMap.id)}
+                isOwner={data.appUser.myWorldMapIds.includes(worldMap.id)}
             />
             <WorldMapImage
                 worldMap={worldMap}
                 handleWorldMapClick={handleWorldMapClick}
             />
-            {props.mapMarkers
+            {data.mapMarkers
                 .filter((mapMarker:MapMarker) => mapMarker.worldMapId === id)
-                .filter((mapMarker:MapMarker) => props.appUser.myWorldMapIds.includes(worldMap.id) || mapMarker.visibility === "OWNER_AND_OBSERVERS")
+                .filter((mapMarker:MapMarker) => data.appUser.myWorldMapIds.includes(worldMap.id) || mapMarker.visibility === "OWNER_AND_OBSERVERS")
                 .map((mapMarker:MapMarker) => {
                 return <MapMarkerCard
                     key={mapMarker.id}
@@ -129,40 +140,40 @@ export default function WorldMapMain(props:Readonly<WorldMapMainProps>):React.Re
                     handleMapMarkerUpdate={handleMapMarkerUpdate}
                     handleArticleFrame={handleArticleFrame}
                     setSelectedMapMarker={setSelectedMapMarker}
-                    getMapMarkerType={props.getMapMarkerType}
-                    isOwner={props.appUser.myWorldMapIds.includes(worldMap.id)}
+                    getMapMarkerType={functions.getMapMarkerType}
+                    isOwner={data.appUser.myWorldMapIds.includes(worldMap.id)}
                 />
             })}
             {(showArticle && selectedMapMarker !== emptyMapMarker) &&
                 <ArticleWindow
                     coordinates={{x: selectedMapMarker.xPosition, y: selectedMapMarker.yPosition}}
                     title={selectedMapMarker.name}
-                    article={props.getArticleById(selectedMapMarker.articleId)}
+                    article={functions.getArticleById(selectedMapMarker.articleId)}
                     closeWindow={handleArticleFrame}
-                    updateArticle={props.updateArticle}
-                    isOwner={props.appUser.myWorldMapIds.includes(worldMap.id)}
+                    updateArticle={functions.updateArticle}
+                    isOwner={data.appUser.myWorldMapIds.includes(worldMap.id)}
                 />
             }
             {(addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&
                 <AddMapMarkerForm
-                    saveMapMarker={props.saveMapMarker}
+                    saveMapMarker={functions.saveMapMarker}
                     worldMapId={worldMap.id}
                     xPosition={coordinates.xPosition}
                     yPosition={coordinates.yPosition}
                     closeAddMapMarkerForm={handleCloseMapMarkerForm}
-                    mapMarkerTypes={props.mapMarkerTypes}
+                    mapMarkerTypes={data.mapMarkerTypes}
                 />
             }
             {(showMapMarkerUpdate && selectedMapMarker !== emptyMapMarker) &&
                 <MapMarkerUpdateWindow
                     mapMarker={selectedMapMarker}
                     updateMapMarker={updateSelectedMapMarker}
-                    deleteMapMarker={props.deleteMapMarker}
+                    deleteMapMarker={functions.deleteMapMarker}
                     closeMapMarkerCard={handleMapMarkerUpdateEnd}
                     setSelectedMapMarker={setSelectedMapMarker}
                     setChangeMapMarkerPosition={setChangeMapMarkerPosition}
-                    deleteArticle={props.deleteArticle}
-                    mapMarkerTypes={props.mapMarkerTypes}
+                    deleteArticle={functions.deleteArticle}
+                    mapMarkerTypes={data.mapMarkerTypes}
                 />
             }
         </main>
