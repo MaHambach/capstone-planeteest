@@ -1,34 +1,53 @@
 import "./WorldMapGallery.css";
 import React from "react";
-import {WorldMap} from "../../../types/WorldMap.ts";
+import {emptyWorldMap, WorldMap} from "../../../types/WorldMap.ts";
 import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
 import {useNavigate} from "react-router-dom";
 
-
-type WorldMapGalleryProps = {
+type Data = {
     appUser: AppUser;
     worldMaps: WorldMap[];
+}
+type Functions = {
     logoutAppUser: () => void;
 }
-export default function WorldMapGallery(props:Readonly<WorldMapGalleryProps>):React.ReactElement {
+type Props = {
+    observedWorldMapIds: string[];
+}
+
+type WorldMapGalleryProps = {
+    data: Data,
+    functions: Functions
+    props: Props,
+}
+export default function WorldMapGallery({data, functions, props}:Readonly<WorldMapGalleryProps>):React.ReactElement {
     const navigate = useNavigate();
+
+    function getWorldMapById(worldMapId: string): WorldMap {
+        const worldMapWithId: WorldMap | undefined = data.worldMaps.find((worldMap: WorldMap) => worldMap.id === worldMapId);
+
+        if (worldMapWithId) return worldMapWithId;
+
+        console.error("WorldMap with id " + worldMapId + " not found.")
+        return emptyWorldMap;
+    }
 
     return (
         <main className={"worldMapGallery"}>
-            <button onClick={props.logoutAppUser}>Logout</button>
-            {props.appUser.role === "ADMIN" && <button onClick={() => {
+            <button onClick={functions.logoutAppUser}>Logout</button>
+            {data.appUser.role === "ADMIN" && <button onClick={() => {
                 navigate("/mapMarkerType")
             }}>MapMarkerTypes</button>}
             <button onClick={() => {
-                navigate("/user/" + props.appUser.id)
+                navigate("/user/" + data.appUser.id)
             }}>UserDetails
             </button>
             <h2>Meine Weltkarten</h2>
             <DisplayTileGallery
                 urlPrefix={"/worldmap/"}
-                tileData={props.worldMaps
-                    .filter((worldMap: WorldMap) => props.appUser.myWorldMapIds.includes(worldMap.id))
+                tileData={data.worldMaps
+                    .filter((worldMap: WorldMap) => data.appUser.myWorldMapIds.includes(worldMap.id))
                     .map((worldMap: WorldMap) => ({id: worldMap.id, name: worldMap.name}))}
                 addNewName={"Neue Weltkarte"}
                 addNewUrl={"/worldmap/add"}
@@ -40,9 +59,9 @@ export default function WorldMapGallery(props:Readonly<WorldMapGalleryProps>):Re
             <h2>Beobachtete Weltkarten</h2>
             <DisplayTileGallery
                 urlPrefix={"/worldmap/"}
-                tileData={props.worldMaps
-                    .filter((worldMap: WorldMap) => props.appUser.observedWorldMapIds.includes(worldMap.id))
-                    .map((worldMap: WorldMap) => ({id: worldMap.id, name: worldMap.name}))}
+                tileData={
+                    props.observedWorldMapIds.map((worldMapId: string) => getWorldMapById(worldMapId))
+                        .map((worldMap: WorldMap) => ({id: worldMap.id, name: worldMap.name}))}
                 addNewName={"Neue Weltkarte"}
                 addNewUrl={"/worldmap/add"}
                 tileSize={220}

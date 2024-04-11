@@ -42,13 +42,6 @@ export function useAppUser() {
             });
     }
 
-    function getAppUserNameById(appUserId:string):string {
-        const filteredAppUsers:AppUserMinimal[] = appUsers.filter((appUser:AppUserMinimal):boolean => appUser.id === appUserId);
-        if(filteredAppUsers.length === 0) console.error("No app user with id \"" + appUserId + "\" found.");
-        else return filteredAppUsers[0].username;
-        return "";
-    }
-
     async function loginAppUser(appUserRegister:AppUserRegister):Promise<void> {
         return axios.post("/api/users/login", {}, {
             auth: appUserRegister
@@ -108,9 +101,7 @@ export function useAppUser() {
     return {
         appUser,
         appUsers,
-        fetchMe,
         fetchAllObserversOfWorldmap,
-        fetchAppUserNameById: getAppUserNameById,
         removeObserverFromWorldMap,
         loginAppUser,
         registerAppUser,

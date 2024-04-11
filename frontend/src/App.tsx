@@ -16,12 +16,14 @@ import {useAppUser} from "./hooks/useAppUser.ts";
 import PrivateRoute from "./components/_generic/privateRoute/PrivateRoute.tsx";
 import useWorldMapInvite from "./hooks/useWorldMapInvite.ts";
 import UserDetails from "./components/user/main/UserDetails.tsx";
+import {useObservedWorldMapIds} from "./hooks/useObservedWorldMaps.ts";
 
 export default function App():React.ReactElement {
-    const {appUser, appUsers, fetchMe, fetchAllObserversOfWorldmap, removeObserverFromWorldMap, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
+    const {appUser, appUsers, fetchAllObserversOfWorldmap, removeObserverFromWorldMap, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
     const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
+    const {observedWorldMapIds, fetchObservedWorldMapIds} = useObservedWorldMapIds();
     const {worldMapInvites, fetchWorldMapInvites, saveWorldMapInvite, acceptWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
     const {worldMaps, fetchWorldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
@@ -31,7 +33,7 @@ export default function App():React.ReactElement {
     }, [mapMarkers]);
 
     useEffect(() => {
-        appUser && fetchMe();
+        appUser && fetchObservedWorldMapIds();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [worldMapInvites])
 
@@ -41,6 +43,7 @@ export default function App():React.ReactElement {
             fetchWorldMaps();
             fetchMapMarkers();
             fetchMapMarkerTypes();
+            fetchObservedWorldMapIds();
             fetchWorldMapInvites();
         }
         // eslint-disable-next-line
@@ -54,10 +57,17 @@ export default function App():React.ReactElement {
             <Route element={<PrivateRoute appUser={appUser}/>}>
                 <Route path="/" element={
                     <WorldMapGallery
-                        // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
-                        appUser={appUser}
-                        worldMaps={worldMaps}
-                        logoutAppUser={logoutAppUser}
+                        data={{
+                            // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
+                            appUser: appUser,
+                            worldMaps: worldMaps
+                        }}
+                        functions={{
+                            logoutAppUser: logoutAppUser
+                        }}
+                        props={{
+                            observedWorldMapIds: observedWorldMapIds
+                        }}
                     />
                 }/>
                 <Route path={"/worldmap/add"} element={
