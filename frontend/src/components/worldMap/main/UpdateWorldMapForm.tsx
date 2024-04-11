@@ -119,7 +119,6 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                         appUsers={props.appUsers}
                         worldMapInvites={props.worldMapInvites}
                         invitesType={"ToWorldMap"}
-                        worldMap={props.getWorldMap(id)}
                     />
                     <button onClick={toggleAddNewObserver}>Einladung hinzufügen</button>
                 </div>
