@@ -25,7 +25,7 @@ export default function App():React.ReactElement {
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
     const {observedWorldMapIds, fetchObservedWorldMapIds} = useObservedWorldMapIds();
     const {worldMapInvites, fetchWorldMapInvites, saveWorldMapInvite, acceptWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
-    const {worldMaps, fetchWorldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
+    const {worldMaps, fetchWorldMaps, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
     useEffect(() => {
         appUser && fetchArticles();
@@ -77,19 +77,23 @@ export default function App():React.ReactElement {
                 }/>
                 <Route path={"/worldmap/:id"} element={
                     <WorldMapMain
-                        // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
-                        appUser={appUser}
-                        getWorldMap={getWorldMapById}
-                        mapMarkers={mapMarkers}
-                        saveMapMarker={saveMapMarker}
-                        updateMapMarker={updateMapMarker}
-                        deleteMapMarker={deleteMapMarker}
-                        mapMarkerTypes={mapMarkerTypes}
-                        getMapMarkerType={getMapMarkerTypeById}
-                        articles={articles}
-                        getArticleById={getArticleById}
-                        updateArticle={updateArticle}
-                        deleteArticle={deleteArticle}
+                        data={{
+                            // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
+                            appUser: appUser,
+                            worldMaps: worldMaps,
+                            mapMarkers: mapMarkers,
+                            mapMarkerTypes: mapMarkerTypes,
+                            articles: articles
+                        }}
+                        functions={{
+                            saveMapMarker: saveMapMarker,
+                            updateMapMarker: updateMapMarker,
+                            deleteMapMarker: deleteMapMarker,
+                            getMapMarkerType: getMapMarkerTypeById,
+                            getArticleById: getArticleById,
+                            updateArticle: updateArticle,
+                            deleteArticle: deleteArticle
+                        }}
                     />
                 }/>
                 <Route path={"/worldmap/:id/edit"} element={
