@@ -52,7 +52,12 @@ export default function App():React.ReactElement {
 
     return (
         <>
-            {appUser && <NavigationMenu data={{appUser: appUser}}/>}
+            {appUser &&
+                <NavigationMenu
+                    data={{appUser: appUser}}
+                    functions={{logoutAppUser: logoutAppUser}}
+                />
+            }
             <Routes>
                 <Route path={"/login"} element={
                     <LoginUserMain loginAppUser={loginAppUser} registerAppUser={registerAppUser}/>
@@ -64,9 +69,6 @@ export default function App():React.ReactElement {
                                 // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                                 appUser: appUser,
                                 worldMaps: worldMaps
-                            }}
-                            functions={{
-                                logoutAppUser: logoutAppUser
                             }}
                             props={{
                                 observedWorldMapIds: observedWorldMapIds
