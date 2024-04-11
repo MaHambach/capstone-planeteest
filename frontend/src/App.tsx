@@ -13,7 +13,7 @@ import AddMapMarkerType from "./components/mapMarkerType/main/AddMapMarkerType.t
 import UpdateMapMarkerType from "./components/mapMarkerType/main/UpdateMapMarkerType.tsx";
 import LoginUserMain from "./components/user/main/LoginUserMain.tsx";
 import {useAppUser} from "./hooks/useAppUser.ts";
-import PrivateRoute from "./components/_generic/parts/PrivateRoute.tsx";
+import PrivateRoute from "./components/_generic/privateRoute/PrivateRoute.tsx";
 import useWorldMapInvite from "./hooks/useWorldMapInvite.ts";
 import UserDetails from "./components/user/main/UserDetails.tsx";
 
