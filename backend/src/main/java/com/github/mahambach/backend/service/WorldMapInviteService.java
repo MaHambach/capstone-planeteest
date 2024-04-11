@@ -23,18 +23,33 @@ public class WorldMapInviteService {
         return worldMapInviteRepo.findAll();
     }
 
-    public WorldMapInvite getWorldMapInviteById(String worldMapInviteId) {
-        return worldMapInviteRepo
-                .findById(worldMapInviteId)
-                .orElseThrow(() -> new NoSuchWorldMapInviteException(worldMapInviteId));
-    }
-
-    public List<WorldMapInvite> getAllWorldMapInvitesToWorldMap(String worldMapId) {
+    public List<AppUserResponse> getAllPossibleInviteesToWorldMap(String username, String worldMapId) {
+        AppUserResponse owner = appUserService.findAppUserByUsername(username);
         worldMapService.getWorldMapById(worldMapId);
 
-        return getAllWorldMapInvites().stream()
+        if(!owner.myWorldMapIds().contains(worldMapId)){
+            throw new IllegalArgumentException("You are not allowed to see possible observers for this world map.");
+        }
+
+        List<AppUserResponse> possibleObserver = new ArrayList<>();
+        List<AppUserResponse> appUsers = appUserService.getAllAppUsers();
+        for(AppUserResponse appUser : appUsers){
+            if(!(   appUser.myWorldMapIds().contains(worldMapId) ||
+                    appUser.observedWorldMapIds().contains(worldMapId)  )){
+                possibleObserver.add(appUser);
+            }
+        }
+
+        List<WorldMapInvite> worldMapInvites = getAllWorldMapInvites().stream()
                 .filter(invite -> invite.worldMapId().equals(worldMapId))
                 .toList();
+        List<String> alreadyInvited = worldMapInvites.stream()
+                .map(WorldMapInvite::inviteeId)
+                .toList();
+
+        possibleObserver.removeIf(appUser -> alreadyInvited.contains(appUser.id()));
+
+        return possibleObserver;
     }
 
     public WorldMapInvite createWorldMapInvite(WorldMapInviteDto worldMapInviteDto, String username) {
@@ -60,19 +75,6 @@ public class WorldMapInviteService {
         return worldMapInviteRepo.save(new WorldMapInvite(worldMapInviteDto));
     }
 
-    public WorldMapInvite deleteWorldMapInviteById(String worldMapInviteId, String username) {
-        String appUserId = appUserService.findAppUserByUsername(username).id();
-        WorldMapInvite worldMapInvite = getWorldMapInviteById(worldMapInviteId);
-
-        if(!(worldMapInvite.ownerId().equals(appUserId) || worldMapInvite.inviteeId().equals(appUserId))){
-            throw new IllegalArgumentException("Only the owner or invitee of the invite can delete a world map invite.");
-        }
-
-        worldMapInviteRepo.deleteById(worldMapInviteId);
-
-        return worldMapInvite;
-    }
-
     public WorldMapInvite acceptWorldMapInvite(String worldMapInviteId, String username) {
         String appUserId = appUserService.findAppUserByUsername(username).id();
         WorldMapInvite worldMapInvite = getWorldMapInviteById(worldMapInviteId);
@@ -88,47 +90,17 @@ public class WorldMapInviteService {
         return worldMapInvite;
     }
 
+    public WorldMapInvite deleteWorldMapInviteById(String worldMapInviteId, String username) {
+        String appUserId = appUserService.findAppUserByUsername(username).id();
+        WorldMapInvite worldMapInvite = getWorldMapInviteById(worldMapInviteId);
 
-    public List<AppUserResponse> getAllPossibleInviteesToWorldMap(String username, String worldMapId) {
-        AppUserResponse owner = appUserService.findAppUserByUsername(username);
-        worldMapService.getWorldMapById(worldMapId);
-
-        if(!owner.myWorldMapIds().contains(worldMapId)){
-            throw new IllegalArgumentException("You are not allowed to see possible observers for this world map.");
+        if(!(worldMapInvite.ownerId().equals(appUserId) || worldMapInvite.inviteeId().equals(appUserId))){
+            throw new IllegalArgumentException("Only the owner or invitee of the invite can delete a world map invite.");
         }
 
-        List<AppUserResponse> possibleObserver = new ArrayList<>();
-        List<AppUserResponse> appUsers = appUserService.getAllAppUsers();
-        for(AppUserResponse appUser : appUsers){
-            if(!(   appUser.myWorldMapIds().contains(worldMapId) ||
-                    appUser.observedWorldMapIds().contains(worldMapId)  )){
-                possibleObserver.add(appUser);
-            }
-        }
+        worldMapInviteRepo.deleteById(worldMapInviteId);
 
-        List<WorldMapInvite> worldMapInvites = getAllWorldMapInvitesToWorldMap(worldMapId);
-        List<String> alreadyInvited = worldMapInvites.stream()
-                .map(WorldMapInvite::inviteeId)
-                .toList();
-
-        possibleObserver.removeIf(appUser -> alreadyInvited.contains(appUser.id()));
-
-        return possibleObserver;
+        return worldMapInvite;
     }
 
-    public List<WorldMapInvite> getAllWorldMapInvitesToUser(String username) {
-        AppUserResponse user = appUserService.findAppUserByUsername(username);
-
-        return getAllWorldMapInvites().stream()
-                .filter(invite -> invite.inviteeId().equals(user.id()))
-                .toList();
-    }
-
-    public List<WorldMapInvite> getAllWorldMapInvitesFromUser(String username) {
-        AppUserResponse user = appUserService.findAppUserByUsername(username);
-
-        return getAllWorldMapInvites().stream()
-                .filter(invite -> invite.ownerId().equals(user.id()))
-                .toList();
-    }
 }
