@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -31,6 +32,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/mapMarkerTypes").hasRole(AppUserRole.ADMIN.name())
                 .requestMatchers(HttpMethod.PUT, "/api/mapMarkerTypes/*").hasRole(AppUserRole.ADMIN.name())
                 .requestMatchers(HttpMethod.DELETE, "/api/mapMarkerTypes/*").hasRole(AppUserRole.ADMIN.name())
+                .requestMatchers(RegexRequestMatcher.regexMatcher("^(?!/api).*$")).permitAll()
                 .anyRequest().authenticated()
             )
             .logout(logout -> logout.logoutUrl("/api/users/logout")
