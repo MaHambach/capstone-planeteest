@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {emptyWorldMapInviteDto, WorldMapInviteDto} from "../../../types/WorldMapInviteDto.ts";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
-import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
+import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
 import useWorldMapInvite from "../../../hooks/useWorldMapInvite.ts";
 
 type Props = {

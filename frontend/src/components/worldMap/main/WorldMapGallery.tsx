@@ -47,8 +47,6 @@ export default function WorldMapGallery(props:Readonly<WorldMapGalleryProps>):Re
                 addNewUrl={"/worldmap/add"}
                 tileSize={220}
                 color={"#FFFFFF"}
-                updateUrlPrefix={"/worldmap/"}
-                updateUrlSuffix={"/edit"}
                 cantAddNew={true}
             />
         </main>

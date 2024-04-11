@@ -1,7 +1,7 @@
 import './MapMarkerUpdateWindow.css';
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
-import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
+import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {GiPadlock, GiPadlockOpen} from "react-icons/gi";
 import {MdVisibility, MdVisibilityOff} from "react-icons/md";
