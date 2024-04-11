@@ -329,7 +329,7 @@ class WorldMapInviteServiceTest {
         assertEquals(List.of(appUserResponse2), actual);
         verify(appUserService).findAppUserByUsername(username);
         verify(appUserService).getAllAppUsers();
-        verify(worldMapService, times(2)).getWorldMapById(worldMapId);
+        verify(worldMapService).getWorldMapById(worldMapId);
         verify(worldMapInviteRepo).findAll();
         verifyNoMoreInteractions(appUserService, worldMapInviteRepo, worldMapService);
     }
