@@ -108,6 +108,7 @@ export function useAppUser() {
     return {
         appUser,
         appUsers,
+        fetchMe,
         fetchAllObserversOfWorldmap,
         fetchAppUserNameById: getAppUserNameById,
         removeObserverFromWorldMap,

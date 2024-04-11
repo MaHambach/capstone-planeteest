@@ -17,9 +17,14 @@ type UpdateWorldMapFormProps = {
     worldMapInvites: WorldMapInvite[];
 
     // Functions
+    // WorldMap
     updateWorldMap: (worldMap:WorldMap) => void;
     deleteWorldMap: (id:string) => void;
+    // WorldMapInvite
+    acceptWorldMapInvite: (id:string) => void;
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
+    deleteWorldMapInvite: (id:string) => void;
+    // Observer
     removeObserverFromWorldMap: (observerId:string, worldMapId:string) => void;
     fetchAllObserversOfWorldmap: (worldMapId:string, setObservers:(observers:AppUserMinimal[]) => void) => void;
 }
@@ -35,6 +40,7 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
     useEffect(() => {
         setFormData(getWorldMapById(id));
         props.fetchAllObserversOfWorldmap(id, setObservers);
+        // eslint-disable-next-line
     }, [id, props]);
 
     function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>):void {
@@ -131,6 +137,8 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                         title={"Offene Einladungen"}
                         invitesType={"ToWorldMap"}
                         worldMapId={id}
+                        acceptWorldMapInvite={props.acceptWorldMapInvite}
+                        deleteWorldMapInvite={props.deleteWorldMapInvite}
                     />
                     <button onClick={toggleAddNewObserver}>Einladung hinzufügen</button>
                 </div>
@@ -140,6 +148,7 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                     ownerId={props.appUser.id}
                     worldMapId={id}
                     closeAddWorldMapInviteForm={() => setIsInvitingObserver(false)}
+                    saveWorldMapInvite={props.saveWorldMapInvite}
                 />}
         </main>
     )

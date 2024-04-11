@@ -18,17 +18,22 @@ import useWorldMapInvite from "./hooks/useWorldMapInvite.ts";
 import UserDetails from "./components/user/main/UserDetails.tsx";
 
 export default function App():React.ReactElement {
-    const {appUser, appUsers,fetchAllObserversOfWorldmap, removeObserverFromWorldMap, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
+    const {appUser, appUsers, fetchMe, fetchAllObserversOfWorldmap, removeObserverFromWorldMap, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
     const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
-    const {worldMapInvites, fetchWorldMapInvites, saveWorldMapInvite} = useWorldMapInvite();
+    const {worldMapInvites, fetchWorldMapInvites, saveWorldMapInvite, acceptWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
     const {worldMaps, fetchWorldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
     useEffect(() => {
         appUser && fetchArticles();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mapMarkers]);
+
+    useEffect(() => {
+        appUser && fetchMe();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [worldMapInvites])
 
     useEffect(() => {
         if(appUser) {
@@ -89,6 +94,8 @@ export default function App():React.ReactElement {
                         removeObserverFromWorldMap={removeObserverFromWorldMap}
                         saveWorldMapInvite={saveWorldMapInvite}
                         fetchAllObserversOfWorldmap={fetchAllObserversOfWorldmap}
+                        acceptWorldMapInvite={acceptWorldMapInvite}
+                        deleteWorldMapInvite={deleteWorldMapInvite}
                     />
                 }/>
 
@@ -116,7 +123,8 @@ export default function App():React.ReactElement {
                         appUsers={appUsers}
                         worldMapInvites={worldMapInvites}
                         worldMaps={worldMaps}
-                        getWorldMap={getWorldMapById}
+                        acceptWorldMapInvite={acceptWorldMapInvite}
+                        deleteWorldMapInvite={deleteWorldMapInvite}
                     />
                 }/>
             </Route>

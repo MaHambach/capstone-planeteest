@@ -5,14 +5,19 @@ import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
 import useWorldMapInvite from "../../../hooks/useWorldMapInvite.ts";
 
 type AddWorldMapInviteForm = {
+    // Data
+    // Props
     ownerId: string;
     worldMapId: string;
+
+    // Functions
     closeAddWorldMapInviteForm: () => void;
+    saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
 }
 export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteForm>):React.ReactElement {
     const [formData, setFormData] = useState<WorldMapInviteDto>(emptyWorldMapInviteDto);
     const [possibleInvitees, setPossibleInvitees] = useState<AppUserMinimal[]>([]);
-    const {fetchAllPossibleInviteesForWorldMap, saveWorldMapInvite} = useWorldMapInvite();
+    const {fetchAllPossibleInviteesForWorldMap} = useWorldMapInvite();
 
     useEffect(() => {
         fetchAllPossibleInviteesForWorldMap(setPossibleInvitees, props.worldMapId);
@@ -31,7 +36,7 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-        saveWorldMapInvite(formData);
+        props.saveWorldMapInvite(formData);
         props.closeAddWorldMapInviteForm();
     }
 

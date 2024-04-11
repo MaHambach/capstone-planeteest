@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {ImCross} from "react-icons/im";
 import {FaCheck} from "react-icons/fa";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
-import useWorldMapInvite from "../../../hooks/useWorldMapInvite.ts";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import {WorldMap} from "../../../types/WorldMap.ts";
 
@@ -16,17 +15,20 @@ type WorldMapInviteCardProps = {
     displayOwnerName?: boolean;
     displayInviteeName?: boolean;
     displayWorldMapName?: boolean;
+
+    // Functions
+    acceptWorldMapInvite: (id:string) => void;
+    deleteWorldMapInvite: (id:string) => void;
 }
 export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):React.ReactElement {
     const [inviteeName, setInviteeName] = useState<string>("");
     const [ownerName, setOwnerName] = useState<string>("");
     const [worldMapName, setWorldMapName] = useState<string>("");
-    const {acceptWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
 
     useEffect(() => {
-        if(props.displayInviteeName) setInviteeName(getAppUserNameById(props.worldMapInvite.inviteeId));
-        if(props.displayOwnerName) setOwnerName(getAppUserNameById(props.worldMapInvite.ownerId));
-        if(props.displayWorldMapName) setWorldMapName(getWorldMapNameById(props.worldMapInvite.worldMapId));
+        setInviteeName(getAppUserNameById(props.worldMapInvite.inviteeId));
+        setOwnerName(getAppUserNameById(props.worldMapInvite.ownerId));
+        setWorldMapName(getWorldMapNameById(props.worldMapInvite.worldMapId));
         // eslint-disable-next-line
     }, []);
 
@@ -48,8 +50,13 @@ export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):Reac
     function handleDelete(event:React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault();
         if (window.confirm("Möchten die Einladung zu \"" + worldMapName + "\" von \"" + ownerName + "\" für \"" + inviteeName + "\" wirklich löschen?")) {
-            deleteWorldMapInvite(props.worldMapInvite.id);
+            props.deleteWorldMapInvite(props.worldMapInvite.id);
         }
+    }
+
+    function handleAccept(event:React.MouseEvent<HTMLButtonElement>):void {
+        event.preventDefault();
+        props.acceptWorldMapInvite(props.worldMapInvite.id);
     }
 
     return (
@@ -59,7 +66,7 @@ export function WorldMapInviteCard(props:Readonly<WorldMapInviteCardProps>):Reac
                 {props.displayOwnerName && <span>{ownerName}</span>}
                 {props.displayInviteeName && <span>{inviteeName}</span>}
             </div>
-            {props.displayOwnerName && <button onClick={() => acceptWorldMapInvite(props.worldMapInvite.id)}><FaCheck /></button>}
+            {props.displayOwnerName && <button onClick={handleAccept}><FaCheck /></button>}
             <button onClick={handleDelete}><ImCross /></button>
         </div>
     )

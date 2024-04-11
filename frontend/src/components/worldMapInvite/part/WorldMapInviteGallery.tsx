@@ -18,6 +18,10 @@ type WorldMapInviteGalleryProps = {
     title: string;
     invitesType: invitesType;
     worldMapId?: string;
+
+    // Functions
+    acceptWorldMapInvite: (id:string) => void;
+    deleteWorldMapInvite: (id:string) => void;
 }
 export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalleryProps>):React.ReactElement {
     const [displayedWorldMapInvites, setDisplayedWorldMapInvites] = useState<WorldMapInvite[]>([]);
@@ -84,6 +88,8 @@ export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalle
                             displayOwnerName={displayOwnerName}
                             displayInviteeName={displayInviteeName}
                             displayWorldMapName={displayWorldMapName}
+                            acceptWorldMapInvite={props.acceptWorldMapInvite}
+                            deleteWorldMapInvite={props.deleteWorldMapInvite}
                         />
                     )
                 })}

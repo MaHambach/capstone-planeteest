@@ -7,10 +7,15 @@ import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 import {WorldMap} from "../../../types/WorldMap.ts";
 
 type UserDetailsProps = {
+    // Data
     appUser: AppUser;
     appUsers: AppUserMinimal[];
     worldMapInvites: WorldMapInvite[];
     worldMaps: WorldMap[];
+
+    // Functions
+    acceptWorldMapInvite: (id:string) => void;
+    deleteWorldMapInvite: (id:string) => void;
 }
 export default function UserDetails(props:Readonly<UserDetailsProps>):React.ReactElement {
     const navigate = useNavigate();
@@ -21,20 +26,24 @@ export default function UserDetails(props:Readonly<UserDetailsProps>):React.Reac
             <button onClick={() => navigate("/")}>Zur Gallery</button>
             <div>
                 <WorldMapInviteGallery
-                    title={"Du lädst zu folgenden Weltkarten ein:"}
                     appUser={props.appUser}
                     appUsers={props.appUsers}
                     worldMapInvites={props.worldMapInvites}
                     worldMaps={props.worldMaps}
+                    title={"Du lädst zu folgenden Weltkarten ein:"}
                     invitesType={"FromUser"}
+                    acceptWorldMapInvite={props.acceptWorldMapInvite}
+                    deleteWorldMapInvite={props.deleteWorldMapInvite}
                 />
                 <WorldMapInviteGallery
-                    title={"Du wurdest zu folgenden Weltkarten eingeladen:"}
                     appUser={props.appUser}
                     appUsers={props.appUsers}
                     worldMapInvites={props.worldMapInvites}
                     worldMaps={props.worldMaps}
+                    title={"Du wurdest zu folgenden Weltkarten eingeladen:"}
                     invitesType={"ToUser"}
+                    acceptWorldMapInvite={props.acceptWorldMapInvite}
+                    deleteWorldMapInvite={props.deleteWorldMapInvite}
                 />
             </div>
         </div>
