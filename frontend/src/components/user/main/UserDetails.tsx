@@ -5,6 +5,7 @@ import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import {useNavigate} from "react-router-dom";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 import {WorldMap} from "../../../types/WorldMap.ts";
+import NavigationMenu from "../../navigation/NavigationMenu.tsx";
 
 type Data = {
     appUser: AppUser;
@@ -24,7 +25,8 @@ export default function UserDetails({data, functions}:Readonly<UserDetailsProps>
     const navigate = useNavigate();
 
     return (
-        <div>
+        <main>
+            <NavigationMenu data={{appUser: data.appUser}}/>
             {data.appUser.username}
             <button onClick={() => navigate("/")}>Zur Gallery</button>
             <div>
@@ -45,6 +47,6 @@ export default function UserDetails({data, functions}:Readonly<UserDetailsProps>
                     functions={functions}
                 />
             </div>
-        </div>
+        </main>
     )
 }

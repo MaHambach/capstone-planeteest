@@ -32,12 +32,12 @@ export default function NavigationMenu({data}:Readonly<NavigationMenuProps>):Rea
         <>
         <Button
             color='inherit'
-            className={"navigationMenu"}
             id={"navigation-button"}
             onClick={handleClick}
-            aria-control={open ? "navigation-menu" : undefined}
-            aria-haspopup={open ? "true" : undefined}
+            aria-controls={open ? "navigation-menu" : undefined}
+            aria-haspopup={"true"}
             aria-expanded={open ? "true" : undefined}
+            className={"navigationMenu"}
         >
             <MdMenuBook />
         </Button>
