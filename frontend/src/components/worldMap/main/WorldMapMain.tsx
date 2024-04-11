@@ -20,7 +20,6 @@ type Data = {
     mapMarkers: MapMarker[];
     mapMarkerTypes: MapMarkerType[];
     articles: Article[];
-
 }
 type Functions = {
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
