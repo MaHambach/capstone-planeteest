@@ -4,34 +4,46 @@ import {useNavigate, useParams} from "react-router-dom";
 import {AppUser} from "../../../types/AppUser.ts";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import {WorldMapInviteDto} from "../../../types/WorldMapInviteDto.ts";
-import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 import WorldMapInviteGallery from "../../worldMapInvite/part/WorldMapInviteGallery.tsx";
 import {ImCross} from "react-icons/im";
 import AddWorldMapInviteForm from "../../worldMapInvite/part/AddWorldMapInviteForm.tsx";
+import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 
-type UpdateWorldMapFormProps = {
-    updateWorldMap: (worldMap:WorldMap) => void;
-    deleteWorldMap: (id:string) => void;
-    getWorldMap: (id:string) => WorldMap;
+type Data = {
     appUser: AppUser;
     appUsers: AppUserMinimal[];
+    worldMaps: WorldMap[];
+    worldMapInvites: WorldMapInvite[];
+}
+type Functions = {
+    updateWorldMap: (worldMap:WorldMap) => void;
+    deleteWorldMap: (id:string) => void;
+
+    acceptWorldMapInvite: (id:string) => void;
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
+    deleteWorldMapInvite: (id:string) => void;
+
     removeObserverFromWorldMap: (observerId:string, worldMapId:string) => void;
     fetchAllObserversOfWorldmap: (worldMapId:string, setObservers:(observers:AppUserMinimal[]) => void) => void;
-    deleteWorldMapInvite: (id:string) => void;
-    fetchAllPossibleInviteesForWorldMap: (worldMapId:string, setPossibleObserver:(possibleObserver:AppUserMinimal[]) => void) => void;
-    fetchAllWorldMapInvitesToWorldMap: (worldMapId:string, setWorldMapInvites:(worldMapInvites:WorldMapInvite[]) => void) => void;
+}
+type UpdateWorldMapFormProps = {
+    data:Data;
+    functions:Functions;
 }
 
-export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProps>):React.ReactElement {
+export default function UpdateWorldMapForm({data, functions}:Readonly<UpdateWorldMapFormProps>):React.ReactElement {
     const {id= ''} = useParams<string>();
     const [formData, setFormData] = useState<WorldMap>(emptyWorldMap);
     const [observers, setObservers] = useState<AppUserMinimal[]>([]);
-    const [possibleObservers, setPossibleObservers] = useState<AppUserMinimal[]>([]);
     const [isInvitingObserver, setIsInvitingObserver] = useState<boolean>(false);
-    const [worldMapInvites, setWorldMapInvites] = useState<WorldMapInvite[]>([]);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setFormData(getWorldMapById(id));
+        functions.fetchAllObserversOfWorldmap(id, setObservers);
+        // eslint-disable-next-line
+    }, [id, data]);
 
     function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>):void {
         setFormData(
@@ -42,6 +54,13 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
         )
     }
 
+    function getWorldMapById(id:string):WorldMap {
+        const filteredWorldMaps:WorldMap[] = data.worldMaps.filter((worldMap:WorldMap) => worldMap.id === id);
+        if(filteredWorldMaps.length === 0) console.error("No world map with id \"" + id + "\" found.");
+        else return filteredWorldMaps[0];
+        return emptyWorldMap;
+    }
+
     function toggleAddNewObserver(event:React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault();
         setIsInvitingObserver(!isInvitingObserver);
@@ -50,29 +69,22 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
     function handleSubmit(event: FormEvent<HTMLFormElement>):void {
         event.preventDefault();
 
-        props.updateWorldMap(formData);
+        functions.updateWorldMap(formData);
         navigate('/')
     }
 
     function handleDeleteWorldMap(event:React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault();
         if (window.confirm("Möchten Sie die Weltkarte" + formData.name + " wirklich löschen?")) {
-            props.deleteWorldMap(id);
+            functions.deleteWorldMap(id);
             navigate("/");
         }
     }
 
     function handleRemoveObserver(event:React.MouseEvent<HTMLButtonElement>, observerName:string):void {
         event.preventDefault();
-        props.removeObserverFromWorldMap(observerName, id);
+        functions.removeObserverFromWorldMap(observerName, id);
     }
-
-    useEffect(() => {
-        setFormData(props.getWorldMap(id));
-        props.fetchAllObserversOfWorldmap(id, setObservers);
-        props.fetchAllPossibleInviteesForWorldMap(id, setPossibleObservers);
-        props.fetchAllWorldMapInvitesToWorldMap(id, setWorldMapInvites);
-    }, [id, props]);
 
     return (
         <main className={"UpdateWorldMapForm"}>
@@ -104,7 +116,7 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                 <div className={"observerListDiv"}>
                     <div>
                         <h3>Betrachter</h3>
-                        <button onClick={toggleAddNewObserver}>Einladung hinzufügen</button>
+
                     </div>
                     {observers.map((appUser:AppUserMinimal) => {
                         return (
@@ -118,22 +130,29 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                         })
                     }
                 </div>
-                <WorldMapInviteGallery
-                    displayInviteeName={true}
-                    title={"Offene Einladungen"}
-                    appUsers={props.appUsers}
-                    worldMapInvites={worldMapInvites}
-                    getWorldMap={props.getWorldMap}
-                    deleteWorldMapInvite={props.deleteWorldMapInvite}
-                />
+                <div className={"inviteListDiv"}>
+                    <WorldMapInviteGallery
+                        data={data}
+                        props={{
+                            title: "Offene Einladungen",
+                            invitesType: "ToWorldMap",
+                            worldMapId: id
+                        }}
+                        functions={{
+                            acceptWorldMapInvite: functions.acceptWorldMapInvite,
+                            deleteWorldMapInvite: functions.deleteWorldMapInvite
+                        }}
+                    />
+                    <button onClick={toggleAddNewObserver}>Einladung hinzufügen</button>
+                </div>
             </div>
             {isInvitingObserver &&
                 <AddWorldMapInviteForm
-                    ownerId={props.appUser.id}
-                    possibleInvitees={possibleObservers}
-                    worldMapId={id}
-                    closeAddWorldMapInviteForm={() => setIsInvitingObserver(false)}
-                    saveWorldMapInvite={props.saveWorldMapInvite}
+                    props={{ownerId: data.appUser.id, worldMapId: id}}
+                    functions={{
+                        closeAddWorldMapInviteForm: () => setIsInvitingObserver(false),
+                        saveWorldMapInvite: functions.saveWorldMapInvite
+                    }}
                 />}
         </main>
     )

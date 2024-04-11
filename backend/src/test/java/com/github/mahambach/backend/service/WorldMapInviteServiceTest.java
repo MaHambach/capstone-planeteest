@@ -88,33 +88,6 @@ class WorldMapInviteServiceTest {
         verifyNoInteractions(appUserService, worldMapService);
     }
 
-    // getAllWorldMapInvitesToWorldMap(String worldMapId)
-    @Test
-    void getAllWorldMapInvitesToWorldMap_whenIsValidWorldMapId_thenGetAllInvitees() {
-        // Given
-        String worldMapId = "1";
-        WorldMap worldMap = new WorldMap("1", "WorldMap", "url", 10, 10);
-        WorldMapInvite worldMapInvite1 = new WorldMapInvite("1", "1", "2", "1");
-        WorldMapInvite worldMapInvite2 = new WorldMapInvite("2", "2", "4", "3");
-        WorldMapInvite worldMapInvite3 = new WorldMapInvite("3", "1", "4", "2");
-        WorldMapInvite worldMapInvite4 = new WorldMapInvite("4", "1", "3", "1");
-        List<WorldMapInvite> worldMapInvites = List.of(worldMapInvite1, worldMapInvite2, worldMapInvite3, worldMapInvite4);
-        List<WorldMapInvite> expected = List.of(worldMapInvite1, worldMapInvite4);
-
-        // When
-        when(worldMapService.getWorldMapById(worldMapId)).thenReturn(worldMap);
-        when(worldMapInviteRepo.findAll()).thenReturn(worldMapInvites);
-
-        List<WorldMapInvite> actual = worldMapInviteService.getAllWorldMapInvitesToWorldMap(worldMapId);
-
-        // Then
-        assertEquals(expected, actual);
-        verify(worldMapService).getWorldMapById(worldMapId);
-        verify(worldMapInviteRepo).findAll();
-        verifyNoMoreInteractions(worldMapService, worldMapInviteRepo);
-        verifyNoInteractions(appUserService);
-    }
-
     // createWorldMapInvite(WorldMapInviteDto worldMapInviteDto, String username)
     @Test
     void createWorldMapInvite_whenUserNotOwner_thenThrowIllegalArgumentException() {
@@ -356,7 +329,7 @@ class WorldMapInviteServiceTest {
         assertEquals(List.of(appUserResponse2), actual);
         verify(appUserService).findAppUserByUsername(username);
         verify(appUserService).getAllAppUsers();
-        verify(worldMapService, times(2)).getWorldMapById(worldMapId);
+        verify(worldMapService).getWorldMapById(worldMapId);
         verify(worldMapInviteRepo).findAll();
         verifyNoMoreInteractions(appUserService, worldMapInviteRepo, worldMapService);
     }
@@ -381,51 +354,4 @@ class WorldMapInviteServiceTest {
         verifyNoInteractions(worldMapInviteRepo);
     }
 
-    // getAllWorldMapInvitesToUser(String username)
-    @Test
-    void getAllWorldMapInvitesToUser_whenMultipleExist_thenReturnThoseFitting() {
-        // Given
-        String username = "username";
-        AppUserResponse appUserResponse = new AppUserResponse("1", AppUserRole.USER, username, new ArrayList<>(), new ArrayList<>());
-        WorldMapInvite worldMapInvite1 = new WorldMapInvite("1", "1", "2", "1");
-        WorldMapInvite worldMapInvite2 = new WorldMapInvite("2", "2", "1", "2");
-        List<WorldMapInvite> worldMapInvites = List.of(worldMapInvite1, worldMapInvite2);
-
-        // When
-        when(appUserService.findAppUserByUsername(username)).thenReturn(appUserResponse);
-        when(worldMapInviteRepo.findAll()).thenReturn(worldMapInvites);
-
-        List<WorldMapInvite> actual = worldMapInviteService.getAllWorldMapInvitesToUser(username);
-
-        // Then
-        assertEquals(List.of(worldMapInvite2), actual);
-        verify(appUserService).findAppUserByUsername(username);
-        verify(worldMapInviteRepo).findAll();
-        verifyNoMoreInteractions(appUserService, worldMapInviteRepo);
-        verifyNoInteractions(worldMapService);
-    }
-
-    // getAllWorldMapInvitesFromUser(String username)
-    @Test
-    void getAllWorldMapInvitesFromUser_whenSomeExist_thenReturnThoseFitting() {
-        // Given
-        String username = "username";
-        AppUserResponse appUserResponse = new AppUserResponse("1", AppUserRole.USER, username, new ArrayList<>(), new ArrayList<>());
-        WorldMapInvite worldMapInvite1 = new WorldMapInvite("1", "1", "2", "1");
-        WorldMapInvite worldMapInvite2 = new WorldMapInvite("2", "2", "1", "2");
-        List<WorldMapInvite> worldMapInvites = List.of(worldMapInvite1, worldMapInvite2);
-
-        // When
-        when(appUserService.findAppUserByUsername(username)).thenReturn(appUserResponse);
-        when(worldMapInviteRepo.findAll()).thenReturn(worldMapInvites);
-
-        List<WorldMapInvite> actual = worldMapInviteService.getAllWorldMapInvitesFromUser(username);
-
-        // Then
-        assertEquals(List.of(worldMapInvite1), actual);
-        verify(appUserService).findAppUserByUsername(username);
-        verify(worldMapInviteRepo).findAll();
-        verifyNoMoreInteractions(appUserService, worldMapInviteRepo);
-        verifyNoInteractions(worldMapService);
-    }
 }

@@ -42,6 +42,13 @@ export function useAppUser() {
             });
     }
 
+    function getAppUserNameById(appUserId:string):string {
+        const filteredAppUsers:AppUserMinimal[] = appUsers.filter((appUser:AppUserMinimal):boolean => appUser.id === appUserId);
+        if(filteredAppUsers.length === 0) console.error("No app user with id \"" + appUserId + "\" found.");
+        else return filteredAppUsers[0].username;
+        return "";
+    }
+
     async function loginAppUser(appUserRegister:AppUserRegister):Promise<void> {
         return axios.post("/api/users/login", {}, {
             auth: appUserRegister
@@ -79,14 +86,6 @@ export function useAppUser() {
             });
     }
 
-    function addObservedWorldMapAppUser(worldMapId:string):void {
-        axios.put("/api/users/add-observed", {worldMapId:worldMapId})
-            .then(fetchAllAppUsers)
-            .catch(e => {
-                console.error(e);
-            });
-    }
-
     function logoutAppUser():void {
         axios.post("/api/users/logout")
             .then(() => {
@@ -109,8 +108,9 @@ export function useAppUser() {
     return {
         appUser,
         appUsers,
-        addObservedWorldMapAppUser,
+        fetchMe,
         fetchAllObserversOfWorldmap,
+        fetchAppUserNameById: getAppUserNameById,
         removeObserverFromWorldMap,
         loginAppUser,
         registerAppUser,

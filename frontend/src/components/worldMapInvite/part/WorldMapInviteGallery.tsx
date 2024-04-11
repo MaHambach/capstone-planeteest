@@ -1,39 +1,97 @@
-import React from "react";
-import {WorldMap} from "../../../types/WorldMap.ts";
+import React, {useEffect, useState} from "react";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 import {WorldMapInviteCard} from "./WorldMapInviteCard.tsx";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
+import {AppUser} from "../../../types/AppUser.ts";
+import {WorldMap} from "../../../types/WorldMap.ts";
 
-type WorldMapInviteGalleryProps = {
-    title: string;
+type invitesType = "ToUser" | "FromUser" | "ToWorldMap";
+type Data = {
+    appUser: AppUser;
     appUsers: AppUserMinimal[];
     worldMapInvites: WorldMapInvite[];
-    getWorldMap: (id: string) => WorldMap;
-    deleteWorldMapInvite: (worldMapInviteId: string) => void;
-    displayOwnerName?: boolean;
-    displayInviteeName?: boolean;
-    displayWorldMapName?: boolean;
-    acceptWorldMapInvite?: (worldMapInviteId: string) => void;
+    worldMaps: WorldMap[];
 }
-export default function WorldMapInviteGallery(props:Readonly<WorldMapInviteGalleryProps>):React.ReactElement {
+type Props = {
+    title: string;
+    invitesType: invitesType;
+    worldMapId?: string;
+}
+type Functions = {
+    acceptWorldMapInvite: (id:string) => void;
+    deleteWorldMapInvite: (id:string) => void;
+}
+type WorldMapInviteGalleryProps = {
+    data:Data;
+    props:Props;
+    functions:Functions;
+}
+export default function WorldMapInviteGallery({data, props, functions}:Readonly<WorldMapInviteGalleryProps>):React.ReactElement {
+    const [displayedWorldMapInvites, setDisplayedWorldMapInvites] = useState<WorldMapInvite[]>([]);
+    const [displayOwnerName, setDisplayOwnerName] = useState<boolean>(false);
+    const [displayInviteeName, setDisplayInviteeName] = useState<boolean>(false);
+    const [displayWorldMapName, setDisplayWorldMapName] = useState<boolean>(false);
+
+    function getAllWorldMapInvitesToUser(setWorldMapInvitesToUser:(worldMapInvite:WorldMapInvite[]) => void, appUserId:string):void {
+        setWorldMapInvitesToUser(data.worldMapInvites.filter(
+            (worldMapInvite:WorldMapInvite) => worldMapInvite.inviteeId === appUserId)
+        );
+    }
+
+    function getAllWorldMapInvitesFromUser(setWorldMapInvitesFromUser:(worldMapInvite:WorldMapInvite[]) => void, appUserId:string):void {
+        setWorldMapInvitesFromUser(data.worldMapInvites.filter(
+            (worldMapInvite:WorldMapInvite) => worldMapInvite.ownerId === appUserId)
+        );
+    }
+
+    function getAllWorldMapInvitesToWorldMap(setWorldMapInvites:(worldMapInvites:WorldMapInvite[]) => void, worldMapId: string):void {
+        setWorldMapInvites(data.worldMapInvites.filter(
+            (worldMapInvite:WorldMapInvite) => worldMapInvite.worldMapId === worldMapId)
+        );
+    }
+
+    useEffect(() => {
+        switch (props.invitesType) {
+            case "ToUser":
+                getAllWorldMapInvitesToUser(setDisplayedWorldMapInvites, data.appUser.id);
+                setDisplayOwnerName(true);
+                setDisplayInviteeName(false);
+                setDisplayWorldMapName(true);
+                break;
+            case "FromUser":
+                getAllWorldMapInvitesFromUser(setDisplayedWorldMapInvites, data.appUser.id);
+                setDisplayOwnerName(false);
+                setDisplayInviteeName(true);
+                setDisplayWorldMapName(true);
+                break;
+            case "ToWorldMap":
+                if(props.worldMapId === undefined) break;
+                getAllWorldMapInvitesToWorldMap(setDisplayedWorldMapInvites, props.worldMapId);
+                setDisplayOwnerName(false);
+                setDisplayInviteeName(true);
+                setDisplayWorldMapName(false);
+                break;
+            default:
+                break;
+        }
+        // eslint-disable-next-line
+    }, [props]);
 
     return (
         <div className={"worldMapInviteGallery"}>
             <h3>{props.title}</h3>
             <div className={"worldMapInviteGalleryList"}>
-                {props.worldMapInvites.map((worldMapInvite:WorldMapInvite) => {
+                {displayedWorldMapInvites.map((worldMapInvite:WorldMapInvite) => {
                     return (
                         <WorldMapInviteCard
                             key={worldMapInvite.id}
-                            worldMapInviteId={worldMapInvite.id}
-                            displayOwnerName={props.displayOwnerName}
-                            displayInviteeName={props.displayInviteeName}
-                            displayWorldMapName={props.displayWorldMapName}
-                            ownerName={props.appUsers.filter((appUser:AppUserMinimal):boolean => appUser.id === worldMapInvite.ownerId)[0].username}
-                            inviteeName={props.appUsers.filter((appUser:AppUserMinimal):boolean => appUser.id === worldMapInvite.inviteeId)[0].username}
-                            worldMapName={props.getWorldMap(worldMapInvite.worldMapId).name}
-                            deleteWorldMapInvite={props.deleteWorldMapInvite}
-                            acceptWorldMapInvite={props.acceptWorldMapInvite}
+                            data={{
+                                appUsers: data.appUsers,
+                                worldMapInvite: worldMapInvite,
+                                worldMaps: data.worldMaps
+                        }}
+                            props={{displayOwnerName, displayInviteeName, displayWorldMapName}}
+                            functions={functions}
                         />
                     )
                 })}

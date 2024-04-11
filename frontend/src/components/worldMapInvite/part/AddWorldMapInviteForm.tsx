@@ -2,21 +2,29 @@ import React, {useEffect, useState} from "react";
 import {emptyWorldMapInviteDto, WorldMapInviteDto} from "../../../types/WorldMapInviteDto.ts";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
+import useWorldMapInvite from "../../../hooks/useWorldMapInvite.ts";
 
-type AddWorldMapInviteForm = {
+type Props = {
     ownerId: string;
-    possibleInvitees?: AppUserMinimal[];
     worldMapId: string;
+}
+type Functions = {
     closeAddWorldMapInviteForm: () => void;
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
 }
-export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteForm>):React.ReactElement {
+type AddWorldMapInviteForm = {
+    props:Props;
+    functions:Functions;
+}
+export default function AddWorldMapInviteForm({props, functions}:Readonly<AddWorldMapInviteForm>):React.ReactElement {
     const [formData, setFormData] = useState<WorldMapInviteDto>(emptyWorldMapInviteDto);
+    const [possibleInvitees, setPossibleInvitees] = useState<AppUserMinimal[]>([]);
+    const {fetchAllPossibleInviteesForWorldMap} = useWorldMapInvite();
 
-    function handleCancel(event:React.MouseEvent<HTMLButtonElement>):void {
-        event.preventDefault();
-        props.closeAddWorldMapInviteForm();
-    }
+    useEffect(() => {
+        fetchAllPossibleInviteesForWorldMap(setPossibleInvitees, props.worldMapId);
+        // eslint-disable-next-line
+    }, [props]);
 
     function handleChange(event: React.ChangeEvent<HTMLSelectElement>):void {
         event.preventDefault();
@@ -30,17 +38,18 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-        props.saveWorldMapInvite(formData);
+        functions.saveWorldMapInvite(formData);
+        functions.closeAddWorldMapInviteForm();
     }
 
     useEffect(() => {
-        if (props.possibleInvitees?.length) {
+        if (possibleInvitees?.length) {
             setFormData(
                 {
                     ...formData,
                     ownerId: props.ownerId,
                     worldMapId: props.worldMapId,
-                    inviteeId: props.possibleInvitees[0].id
+                    inviteeId: possibleInvitees[0].id
                 }
             )
         } else {
@@ -53,11 +62,11 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
             )
         }
         // eslint-disable-next-line
-    }, [props]);
+    }, [props, possibleInvitees]);
 
     return (
         <DraggableSubWindow
-            closeFrame={props.closeAddWorldMapInviteForm}
+            closeFrame={functions.closeAddWorldMapInviteForm}
             initialPosition={{
                 left:200,
                 top:200,
@@ -70,9 +79,9 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
                     <h3>Wen möchtest du einladen?</h3>
                 </div>
                 <div>
-                    { props.possibleInvitees?.length ?
+                    { possibleInvitees?.length ?
                         <select id={"inviteeId"} name={"inviteeId"} value={formData.inviteeId} onChange={handleChange}>
-                            {props.possibleInvitees.map((appUser:AppUserMinimal) => {
+                            {possibleInvitees.map((appUser:AppUserMinimal) => {
                                 return (
                                     <option key={appUser.id}
                                             value={appUser.id}>
@@ -85,8 +94,8 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
                         <span>Keine Einladungen möglich</span>
                     }
                 </div>
-                {props.possibleInvitees?.length && <button type={"submit"}>Save</button>}
-                <button onClick={handleCancel}>Abbrechen</button>
+                {possibleInvitees.length ? <button type={"submit"}>Save</button> : null}
+                <button onClick={functions.closeAddWorldMapInviteForm}>Abbrechen</button>
             </form>
         </DraggableSubWindow>
     );

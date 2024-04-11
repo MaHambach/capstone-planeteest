@@ -1,54 +1,48 @@
 import {AppUser} from "../../../types/AppUser.ts";
-import {WorldMap} from "../../../types/WorldMap.ts";
-import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import WorldMapInviteGallery from "../../worldMapInvite/part/WorldMapInviteGallery.tsx";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import {useNavigate} from "react-router-dom";
+import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
+import {WorldMap} from "../../../types/WorldMap.ts";
 
-type UserDetailsProps = {
+type Data = {
     appUser: AppUser;
     appUsers: AppUserMinimal[];
-    getWorldMap: (id: string) => WorldMap;
-    fetchAllWorldMapInvitesToUser: (setWorldMapInvitesToUser:(worldMapInvite:WorldMapInvite[]) => void) => void;
-    fetchAllWorldMapInvitesFromUser: (setWorldMapInvitesFromUser:(worldMapInvite:WorldMapInvite[]) => void) => void;
-    deleteWorldMapInvite: (worldMapInviteId: string) => void;
-    acceptWorldMapInvite: (worldMapInviteId: string) => void;
+    worldMapInvites: WorldMapInvite[];
+    worldMaps: WorldMap[];
 }
-export default function UserDetails(props:Readonly<UserDetailsProps>):React.ReactElement {
-    const [worldMapInvitesToUser, setWorldMapInvitesToUser] = useState<WorldMapInvite[]>([]);
-    const [worldMapInvitesFromUser, setWorldMapInvitesFromUser] = useState<WorldMapInvite[]>([]);
-
+type Functions = {
+    acceptWorldMapInvite: (id:string) => void;
+    deleteWorldMapInvite: (id:string) => void;
+}
+type UserDetailsProps = {
+    data: Data;
+    functions: Functions;
+}
+export default function UserDetails({data, functions}:Readonly<UserDetailsProps>):React.ReactElement {
     const navigate = useNavigate();
-
-    useEffect(() => {
-        props.fetchAllWorldMapInvitesToUser(setWorldMapInvitesToUser);
-        props.fetchAllWorldMapInvitesFromUser(setWorldMapInvitesFromUser);
-    }, [props]);
 
     return (
         <div>
-            {props.appUser.username}
+            {data.appUser.username}
             <button onClick={() => navigate("/")}>Zur Gallery</button>
             <div>
                 <WorldMapInviteGallery
-                    title={"Du lädst zu folgenden Weltkarten ein:"}
-                    displayWorldMapName={true}
-                    displayInviteeName={true}
-                    worldMapInvites={worldMapInvitesFromUser}
-                    getWorldMap={props.getWorldMap}
-                    appUsers={props.appUsers}
-                    deleteWorldMapInvite={props.deleteWorldMapInvite}
+                    props={{
+                        title: "Du lädst zu folgenden Weltkarten ein:",
+                        invitesType: "FromUser"
+                }}
+                    data={data}
+                    functions={functions}
                 />
                 <WorldMapInviteGallery
-                    title={"Du wurdest zu folgenden Weltkarten eingeladen:"}
-                    displayWorldMapName={true}
-                    displayOwnerName={true}
-                    worldMapInvites={worldMapInvitesToUser}
-                    getWorldMap={props.getWorldMap}
-                    appUsers={props.appUsers}
-                    deleteWorldMapInvite={props.deleteWorldMapInvite}
-                    acceptWorldMapInvite={props.acceptWorldMapInvite}
+                    props={{
+                        title: "Du wurdest von folgenden Nutzern zu Weltkarten eingeladen:",
+                        invitesType: "ToUser"
+                }}
+                    data={data}
+                    functions={functions}
                 />
             </div>
         </div>
