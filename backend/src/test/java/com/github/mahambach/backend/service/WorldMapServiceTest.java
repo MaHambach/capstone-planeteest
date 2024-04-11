@@ -20,7 +20,7 @@ class WorldMapServiceTest {
 
     private final WorldMapService worldMapService = new WorldMapService(worldMapRepo, appUserService, mapMarkerService);
 
-
+    // getAllWorldMaps()
     @Test
     void getAllWorldMaps_whenOneWorldMap_thenReturnListOfWorldMap() {
         // Given
@@ -56,6 +56,7 @@ class WorldMapServiceTest {
         verifyNoInteractions(mapMarkerService);
     }
 
+    // getWorldMapById(String worldMapId)
     @Test
     void getWorldMapById_whenNoSuchWorldMap_thenThrow() {
         // Given
@@ -92,6 +93,7 @@ class WorldMapServiceTest {
         verifyNoInteractions(mapMarkerService);
     }
 
+    // createWorldMap(WorldMapDto worldMapDto, String username)
     @Test
     void createWorldMap_whenValidInput_thenCreateAndReturn() {
         // Given
@@ -111,6 +113,7 @@ class WorldMapServiceTest {
         verifyNoInteractions(mapMarkerService);
     }
 
+    // updateWorldMap(String worldMapId, WorldMap worldMap)
     @Test
     void updateWorldMap_whenNoSuchWorldMap_thenThrow() {
         // Given
@@ -127,7 +130,6 @@ class WorldMapServiceTest {
         verifyNoInteractions(appUserService);
         verifyNoInteractions(mapMarkerService);
     }
-
 
     @Test
     void updateWorldMap_whenPathAndBodyIdDiffer_thenThrow() {
@@ -164,6 +166,7 @@ class WorldMapServiceTest {
         verifyNoInteractions(mapMarkerService);
     }
 
+    // deleteWorldMapById(String worldMapId, String ownerId)
     @Test
     void deleteWorldMapById_whenNoSuchWorldMap_thenThrow() {
         // Given

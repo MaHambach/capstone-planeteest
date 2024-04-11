@@ -31,6 +31,7 @@ class MapMarkerControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // @GetMapping
     @Test
     @WithMockUser
     void getAllMapMarkers_whenOneMarker_thenReturnListOfMarker() throws Exception {
@@ -72,6 +73,7 @@ class MapMarkerControllerTest {
         assertEquals(expected, result);
     }
 
+    // @GetMapping("/{mapMarkerId}")
     @Test
     @WithMockUser
     void getMapMarkerById_whenNoSuchMapMarker_thenThrow() throws Exception {
@@ -117,6 +119,7 @@ class MapMarkerControllerTest {
         assertEquals(expected, result);
     }
 
+    // @PostMapping
     @Test
     @WithMockUser
     void createMapMarker_whenValidInput_thenCreateAndReturn() throws Exception {
@@ -143,6 +146,7 @@ class MapMarkerControllerTest {
         assertNotNull(actual.id());
     }
 
+    // @PutMapping("/{mapMarkerId}")
     @Test
     @WithMockUser
     void updateMapMarker_whenNoSuchMapMarker_thenThrow() throws Exception{
@@ -163,7 +167,6 @@ class MapMarkerControllerTest {
         // Then
         assertEquals("Map marker with id " + id + " not found.", result.errorMsg());
     }
-
 
     @Test
     @WithMockUser
@@ -220,6 +223,7 @@ class MapMarkerControllerTest {
         assertEquals(expected, actual);
     }
 
+    // @DeleteMapping("/{mapMarkerId}")
     @Test
     @WithMockUser
     void deleteMapMarkerById_whenNoSuchMapMarker_thenThrow() throws Exception {

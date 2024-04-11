@@ -3,7 +3,7 @@ package com.github.mahambach.backend.exception;
 import java.util.NoSuchElementException;
 
 public class NoSuchWorldMapException extends NoSuchElementException {
-    public NoSuchWorldMapException(String message) {
-        super(message);
+    public NoSuchWorldMapException(String worldMapId) {
+        super(worldMapId);
     }
 }

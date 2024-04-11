@@ -3,14 +3,15 @@ import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {AppUser} from "../types/AppUser.ts";
 import {AppUserRegister} from "../types/AppUserRegister.ts";
+import {AppUserMinimal} from "../types/AppUserMinimal.ts";
 
 
 export function useAppUser() {
     const [appUser, setAppUser] = useState<AppUser | null | undefined>(undefined);
-
+    const [appUsers, setAppUsers] = useState<AppUserMinimal[]>([]);
     const navigate = useNavigate();
 
-    function fetchMe() {
+    function fetchMe():void {
         axios.get("/api/users/me")
             .then(response => {
                 setAppUser(response.data);
@@ -18,6 +19,26 @@ export function useAppUser() {
             .catch(e => {
                 console.error(e)
                 setAppUser(null);
+            });
+    }
+
+    function fetchAllAppUsers():void {
+        axios.get("/api/users")
+            .then(response => {
+                setAppUsers(response.data.map((appUser:AppUser):AppUserMinimal => ({id: appUser.id, username: appUser.username})));
+            })
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
+    function fetchAllObserversOfWorldmap(worldMapId:string, setObservers:(observers:AppUserMinimal[]) => void):void {
+        axios.get("/api/users/observers/" + worldMapId)
+            .then(response => {
+                setObservers(response.data.map((appUser:AppUser):AppUserMinimal => ({id: appUser.id, username: appUser.username})));
+            })
+            .catch(e => {
+                console.error(e);
             });
     }
 
@@ -38,8 +59,29 @@ export function useAppUser() {
         axios.post("/api/users/register", appUserRegister)
             .then(() => {
                 console.log("User registered successfully");
-                loginAppUser(appUserRegister);
+                fetchAllAppUsers();
+                loginAppUser(appUserRegister).then();
             })
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
+    function removeObserverFromWorldMap(observerName:string, worldMapId:string):void {
+        axios.put("/api/users/remove-observed",
+            {
+                observerName:observerName,
+                worldMapId:worldMapId
+            })
+            .then(fetchAllAppUsers)
+            .catch(e => {
+                console.error(e);
+            });
+    }
+
+    function addObservedWorldMapAppUser(worldMapId:string):void {
+        axios.put("/api/users/add-observed", {worldMapId:worldMapId})
+            .then(fetchAllAppUsers)
             .catch(e => {
                 console.error(e);
             });
@@ -59,10 +101,17 @@ export function useAppUser() {
             });
     }
 
-    useEffect(fetchMe, []);
+    useEffect(() => {
+        fetchMe();
+        fetchAllAppUsers();
+    }, []);
 
     return {
         appUser,
+        appUsers,
+        addObservedWorldMapAppUser,
+        fetchAllObserversOfWorldmap,
+        removeObserverFromWorldMap,
         loginAppUser,
         registerAppUser,
         logoutAppUser

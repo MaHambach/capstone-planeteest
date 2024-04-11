@@ -14,12 +14,15 @@ import UpdateMapMarkerType from "./components/mapMarkerType/main/UpdateMapMarker
 import LoginUserMain from "./components/user/main/LoginUserMain.tsx";
 import {useAppUser} from "./hooks/useAppUser.ts";
 import PrivateRoute from "./components/_generic/parts/PrivateRoute.tsx";
+import useWorldMapInvite from "./hooks/useWorldMapInvite.ts";
+import UserDetails from "./components/user/main/UserDetails.tsx";
 
 export default function App():React.ReactElement {
-    const {appUser, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
+    const {appUser, appUsers,fetchAllObserversOfWorldmap, removeObserverFromWorldMap, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
     const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
+    const {acceptWorldMapInvite, fetchWorldMapInvites, fetchAllWorldMapInvitesToUser, fetchAllWorldMapInvitesFromUser, fetchAllWorldMapInvitesToWorldMap, fetchAllPossibleInviteesForWorldMap, saveWorldMapInvite, deleteWorldMapInvite} = useWorldMapInvite();
     const {worldMaps, fetchWorldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
     useEffect(() => {
@@ -33,6 +36,7 @@ export default function App():React.ReactElement {
             fetchWorldMaps();
             fetchMapMarkers();
             fetchMapMarkerTypes();
+            fetchWorldMapInvites();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [appUser]);
@@ -78,6 +82,15 @@ export default function App():React.ReactElement {
                         updateWorldMap={updateWorldMap}
                         deleteWorldMap={deleteWorldMap}
                         getWorldMap={getWorldMapById}
+                        // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
+                        appUser={appUser}
+                        appUsers={appUsers}
+                        removeObserverFromWorldMap={removeObserverFromWorldMap}
+                        saveWorldMapInvite={saveWorldMapInvite}
+                        fetchAllObserversOfWorldmap={fetchAllObserversOfWorldmap}
+                        fetchAllPossibleInviteesForWorldMap={fetchAllPossibleInviteesForWorldMap}
+                        fetchAllWorldMapInvitesToWorldMap={fetchAllWorldMapInvitesToWorldMap}
+                        deleteWorldMapInvite={deleteWorldMapInvite}
                     />
                 }/>
 
@@ -96,6 +109,18 @@ export default function App():React.ReactElement {
                         updateMapMarkerType={updateMapMarkerType}
                         getMapMarkerType={getMapMarkerTypeById}
                         deleteMapMarkerType={deleteMapMarkerType}
+                    />
+                }/>
+                <Route path={"/user/:id"} element={
+                    <UserDetails
+                        // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
+                        appUser={appUser}
+                        appUsers={appUsers}
+                        getWorldMap={getWorldMapById}
+                        fetchAllWorldMapInvitesToUser={fetchAllWorldMapInvitesToUser}
+                        fetchAllWorldMapInvitesFromUser={fetchAllWorldMapInvitesFromUser}
+                        deleteWorldMapInvite={deleteWorldMapInvite}
+                        acceptWorldMapInvite={acceptWorldMapInvite}
                     />
                 }/>
             </Route>

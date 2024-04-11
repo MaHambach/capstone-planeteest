@@ -62,10 +62,12 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                     <label htmlFor={"markerTypeId"}>Typ: </label>
                     <select id={"markerTypeId"} name={"markerTypeId"} value={formData.markerTypeId} onChange={handleChangeInput}>
                         {props.mapMarkerTypes.map((mapMarkerType: MapMarkerType) => {
-                            return <option key={mapMarkerType.id}
-                                           value={mapMarkerType.id}>
-                                {mapMarkerType.name}
-                            </option>
+                            return (
+                                <option key={mapMarkerType.id}
+                                        value={mapMarkerType.id}>
+                                    {mapMarkerType.name}
+                                </option>
+                            )
                         })}
                     </select>
                 </div>

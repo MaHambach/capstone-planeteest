@@ -17,7 +17,7 @@ class ArticleServiceTest {
 
     private final ArticleService articleService = new ArticleService(articleRepo);
 
-
+    // getAllArticles()
     @Test
     void getAllArticles_whenOneArticle_thenReturnListOfArticle() {
         // Given
@@ -49,6 +49,7 @@ class ArticleServiceTest {
         verifyNoMoreInteractions(articleRepo);
     }
 
+    // getArticleById(String articleId)
     @Test
     void getArticleById_whenNoSuchArticle_thenThrow() {
         // Given
@@ -80,6 +81,8 @@ class ArticleServiceTest {
         verifyNoMoreInteractions(articleRepo);
     }
 
+
+    // createArticle(ArticleDto articleDto)
     @Test
     void createArticle_whenValidInput_thenCreateAndReturn() {
         // Given
@@ -95,6 +98,7 @@ class ArticleServiceTest {
         assertEquals(expected, result);
     }
 
+    // updateArticle(String articleId, Article article)
     @Test
     void updateArticle_whenNoSuchArticle_thenThrow() {
         // Given
@@ -109,7 +113,6 @@ class ArticleServiceTest {
         verify(articleRepo).existsById(id);
         verifyNoMoreInteractions(articleRepo);
     }
-
 
     @Test
     void updateArticle_whenPathAndBodyIdDiffer_thenThrow() {
@@ -141,6 +144,7 @@ class ArticleServiceTest {
         verifyNoMoreInteractions(articleRepo);
     }
 
+    // deleteArticleById(String articleId)
     @Test
     void deleteArticleById_whenNoSuchArticle_thenThrow() {
         // Given

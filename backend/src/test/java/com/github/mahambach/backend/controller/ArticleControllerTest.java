@@ -31,6 +31,7 @@ class ArticleControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // @GetMapping
     @Test
     @WithMockUser
     void getAllArticles_whenOneArticle_thenReturnThatArticleInAList() throws Exception {
@@ -72,6 +73,7 @@ class ArticleControllerTest {
         assertEquals(expected, result);
     }
 
+    // @GetMapping("/{articleId}")
     @Test
     @WithMockUser
     void getArticleById_whenNoSuchArticle_thenThrow() throws Exception {
@@ -117,6 +119,7 @@ class ArticleControllerTest {
         assertEquals(expected, result);
     }
 
+    // @PostMapping
     @Test
     @WithMockUser
     void createArticle_whenValidInput_thenCreateAndReturn() throws Exception {
@@ -140,6 +143,7 @@ class ArticleControllerTest {
         assertNotNull(actual.id());
     }
 
+    // @PutMapping("/{articleId}")
     @Test
     @WithMockUser
     void updateArticle_whenNoSuchArticle_thenThrow() throws Exception{
@@ -161,7 +165,6 @@ class ArticleControllerTest {
         // Then
         assertEquals("Article with id " + id + " not found.", result.errorMsg());
     }
-
 
     @Test
     @WithMockUser
@@ -219,6 +222,7 @@ class ArticleControllerTest {
         assertEquals(expected, actual);
     }
 
+    // @DeleteMapping("/{articleId}")
     @Test
     @WithMockUser
     void deleteArticleById_whenNoSuchArticle_thenThrow() throws Exception {

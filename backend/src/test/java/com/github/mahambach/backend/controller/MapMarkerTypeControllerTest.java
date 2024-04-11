@@ -32,6 +32,7 @@ class MapMarkerTypeControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    // @GetMapping
     @Test
     @WithMockUser
     void getAllMapMarkerTypes_whenSomething_thenSomething() throws Exception {
@@ -74,6 +75,7 @@ class MapMarkerTypeControllerTest {
         assertEquals(expected, result);
     }
 
+    // @GetMapping("/{mapMarkerTypeId}")
     @Test
     @WithMockUser
     void getMapMarkerTypeById_whenNoSuchMapMarkerType_thenThrow() throws Exception {
@@ -121,6 +123,7 @@ class MapMarkerTypeControllerTest {
         assertEquals(expected, result);
     }
 
+    // @ResponseStatus(HttpStatus.CREATED)
     @Test
     @WithMockUser
     void createMapMarkerType_whenSomething_thenCreateAndReturn() throws Exception {
@@ -145,6 +148,7 @@ class MapMarkerTypeControllerTest {
         assertNotNull(actual.id());
     }
 
+    // @PutMapping("/{mapMarkerTypeId}")
     @Test
     @WithMockUser
     void updateMapMarkerType_whenNoSuchMapMarkerType_thenThrow() throws Exception{
@@ -229,6 +233,7 @@ class MapMarkerTypeControllerTest {
         assertEquals(expected, actual);
     }
 
+    // @DeleteMapping("/{mapMarkerTypeId}")
     @Test
     @WithMockUser
     void deleteMapMarkerTypeById_whenNoSuchMapMarkerType_thenThrow() throws Exception {
