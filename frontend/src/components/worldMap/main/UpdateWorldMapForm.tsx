@@ -8,7 +8,6 @@ import WorldMapInviteGallery from "../../worldMapInvite/part/WorldMapInviteGalle
 import {ImCross} from "react-icons/im";
 import AddWorldMapInviteForm from "../../worldMapInvite/part/AddWorldMapInviteForm.tsx";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
-import NavigationMenu from "../../navigation/NavigationMenu.tsx";
 
 type Data = {
     appUser: AppUser;
@@ -89,7 +88,6 @@ export default function UpdateWorldMapForm({data, functions}:Readonly<UpdateWorl
 
     return (
         <main className={"UpdateWorldMapForm"}>
-            <NavigationMenu data={{appUser: data.appUser}}/>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor={"name"}>Name:</label>

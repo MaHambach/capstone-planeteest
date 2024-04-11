@@ -13,7 +13,6 @@ import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
 import MapMarkerUpdateWindow from "../../mapMarker/parts/MapMarkerUpdateWindow.tsx";
 import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
-import NavigationMenu from "../../navigation/NavigationMenu.tsx";
 
 type Data = {
     appUser: AppUser;
@@ -116,7 +115,6 @@ export default function WorldMapMain({data, functions}:Readonly<WorldMapMainProp
 
     return (
         <main className={"worldMapMain"}>
-            <NavigationMenu data={{appUser: data.appUser}}/>
             <ToolBar
                 toggleAddNewMapMarker={toggleAddNewMapMarker}
                 addNewMapMarker={addNewMapMarker}
