@@ -7,12 +7,14 @@ import {WorldMapInviteDto} from "../../../types/WorldMapInviteDto.ts";
 import WorldMapInviteGallery from "../../worldMapInvite/part/WorldMapInviteGallery.tsx";
 import {ImCross} from "react-icons/im";
 import AddWorldMapInviteForm from "../../worldMapInvite/part/AddWorldMapInviteForm.tsx";
+import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 
 type UpdateWorldMapFormProps = {
+    appUser: AppUser;
+    worldMapInvites: WorldMapInvite[];
     updateWorldMap: (worldMap:WorldMap) => void;
     deleteWorldMap: (id:string) => void;
     getWorldMap: (id:string) => WorldMap;
-    appUser: AppUser;
     appUsers: AppUserMinimal[];
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
     removeObserverFromWorldMap: (observerId:string, worldMapId:string) => void;
@@ -113,7 +115,9 @@ export default function UpdateWorldMapForm(props:Readonly<UpdateWorldMapFormProp
                 <div className={"inviteListDiv"}>
                     <WorldMapInviteGallery
                         title={"Offene Einladungen"}
+                        appUser={props.appUser}
                         appUsers={props.appUsers}
+                        worldMapInvites={props.worldMapInvites}
                         invitesType={"ToWorldMap"}
                         worldMap={props.getWorldMap(id)}
                     />

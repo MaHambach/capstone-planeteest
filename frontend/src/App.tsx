@@ -22,7 +22,7 @@ export default function App():React.ReactElement {
     const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
     const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
-    const {fetchWorldMapInvites, saveWorldMapInvite} = useWorldMapInvite();
+    const {worldMapInvites, fetchWorldMapInvites, saveWorldMapInvite} = useWorldMapInvite();
     const {worldMaps, fetchWorldMaps, getWorldMapById, saveWorldMap, updateWorldMap, deleteWorldMap} = useWorldMaps();
 
     useEffect(() => {
@@ -79,6 +79,7 @@ export default function App():React.ReactElement {
                 }/>
                 <Route path={"/worldmap/:id/edit"} element={
                     <UpdateWorldMapForm
+                        worldMapInvites={worldMapInvites}
                         updateWorldMap={updateWorldMap}
                         deleteWorldMap={deleteWorldMap}
                         getWorldMap={getWorldMapById}
@@ -110,6 +111,7 @@ export default function App():React.ReactElement {
                 }/>
                 <Route path={"/user/:id"} element={
                     <UserDetails
+                        worldMapInvites={worldMapInvites}
                         // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                         appUser={appUser}
                         appUsers={appUsers}

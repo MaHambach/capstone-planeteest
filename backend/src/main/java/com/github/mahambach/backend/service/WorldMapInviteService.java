@@ -23,6 +23,12 @@ public class WorldMapInviteService {
         return worldMapInviteRepo.findAll();
     }
 
+    protected WorldMapInvite getWorldMapInviteById(String worldMapInviteId) {
+        return worldMapInviteRepo
+                .findById(worldMapInviteId)
+                .orElseThrow(() -> new NoSuchWorldMapInviteException(worldMapInviteId));
+    }
+
     public List<AppUserResponse> getAllPossibleInviteesToWorldMap(String username, String worldMapId) {
         AppUserResponse owner = appUserService.findAppUserByUsername(username);
         worldMapService.getWorldMapById(worldMapId);
