@@ -1,6 +1,6 @@
 import React, {FormEvent, useEffect, useState} from "react";
 import {emptyMapMarkerDto, MapMarkerDto} from "../../../types/MapMarkerDto.ts";
-import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
+import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 
 type AddMapMarkerFormProps = {

@@ -1,6 +1,6 @@
 import './ArticleWindow.css';
 import React, {useState} from "react";
-import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
+import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
 import UpdateArticleForm from "./UpdateArticleForm.tsx";
 import {Article} from "../../../types/Article.ts";
 import ArticleCard from "./ArticleCard.tsx";
