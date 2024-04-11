@@ -5,6 +5,7 @@ import {MdMenuBook} from "react-icons/md";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {AppUser} from "../../types/AppUser.ts";
+import {BsGeoFill} from "react-icons/bs";
 
 type Data = {
     appUser: AppUser
@@ -74,6 +75,16 @@ export default function NavigationMenu({data}:Readonly<NavigationMenuProps>):Rea
                     Weltkarten
                 </ListItemText>
             </MenuItem>
+            {data.appUser.role === "ADMIN" &&
+                <MenuItem onClick={() => navigate("/mapMarkerType")}>
+                    <ListItemIcon>
+                        <BsGeoFill />
+                    </ListItemIcon>
+                    <ListItemText>
+                        Map Marker Typen
+                    </ListItemText>
+                </MenuItem>
+            }
         </Menu>
 
         </>

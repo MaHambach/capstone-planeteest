@@ -36,9 +36,6 @@ export default function WorldMapGallery({data, functions, props}:Readonly<WorldM
     return (
         <main className={"worldMapGallery"}>
             <button onClick={functions.logoutAppUser}>Logout</button>
-            {data.appUser.role === "ADMIN" && <button onClick={() => {
-                navigate("/mapMarkerType")
-            }}>MapMarkerTypes</button>}
             <button onClick={() => {
                 navigate("/user/" + data.appUser.id)
             }}>UserDetails
