@@ -4,17 +4,19 @@ import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import DraggableSubWindow from "../../_generic/parts/DraggableSubWindow.tsx";
 import useWorldMapInvite from "../../../hooks/useWorldMapInvite.ts";
 
-type AddWorldMapInviteForm = {
-    // Data
-    // Props
+type Props = {
     ownerId: string;
     worldMapId: string;
-
-    // Functions
+}
+type Functions = {
     closeAddWorldMapInviteForm: () => void;
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
 }
-export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteForm>):React.ReactElement {
+type AddWorldMapInviteForm = {
+    props:Props;
+    functions:Functions;
+}
+export default function AddWorldMapInviteForm({props, functions}:Readonly<AddWorldMapInviteForm>):React.ReactElement {
     const [formData, setFormData] = useState<WorldMapInviteDto>(emptyWorldMapInviteDto);
     const [possibleInvitees, setPossibleInvitees] = useState<AppUserMinimal[]>([]);
     const {fetchAllPossibleInviteesForWorldMap} = useWorldMapInvite();
@@ -36,8 +38,8 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-        props.saveWorldMapInvite(formData);
-        props.closeAddWorldMapInviteForm();
+        functions.saveWorldMapInvite(formData);
+        functions.closeAddWorldMapInviteForm();
     }
 
     useEffect(() => {
@@ -64,7 +66,7 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
 
     return (
         <DraggableSubWindow
-            closeFrame={props.closeAddWorldMapInviteForm}
+            closeFrame={functions.closeAddWorldMapInviteForm}
             initialPosition={{
                 left:200,
                 top:200,
@@ -93,7 +95,7 @@ export default function AddWorldMapInviteForm(props:Readonly<AddWorldMapInviteFo
                     }
                 </div>
                 {possibleInvitees.length ? <button type={"submit"}>Save</button> : null}
-                <button onClick={props.closeAddWorldMapInviteForm}>Abbrechen</button>
+                <button onClick={functions.closeAddWorldMapInviteForm}>Abbrechen</button>
             </form>
         </DraggableSubWindow>
     );
