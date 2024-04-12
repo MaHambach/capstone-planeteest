@@ -94,14 +94,13 @@ export default function ArticleWindow({props, functions}:Readonly<ArticleWindowP
             props={{
                 title: props.title,
                 initialPosition: {
-                    left: props.coordinates.x,
-                    top: props.coordinates.y,
-                    width: 600,
-                    height: 400
+                    left: props.coordinates.x + 150,
+                    top: props.coordinates.y +20,
+                    width: 515,
+                    height: 300
                 }
         }}
         >
-            <span><b>{props.title}</b></span>
             <Box className={"tabBox"} sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs value={value} onChange={handleTabChange} aria-label="basic tabs example">
                     <Tab label="Spieler" {...a11yProps(0)} value={0}/>

@@ -63,7 +63,7 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
         <DraggableSubWindow
             functions={{closeFrame: functions.closeMapMarkerCard}}
             props={{
-                title: "MapMarker Update Window",
+                title: "MapMarker Update",
                 initialPosition: {
                     left:props.mapMarker.xPosition - 200,
                     top:props.mapMarker.yPosition,
