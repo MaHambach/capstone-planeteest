@@ -4,6 +4,7 @@ import {Article} from "../../../types/Article.ts";
 import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
 import React from "react";
 import parser from "html-react-parser";
+import {Paper} from "@mui/material";
 
 type ArticleDetailsCardProps = {
     article:Article;
@@ -13,7 +14,7 @@ export default function ArticleCard(props:Readonly<ArticleDetailsCardProps>):Rea
 
     return (
         <div className={"articleCard"}>
-            <article className={"richTextEditor"}>{parser(props.article.content)}</article>
+            <Paper sx={{height: "100%"}} className={"richTextEditor"}>{parser(props.article.content)}</Paper>
             {props.article.npcIds.length > 0 &&
                 <DisplayTileGallery
                     urlPrefix={"/npc/"}

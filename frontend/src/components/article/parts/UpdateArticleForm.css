@@ -9,9 +9,3 @@
     flex: 1;
     resize: none;
 }
-
-.updateArticleForm .buttons {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-}

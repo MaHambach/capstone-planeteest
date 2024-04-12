@@ -5,29 +5,37 @@ import ToolBar from "./ToolBar/ToolBar.tsx";
 import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
 import MapMarkerIcon from "./MapMarkerIcon.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
+import {getMapMarkerTypeById} from "../../../utility/getById.ts";
 
-
-type MapMarkerCardProps = {
-    mapMarker: MapMarker;
-    offsetWorldMapFrame: {xOffset:number, yOffset:number};
-    isSelected:boolean;
-    isMovable:boolean;
+type Data = {
+    mapMarkerTypes: MapMarkerType[];
+}
+type Functions = {
     handleArticleFrame: () => void;
     handleMapMarkerUpdate: () => void;
     handleSelectedMapMarkerChange: (mapMarker:MapMarker) => void;
     setSelectedMapMarker: (mapMarker:MapMarker) => void;
-    getMapMarkerType: (id:string) => MapMarkerType;
+}
+type Props = {
+    mapMarker: MapMarker;
+    offsetWorldMapFrame: {xOffset:number, yOffset:number};
+    isSelected:boolean;
+    isMovable:boolean;
     isOwner:boolean;
 }
-
-export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): React.ReactElement {
+type MapMarkerCardProps = {
+    data:Data;
+    functions:Functions;
+    props:Props;
+}
+export default function MapMarkerCard({data, functions, props}: Readonly<MapMarkerCardProps>): React.ReactElement {
     const mapMarkerSize={xSize: 80, ySize: 80};
     const [coordinates, setCoordinates] = useState({xPosition: 0, yPosition: 0});
     const nodeRef:React.MutableRefObject<null> = React.useRef(null);
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
-        if(!props.isMovable) props.handleSelectedMapMarkerChange(props.mapMarker);
+        if(!props.isMovable) functions.handleSelectedMapMarkerChange(props.mapMarker);
     }
 
     useEffect(() => {
@@ -41,7 +49,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
 
     function handleDrag(event: DraggableEvent, ui: DraggableData):void {
         event.preventDefault();
-        props.setSelectedMapMarker(
+        functions.setSelectedMapMarker(
             {...props.mapMarker,
                 xPosition: props.mapMarker.xPosition + ui.x,
                 yPosition: props.mapMarker.yPosition + ui.y
@@ -66,7 +74,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                         <MapMarkerIcon
                             isSelected={props.isSelected}
                             handleClick={handleClick}
-                            mapMarkerType={props.getMapMarkerType(props.mapMarker.markerTypeId)}
+                            mapMarkerType={getMapMarkerTypeById(props.mapMarker.markerTypeId, data.mapMarkerTypes)}
                         />
                     </strong>
                     </Draggable>
@@ -74,7 +82,7 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                     <MapMarkerIcon
                         isSelected={props.isSelected}
                         handleClick={handleClick}
-                        mapMarkerType={props.getMapMarkerType(props.mapMarker.markerTypeId)}
+                        mapMarkerType={getMapMarkerTypeById(props.mapMarker.markerTypeId, data.mapMarkerTypes)}
                     />
                 }
                 {props.isSelected &&
@@ -84,8 +92,8 @@ export default function MapMarkerCard(props: Readonly<MapMarkerCardProps>): Reac
                         </h2>
                         <ToolBar
                             isOwner={props.isOwner}
-                            handleMapMarkerUpdate={props.handleMapMarkerUpdate}
-                            handleArticleFrame={props.handleArticleFrame}
+                            handleMapMarkerUpdate={functions.handleMapMarkerUpdate}
+                            handleArticleFrame={functions.handleArticleFrame}
                         />
                     </>
                 }
