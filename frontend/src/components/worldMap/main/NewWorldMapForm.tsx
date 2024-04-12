@@ -42,7 +42,7 @@ export default function NewWorldMapForm(props:Readonly<NewWorldMapFormProps>):Re
     }
 
     return (
-        <main className={"newWorldMapForm"}>
+        <main>
             <h2>Neue Weltkarte anlegen</h2>
             <form onSubmit={handleSubmit}>
                 <div>
