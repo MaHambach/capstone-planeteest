@@ -31,12 +31,12 @@ export default function App():React.ReactElement {
 
     useEffect(() => {
         appUser && fetchArticles();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line
     }, [mapMarkers]);
 
     useEffect(() => {
         appUser && fetchObservedWorldMapIds();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line
     }, [worldMapInvites])
 
     useEffect(() => {
@@ -67,6 +67,7 @@ export default function App():React.ReactElement {
                         <Route path="/" element={
                             <WorldMapGallery
                                 data={{
+                                    // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                                     appUser: appUser,
                                     worldMaps: worldMaps
                                 }}
@@ -83,6 +84,7 @@ export default function App():React.ReactElement {
                         <Route path={"/worldmap/:id"} element={
                             <WorldMapMain
                                 data={{
+                                    // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                                     appUser: appUser,
                                     worldMaps: worldMaps,
                                     mapMarkers: mapMarkers,
@@ -103,6 +105,7 @@ export default function App():React.ReactElement {
                         <Route path={"/worldmap/:id/edit"} element={
                             <UpdateWorldMapForm
                                 data={{
+                                    // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                                     appUser: appUser,
                                     appUsers: appUsers,
                                     worldMaps: worldMaps,
@@ -122,6 +125,7 @@ export default function App():React.ReactElement {
                         <Route path={"/worldmap/mapMarker/:id"} element={
                             <MapMarkerGallery
                                 data={{
+                                    // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                                     appUser: appUser,
                                     mapMarkers: mapMarkers,
                                     mapMarkerTypes: mapMarkerTypes,
@@ -154,6 +158,7 @@ export default function App():React.ReactElement {
                         <Route path={"/user/:id"} element={
                             <UserDetails
                                 data={{
+                                    // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                                     appUser: appUser,
                                     appUsers: appUsers,
                                     worldMapInvites: worldMapInvites,
