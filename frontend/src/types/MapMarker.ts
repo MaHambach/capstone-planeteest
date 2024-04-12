@@ -7,7 +7,8 @@ export type MapMarker = {
     xPosition: number,
     yPosition: number,
     markerTypeId: string,
-    articleId: string,
+    playerArticleId: string,
+    gmArticleId: string,
     visibility: Visibility
 };
 
@@ -18,6 +19,7 @@ export const emptyMapMarker:MapMarker = {
     yPosition: 0,
     worldMapId: '',
     markerTypeId: '',
-    articleId: '',
+    playerArticleId: '',
+    gmArticleId: '',
     visibility: 'OWNER_ONLY'
 };
