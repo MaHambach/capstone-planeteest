@@ -14,7 +14,6 @@ type Functions = {
     closeMapMarkerCard: () => void;
     setSelectedMapMarker: (mapMarker:MapMarker) => void;
     setChangeMapMarkerPosition: (changeMapMarkerPosition:boolean) => void;
-    deleteArticle: (id:string) => void;
 }
 type Props = {
     mapMarker: MapMarker;
@@ -64,7 +63,7 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
         <DraggableSubWindow
             functions={{closeFrame: functions.closeMapMarkerCard}}
             props={{
-                title: props.mapMarker.name,
+                title: "MapMarker Update Window",
                 initialPosition: {
                     left:props.mapMarker.xPosition - 200,
                     top:props.mapMarker.yPosition,
@@ -84,11 +83,11 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
                 <div className={"mapMarkerUpdateDiv"}>
                     <label htmlFor={"markerTypeId"}>Typ: </label>
                     <select id={"markerTypeId"} name={"markerTypeId"} value={formData.markerTypeId}
-                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => props.setSelectedMapMarker({
+                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => functions.setSelectedMapMarker({
                                 ...formData,
                                 markerTypeId: e.target.value
                             })}>
-                        {props.mapMarkerTypes.map((mapMarkerType: MapMarkerType) => {
+                        {data.mapMarkerTypes.map((mapMarkerType: MapMarkerType) => {
                             return <option key={mapMarkerType.id}
                                            value={mapMarkerType.id}>
                                 {mapMarkerType.name}
