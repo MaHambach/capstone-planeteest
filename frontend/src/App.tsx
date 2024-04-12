@@ -63,7 +63,6 @@ export default function App():React.ReactElement {
                 <Route path={"/login"} element={
                     <LoginUserMain loginAppUser={loginAppUser} registerAppUser={registerAppUser}/>
                 }/>
-                {appUser &&
                     <Route element={<PrivateRoute appUser={appUser}/>}>
                         <Route path="/" element={
                             <WorldMapGallery
@@ -167,7 +166,6 @@ export default function App():React.ReactElement {
                             />
                         }/>
                     </Route>
-                }
             </Routes>
         </>
     )
