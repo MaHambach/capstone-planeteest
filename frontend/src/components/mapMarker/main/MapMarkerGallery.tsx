@@ -5,7 +5,7 @@ import {MapMarker} from "../../../types/MapMarker.ts";
 import MapMarkerListItem from "../parts/MapMarkerListItem.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {useParams} from "react-router-dom";
-import {Paper, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 
 type Data = {
     appUser: AppUser;
@@ -39,7 +39,7 @@ export default function MapMarkerGallery({data, functions}: Readonly<MapMarkerGa
     return (
         <main>
             <h2>{worldMap.name} - Map Marker Gallery</h2>
-            <TableContainer component={Paper}>
+            <Table>
                 <TableHead>
                     <TableRow>
                         <TableCell><b>Name</b></TableCell>
@@ -60,7 +60,7 @@ export default function MapMarkerGallery({data, functions}: Readonly<MapMarkerGa
                             />)
                 }
                 </TableBody>
-            </TableContainer>
+            </Table>
         </main>
     );
 }
