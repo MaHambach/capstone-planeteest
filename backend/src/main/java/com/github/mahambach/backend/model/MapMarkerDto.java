@@ -6,7 +6,8 @@ public record MapMarkerDto(
         int xPosition,
         int yPosition,
         String markerTypeId,
-        String articleId,
+        String playerArticleId,
+        String gmArticleId,
         Visibility visibility
 ) {
 }
