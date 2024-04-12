@@ -33,6 +33,12 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
         setAnchorEl(null);
     }
 
+    function handleNavigate(event:React.MouseEvent, path:string):void {
+        event.preventDefault();
+        navigate(path);
+        setAnchorEl(null);
+    }
+
     return (
         <>
             <Button
@@ -66,7 +72,7 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
                     horizontal: 'right',
                 }}
             >
-                <MenuItem onClick={() => navigate("/user/" + data.appUser.id)}>
+                <MenuItem onClick={(event) => handleNavigate(event,"/user/" + data.appUser.id)}>
                     <ListItemIcon>
                         <FaUserCircle />
                     </ListItemIcon>
@@ -74,7 +80,7 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
                         Profile
                     </ListItemText>
                 </MenuItem>
-                <MenuItem onClick={() => navigate("/")}>
+                <MenuItem onClick={(event) => handleNavigate(event,"/")}>
                     <ListItemIcon>
                         <FaMapMarkedAlt />
                     </ListItemIcon>
@@ -83,7 +89,7 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
                     </ListItemText>
                 </MenuItem>
                 {data.appUser.role === "ADMIN" &&
-                    <MenuItem onClick={() => navigate("/mapMarkerType")}>
+                    <MenuItem onClick={(event) => handleNavigate(event,"/mapMarkerType")}>
                         <ListItemIcon>
                             <BsGeoFill />
                         </ListItemIcon>

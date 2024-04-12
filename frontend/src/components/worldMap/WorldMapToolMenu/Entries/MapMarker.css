@@ -1,4 +1,4 @@
-.worldMapToolBarEntry, .worldMapToolBarEntry_selected {
+Button.worldMapToolBarEntry, Button.worldMapToolBarEntry_selected {
     display:flex;
     justify-content: center;
     align-items: center;
@@ -15,12 +15,15 @@
     border: 2px solid black;
 
     font-size: 40px;
+    color: black;
 }
 
-.worldMapToolBarEntry:hover {
+Button.worldMapToolBarEntry:hover {
     box-shadow: inset 0 0 20px cyan;
+    background: white;
 }
 
-.worldMapToolBarEntry_selected {
+Button.worldMapToolBarEntry_selected, Button.worldMapToolBarEntry_selected:hover {
     box-shadow: inset 0 0 20px cyan;
+    background: white;
 }

@@ -29,12 +29,14 @@ export default function UpdateMapMarkerType(props:Readonly<UpdateMapMarkerTypePr
     }
 
     return (
-        <ChangeMapMarkerType
-            handleSubmit={handleSubmit}
-            initialValue={props.getMapMarkerType(id)}
-            isDeleteAble={true}
-            handleDeleteMapMarkerType={handleDeleteMapMarkerType}
-            handleCancel={() => navigate('/mapMarkerType')}
-        />
+        <main>
+            <ChangeMapMarkerType
+                handleSubmit={handleSubmit}
+                initialValue={props.getMapMarkerType(id)}
+                isDeleteAble={true}
+                handleDeleteMapMarkerType={handleDeleteMapMarkerType}
+                handleCancel={() => navigate('/mapMarkerType')}
+            />
+        </main>
     )
 }

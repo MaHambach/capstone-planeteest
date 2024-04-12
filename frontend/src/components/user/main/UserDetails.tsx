@@ -2,7 +2,6 @@ import {AppUser} from "../../../types/AppUser.ts";
 import React from "react";
 import WorldMapInviteGallery from "../../worldMapInvite/part/WorldMapInviteGallery.tsx";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
-import {useNavigate} from "react-router-dom";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 import {WorldMap} from "../../../types/WorldMap.ts";
 
@@ -21,12 +20,10 @@ type UserDetailsProps = {
     functions: Functions;
 }
 export default function UserDetails({data, functions}:Readonly<UserDetailsProps>):React.ReactElement {
-    const navigate = useNavigate();
 
     return (
         <main>
             {data.appUser.username}
-            <button onClick={() => navigate("/")}>Zur Gallery</button>
             <div>
                 <WorldMapInviteGallery
                     props={{

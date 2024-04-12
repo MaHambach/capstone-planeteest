@@ -15,12 +15,14 @@ export default function AddMapMarkerType(props:Readonly<AddMapMarkerTypeProps>):
     }
 
     return (
-        <ChangeMapMarkerType
-            handleSubmit={handleSubmit}
-            initialValue={emptyMapMarkerTypeDto}
-            isDeleteAble={false}
-            handleDeleteMapMarkerType={() => {}}
-            handleCancel={() => navigate('/mapMarkerType')}
-        />
+        <main>
+            <ChangeMapMarkerType
+                handleSubmit={handleSubmit}
+                initialValue={emptyMapMarkerTypeDto}
+                isDeleteAble={false}
+                handleDeleteMapMarkerType={() => {}}
+                handleCancel={() => navigate('/mapMarkerType')}
+            />
+        </main>
     )
 }

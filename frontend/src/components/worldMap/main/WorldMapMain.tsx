@@ -6,7 +6,7 @@ import WorldMapImage from "../parts/WorldMapImage.tsx";
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import MapMarkerCard from "../../mapMarker/parts/MapMarkerCard.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
-import ToolBar from "../parts/WorldMapToolMenu/ToolBar.tsx";
+import ToolBar from "../WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 import {Article} from "../../../types/Article.ts";
 import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";

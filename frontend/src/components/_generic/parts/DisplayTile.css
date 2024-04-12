@@ -7,36 +7,45 @@
 
     transition: 0.2s;
     border: 2px solid black;
-    box-shadow: inset 0 0 20px black;
-
 }
 
 .displayTile:hover {
-    box-shadow: inset 0 0 20px rgb(19, 217, 227);
-    border: 2px solid rgb(19, 217, 227);
+    box-shadow: inset 0 0 20px cyan;
     transition: 0.2s;
 }
 
 
 .displayTile .name {
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-decoration: none;
     color: black;
 }
 
-.displayTile .displayTileButton{
+.displayTile Button.displayTileButton{
     border: none;
     background-color: transparent;
     transition: 0.2s;
 }
 
-.displayTile .displayTileButton_hover {
+.displayTile Button.displayTileButton_hover {
     border: none;
-    box-shadow: inset 0 0 20px rgb(19, 217, 227);
+    box-shadow: inset 0 0 20px cyan;
     transition: 0.2s;
 }
 
-.displayTile .propertiesButton {
+.displayTile Button.propertiesButton {
     position: absolute;
+    color: black;
     z-index: 20;
+    border: 2px solid black;
+    font-size: 1.5rem;
+}
+
+.displayTile Button.propertiesButton:hover {
+    position: absolute;
+    color: black;
+    z-index: 20;
+    border: 2px solid black;
+    font-size: 1.5rem;
+    box-shadow: inset 0 0 20px cyan;
 }
