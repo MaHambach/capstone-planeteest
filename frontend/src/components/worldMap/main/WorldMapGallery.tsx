@@ -3,14 +3,10 @@ import React from "react";
 import {emptyWorldMap, WorldMap} from "../../../types/WorldMap.ts";
 import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
-import {useNavigate} from "react-router-dom";
 
 type Data = {
     appUser: AppUser;
     worldMaps: WorldMap[];
-}
-type Functions = {
-    logoutAppUser: () => void;
 }
 type Props = {
     observedWorldMapIds: string[];
@@ -18,11 +14,9 @@ type Props = {
 
 type WorldMapGalleryProps = {
     data: Data,
-    functions: Functions
     props: Props,
 }
-export default function WorldMapGallery({data, functions, props}:Readonly<WorldMapGalleryProps>):React.ReactElement {
-    const navigate = useNavigate();
+export default function WorldMapGallery({data, props}:Readonly<WorldMapGalleryProps>):React.ReactElement {
 
     function getWorldMapById(worldMapId: string): WorldMap {
         const worldMapWithId: WorldMap | undefined = data.worldMaps.find((worldMap: WorldMap) => worldMap.id === worldMapId);
@@ -35,14 +29,6 @@ export default function WorldMapGallery({data, functions, props}:Readonly<WorldM
 
     return (
         <main className={"worldMapGallery"}>
-            <button onClick={functions.logoutAppUser}>Logout</button>
-            {data.appUser.role === "ADMIN" && <button onClick={() => {
-                navigate("/mapMarkerType")
-            }}>MapMarkerTypes</button>}
-            <button onClick={() => {
-                navigate("/user/" + data.appUser.id)
-            }}>UserDetails
-            </button>
             <h2>Meine Weltkarten</h2>
             <DisplayTileGallery
                 urlPrefix={"/worldmap/"}

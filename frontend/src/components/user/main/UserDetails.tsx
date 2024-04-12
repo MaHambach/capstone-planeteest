@@ -24,7 +24,7 @@ export default function UserDetails({data, functions}:Readonly<UserDetailsProps>
     const navigate = useNavigate();
 
     return (
-        <div>
+        <main>
             {data.appUser.username}
             <button onClick={() => navigate("/")}>Zur Gallery</button>
             <div>
@@ -45,6 +45,6 @@ export default function UserDetails({data, functions}:Readonly<UserDetailsProps>
                     functions={functions}
                 />
             </div>
-        </div>
+        </main>
     )
 }

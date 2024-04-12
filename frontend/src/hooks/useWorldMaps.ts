@@ -16,14 +16,6 @@ export default function useWorldMaps() {
             });
     }
 
-    function getWorldMapById(id:string):WorldMap {
-        const worldMapWithId:WorldMap | undefined = worldMaps.find((worldMap:WorldMap) => worldMap.id === id);
-
-        if(!worldMapWithId) console.error('Keine Weltkarte mit der ID ' + id + ' gefunden.');
-        else return worldMapWithId;
-        return {id: '', name: '', worldMapUrl: '', xSize: 0, ySize: 0};
-    }
-
     function saveWorldMap(newWorldMap:WorldMapDto):void {
         axios.post('/api/worldmaps', newWorldMap)
             .then((response) => {
@@ -60,7 +52,6 @@ export default function useWorldMaps() {
     return {
         worldMaps,
         fetchWorldMaps,
-        getWorldMapById,
         saveWorldMap,
         updateWorldMap,
         deleteWorldMap

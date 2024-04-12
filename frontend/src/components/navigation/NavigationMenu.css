@@ -1,0 +1,11 @@
+Button.navigationMenu {
+    position: fixed;
+    width: 50px;
+    height: 64px;
+    top: 10px;
+    right: 10px;
+    background-color: white;
+    font-size: 38px;
+    padding: 0;
+    border: 2px solid black;
+}

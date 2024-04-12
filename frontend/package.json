@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
     "@tiptap/extension-color": "^2.2.4",
     "@tiptap/extension-paragraph": "^2.2.4",
     "@tiptap/extension-text-style": "^2.2.4",
