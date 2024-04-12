@@ -51,7 +51,7 @@ export default function ChangeMapMarkerType (props:Readonly<ChangeMapMarkerTypeP
     }
 
     return (
-        <main className={"changeMapMarkerType"}>
+        <div className={"changeMapMarkerType"}>
             <div className={"changeMapMarkerTypeTop"}>
                 <form className={"addMapMarkerTypeForm"} onSubmit={handleSubmit}>
                     <div>
@@ -90,6 +90,6 @@ export default function ChangeMapMarkerType (props:Readonly<ChangeMapMarkerTypeP
                     <MapMarkerTypeColorGallery colorList={mapMarkerTypeColorList} setColor={handleChangeFilterColor}/>
                 </div>
             </div>
-        </main>
+        </div>
     )
 }
