@@ -90,13 +90,16 @@ export default function ArticleWindow({props, functions}:Readonly<ArticleWindowP
 
     return (
         <DraggableSubWindow
-            closeFrame={functions.closeWindow}
-            initialPosition={{
-                left: props.coordinates.x + 170,
-                top: props.coordinates.y,
-                width: 400,
-                height: 300
-            }}
+            functions={{closeFrame: functions.closeWindow}}
+            props={{
+                title: props.title,
+                initialPosition: {
+                    left: props.coordinates.x,
+                    top: props.coordinates.y,
+                    width: 600,
+                    height: 400
+                }
+        }}
         >
             <span><b>{props.title}</b></span>
             <Box className={"tabBox"} sx={{borderBottom: 1, borderColor: 'divider'}}>

@@ -3,9 +3,10 @@ import React from "react";
 import HeaderDraggableFrame from "./HeaderDraggableFrame.tsx";
 import Draggable from "react-draggable";
 
-type DraggableSubWindowProps = {
-    children: React.ReactNode;
+type Functions = {
     closeFrame: () => void;
+}
+type Props = {
     initialPosition:
         {
             left:number,
@@ -13,9 +14,15 @@ type DraggableSubWindowProps = {
             width:number,
             height:number
         };
+    title: string;
+}
+type DraggableSubWindowProps = {
+    props: Props;
+    functions: Functions;
+    children: React.ReactNode;
 }
 
-export default function DraggableSubWindow(props:Readonly<DraggableSubWindowProps>):React.ReactElement {
+export default function DraggableSubWindow({children, functions, props}:Readonly<DraggableSubWindowProps>):React.ReactElement {
     const nodeRef:React.MutableRefObject<null> = React.useRef(null);
 
     return (
@@ -33,9 +40,12 @@ export default function DraggableSubWindow(props:Readonly<DraggableSubWindowProp
                     height: props.initialPosition.height
                 }}
             >
-                <HeaderDraggableFrame closeWindow={props.closeFrame} nodeRef={nodeRef} />
+                <HeaderDraggableFrame
+                    functions={{closeWindow: functions.closeFrame}}
+                    props={{title: props.title, nodeRef: nodeRef}}
+                />
                 <div className={"draggableSubWindowBody"}>
-                    {props.children}
+                    {children}
                 </div>
             </div>
         </Draggable>

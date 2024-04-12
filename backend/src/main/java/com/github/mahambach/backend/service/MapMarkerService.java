@@ -47,6 +47,8 @@ public class MapMarkerService {
     public MapMarker deleteMapMarkerById(String mapMarkerId) {
         MapMarker mapMarker = getMapMarkerById(mapMarkerId);
         mapMarkerRepo.deleteById(mapMarkerId);
+        articleService.deleteArticleById(mapMarker.playerArticleId());
+        articleService.deleteArticleById(mapMarker.gmArticleId());
         return mapMarker;
     }
 

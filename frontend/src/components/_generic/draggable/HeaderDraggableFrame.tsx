@@ -1,6 +1,7 @@
 import './HeaderDraggableFrame.css'
 import React from "react";
-import {Typography} from "@mui/material";
+import Typography from '@mui/joy/Typography';
+
 
 
 type Functions = {

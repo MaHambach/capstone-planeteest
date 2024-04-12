@@ -5,9 +5,10 @@ import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx"
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {GiPadlock, GiPadlockOpen} from "react-icons/gi";
 
-type MapMarkerUpdateWindowProps = {
-    mapMarker: MapMarker;
+type Data = {
     mapMarkerTypes: MapMarkerType[];
+}
+type Functions = {
     updateMapMarker: () => void;
     deleteMapMarker: (id:string) => void;
     closeMapMarkerCard: () => void;
@@ -15,7 +16,15 @@ type MapMarkerUpdateWindowProps = {
     setChangeMapMarkerPosition: (changeMapMarkerPosition:boolean) => void;
     deleteArticle: (id:string) => void;
 }
-export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWindowProps>):React.ReactElement {
+type Props = {
+    mapMarker: MapMarker;
+}
+type MapMarkerUpdateWindowProps = {
+    data: Data;
+    functions: Functions;
+    props: Props;
+}
+export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<MapMarkerUpdateWindowProps>):React.ReactElement {
     const [formData, setFormData] = useState<MapMarker>(emptyMapMarker);
     const [changingPosition, setChangingPosition] = useState<boolean>(false);
 
@@ -24,7 +33,7 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
     }, [props]);
 
     function handleChangeInput(event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>):void {
-        props.setSelectedMapMarker(
+        functions.setSelectedMapMarker(
             {
                 ...formData,
                 [event.target.name]: event.target.value
@@ -35,31 +44,33 @@ export default function MapMarkerUpdateWindow(props:Readonly<MapMarkerUpdateWind
     function toggleChangingPosition(event: React.MouseEvent<HTMLElement>):void {
         event.preventDefault();
         setChangingPosition(!changingPosition);
-        props.setChangeMapMarkerPosition(!changingPosition);
+        functions.setChangeMapMarkerPosition(!changingPosition);
     }
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-        props.updateMapMarker();
-        props.closeMapMarkerCard();
+        functions.updateMapMarker();
+        functions.closeMapMarkerCard();
     }
 
     function handleDeleteMapMarker():void {
         if (window.confirm("Möchten Sie diesen MapMarker und seinen zugehörigen Artikel wirklich löschen?")) {
-            props.deleteMapMarker(formData.id);
-            props.deleteArticle(formData.articleId);
-            props.closeMapMarkerCard();
+            functions.deleteMapMarker(formData.id);
+            functions.closeMapMarkerCard();
         }
     }
 
     return (
         <DraggableSubWindow
-            closeFrame={props.closeMapMarkerCard}
-            initialPosition={{
-                left:props.mapMarker.xPosition - 200,
-                top:props.mapMarker.yPosition,
-                width:200,
-                height:200
+            functions={{closeFrame: functions.closeMapMarkerCard}}
+            props={{
+                title: props.mapMarker.name,
+                initialPosition: {
+                    left:props.mapMarker.xPosition - 200,
+                    top:props.mapMarker.yPosition,
+                    width:200,
+                    height:200
+                }
             }}
         >
             <form className={"mapMarkerUpdateWindow"} onSubmit={handleSubmit}>
