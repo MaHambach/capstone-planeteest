@@ -18,6 +18,7 @@ import useWorldMapInvite from "./hooks/useWorldMapInvite.ts";
 import UserDetails from "./components/user/main/UserDetails.tsx";
 import {useObservedWorldMapIds} from "./hooks/useObservedWorldMaps.ts";
 import NavigationMenu from "./components/navigation/NavigationMenu.tsx";
+import MapMarkerGallery from "./components/mapMarker/main/MapMarkerGallery.tsx";
 
 export default function App():React.ReactElement {
     const {appUser, appUsers, fetchAllObserversOfWorldmap, removeObserverFromWorldMap, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
@@ -62,99 +63,109 @@ export default function App():React.ReactElement {
                 <Route path={"/login"} element={
                     <LoginUserMain loginAppUser={loginAppUser} registerAppUser={registerAppUser}/>
                 }/>
-                <Route element={<PrivateRoute appUser={appUser}/>}>
-                    <Route path="/" element={
-                        <WorldMapGallery
-                            data={{
-                                // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
-                                appUser: appUser,
-                                worldMaps: worldMaps
-                            }}
-                            props={{
-                                observedWorldMapIds: observedWorldMapIds
-                            }}
-                        />
-                    }/>
-                    <Route path={"/worldmap/add"} element={
-                        <NewWorldMapForm
-                            saveWorldMap={saveWorldMap}
-                        />
-                    }/>
-                    <Route path={"/worldmap/:id"} element={
-                        <WorldMapMain
-                            data={{
-                                // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
-                                appUser: appUser,
-                                worldMaps: worldMaps,
-                                mapMarkers: mapMarkers,
-                                mapMarkerTypes: mapMarkerTypes,
-                                articles: articles
-                            }}
-                            functions={{
-                                saveMapMarker: saveMapMarker,
-                                updateMapMarker: updateMapMarker,
-                                deleteMapMarker: deleteMapMarker,
-                                getMapMarkerType: getMapMarkerTypeById,
-                                getArticleById: getArticleById,
-                                updateArticle: updateArticle,
-                                deleteArticle: deleteArticle
-                            }}
-                        />
-                    }/>
-                    <Route path={"/worldmap/:id/edit"} element={
-                        <UpdateWorldMapForm
-                            data={{
-                                // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
-                                appUser: appUser,
-                                appUsers: appUsers,
-                                worldMaps: worldMaps,
-                                worldMapInvites: worldMapInvites
-                            }}
-                            functions={{
-                                updateWorldMap: updateWorldMap,
-                                deleteWorldMap: deleteWorldMap,
-                                acceptWorldMapInvite: acceptWorldMapInvite,
-                                saveWorldMapInvite: saveWorldMapInvite,
-                                deleteWorldMapInvite: deleteWorldMapInvite,
-                                removeObserverFromWorldMap: removeObserverFromWorldMap,
-                                fetchAllObserversOfWorldmap: fetchAllObserversOfWorldmap
-                            }}
-                        />
-                    }/>
+                    <Route element={<PrivateRoute appUser={appUser}/>}>
+                        <Route path="/" element={
+                            <WorldMapGallery
+                                data={{
+                                    appUser: appUser,
+                                    worldMaps: worldMaps
+                                }}
+                                props={{
+                                    observedWorldMapIds: observedWorldMapIds
+                                }}
+                            />
+                        }/>
+                        <Route path={"/worldmap/add"} element={
+                            <NewWorldMapForm
+                                saveWorldMap={saveWorldMap}
+                            />
+                        }/>
+                        <Route path={"/worldmap/:id"} element={
+                            <WorldMapMain
+                                data={{
+                                    appUser: appUser,
+                                    worldMaps: worldMaps,
+                                    mapMarkers: mapMarkers,
+                                    mapMarkerTypes: mapMarkerTypes,
+                                    articles: articles
+                                }}
+                                functions={{
+                                    saveMapMarker: saveMapMarker,
+                                    updateMapMarker: updateMapMarker,
+                                    deleteMapMarker: deleteMapMarker,
+                                    getMapMarkerType: getMapMarkerTypeById,
+                                    getArticleById: getArticleById,
+                                    updateArticle: updateArticle,
+                                    deleteArticle: deleteArticle
+                                }}
+                            />
+                        }/>
+                        <Route path={"/worldmap/:id/edit"} element={
+                            <UpdateWorldMapForm
+                                data={{
+                                    appUser: appUser,
+                                    appUsers: appUsers,
+                                    worldMaps: worldMaps,
+                                    worldMapInvites: worldMapInvites
+                                }}
+                                functions={{
+                                    updateWorldMap: updateWorldMap,
+                                    deleteWorldMap: deleteWorldMap,
+                                    acceptWorldMapInvite: acceptWorldMapInvite,
+                                    saveWorldMapInvite: saveWorldMapInvite,
+                                    deleteWorldMapInvite: deleteWorldMapInvite,
+                                    removeObserverFromWorldMap: removeObserverFromWorldMap,
+                                    fetchAllObserversOfWorldmap: fetchAllObserversOfWorldmap
+                                }}
+                            />
+                        }/>
+                        <Route path={"/worldmap/mapMarker/:id"} element={
+                            <MapMarkerGallery
+                                data={{
+                                    appUser: appUser,
+                                    mapMarkers: mapMarkers,
+                                    mapMarkerTypes: mapMarkerTypes,
+                                    worldMaps: worldMaps
+                                }}
+                                functions={{
+                                    updateMapMarker: updateMapMarker
+                                }}
+                            />
+                        }/>
 
-                    <Route path={"/mapMarkerType"} element={
-                        <MapMarkerTypeGallery
-                            mapMarkerTypes={mapMarkerTypes}
-                        />
-                    }/>
-                    <Route path={"/mapMarkerType/add"} element={
-                        <AddMapMarkerType
-                            saveMapMarkerType={saveMapMarkerType}
-                        />
-                    }/>
-                    <Route path={"/mapMarkerType/:id/edit"} element={
-                        <UpdateMapMarkerType
-                            updateMapMarkerType={updateMapMarkerType}
-                            getMapMarkerType={getMapMarkerTypeById}
-                            deleteMapMarkerType={deleteMapMarkerType}
-                        />
-                    }/>
-                    <Route path={"/user/:id"} element={
-                        <UserDetails
-                            data={{
-                                // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
-                                appUser: appUser,
-                                appUsers: appUsers,
-                                worldMapInvites: worldMapInvites,
-                                worldMaps: worldMaps
-                            }}
-                            functions={{
-                                acceptWorldMapInvite: acceptWorldMapInvite,
-                                deleteWorldMapInvite: deleteWorldMapInvite
-                            }}
-                        />
-                    }/>
-                </Route>
+                        <Route path={"/mapMarkerType"} element={
+                            <MapMarkerTypeGallery
+                                mapMarkerTypes={mapMarkerTypes}
+                            />
+                        }/>
+                        <Route path={"/mapMarkerType/add"} element={
+                            <AddMapMarkerType
+                                saveMapMarkerType={saveMapMarkerType}
+                            />
+                        }/>
+                        <Route path={"/mapMarkerType/:id/edit"} element={
+                            <UpdateMapMarkerType
+                                updateMapMarkerType={updateMapMarkerType}
+                                getMapMarkerType={getMapMarkerTypeById}
+                                deleteMapMarkerType={deleteMapMarkerType}
+                            />
+                        }/>
+
+                        <Route path={"/user/:id"} element={
+                            <UserDetails
+                                data={{
+                                    appUser: appUser,
+                                    appUsers: appUsers,
+                                    worldMapInvites: worldMapInvites,
+                                    worldMaps: worldMaps
+                                }}
+                                functions={{
+                                    acceptWorldMapInvite: acceptWorldMapInvite,
+                                    deleteWorldMapInvite: deleteWorldMapInvite
+                                }}
+                            />
+                        }/>
+                    </Route>
             </Routes>
         </>
     )

@@ -1,0 +1,40 @@
+.mapMarkerListItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mapMarkerListItem button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+.mapMarkerListItem .icon {
+    height: 30px;
+    width: 30px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    font-size: 28px;
+}
+
+.mapMarkerListItem .visibleIsOwnerOnly_everyone,
+.mapMarkerListItem .visibleIsEveryone_ownerOnly {
+    background-color: darkgray;
+}
+
+.mapMarkerListItem .visibleIsOwnerOnly_ownerOnly,
+.mapMarkerListItem .visibleIsEveryone_everyone {
+    background-color: lawngreen;
+}
