@@ -84,7 +84,6 @@ export default function ArticleWindow({props, functions}:Readonly<ArticleWindowP
     }
 
     function setFormContent(content:string):Article {
-        console.log("Received: "+content);
         formData.content = content;
         return formData;
     }
@@ -95,8 +94,8 @@ export default function ArticleWindow({props, functions}:Readonly<ArticleWindowP
             initialPosition={{
                 left: props.coordinates.x + 170,
                 top: props.coordinates.y,
-                width: 640,
-                height: 480
+                width: 400,
+                height: 300
             }}
         >
             <span><b>{props.title}</b></span>

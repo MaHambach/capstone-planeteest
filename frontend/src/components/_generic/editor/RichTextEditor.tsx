@@ -7,6 +7,7 @@ import StarterKit from '@tiptap/starter-kit'
 import React from 'react'
 import EditorToolBar from "./toolBar/EditorToolBar.tsx";
 import Underline from '@tiptap/extension-underline'
+import {Paper} from "@mui/material";
 
 
 
@@ -45,11 +46,11 @@ export default function RichTextEditor(props:Readonly<RichTextEditorProps>):Reac
     )
 
     return (
-        <div className={"richTextEditor"}>
+        <Paper sx={{height: "100%"}} className={"textWindow"}>
             <EditorToolBar editor={editor}/>
-            <div className={"textWindow"}>
-                <EditorContent editor={editor} />
-            </div>
-        </div>
+            <Paper sx={{height: "calc(100% - 46px)"}} className={"richTextEditor"}>
+                <EditorContent editor={editor} className={"editorContent"}/>
+            </Paper>
+        </Paper>
     )
 }

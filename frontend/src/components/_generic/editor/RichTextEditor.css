@@ -1,7 +1,18 @@
 /* Basic editor styles */
+.richTextEditor .editorContent {
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+
+}
+
+.richTextEditor .editorContent .ProseMirror {
+    height: 100%;
+    padding: 1px;
+    margin: -1px;
+    overflow-y: auto;
+}
 .richTextEditor {
-    padding: 0 10px;
-    overflow: scroll;
     overflow-x: hidden;
 }
 
