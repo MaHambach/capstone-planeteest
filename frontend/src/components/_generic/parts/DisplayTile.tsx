@@ -2,6 +2,7 @@ import "./DisplayTile.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {BsFillGearFill} from "react-icons/bs";
+import {Button} from "@mui/material";
 
 type DisplayTileProps = {
     name: string;
@@ -40,15 +41,15 @@ export default function DisplayTile(props:Readonly<DisplayTileProps>):React.Reac
     const propertiesButtonStyle = {
         width: props.tileSize/5,
         height: props.tileSize/5,
-        top: 4 * props.tileSize / 5 -5,
-        left: 4 * props.tileSize / 5 -5,
+        top: 10,
+        right: 10,
         backgroundColor: "white"
     }
 
     return (
         <div className={"displayTile"}
         >
-            <button
+            <Button
                 className={isHovered ? "displayTileButton_hover" : "displayTileButton"}
                 onClick={() => navigate(props.url)}
                 style={displayTileStyle}
@@ -61,9 +62,9 @@ export default function DisplayTile(props:Readonly<DisplayTileProps>):React.Reac
                 {props.image && <img className={"characterCard_Image"} src={props.image} alt={""}/>}
                 <div className={"overlay"}></div>
 
-            </button>
+            </Button>
             {(isHovered && props.updateUrl) &&
-                <button className={"propertiesButton"}
+                <Button className={"propertiesButton"}
                         style={propertiesButtonStyle}
                         onClick={() => {if(props.updateUrl) navigate(props.updateUrl)}}
                         onMouseOver={handleMouseOver}
@@ -71,7 +72,7 @@ export default function DisplayTile(props:Readonly<DisplayTileProps>):React.Reac
                         onFocus={handleMouseOver}
                         onBlur={handleMouseOut}>
                     <BsFillGearFill />
-                </button>}
+                </Button>}
         </div>
     )
 }
