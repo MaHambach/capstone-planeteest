@@ -1,6 +1,7 @@
 import './HeaderDraggableFrame.css'
 import React from "react";
 import Typography from '@mui/joy/Typography';
+import {IoMdClose} from "react-icons/io";
 
 
 
@@ -21,7 +22,7 @@ export default function HeaderDraggableFrame({functions, props}:Readonly<SubWind
         <strong ref={props.nodeRef}>
             <div className={"headerDraggableFrame"}>
                 <Typography color="primary" level={"h4"} variant={"solid"}>{props.title}</Typography>
-                <button className={"closeWindowButton"} onClick={functions.closeWindow}>x</button>
+                <button className={"closeWindowButton"} onClick={functions.closeWindow}><IoMdClose /></button>
             </div>
         </strong>
     )
