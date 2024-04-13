@@ -49,7 +49,7 @@ export default function RichTextEditor(props:Readonly<RichTextEditorProps>):Reac
     return (
         <FormControl sx={{height: "100%"}} className={"textWindow"}>
             <EditorToolBar editor={editor}/>
-            <Paper sx={{height: "calc(100% - 41px)"}} className={"richTextEditor"}>
+            <Paper sx={{height: "calc(100% - 37px)"}} className={"richTextEditor"}>
                 <EditorContent editor={editor} className={"editorContent"}/>
             </Paper>
         </FormControl>
