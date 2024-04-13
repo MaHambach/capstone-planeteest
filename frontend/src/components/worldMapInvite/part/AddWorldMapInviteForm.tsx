@@ -66,12 +66,10 @@ export default function AddWorldMapInviteForm({props, functions}:Readonly<AddWor
 
     return (
         <DraggableSubWindow
-            closeFrame={functions.closeAddWorldMapInviteForm}
-            initialPosition={{
-                left:200,
-                top:200,
-                width:200,
-                height:200
+            functions={{closeFrame: functions.closeAddWorldMapInviteForm}}
+            props={{
+                initialPosition: {left:200, top:200, width:200, height:200},
+                title: "Einladung erstellen"
             }}
         >
             <form className={"addWorldMapInviteForm"} onSubmit={handleSubmit}>
@@ -94,7 +92,7 @@ export default function AddWorldMapInviteForm({props, functions}:Readonly<AddWor
                         <span>Keine Einladungen möglich</span>
                     }
                 </div>
-                {possibleInvitees.length ? <button type={"submit"}>Save</button> : null}
+                {possibleInvitees.length ? <button type={"submit"}>Einladen</button> : null}
                 <button onClick={functions.closeAddWorldMapInviteForm}>Abbrechen</button>
             </form>
         </DraggableSubWindow>
