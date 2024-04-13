@@ -4,7 +4,7 @@ import {Article} from "../../../types/Article.ts";
 import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
 import React from "react";
 import parser from "html-react-parser";
-import {Paper} from "@mui/material";
+import {Sheet} from "@mui/joy";
 
 type ArticleDetailsCardProps = {
     article:Article;
@@ -13,8 +13,8 @@ type ArticleDetailsCardProps = {
 export default function ArticleCard(props:Readonly<ArticleDetailsCardProps>):React.ReactElement {
 
     return (
-        <div className={"articleCard"}>
-            <Paper sx={{height: "100%"}} className={"richTextEditor"}>{parser(props.article.content)}</Paper>
+        <Sheet className={"articleCard"}>
+            <Sheet sx={{height: "100%"}} className={"richTextEditor"}>{parser(props.article.content)}</Sheet>
             {props.article.npcIds.length > 0 &&
                 <DisplayTileGallery
                     urlPrefix={"/npc/"}
@@ -26,6 +26,6 @@ export default function ArticleCard(props:Readonly<ArticleDetailsCardProps>):Rea
                     addNewUrl={"/npc/new"}
                     tileSize={100}
                 />}
-        </div>
+        </Sheet>
     )
 }
