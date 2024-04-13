@@ -1,6 +1,7 @@
 import React from "react";
 import {FaBold, FaItalic, FaStrikethrough, FaUnderline} from "react-icons/fa";
 import {Editor} from "@tiptap/react";
+import {IconButton} from "@mui/joy";
 
 type FormatPluginProps = {
     editor: Editor | null;
@@ -14,7 +15,7 @@ export default function FormatToolBarPlugin({editor}:Readonly<FormatPluginProps>
 
     return (
         <>
-            <button
+            <IconButton
                 onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleBold().run();
@@ -29,8 +30,8 @@ export default function FormatToolBarPlugin({editor}:Readonly<FormatPluginProps>
                 className={editor.isActive('bold') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
             >
                 <FaBold/>
-            </button>
-            <button
+            </IconButton>
+            <IconButton
                 onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleItalic().run();
@@ -45,8 +46,8 @@ export default function FormatToolBarPlugin({editor}:Readonly<FormatPluginProps>
                 className={editor.isActive('italic') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
             >
                 <FaItalic/>
-            </button>
-            <button
+            </IconButton>
+            <IconButton
                 onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleUnderline().run();
@@ -61,8 +62,8 @@ export default function FormatToolBarPlugin({editor}:Readonly<FormatPluginProps>
                 className={editor.isActive('underline') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
             >
                 <FaUnderline/>
-            </button>
-            <button
+            </IconButton>
+            <IconButton
                 onClick={(event: React.MouseEvent) => {
                     event.preventDefault();
                     editor.chain().focus().toggleStrike().run()
@@ -77,7 +78,7 @@ export default function FormatToolBarPlugin({editor}:Readonly<FormatPluginProps>
                 className={editor.isActive('strike') ? 'editorToolBarButton is-active' : 'editorToolBarButton'}
             >
                 <FaStrikethrough/>
-            </button>
+            </IconButton>
         </>
     )
 }

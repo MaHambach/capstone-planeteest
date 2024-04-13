@@ -45,12 +45,10 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
 
     return (
         <DraggableSubWindow
-            closeFrame={props.closeAddMapMarkerForm}
-            initialPosition={{
-                left:200,
-                top:200,
-                width:200,
-                height:200
+            functions={{closeFrame: props.closeAddMapMarkerForm}}
+            props={{
+                initialPosition: {left:200, top:200, width:200, height:200},
+                title: "Neuer MapMarker"
             }}
         >
             <form className={"addMapMarkerForm"} onSubmit={handleSubmit}>

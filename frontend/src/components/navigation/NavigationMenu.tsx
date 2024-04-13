@@ -52,9 +52,6 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
             >
                 <MdMenuBook />
             </Button>
-            <Button>
-
-            </Button>
             <Menu
                 id={"navigation-menu"}
                 anchorEl={anchorEl}
