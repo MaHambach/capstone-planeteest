@@ -53,7 +53,7 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
     }
 
     function handleDeleteMapMarker():void {
-        if (window.confirm("Möchten Sie diesen MapMarker und seinen zugehörigen Artikel wirklich löschen?")) {
+        if (window.confirm("Möchten Sie diesen MapMarker und seine zugehörigen Artikel wirklich löschen?")) {
             functions.deleteMapMarker(formData.id);
             functions.closeMapMarkerCard();
         }
@@ -63,12 +63,12 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
         <DraggableSubWindow
             functions={{closeFrame: functions.closeMapMarkerCard}}
             props={{
-                title: "MapMarker Update",
+                title: "Update MapMarker",
                 initialPosition: {
-                    left:props.mapMarker.xPosition - 200,
+                    left:props.mapMarker.xPosition - 150,
                     top:props.mapMarker.yPosition,
-                    width:200,
-                    height:200
+                    width:300,
+                    height:300
                 }
             }}
         >
