@@ -1,10 +1,13 @@
+import "./AddMapMarkerForm.css";
 import React, {FormEvent, useEffect, useState} from "react";
 import {emptyMapMarkerDto, MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {MdVisibility, MdVisibilityOff} from "react-icons/md";
 import IconSwitch from "../../_generic/parts/IconSwitch.tsx";
-import {Sheet} from "@mui/joy";
+import MapMarkerTypeSelect from "../../mapMarkerType/part/MapMarkerTypeSelect.tsx";
+import {Button, Table, TableBody, TableCell, TableContainer, TableRow} from "@mui/material";
+import {Input, Sheet, styled} from "@mui/joy";
 
 type AddMapMarkerFormProps = {
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
@@ -14,6 +17,10 @@ type AddMapMarkerFormProps = {
     closeAddMapMarkerForm: () => void;
     mapMarkerTypes: MapMarkerType[];
 }
+
+const StyledTableCell = styled(TableCell)({
+    padding: "4px 8px 4px 8px",
+})
 
 export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):React.ReactElement {
     const [formData, setFormData] = useState(emptyMapMarkerDto);
@@ -43,6 +50,17 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
         )
     }
 
+    function setMapMarkerTypeId(mapMarkerTypeId:string):void {
+        console.log(mapMarkerTypeId);
+        setFormData(
+            {
+                ...formData,
+                markerTypeId: mapMarkerTypeId
+            }
+        );
+
+    }
+
     useEffect(() => {
         setFormData(
             {
@@ -60,50 +78,62 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
         <DraggableSubWindow
             functions={{closeFrame: props.closeAddMapMarkerForm}}
             props={{
-                initialPosition: {left:100, top:100, width:200, height:200},
+                initialPosition: {left:100, top:100, width:250, height:186},
                 title: "Neuer MapMarker"
             }}
         >
             <form className={"addMapMarkerForm"} onSubmit={handleSubmit}>
-                <Sheet>
-                    <label htmlFor={"name"}>Name:</label>
-                    <input id={"name"} name={"name"} type={"text"} value={formData.name} onChange={handleChangeInput}/>
-                </Sheet>
-                <Sheet className={"mapMarkerUpdateDiv"}>
-                    <label htmlFor={"markerTypeId"}>Typ: </label>
-                    <select id={"markerTypeId"} name={"markerTypeId"} value={formData.markerTypeId} onChange={handleChangeInput}>
-                        {props.mapMarkerTypes.map((mapMarkerType: MapMarkerType) => {
-                            return (
-                                <option key={mapMarkerType.id}
-                                        value={mapMarkerType.id}>
-                                    {mapMarkerType.name}
-                                </option>
-                            )
-                        })}
-                    </select>
-                </Sheet>
-                <Sheet className={"mapMarkerUpdateDiv"}>
-                    <label htmlFor={"Visibility"}>Sichtbarkeit: </label>
-                    <IconSwitch
-                        data={{
-                            tooltipLeft:"Sichtbar für mich",
-                            tooltipRight:"Sichtbar für alle",
-                            name: "visibility",
-                            valueLeft: "OWNER_ONLY",
-                            valueRight: "OWNER_AND_OBSERVERS"
-                        }}
-                        functions={{
-                            onClick: setMapMarkerVisibility
-                        }}
-                        props={{
-                            iconLeft:<MdVisibilityOff/>,
-                            iconRight:<MdVisibility/>,
-
-                    }}/>
-                </Sheet>
-                <Sheet>
-                    <button type={"submit"}>Speichern</button>
-                </Sheet>
+                <TableContainer component={Sheet}>
+                    <Table>
+                        <TableBody>
+                            <TableRow>
+                                <StyledTableCell align={"center"} colSpan={2}>
+                                    <Input
+                                        id={"name"}
+                                        name={"name"}
+                                        type={"text"}
+                                        value={formData.name}
+                                        onChange={handleChangeInput}
+                                        placeholder={"Name"}
+                                    />
+                                </StyledTableCell>
+                            </TableRow>
+                            <TableRow>
+                                <StyledTableCell align={"center"}>
+                                    <MapMarkerTypeSelect
+                                        data={{mapMarkerTypes: props.mapMarkerTypes}}
+                                        functions={{onClick: setMapMarkerTypeId}}
+                                        props={{value: props.mapMarkerTypes[0].id}}
+                                    />
+                                </StyledTableCell>
+                                <StyledTableCell align={"center"}>
+                                    <IconSwitch
+                                        data={{
+                                            tooltipLeft:"Sichtbar für mich",
+                                            tooltipRight:"Sichtbar für alle",
+                                            name: "visibility",
+                                            valueLeft: "OWNER_ONLY",
+                                            valueRight: "OWNER_AND_OBSERVERS"
+                                        }}
+                                        functions={{
+                                            onClick: setMapMarkerVisibility
+                                        }}
+                                        props={{
+                                            iconLeft:<MdVisibilityOff/>,
+                                            iconRight:<MdVisibility/>,
+                                    }}/>
+                                </StyledTableCell>
+                            </TableRow>
+                            <TableRow>
+                                <StyledTableCell>
+                                </StyledTableCell>
+                                <StyledTableCell align={"right"}>
+                                    <Button type={"submit"}>Speichern</Button>
+                                </StyledTableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </form>
         </DraggableSubWindow>
     )

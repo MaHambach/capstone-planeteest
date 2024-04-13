@@ -65,7 +65,7 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
             props={{
                 title: "Update MapMarker",
                 initialPosition: {
-                    left:props.mapMarker.xPosition - 150,
+                    left:props.mapMarker.xPosition - 250,
                     top:props.mapMarker.yPosition,
                     width:300,
                     height:300

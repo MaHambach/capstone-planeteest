@@ -35,7 +35,7 @@ export default function IconSwitch({data, functions, props}:Readonly<IconSwitchP
                 className={"iconSwitch"}
                 name={data.name}
         >
-            <Tooltip title={data.tooltipLeft} placement={"top"} arrow>
+            <Tooltip title={data.tooltipLeft} placement={"bottom"} arrow>
                 <div
                     className={isOn ?
                         "iconSwitchIcon iconSwitchIconLeft_isOn" :
@@ -43,7 +43,7 @@ export default function IconSwitch({data, functions, props}:Readonly<IconSwitchP
                     {props.iconLeft}
                 </div>
             </Tooltip>
-            <Tooltip title={data.tooltipLeft} placement={"top"} arrow>
+            <Tooltip title={data.tooltipRight} placement={"bottom"} arrow>
                 <div
                     className={isOn ?
                         "iconSwitchIcon iconSwitchIconRight_isOn" :
