@@ -12,7 +12,7 @@ type MapMarkerIconProps = {
 export default function MapMarkerIcon(props: Readonly<MapMarkerIconProps>): React.ReactElement {
     const isSelectedStyle = {
         filter: "drop-shadow(0 0 4px " + props.mapMarkerType.color + ")",
-        "border-radius": "50px",
+        "borderRadius": "50px",
         "boxShadow": "inset 0 0 10px " + props.mapMarkerType.color,
         "zIndex": "20"
     }
