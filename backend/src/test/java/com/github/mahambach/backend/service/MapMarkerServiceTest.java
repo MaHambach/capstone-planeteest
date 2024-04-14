@@ -204,7 +204,9 @@ class MapMarkerServiceTest {
         assertEquals(expected, actual);
         verify(mapMarkerRepo).findById(expected.id());
         verify(mapMarkerRepo).deleteById(expected.id());
-        verifyNoInteractions(articleService);
+        verify(articleService).deleteArticleById(expected.playerArticleId());
+        verify(articleService).deleteArticleById(expected.gmArticleId());
+        verifyNoMoreInteractions(articleService);
         verifyNoMoreInteractions(mapMarkerRepo);
     }
 
