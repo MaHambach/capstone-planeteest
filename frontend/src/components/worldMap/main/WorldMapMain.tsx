@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import {emptyWorldMap, WorldMap} from "../../../types/WorldMap.ts";
 import WorldMapImage from "../parts/WorldMapImage.tsx";
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
-import MapMarkerPin from "../../mapMarker/parts/worldMapMarker/MapMarkerPin.tsx";
+import MapMarkerDraggable from "../../mapMarker/parts/worldMapMarker/MapMarkerDraggable.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import ToolBar from "../WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
@@ -121,7 +121,7 @@ export default function WorldMapMain({data, functions}:Readonly<WorldMapMainProp
                 .filter((mapMarker:MapMarker) => mapMarker.worldMapId === id)
                 .filter((mapMarker:MapMarker) => data.appUser.myWorldMapIds.includes(worldMap.id) || mapMarker.visibility === "OWNER_AND_OBSERVERS")
                 .map((mapMarker:MapMarker) => {
-                return <MapMarkerPin
+                return <MapMarkerDraggable
                     key={mapMarker.id}
                     data={{mapMarkerTypes: data.mapMarkerTypes}}
                     functions={{

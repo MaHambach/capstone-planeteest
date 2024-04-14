@@ -2,15 +2,16 @@ import './MapMarkerPin.css'
 import {MapMarker} from "../../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
 import ToolBar from "./ToolBar/ToolBar.tsx";
-import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
 import {MapMarkerType} from "../../../../types/MapMarkerType.ts";
-import {getMapMarkerTypeById} from "../../../../utility/getById.ts";
 import MapMarkerTypeIcon from "../../../mapMarkerType/part/MapMarkerTypeIcon.tsx";
+import {getMapMarkerTypeById} from "../../../../utility/getById.ts";
+import {Menu, Popover} from "@mui/material";
 
 type Data = {
     mapMarkerTypes: MapMarkerType[];
 }
 type Functions = {
+    handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
     handleArticleFrame: () => void;
     handleMapMarkerUpdate: () => void;
     handleSelectedMapMarkerChange: (mapMarker:MapMarker) => void;
@@ -18,9 +19,7 @@ type Functions = {
 }
 type Props = {
     mapMarker: MapMarker;
-    offsetWorldMapFrame: {xOffset:number, yOffset:number};
     isSelected:boolean;
-    isMovable:boolean;
     isOwner:boolean;
 }
 type MapMarkerCardProps = {
@@ -29,10 +28,9 @@ type MapMarkerCardProps = {
     props:Props;
 }
 export default function MapMarkerPin({data, functions, props}: Readonly<MapMarkerCardProps>): React.ReactElement {
-    const mapMarkerSize={xSize: 50, ySize: 50};
     const [mapMarkerType, setMapMarkerType] = useState<MapMarkerType>(getMapMarkerTypeById(props.mapMarker.markerTypeId, data.mapMarkerTypes));
-    const [coordinates, setCoordinates] = useState({xPosition: 0, yPosition: 0});
-    const nodeRef:React.MutableRefObject<null> = React.useRef(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
 
     const isSelectedStyle = {
         filter: "drop-shadow(0 0 4px " + mapMarkerType.color + ")",
@@ -41,69 +39,64 @@ export default function MapMarkerPin({data, functions, props}: Readonly<MapMarke
         "zIndex": "20"
     }
 
-    function handleClick(event: React.MouseEvent<HTMLElement>) {
-        event.preventDefault();
-        if(!props.isMovable) functions.handleSelectedMapMarkerChange(props.mapMarker);
-    }
-
     useEffect(() => {
         setMapMarkerType(getMapMarkerTypeById(props.mapMarker.markerTypeId, data.mapMarkerTypes));
-        const headlineHeight:number = 34;
-        setCoordinates({
-            xPosition: props.mapMarker.xPosition + props.offsetWorldMapFrame.xOffset - 0.5 * mapMarkerSize.xSize,
-            yPosition: props.mapMarker.yPosition + props.offsetWorldMapFrame.yOffset - 0.5 * mapMarkerSize.ySize - headlineHeight
-        });
         // eslint-disable-next-line
     }, [props]);
 
-    function handleDrag(event: DraggableEvent, ui: DraggableData):void {
+    function handleClose(event:React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault();
-        functions.setSelectedMapMarker(
-            {...props.mapMarker,
-                xPosition: props.mapMarker.xPosition + ui.x,
-                yPosition: props.mapMarker.yPosition + ui.y
-            }
-        );
+        setAnchorEl(null);
+    }
+
+    function handleClick(event:React.MouseEvent<HTMLButtonElement>):void {
+        event.preventDefault();
+        setAnchorEl(event.currentTarget);
+        functions.handleClick(event);
     }
 
     return (
-
-            <div className={"mapMarkerPin"} style={{
-                position:"absolute",
-                left: coordinates.xPosition,
-                top: coordinates.yPosition
-            }}>
-                <Draggable
-                    handle="strong"
-                    nodeRef={nodeRef}
-                    onDrag={handleDrag}
-                    disabled={!props.isMovable}
-                >
-                <strong ref={nodeRef}>
-                    <button className={"mapMarkerIconButton"}
-                            {...props.isSelected ? {style: isSelectedStyle} : {}}
-                            onClick={handleClick}
-                    >
-                        <MapMarkerTypeIcon
-                            iconName={mapMarkerType.icon}
-                            color={mapMarkerType.color}
-                            tileSize={32}
-                        />
-                    </button>
-                </strong>
-                </Draggable>
-                {props.isSelected &&
-                    <>
-                        <h2 className={"mapMarkerName"}>
-                            {props.mapMarker.name}
-                        </h2>
-                        <ToolBar
-                            isOwner={props.isOwner}
-                            handleMapMarkerUpdate={functions.handleMapMarkerUpdate}
-                            handleArticleFrame={functions.handleArticleFrame}
-                        />
-                    </>
-                }
-            </div>
+        <>
+            <Popover
+                anchorEl={anchorEl}
+                open={open}
+                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                transformOrigin={{vertical: 'bottom', horizontal: 'center'}}
+            >
+                <h2>
+                    {props.mapMarker.name}
+                </h2>
+            </Popover>
+            <button className={"mapMarkerIconButton"}
+                    {...props.isSelected ? {style: isSelectedStyle} : {}}
+                    onClick={handleClick}
+                    id={"MapMarkerPinButton"}
+                    aria-controls={open ? "MapMarkerMenu" : undefined}
+                    aria-haspopup={"true"}
+                    aria-expanded={open ? "true" : undefined}
+            >
+                <MapMarkerTypeIcon
+                    iconName={mapMarkerType.icon}
+                    color={mapMarkerType.color}
+                    tileSize={32}
+                />
+            </button>
+            <Menu
+                id={"MapMarkerMenu"}
+                anchorEl={anchorEl}
+                open={open}
+                MenuListProps={{'aria-labelledby': 'navigation-button'}}
+                onClose={handleClose}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
+                transformOrigin={{vertical: 'top', horizontal: 'center'}}
+                disableScrollLock={true}
+            >
+                <ToolBar
+                    isOwner={props.isOwner}
+                    handleMapMarkerUpdate={functions.handleMapMarkerUpdate}
+                    handleArticleFrame={functions.handleArticleFrame}
+                />
+            </Menu>
+        </>
     )
 }
