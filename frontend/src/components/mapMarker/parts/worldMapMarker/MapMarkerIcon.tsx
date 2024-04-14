@@ -10,9 +10,16 @@ type MapMarkerIconProps = {
     mapMarkerType: MapMarkerType;
 }
 export default function MapMarkerIcon(props: Readonly<MapMarkerIconProps>): React.ReactElement {
+    const isSelectedStyle = {
+        filter: "drop-shadow(0 0 4px " + props.mapMarkerType.color + ")",
+        "border-radius": "50px",
+        "box-shadow": "inset 0 0 10px " + props.mapMarkerType.color,
+        "zIndex": "20"
+    }
 
     return (
-            <button className={props.isSelected ? "mapMarkerIconButtonSelected" : "mapMarkerIconButton"}
+            <button className={"mapMarkerIconButton"}
+                    {...props.isSelected ? {style: isSelectedStyle} : {}}
                     onClick={props.handleClick}
             >
                 <MapMarkerTypeIcon
