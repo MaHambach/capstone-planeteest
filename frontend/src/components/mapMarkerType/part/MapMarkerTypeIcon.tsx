@@ -89,9 +89,8 @@ type MapMarkerTypeIconProps = {
 }
 export default function MapMarkerTypeIcon(props:Readonly<MapMarkerTypeIconProps>):React.ReactElement {
     const iconName:string = props.iconName;
-    const filterString:string = "drop-shadow(0 0 2px " + props.color + ")";
     const mapMarkerTypeIconStyle = {
-        filter: filterString,
+        filter: "drop-shadow(0 0 8px white) drop-shadow(0 0 4px " + props.color + ")",
         width: props.tileSize,
         height: props.tileSize
     }

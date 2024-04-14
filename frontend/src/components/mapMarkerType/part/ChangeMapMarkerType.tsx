@@ -1,4 +1,4 @@
-import "./UpdateMapMarkerType.css";
+import "./ChangeMapMarkerType.css";
 import MapMarkerTypeIconTile from "./MapMarkerTypeIconTile.tsx";
 import MapMarkerTypeIconGallery from "./MapMarkerTypeIconGallery.tsx";
 import {mapMarkerTypeIconList} from "../../../data/MapMarkerTypeIconList.ts";

@@ -29,7 +29,7 @@ type MapMarkerCardProps = {
     props:Props;
 }
 export default function MapMarkerCard({data, functions, props}: Readonly<MapMarkerCardProps>): React.ReactElement {
-    const mapMarkerSize={xSize: 80, ySize: 80};
+    const mapMarkerSize={xSize: 50, ySize: 50};
     const [coordinates, setCoordinates] = useState({xPosition: 0, yPosition: 0});
     const nodeRef:React.MutableRefObject<null> = React.useRef(null);
 
