@@ -7,6 +7,8 @@ import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {useParams} from "react-router-dom";
 import {Table, TableBody, TableHead, TableRow} from "@mui/material";
 import {StyledTableCell} from "../../_generic/parts/StyledTableCell.tsx";
+import BackButton from "../../_generic/parts/BackButton.tsx";
+import {FaMapMarkedAlt} from "react-icons/fa";
 
 type Data = {
     appUser: AppUser;
@@ -38,30 +40,38 @@ export default function MapMarkerGallery({data, functions}: Readonly<MapMarkerGa
     }, []);
 
     return (
-        <main>
-            <h2>{worldMap.name} - Map Marker Gallery</h2>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell><b>Name</b></StyledTableCell>
-                        <StyledTableCell><b>MapMarker</b></StyledTableCell>
-                        <StyledTableCell><b>Sichtbarkeit</b></StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                {
-                    data.mapMarkers
-                        .filter((mapMarker: MapMarker) => mapMarker.worldMapId === worldMap.id)
-                        .map((mapMarker: MapMarker) =>
-                            <MapMarkerListItem
-                                key={mapMarker.id}
-                                data={{appUser: data.appUser, mapMarkerTypes: data.mapMarkerTypes}}
-                                functions={functions}
-                                props={{mapMarker: mapMarker}}
-                            />)
-                }
-                </TableBody>
-            </Table>
-        </main>
+        <>
+            <BackButton
+                props={{
+                    icon: <FaMapMarkedAlt />,
+                    tooltip: "Zurück zur Weltkarte"
+                }}
+            />
+            <main>
+                <h2>{worldMap.name} - Map Marker Gallery</h2>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell><b>Name</b></StyledTableCell>
+                            <StyledTableCell><b>MapMarker</b></StyledTableCell>
+                            <StyledTableCell><b>Sichtbarkeit</b></StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                    {
+                        data.mapMarkers
+                            .filter((mapMarker: MapMarker) => mapMarker.worldMapId === worldMap.id)
+                            .map((mapMarker: MapMarker) =>
+                                <MapMarkerListItem
+                                    key={mapMarker.id}
+                                    data={{appUser: data.appUser, mapMarkerTypes: data.mapMarkerTypes}}
+                                    functions={functions}
+                                    props={{mapMarker: mapMarker}}
+                                />)
+                    }
+                    </TableBody>
+                </Table>
+            </main>
+        </>
     );
 }

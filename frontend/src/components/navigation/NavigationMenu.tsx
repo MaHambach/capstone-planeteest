@@ -7,6 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {AppUser} from "../../types/AppUser.ts";
 import {BsGeoFill} from "react-icons/bs";
 import {GrLogout} from "react-icons/gr";
+import {Tooltip} from "@mui/joy";
 
 type Data = {
     appUser: AppUser
@@ -41,17 +42,19 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
 
     return (
         <>
-            <Button
-                color='inherit'
-                id={"navigation-button"}
-                onClick={handleClick}
-                aria-controls={open ? "navigation-menu" : undefined}
-                aria-haspopup={"true"}
-                aria-expanded={open ? "true" : undefined}
-                className={"navigationMenu"}
-            >
-                <MdMenuBook />
-            </Button>
+            <Tooltip title={"Navigation"} placement={"right"} arrow>
+                <Button
+                    color='inherit'
+                    id={"navigation-button"}
+                    onClick={handleClick}
+                    aria-controls={open ? "navigation-menu" : undefined}
+                    aria-haspopup={"true"}
+                    aria-expanded={open ? "true" : undefined}
+                    className={"navigationMenu"}
+                >
+                    <MdMenuBook />
+                </Button>
+            </Tooltip>
             <Menu
                 id={"navigation-menu"}
                 anchorEl={anchorEl}
