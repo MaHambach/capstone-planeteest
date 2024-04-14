@@ -140,7 +140,7 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
                                         props={{
                                             iconLeft:<MdVisibilityOff/>,
                                             iconRight:<MdVisibility/>,
-                                            isOn: mapMarker.visibility === "OWNER_AND_OBSERVERS"
+                                            isOn: props.mapMarker.visibility === "OWNER_AND_OBSERVERS"
                                         }}/>
                                 </StyledTableCell>
                                 <StyledTableCell align={"center"}>

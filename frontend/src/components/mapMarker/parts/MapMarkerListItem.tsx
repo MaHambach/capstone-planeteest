@@ -5,8 +5,9 @@ import React, {useEffect, useState} from "react";
 import {emptyMapMarkerType, MapMarkerType} from "../../../types/MapMarkerType.ts";
 import MapMarkerTypeCard from "../../mapMarkerType/part/MapMarkerTypeCard.tsx";
 import {MdVisibility, MdVisibilityOff} from "react-icons/md";
-import {TableRow, TableCell} from "@mui/material";
+import {TableRow} from "@mui/material";
 import IconSwitch from "../../_generic/parts/IconSwitch.tsx";
+import {StyledTableCell} from "../../_generic/parts/StyledTableCell.tsx";
 
 type Data = {
     appUser: AppUser;
@@ -48,14 +49,16 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
 
     return (
         <TableRow className={"mapMarkerListItem"}>
-            <TableCell>{mapMarker.name}</TableCell>
-            <TableCell>
+            <StyledTableCell>
+                {mapMarker.name}
+            </StyledTableCell>
+            <StyledTableCell align={"center"}>
                 <MapMarkerTypeCard
                     mapMarkerType={getMapMarkerTypeById(mapMarker.markerTypeId)}
                     tileSize={30}
                 />
-            </TableCell>
-            <TableCell>
+            </StyledTableCell>
+            <StyledTableCell align={"center"}>
                 <IconSwitch
                     data={{
                         tooltipLeft:"Sichtbar für mich",
@@ -72,7 +75,7 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
                         iconRight:<MdVisibility/>,
                         isOn: mapMarker.visibility === "OWNER_AND_OBSERVERS"
                     }}/>
-            </TableCell>
+            </StyledTableCell>
         </TableRow>
     );
 }

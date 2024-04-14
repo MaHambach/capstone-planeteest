@@ -5,7 +5,8 @@ import {MapMarker} from "../../../types/MapMarker.ts";
 import MapMarkerListItem from "../parts/MapMarkerListItem.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {useParams} from "react-router-dom";
-import {Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
+import {Table, TableBody, TableHead, TableRow} from "@mui/material";
+import {StyledTableCell} from "../../_generic/parts/StyledTableCell.tsx";
 
 type Data = {
     appUser: AppUser;
@@ -42,9 +43,9 @@ export default function MapMarkerGallery({data, functions}: Readonly<MapMarkerGa
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell><b>Name</b></TableCell>
-                        <TableCell><b>Type</b></TableCell>
-                        <TableCell><b>Visibility</b></TableCell>
+                        <StyledTableCell><b>Name</b></StyledTableCell>
+                        <StyledTableCell><b>MapMarker</b></StyledTableCell>
+                        <StyledTableCell><b>Sichtbarkeit</b></StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

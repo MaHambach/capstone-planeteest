@@ -68,6 +68,7 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
                     vertical: 'top',
                     horizontal: 'right',
                 }}
+                disableScrollLock={true}
             >
                 <MenuItem onClick={(event) => handleNavigate(event,"/user/" + data.appUser.id)}>
                     <ListItemIcon>
