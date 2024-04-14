@@ -6,6 +6,7 @@ import {emptyMapMarkerType, MapMarkerType} from "../../../types/MapMarkerType.ts
 import MapMarkerTypeCard from "../../mapMarkerType/part/MapMarkerTypeCard.tsx";
 import {MdVisibility, MdVisibilityOff} from "react-icons/md";
 import {TableRow, TableCell} from "@mui/material";
+import IconSwitch from "../../_generic/parts/IconSwitch.tsx";
 
 type Data = {
     appUser: AppUser;
@@ -37,7 +38,7 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
         return emptyMapMarkerType;
     }
 
-    function handleVisibilityChange(event:React.MouseEvent<HTMLButtonElement>): void {
+    function setMapMarkerVisibility(event:React.MouseEvent<HTMLButtonElement>): void {
         event.preventDefault();
         functions.updateMapMarker({
             ...mapMarker,
@@ -55,17 +56,22 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
                 />
             </TableCell>
             <TableCell>
-                <button onClick={handleVisibilityChange}
-                        className={"button"}>
-                    <div
-                        className={mapMarker.visibility === "OWNER_ONLY" ?
-                            "icon visibleIsOwnerOnly_ownerOnly" :
-                            "icon visibleIsEveryone_ownerOnly"}><MdVisibilityOff/></div>
-                    <div
-                        className={mapMarker.visibility === "OWNER_ONLY" ?
-                            "icon visibleIsOwnerOnly_everyone" :
-                            "icon visibleIsEveryone_everyone"}><MdVisibility/></div>
-                </button>
+                <IconSwitch
+                    data={{
+                        tooltipLeft:"Sichtbar für mich",
+                        tooltipRight:"Sichtbar für alle",
+                        name: "visibility",
+                        valueLeft: "OWNER_ONLY",
+                        valueRight: "OWNER_AND_OBSERVERS"
+                    }}
+                    functions={{
+                        onClick: setMapMarkerVisibility
+                    }}
+                    props={{
+                        iconLeft:<MdVisibilityOff/>,
+                        iconRight:<MdVisibility/>,
+                        isOn: mapMarker.visibility === "OWNER_AND_OBSERVERS"
+                    }}/>
             </TableCell>
         </TableRow>
     );
