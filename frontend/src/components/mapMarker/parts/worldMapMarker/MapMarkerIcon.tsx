@@ -13,7 +13,7 @@ export default function MapMarkerIcon(props: Readonly<MapMarkerIconProps>): Reac
     const isSelectedStyle = {
         filter: "drop-shadow(0 0 4px " + props.mapMarkerType.color + ")",
         "border-radius": "50px",
-        "box-shadow": "inset 0 0 10px " + props.mapMarkerType.color,
+        "boxShadow": "inset 0 0 10px " + props.mapMarkerType.color,
         "zIndex": "20"
     }
 

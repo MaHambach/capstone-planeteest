@@ -3,7 +3,6 @@ export const mapMarkerTypeIconList:string[] = [
     "FaDungeon",
     "FaFistRaised",
     "FaChurch",
-    "AiFillPushpin",
     "BsGeoAlt",
     "BsGeoAltFill",
     "BsGeo",
@@ -105,5 +104,4 @@ export const mapMarkerTypeIconList:string[] = [
     "GiWoodenDoor",
     "GiDeerHead",
     "GiSpikedDragonHead",
-    "GiCaveEntrance",
 ]
