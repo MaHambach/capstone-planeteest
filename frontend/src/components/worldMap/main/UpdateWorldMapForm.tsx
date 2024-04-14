@@ -1,3 +1,4 @@
+import "./UpdateWorldMapForm.css"
 import {emptyWorldMap, WorldMap} from "../../../types/WorldMap.ts";
 import React, {FormEvent, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
@@ -8,8 +9,8 @@ import WorldMapInviteGallery from "../../worldMapInvite/part/WorldMapInviteGalle
 import {ImCross} from "react-icons/im";
 import AddWorldMapInviteForm from "../../worldMapInvite/part/AddWorldMapInviteForm.tsx";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
-import {Button, ButtonGroup, Input, Sheet} from "@mui/joy";
-import {Table, TableBody, TableCell, TableRow} from "@mui/material";
+import { Button, ButtonGroup, Card, Input} from "@mui/joy";
+import {Table, TableBody, TableCell, TableContainer, TableRow} from "@mui/material";
 
 type Data = {
     appUser: AppUser;
@@ -91,80 +92,75 @@ export default function UpdateWorldMapForm({data, functions}:Readonly<UpdateWorl
     return (
         <main className={"UpdateWorldMapForm"}>
             <form onSubmit={handleSubmit}>
-                <Table
-                    style={{maxWidth: "100%", minWidth: "100px"}}
-                >
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>
-                                <label htmlFor={"name"}>Name:</label>
-                            </TableCell>
-                            <TableCell colSpan={2}>
-                                <Input
-                                    id={"name"} name={"name"}
-                                    type={"text"}
-                                    value={formData.name}
-                                    onChange={handleChangeInput}
-                                    style={{maxWidth: "50%", minWidth: "100px"}}
-                                />
-                            </TableCell>
-                            <TableCell colSpan={3} rowSpan={5}>
-                                <img src={formData.worldMapUrl} alt={"Weltkarte"} />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>
-                                <label htmlFor={"worldMapUrl"}>URL:</label>
-
-                            </TableCell>
-                            <TableCell colSpan={2}>
-                                <Input
-                                    id={"worldMapUrl"}
-                                    name={"worldMapUrl"}
-                                    type={"text"}
-                                    value={formData.worldMapUrl}
-                                    onChange={handleChangeInput}
-                                    style={{maxWidth: "50%", minWidth: "100px"}}
-                                />
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>
-                                <label htmlFor={"xSize"}>Breite:</label>
-
-                            </TableCell>
-                            <TableCell colSpan={2}>
-                                <span>{formData.xSize}</span>
-                            </TableCell>
-                       </TableRow>
-                        <TableRow>
+                <TableContainer>
+                    <Table
+                        size={"small"}
+                    >
+                        <TableBody>
+                            <TableRow>
                                 <TableCell>
-                                    <label htmlFor={"ySize"}>Höhe:</label>
+                                    <label htmlFor={"name"}>Name:</label>
                                 </TableCell>
                                 <TableCell colSpan={2}>
-                                    <span>{formData.ySize}</span>
+                                    <Input
+                                        id={"name"} name={"name"}
+                                        type={"text"}
+                                        value={formData.name}
+                                        onChange={handleChangeInput}
+                                    />
                                 </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell colSpan={3}>
-                                <ButtonGroup>
-                                    <Button color={"neutral"} type={"submit"}>Speichern</Button>
-                                    <Button color={"neutral"} onClick={() => navigate('/')}>Abbrechen</Button>
-                                    <Button color={"danger"} onClick={handleDeleteWorldMap} type={"button"}>Löschen</Button>
-                                </ButtonGroup>
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
+                                <TableCell colSpan={3} rowSpan={5}>
+                                    <Card sx={{maxHeight: "212px", maxWidth: "50%"}}>
+                                            <img src={formData.worldMapUrl}
+                                                 alt={"Weltkarte"}
+                                                 className={"worldMapImage"}
+                                            />
+                                    </Card>
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    <label htmlFor={"worldMapUrl"}>URL:</label>
+                                </TableCell>
+                                <TableCell colSpan={2}>
+                                    <Input
+                                        id={"worldMapUrl"}
+                                        name={"worldMapUrl"}
+                                        type={"text"}
+                                        value={formData.worldMapUrl}
+                                        onChange={handleChangeInput}
+                                    />
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>
+                                    <label htmlFor={"xSize"}>Breite:</label>
 
-                </Table>
-                <Sheet>
-
-                </Sheet>
-                <Sheet>
-                </Sheet>
-                <Sheet>
-                </Sheet>
-
+                                </TableCell>
+                                <TableCell colSpan={2}>
+                                    <span>{formData.xSize}</span>
+                                </TableCell>
+                           </TableRow>
+                            <TableRow>
+                                    <TableCell>
+                                        <label htmlFor={"ySize"}>Höhe:</label>
+                                    </TableCell>
+                                    <TableCell colSpan={2}>
+                                        <span>{formData.ySize}</span>
+                                    </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell colSpan={3}>
+                                    <ButtonGroup>
+                                        <Button color={"neutral"} type={"submit"}>Speichern</Button>
+                                        <Button color={"neutral"} onClick={() => navigate('/')}>Abbrechen</Button>
+                                        <Button color={"danger"} onClick={handleDeleteWorldMap} type={"button"}>Löschen</Button>
+                                    </ButtonGroup>
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </form>
 
             <div>
