@@ -3,9 +3,9 @@ import {MapMarker} from "../../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
 import ToolBar from "./ToolBar/ToolBar.tsx";
 import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
-import MapMarkerIcon from "./MapMarkerIcon.tsx";
 import {MapMarkerType} from "../../../../types/MapMarkerType.ts";
 import {getMapMarkerTypeById} from "../../../../utility/getById.ts";
+import MapMarkerTypeIcon from "../../../mapMarkerType/part/MapMarkerTypeIcon.tsx";
 
 type Data = {
     mapMarkerTypes: MapMarkerType[];
@@ -30,8 +30,16 @@ type MapMarkerCardProps = {
 }
 export default function MapMarkerPin({data, functions, props}: Readonly<MapMarkerCardProps>): React.ReactElement {
     const mapMarkerSize={xSize: 50, ySize: 50};
+    const [mapMarkerType, setMapMarkerType] = useState<MapMarkerType>(getMapMarkerTypeById(props.mapMarker.markerTypeId, data.mapMarkerTypes));
     const [coordinates, setCoordinates] = useState({xPosition: 0, yPosition: 0});
     const nodeRef:React.MutableRefObject<null> = React.useRef(null);
+
+    const isSelectedStyle = {
+        filter: "drop-shadow(0 0 4px " + mapMarkerType.color + ")",
+        "borderRadius": "50px",
+        "boxShadow": "inset 0 0 10px " + mapMarkerType.color,
+        "zIndex": "20"
+    }
 
     function handleClick(event: React.MouseEvent<HTMLElement>) {
         event.preventDefault();
@@ -39,6 +47,7 @@ export default function MapMarkerPin({data, functions, props}: Readonly<MapMarke
     }
 
     useEffect(() => {
+        setMapMarkerType(getMapMarkerTypeById(props.mapMarker.markerTypeId, data.mapMarkerTypes));
         const headlineHeight:number = 34;
         setCoordinates({
             xPosition: props.mapMarker.xPosition + props.offsetWorldMapFrame.xOffset - 0.5 * mapMarkerSize.xSize,
@@ -71,11 +80,16 @@ export default function MapMarkerPin({data, functions, props}: Readonly<MapMarke
                     disabled={!props.isMovable}
                 >
                 <strong ref={nodeRef}>
-                    <MapMarkerIcon
-                        isSelected={props.isSelected}
-                        handleClick={handleClick}
-                        mapMarkerType={getMapMarkerTypeById(props.mapMarker.markerTypeId, data.mapMarkerTypes)}
-                    />
+                    <button className={"mapMarkerIconButton"}
+                            {...props.isSelected ? {style: isSelectedStyle} : {}}
+                            onClick={handleClick}
+                    >
+                        <MapMarkerTypeIcon
+                            iconName={mapMarkerType.icon}
+                            color={mapMarkerType.color}
+                            tileSize={32}
+                        />
+                    </button>
                 </strong>
                 </Draggable>
                 {props.isSelected &&
