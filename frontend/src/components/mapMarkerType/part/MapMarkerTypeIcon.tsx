@@ -38,7 +38,7 @@ import {
     GiCampingTent,
     GiCarrion,
     GiCastle,
-    GiCastleRuins,
+    GiCastleRuins, GiCaveEntrance,
     GiChessRook,
     GiCrownedSkull,
     GiCryptEntrance,
@@ -47,7 +47,7 @@ import {
     GiDamagedHouse,
     GiDeadWood,
     GiDeathNote,
-    GiDeathZone,
+    GiDeathZone, GiDeerHead,
     GiDoorway,
     GiDungeonGate,
     GiElvenCastle,
@@ -75,7 +75,7 @@ import {
     GiPadlockOpen,
     GiPentacle,
     GiPieceSkull,
-    GiPlaneWing,
+    GiPlaneWing, GiSpikedDragonHead,
     GiStoneTower,
     GiWaxTablet,
     GiWoodCabin,
@@ -202,6 +202,9 @@ export default function MapMarkerTypeIcon(props:Readonly<MapMarkerTypeIconProps>
             {iconName === "GiWaxTablet" && <GiWaxTablet  style={mapMarkerTypeIconStyle}/>}
             {iconName === "GiWoodCabin" && <GiWoodCabin  style={mapMarkerTypeIconStyle}/>}
             {iconName === "GiWoodenDoor" && <GiWoodenDoor  style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiDeerHead" && <GiDeerHead  style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiSpikedDragonHead" && <GiSpikedDragonHead  style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiCaveEntrance " && <GiCaveEntrance   style={mapMarkerTypeIconStyle}/>}
         </>
     )
 }

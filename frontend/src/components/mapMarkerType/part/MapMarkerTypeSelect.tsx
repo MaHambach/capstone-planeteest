@@ -65,14 +65,9 @@ export default function MapMarkerTypeSelect({data, functions, props}: Readonly<M
                     'aria-labelledby': 'navigation-button'
                 }}
                 onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'left',}}
+                transformOrigin={{vertical: 'top', horizontal: 'left',}}
+                disableScrollLock={true}
             >
                 {data.mapMarkerTypes.map((mapMarkerType: MapMarkerType) => {
                     return <MenuItem
