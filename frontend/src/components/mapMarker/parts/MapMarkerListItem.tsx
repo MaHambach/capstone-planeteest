@@ -51,13 +51,11 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
                 {mapMarker.name}
             </StyledTableCell>
             <StyledTableCell align={"center"}>
-                <StyledTableCell align={"center"}>
-                    <MapMarkerTypeSelect
-                        data={{mapMarkerTypes: data.mapMarkerTypes}}
-                        functions={{onClick: setMapMarkerTypeId}}
-                        props={{value: props.mapMarker.markerTypeId}}
-                    />
-                </StyledTableCell>
+                <MapMarkerTypeSelect
+                    data={{mapMarkerTypes: data.mapMarkerTypes}}
+                    functions={{onClick: setMapMarkerTypeId}}
+                    props={{value: props.mapMarker.markerTypeId}}
+                />
             </StyledTableCell>
             <StyledTableCell align={"center"}>
                 <IconSwitch
