@@ -15,14 +15,6 @@ export function useArticles() {
             });
     }
 
-    function getArticleById(id:string):Article {
-        const articleWithId:Article[] = articles.filter((article:Article) => article.id === id);
-
-        if(articleWithId.length === 0) console.error('Kein Artikel mit der ID ' + id + ' gefunden.');
-        else return articleWithId[0];
-        return {id:'', content: '', npcIds:[]};
-    }
-
     function updateArticle(updatedArticle: Article):void {
         axios.put(`/api/articles/${updatedArticle.id}`, updatedArticle)
             .then(fetchArticles)
@@ -46,7 +38,6 @@ export function useArticles() {
     return {
         articles,
         fetchArticles,
-        getArticleById,
         updateArticle,
         deleteArticle
     }

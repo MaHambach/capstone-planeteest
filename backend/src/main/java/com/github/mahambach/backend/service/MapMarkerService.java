@@ -28,8 +28,9 @@ public class MapMarkerService {
     }
 
     public MapMarker createMapMarker(MapMarkerDto mapMarkerDto) {
-        String articleId = articleService.createArticle(new ArticleDto("", List.of())).id();
-        return mapMarkerRepo.save(new MapMarker(mapMarkerDto).withArticleId(articleId));
+        String playerArticleId = articleService.createArticle(new ArticleDto("", List.of())).id();
+        String gmArticleId = articleService.createArticle(new ArticleDto("", List.of())).id();
+        return mapMarkerRepo.save(new MapMarker(mapMarkerDto).withPlayerArticleId(playerArticleId).withGmArticleId(gmArticleId));
     }
 
     public MapMarker updateMapMarker(String mapMarkerId, MapMarker mapMarker) {

@@ -12,11 +12,20 @@ public record MapMarker(
         int xPosition,
         int yPosition,
         String markerTypeId,
-        String articleId,
-
+        String playerArticleId,
+        String gmArticleId,
         Visibility visibility
 ) {
     public MapMarker(MapMarkerDto mapMarkerDto) {
-        this(null, mapMarkerDto.worldMapId(), mapMarkerDto.name(), mapMarkerDto.xPosition(), mapMarkerDto.yPosition(), mapMarkerDto.markerTypeId(), mapMarkerDto.articleId(), mapMarkerDto.visibility());
+        this(null,
+                mapMarkerDto.worldMapId(),
+                mapMarkerDto.name(),
+                mapMarkerDto.xPosition(),
+                mapMarkerDto.yPosition(),
+                mapMarkerDto.markerTypeId(),
+                mapMarkerDto.playerArticleId(),
+                mapMarkerDto.gmArticleId(),
+                mapMarkerDto.visibility()
+        );
     }
 }

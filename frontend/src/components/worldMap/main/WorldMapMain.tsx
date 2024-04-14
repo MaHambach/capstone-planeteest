@@ -13,6 +13,7 @@ import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
 import MapMarkerUpdateWindow from "../../mapMarker/parts/MapMarkerUpdateWindow.tsx";
 import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
+import {getArticleById, getWorldMapById} from "../../../utility/getById.ts";
 
 type Data = {
     appUser: AppUser;
@@ -25,8 +26,6 @@ type Functions = {
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
     updateMapMarker: (mapMarker:MapMarker) => void;
     deleteMapMarker: (id:string) => void;
-    getMapMarkerType: (id:string) => MapMarkerType;
-    getArticleById: (id:string) => Article;
     updateArticle: (article:Article) => void;
     deleteArticle: (id:string) => void;
 }
@@ -100,15 +99,8 @@ export default function WorldMapMain({data, functions}:Readonly<WorldMapMainProp
         setAddNewMapMarker(false);
     }
 
-    function getWorldMapById(id:string):WorldMap {
-        const filteredWorldMaps:WorldMap[] = data.worldMaps.filter((worldMap:WorldMap) => worldMap.id === id);
-        if(filteredWorldMaps.length === 0) console.error("No world map with id \"" + id + "\" found.");
-        else return filteredWorldMaps[0];
-        return emptyWorldMap;
-    }
-
     useEffect(():void => {
-        setWorldMap(getWorldMapById(id))
+        setWorldMap(getWorldMapById(id, data.worldMaps))
         // eslint-disable-next-line
     }, [id, data]);
 
@@ -131,26 +123,35 @@ export default function WorldMapMain({data, functions}:Readonly<WorldMapMainProp
                 .map((mapMarker:MapMarker) => {
                 return <MapMarkerCard
                     key={mapMarker.id}
-                    mapMarker={mapMarker}
-                    offsetWorldMapFrame={{xOffset: 100, yOffset: 100}} /* Offset the padding. */
-                    isMovable={mapMarker.id === selectedMapMarker.id && changeMapMarkerPosition}
-                    isSelected={mapMarker.id === selectedMapMarker.id}
-                    handleSelectedMapMarkerChange={handleSelectedMapMarkerChange}
-                    handleMapMarkerUpdate={handleMapMarkerUpdate}
-                    handleArticleFrame={handleArticleFrame}
-                    setSelectedMapMarker={setSelectedMapMarker}
-                    getMapMarkerType={functions.getMapMarkerType}
-                    isOwner={data.appUser.myWorldMapIds.includes(worldMap.id)}
+                    data={{mapMarkerTypes: data.mapMarkerTypes}}
+                    functions={{
+                        handleArticleFrame: handleArticleFrame,
+                        handleMapMarkerUpdate: handleMapMarkerUpdate,
+                        handleSelectedMapMarkerChange: handleSelectedMapMarkerChange,
+                        setSelectedMapMarker: setSelectedMapMarker
+                    }}
+                    props={{
+                        mapMarker: mapMarker,
+                        offsetWorldMapFrame: {xOffset: 100, yOffset: 100},
+                        isSelected: mapMarker.id === selectedMapMarker.id,
+                        isMovable: mapMarker.id === selectedMapMarker.id && changeMapMarkerPosition,
+                        isOwner: data.appUser.myWorldMapIds.includes(worldMap.id)
+                    }}
                 />
             })}
             {(showArticle && selectedMapMarker !== emptyMapMarker) &&
                 <ArticleWindow
-                    coordinates={{x: selectedMapMarker.xPosition, y: selectedMapMarker.yPosition}}
-                    title={selectedMapMarker.name}
-                    article={functions.getArticleById(selectedMapMarker.articleId)}
-                    closeWindow={handleArticleFrame}
-                    updateArticle={functions.updateArticle}
-                    isOwner={data.appUser.myWorldMapIds.includes(worldMap.id)}
+                    props={{
+                        coordinates: {x: selectedMapMarker.xPosition, y: selectedMapMarker.yPosition},
+                        gmArticle: getArticleById(selectedMapMarker.gmArticleId, data.articles),
+                        playerArticle: getArticleById(selectedMapMarker.playerArticleId, data.articles),
+                        title: selectedMapMarker.name,
+                        isOwner: data.appUser.myWorldMapIds.includes(worldMap.id)
+                    }}
+                    functions={{
+                        updateArticle: functions.updateArticle,
+                        closeWindow: handleArticleFrame
+                    }}
                 />
             }
             {(addNewMapMarker && coordinates.xPosition > 0 && coordinates.yPosition > 0) &&

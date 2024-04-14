@@ -1,7 +1,10 @@
 .editorToolBar {
     position: sticky;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-bottom: 1px solid lightgrey;
 }
 
 .editorToolBar .editorToolBarButton {
@@ -10,7 +13,6 @@
 }
 
 .editorToolBar .is-active {
-
     background-color: #616161;
 }
 

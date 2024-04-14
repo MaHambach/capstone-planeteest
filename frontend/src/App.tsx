@@ -22,7 +22,7 @@ import MapMarkerGallery from "./components/mapMarker/main/MapMarkerGallery.tsx";
 
 export default function App():React.ReactElement {
     const {appUser, appUsers, fetchAllObserversOfWorldmap, removeObserverFromWorldMap, loginAppUser, registerAppUser, logoutAppUser} = useAppUser();
-    const {articles, fetchArticles, getArticleById, updateArticle, deleteArticle} = useArticles();
+    const {articles, fetchArticles, updateArticle, deleteArticle} = useArticles();
     const {mapMarkers, fetchMapMarkers, saveMapMarker, updateMapMarker, deleteMapMarker} = useMapMarkers();
     const {mapMarkerTypes, fetchMapMarkerTypes, saveMapMarkerType, updateMapMarkerType, getMapMarkerTypeById, deleteMapMarkerType} = useMapMarkerTypes();
     const {observedWorldMapIds, fetchObservedWorldMapIds} = useObservedWorldMapIds();
@@ -95,8 +95,6 @@ export default function App():React.ReactElement {
                                     saveMapMarker: saveMapMarker,
                                     updateMapMarker: updateMapMarker,
                                     deleteMapMarker: deleteMapMarker,
-                                    getMapMarkerType: getMapMarkerTypeById,
-                                    getArticleById: getArticleById,
                                     updateArticle: updateArticle,
                                     deleteArticle: deleteArticle
                                 }}
