@@ -56,18 +56,10 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
                 id={"navigation-menu"}
                 anchorEl={anchorEl}
                 open={open}
-                MenuListProps={{
-                    'aria-labelledby': 'navigation-button'
-                }}
+                MenuListProps={{'aria-labelledby': 'navigation-button'}}
                 onClose={handleClose}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
+                anchorOrigin={{vertical: 'top', horizontal: 'left',}}
+                transformOrigin={{vertical: 'top', horizontal: 'right',}}
                 disableScrollLock={true}
             >
                 <MenuItem onClick={(event) => handleNavigate(event,"/user/" + data.appUser.id)}>

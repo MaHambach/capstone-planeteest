@@ -141,7 +141,8 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
                                             iconLeft:<MdVisibilityOff/>,
                                             iconRight:<MdVisibility/>,
                                             isOn: props.mapMarker.visibility === "OWNER_AND_OBSERVERS"
-                                        }}/>
+                                        }}
+                                    />
                                 </StyledTableCell>
                                 <StyledTableCell align={"center"}>
                                     <IconSwitch
@@ -158,7 +159,8 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
                                         props={{
                                             iconLeft:<GiPadlock/>,
                                             iconRight:<GiPadlockOpen/>,
-                                        }}/>
+                                        }}
+                                    />
                                 </StyledTableCell>
                             </TableRow>
                             <TableRow>

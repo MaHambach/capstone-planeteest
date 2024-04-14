@@ -73,7 +73,8 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
                         iconLeft:<MdVisibilityOff/>,
                         iconRight:<MdVisibility/>,
                         isOn: mapMarker.visibility === "OWNER_AND_OBSERVERS"
-                    }}/>
+                    }}
+                />
             </StyledTableCell>
         </TableRow>
     );
