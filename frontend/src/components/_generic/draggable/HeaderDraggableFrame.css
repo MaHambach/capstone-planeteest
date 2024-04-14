@@ -2,13 +2,27 @@
     display: flex;
     padding: 0 0 0 5px;
     cursor: move;
-    background-color: #2196F3;
+    background-color: #0B6BCB;
     color: white;
-    justify-content: flex-end;
+    justify-content: space-between;
     border-bottom: 1px solid black;
+    border-radius: 10px 10px 0 0;
 }
 
 .headerDraggableFrame .closeWindowButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border:none;
     cursor: pointer;
+    font-size: 30px;
+    padding: 0;
 }
+
+.headerDraggableFrame .closeWindowButton:hover {
+    border:none;
+    cursor: pointer;
+    background-color: #c0e9f8;
+}
+
+

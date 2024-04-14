@@ -4,7 +4,7 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    z-index: 3000;
+    z-index: 500;
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid black;

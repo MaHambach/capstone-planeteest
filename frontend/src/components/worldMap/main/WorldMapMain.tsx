@@ -166,14 +166,15 @@ export default function WorldMapMain({data, functions}:Readonly<WorldMapMainProp
             }
             {(showMapMarkerUpdate && selectedMapMarker !== emptyMapMarker) &&
                 <MapMarkerUpdateWindow
-                    mapMarker={selectedMapMarker}
-                    updateMapMarker={updateSelectedMapMarker}
-                    deleteMapMarker={functions.deleteMapMarker}
-                    closeMapMarkerCard={handleMapMarkerUpdateEnd}
-                    setSelectedMapMarker={setSelectedMapMarker}
-                    setChangeMapMarkerPosition={setChangeMapMarkerPosition}
-                    deleteArticle={functions.deleteArticle}
-                    mapMarkerTypes={data.mapMarkerTypes}
+                    data={{mapMarkerTypes: data.mapMarkerTypes}}
+                    functions={{
+                        updateMapMarker: updateSelectedMapMarker,
+                        deleteMapMarker: functions.deleteMapMarker,
+                        closeMapMarkerCard: handleMapMarkerUpdateEnd,
+                        setSelectedMapMarker: setSelectedMapMarker,
+                        setChangeMapMarkerPosition: setChangeMapMarkerPosition
+                    }}
+                    props={{mapMarker: selectedMapMarker}}
                 />
             }
         </main>
