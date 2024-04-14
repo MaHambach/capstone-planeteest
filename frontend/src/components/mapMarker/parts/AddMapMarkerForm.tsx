@@ -1,4 +1,3 @@
-import "./AddMapMarkerForm.css";
 import React, {FormEvent, useEffect, useState} from "react";
 import {emptyMapMarkerDto, MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
@@ -6,8 +5,9 @@ import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {MdVisibility, MdVisibilityOff} from "react-icons/md";
 import IconSwitch from "../../_generic/parts/IconSwitch.tsx";
 import MapMarkerTypeSelect from "../../mapMarkerType/part/MapMarkerTypeSelect.tsx";
-import {Button, Table, TableBody, TableCell, TableContainer, TableRow} from "@mui/material";
-import {Input, Sheet, styled} from "@mui/joy";
+import {Button, Table, TableBody, TableContainer, TableRow} from "@mui/material";
+import {Input, Sheet} from "@mui/joy";
+import {StyledTableCell} from "../../_generic/parts/StyledTableCell.tsx";
 
 type AddMapMarkerFormProps = {
     saveMapMarker: (mapMarkerDto:MapMarkerDto) => void;
@@ -18,9 +18,7 @@ type AddMapMarkerFormProps = {
     mapMarkerTypes: MapMarkerType[];
 }
 
-const StyledTableCell = styled(TableCell)({
-    padding: "4px 8px 4px 8px",
-})
+
 
 export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):React.ReactElement {
     const [formData, setFormData] = useState(emptyMapMarkerDto);
