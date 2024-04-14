@@ -2,12 +2,12 @@ import './MapMarkerListItem.css';
 import {AppUser} from "../../../types/AppUser.ts";
 import {MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
-import {emptyMapMarkerType, MapMarkerType} from "../../../types/MapMarkerType.ts";
-import MapMarkerTypeCard from "../../mapMarkerType/part/MapMarkerTypeCard.tsx";
+import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {MdVisibility, MdVisibilityOff} from "react-icons/md";
 import {TableRow} from "@mui/material";
 import IconSwitch from "../../_generic/parts/IconSwitch.tsx";
 import {StyledTableCell} from "../../_generic/parts/StyledTableCell.tsx";
+import MapMarkerTypeSelect from "../../mapMarkerType/part/MapMarkerTypeSelect.tsx";
 
 type Data = {
     appUser: AppUser;
@@ -30,20 +30,18 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
         setMapMarker(props.mapMarker);
     }, [props.mapMarker]);
 
-    function getMapMarkerTypeById(mapMarkerTypeId: string): MapMarkerType {
-        const mapMarkerTypeWithId: MapMarkerType | undefined = data.mapMarkerTypes.find((mapMarkerType: MapMarkerType) => mapMarkerType.id === mapMarkerTypeId);
-
-        if (mapMarkerTypeWithId) return mapMarkerTypeWithId;
-
-        console.error("MapMarkerType with id " + mapMarkerTypeId + " not found.")
-        return emptyMapMarkerType;
-    }
-
     function setMapMarkerVisibility(event:React.MouseEvent<HTMLButtonElement>): void {
         event.preventDefault();
         functions.updateMapMarker({
             ...mapMarker,
             visibility: mapMarker.visibility === "OWNER_ONLY" ? "OWNER_AND_OBSERVERS" : "OWNER_ONLY"
+        });
+    }
+
+    function setMapMarkerTypeId(mapMarkerTypeId:string): void {
+        functions.updateMapMarker({
+            ...mapMarker,
+            markerTypeId: mapMarkerTypeId
         });
     }
 
@@ -53,10 +51,13 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
                 {mapMarker.name}
             </StyledTableCell>
             <StyledTableCell align={"center"}>
-                <MapMarkerTypeCard
-                    mapMarkerType={getMapMarkerTypeById(mapMarker.markerTypeId)}
-                    tileSize={30}
-                />
+                <StyledTableCell align={"center"}>
+                    <MapMarkerTypeSelect
+                        data={{mapMarkerTypes: data.mapMarkerTypes}}
+                        functions={{onClick: setMapMarkerTypeId}}
+                        props={{value: props.mapMarker.markerTypeId}}
+                    />
+                </StyledTableCell>
             </StyledTableCell>
             <StyledTableCell align={"center"}>
                 <IconSwitch
