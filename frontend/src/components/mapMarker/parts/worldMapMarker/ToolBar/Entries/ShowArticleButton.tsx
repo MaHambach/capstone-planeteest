@@ -1,22 +1,20 @@
 import './ShowArticleButton.css';
 import React from "react";
 import {FiAlignCenter} from "react-icons/fi";
-import {ListItemIcon, MenuItem} from "@mui/material";
 
 type ShowArticleButtonProps = {
     handleArticleFrame: () => void;
 }
 export default function ShowArticleButton(props:Readonly<ShowArticleButtonProps>): React.ReactElement {
-    function handleClick(event: React.MouseEvent):void {
+    function handleClick(event: React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault();
         props.handleArticleFrame();
     }
 
     return (
-        <MenuItem onClick={handleClick}>
-            <ListItemIcon>
-                <FiAlignCenter/>
-            </ListItemIcon>
-        </MenuItem>
+        <button className={"showArticleButton"}
+                onClick={handleClick}>
+            <FiAlignCenter/>
+        </button>
     )
 }
