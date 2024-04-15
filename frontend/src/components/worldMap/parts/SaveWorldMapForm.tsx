@@ -24,33 +24,36 @@ type SaveWorldMapFormProps = {
 }
 export default function SaveWorldMapForm({data, functions, props}:Readonly<SaveWorldMapFormProps>):React.ReactElement {
     const [formData, setFormData] = useState<WorldMap>(emptyWorldMap);
+    const [imageDimensions, setImageDimensions] = useState({x:0, y:0});
     const navigate = useNavigate();
     const img = new Image();
 
     function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>):void {
-        if(event.target.name === "worldMapUrl") img.src = event.target.value;
-
         setFormData(
             {
                 ...formData,
                 [event.target.name]: event.target.value
             }
         )
+
+        if(event.target.name === "worldMapUrl") img.src = event.target.value;
     }
 
     useEffect(() => {
-        if(props.worldMapId && data.worldMaps) setFormData(getWorldMapById(props.worldMapId, data.worldMaps));
+        if(props.worldMapId && data.worldMaps) {
+            setFormData(getWorldMapById(props.worldMapId, data.worldMaps))
+            setImageDimensions({x:formData.xSize, y:formData.ySize});
+        }
         // eslint-disable-next-line
     }, [data]);
 
     img.onload = function() {
-        formData.xSize = img.width;
-        formData.ySize = img.height;
+        setImageDimensions({x:img.width, y:img.height});
     }
 
     function handleSubmit(event: FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-        functions.saveWorldMap({...formData});
+        functions.saveWorldMap({...formData, xSize:imageDimensions.x, ySize:imageDimensions.y});
         navigate('/')
     }
 
@@ -107,7 +110,7 @@ export default function SaveWorldMapForm({data, functions, props}:Readonly<SaveW
                                     <label htmlFor={"xSize"}><b>Breite:</b></label>
                                 </TableCell>
                                 <TableCell colSpan={2}>
-                                    <span>{formData.xSize}</span>
+                                    <span>{props.worldMapId ? formData.xSize :imageDimensions.x}</span>
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -115,7 +118,7 @@ export default function SaveWorldMapForm({data, functions, props}:Readonly<SaveW
                                     <label htmlFor={"ySize"}><b>Höhe:</b></label>
                                 </TableCell>
                                 <TableCell colSpan={2}>
-                                    <span>{formData.ySize}</span>
+                                    <span>{props.worldMapId ? formData.ySize :imageDimensions.y}</span>
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -139,9 +142,10 @@ export default function SaveWorldMapForm({data, functions, props}:Readonly<SaveW
                 <Sheet sx={{p: 1, display: "flex", flexDirection: "row", height: "205px"}} variant="outlined">
                     <b>Vorschau:</b>
                     <img src={formData.worldMapUrl}
-                         alt={"Weltkarte"}
+                         alt={"Not Found"}
                          className={"SaveWorldMapForm_worldMapImage"}
                     />
+
                 </Sheet>
             </Grid>
         </Grid>
