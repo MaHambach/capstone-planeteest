@@ -29,13 +29,19 @@ export default function DisplayTile(props:Readonly<DisplayTileProps>):React.Reac
     const displayTileStyle = {
         width: props.tileSize,
         height: props.tileSize,
-        backgroundColor: "white"
+        backgroundColor: "white",
+        backgroundImage: "url(" + props.image + ")",
+        backgroundPosition: "center",
+    }
+
+    const style = {
+        textShadow: "0px 0px 8px white, 0px 0px 8px white, 0px 0px 8px white",
+        fontWeight: "bold"
     }
 
     if(props.backgroundColor){
         displayTileStyle.backgroundColor = props.backgroundColor;
     }
-
 
     const propertiesButtonStyle = {
         top: 10,
@@ -54,8 +60,7 @@ export default function DisplayTile(props:Readonly<DisplayTileProps>):React.Reac
                 onFocus={handleMouseOver}
                 onBlur={handleMouseOut}
             >
-                <b className={"name"}>{props.name}</b>
-                {props.image && <img className={"characterCard_Image"} src={props.image} alt={""}/>}
+                <span className={"name"} style={style}>{props.name}</span>
             </Button>
             {(isHovered && props.updateUrl) &&
                 <Button className={"propertiesButton"}
