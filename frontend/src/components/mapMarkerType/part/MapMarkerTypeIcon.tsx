@@ -13,7 +13,7 @@ import {
 } from "react-icons/bs";
 import React from "react";
 import {FaAnkh, FaChurch, FaDungeon, FaFistRaised} from "react-icons/fa";
-import {AiFillHome, AiFillPushpin} from "react-icons/ai";
+import {AiFillHome} from "react-icons/ai";
 import {
     GiAbstract024,
     GiAbstract097,
@@ -38,7 +38,7 @@ import {
     GiCampingTent,
     GiCarrion,
     GiCastle,
-    GiCastleRuins, GiCaveEntrance,
+    GiCastleRuins,
     GiChessRook,
     GiCrownedSkull,
     GiCryptEntrance,
@@ -89,9 +89,8 @@ type MapMarkerTypeIconProps = {
 }
 export default function MapMarkerTypeIcon(props:Readonly<MapMarkerTypeIconProps>):React.ReactElement {
     const iconName:string = props.iconName;
-    const filterString:string = "drop-shadow(0 0 2px " + props.color + ")";
     const mapMarkerTypeIconStyle = {
-        filter: filterString,
+        filter: "drop-shadow(0 0 8px white) drop-shadow(0 0 4px " + props.color + ")",
         width: props.tileSize,
         height: props.tileSize
     }
@@ -101,7 +100,6 @@ export default function MapMarkerTypeIcon(props:Readonly<MapMarkerTypeIconProps>
             {iconName === "FaDungeon"           && <FaDungeon           style={mapMarkerTypeIconStyle}/>}
             {iconName === "FaFistRaised"        && <FaFistRaised        style={mapMarkerTypeIconStyle}/>}
             {iconName === "FaChurch"            && <FaChurch            style={mapMarkerTypeIconStyle}/>}
-            {iconName === "AiFillPushpin"       && <AiFillPushpin       style={mapMarkerTypeIconStyle}/>}
             {iconName === "BsGeoAlt"            && <BsGeoAlt            style={mapMarkerTypeIconStyle}/>}
             {iconName === "BsGeoAltFill"        && <BsGeoAltFill        style={mapMarkerTypeIconStyle}/>}
             {iconName === "BsGeo"               && <BsGeo               style={mapMarkerTypeIconStyle}/>}
@@ -204,7 +202,6 @@ export default function MapMarkerTypeIcon(props:Readonly<MapMarkerTypeIconProps>
             {iconName === "GiWoodenDoor" && <GiWoodenDoor  style={mapMarkerTypeIconStyle}/>}
             {iconName === "GiDeerHead" && <GiDeerHead  style={mapMarkerTypeIconStyle}/>}
             {iconName === "GiSpikedDragonHead" && <GiSpikedDragonHead  style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiCaveEntrance " && <GiCaveEntrance   style={mapMarkerTypeIconStyle}/>}
         </>
     )
 }

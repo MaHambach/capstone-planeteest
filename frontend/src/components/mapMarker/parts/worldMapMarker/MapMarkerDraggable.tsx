@@ -1,11 +1,9 @@
-import './MapMarkerCard.css'
+import './MapMarkerDraggable.css'
 import {MapMarker} from "../../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
-import ToolBar from "./ToolBar/ToolBar.tsx";
 import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
-import MapMarkerIcon from "./MapMarkerIcon.tsx";
 import {MapMarkerType} from "../../../../types/MapMarkerType.ts";
-import {getMapMarkerTypeById} from "../../../../utility/getById.ts";
+import MapMarkerPin from "./MapMarkerPin.tsx";
 
 type Data = {
     mapMarkerTypes: MapMarkerType[];
@@ -28,8 +26,8 @@ type MapMarkerCardProps = {
     functions:Functions;
     props:Props;
 }
-export default function MapMarkerCard({data, functions, props}: Readonly<MapMarkerCardProps>): React.ReactElement {
-    const mapMarkerSize={xSize: 80, ySize: 80};
+export default function MapMarkerDraggable({data, functions, props}: Readonly<MapMarkerCardProps>): React.ReactElement {
+    const mapMarkerSize={xSize: 50, ySize: 50};
     const [coordinates, setCoordinates] = useState({xPosition: 0, yPosition: 0});
     const nodeRef:React.MutableRefObject<null> = React.useRef(null);
 
@@ -58,45 +56,33 @@ export default function MapMarkerCard({data, functions, props}: Readonly<MapMark
     }
 
     return (
-
-            <div className={"mapMarkerCard"} style={{
-                position:"absolute",
-                left: coordinates.xPosition,
-                top: coordinates.yPosition
-            }}>
-                { props.isMovable ?
-                    <Draggable
-                        handle="strong"
-                        nodeRef={nodeRef}
-                        onDrag={handleDrag}
-                    >
+        <div className={"mapMarkerDraggable"} style={{
+            position:"absolute",
+            left: coordinates.xPosition,
+            top: coordinates.yPosition
+        }}>
+            {props.isMovable ?
+                <Draggable
+                    handle="strong"
+                    nodeRef={nodeRef}
+                    onDrag={handleDrag}
+                >
                     <strong ref={nodeRef}>
-                        <MapMarkerIcon
-                            isSelected={props.isSelected}
-                            handleClick={handleClick}
-                            mapMarkerType={getMapMarkerTypeById(props.mapMarker.markerTypeId, data.mapMarkerTypes)}
+                        <MapMarkerPin
+                            data={{...data}}
+                            functions={{...functions, handleClick: handleClick}}
+                            props={{...props}}
                         />
                     </strong>
-                    </Draggable>
-                        :
-                    <MapMarkerIcon
-                        isSelected={props.isSelected}
-                        handleClick={handleClick}
-                        mapMarkerType={getMapMarkerTypeById(props.mapMarker.markerTypeId, data.mapMarkerTypes)}
-                    />
-                }
-                {props.isSelected &&
-                    <>
-                        <h2 className={"mapMarkerName"}>
-                            {props.mapMarker.name}
-                        </h2>
-                        <ToolBar
-                            isOwner={props.isOwner}
-                            handleMapMarkerUpdate={functions.handleMapMarkerUpdate}
-                            handleArticleFrame={functions.handleArticleFrame}
-                        />
-                    </>
-                }
-            </div>
+                </Draggable>
+                :
+                <MapMarkerPin
+                    data={{...data}}
+                    functions={{...functions, handleClick: handleClick}}
+                    props={{...props}}
+                />
+            }
+
+        </div>
     )
 }
