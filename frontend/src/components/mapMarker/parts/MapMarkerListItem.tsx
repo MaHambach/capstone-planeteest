@@ -2,10 +2,12 @@ import './MapMarkerListItem.css';
 import {AppUser} from "../../../types/AppUser.ts";
 import {MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
-import {emptyMapMarkerType, MapMarkerType} from "../../../types/MapMarkerType.ts";
-import MapMarkerTypeCard from "../../mapMarkerType/part/MapMarkerTypeCard.tsx";
+import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {MdVisibility, MdVisibilityOff} from "react-icons/md";
-import {TableRow, TableCell} from "@mui/material";
+import {TableRow} from "@mui/material";
+import IconSwitch from "../../_generic/parts/IconSwitch.tsx";
+import {StyledTableCell} from "../../_generic/parts/StyledTableCell.tsx";
+import MapMarkerTypeSelect from "../../mapMarkerType/part/MapMarkerTypeSelect.tsx";
 
 type Data = {
     appUser: AppUser;
@@ -28,16 +30,7 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
         setMapMarker(props.mapMarker);
     }, [props.mapMarker]);
 
-    function getMapMarkerTypeById(mapMarkerTypeId: string): MapMarkerType {
-        const mapMarkerTypeWithId: MapMarkerType | undefined = data.mapMarkerTypes.find((mapMarkerType: MapMarkerType) => mapMarkerType.id === mapMarkerTypeId);
-
-        if (mapMarkerTypeWithId) return mapMarkerTypeWithId;
-
-        console.error("MapMarkerType with id " + mapMarkerTypeId + " not found.")
-        return emptyMapMarkerType;
-    }
-
-    function handleVisibilityChange(event:React.MouseEvent<HTMLButtonElement>): void {
+    function setMapMarkerVisibility(event:React.MouseEvent<HTMLButtonElement>): void {
         event.preventDefault();
         functions.updateMapMarker({
             ...mapMarker,
@@ -45,28 +38,44 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
         });
     }
 
+    function setMapMarkerTypeId(mapMarkerTypeId:string): void {
+        functions.updateMapMarker({
+            ...mapMarker,
+            markerTypeId: mapMarkerTypeId
+        });
+    }
+
     return (
         <TableRow className={"mapMarkerListItem"}>
-            <TableCell>{mapMarker.name}</TableCell>
-            <TableCell>
-                <MapMarkerTypeCard
-                    mapMarkerType={getMapMarkerTypeById(mapMarker.markerTypeId)}
-                    tileSize={30}
+            <StyledTableCell>
+                {mapMarker.name}
+            </StyledTableCell>
+            <StyledTableCell align={"center"}>
+                <MapMarkerTypeSelect
+                    data={{mapMarkerTypes: data.mapMarkerTypes}}
+                    functions={{onClick: setMapMarkerTypeId}}
+                    props={{value: props.mapMarker.markerTypeId}}
                 />
-            </TableCell>
-            <TableCell>
-                <button onClick={handleVisibilityChange}
-                        className={"button"}>
-                    <div
-                        className={mapMarker.visibility === "OWNER_ONLY" ?
-                            "icon visibleIsOwnerOnly_ownerOnly" :
-                            "icon visibleIsEveryone_ownerOnly"}><MdVisibilityOff/></div>
-                    <div
-                        className={mapMarker.visibility === "OWNER_ONLY" ?
-                            "icon visibleIsOwnerOnly_everyone" :
-                            "icon visibleIsEveryone_everyone"}><MdVisibility/></div>
-                </button>
-            </TableCell>
+            </StyledTableCell>
+            <StyledTableCell align={"center"}>
+                <IconSwitch
+                    data={{
+                        tooltipLeft:"Sichtbar für mich",
+                        tooltipRight:"Sichtbar für alle",
+                        name: "visibility",
+                        valueLeft: "OWNER_ONLY",
+                        valueRight: "OWNER_AND_OBSERVERS"
+                    }}
+                    functions={{
+                        onClick: setMapMarkerVisibility
+                    }}
+                    props={{
+                        iconLeft:<MdVisibilityOff/>,
+                        iconRight:<MdVisibility/>,
+                        isOn: mapMarker.visibility === "OWNER_AND_OBSERVERS"
+                    }}
+                />
+            </StyledTableCell>
         </TableRow>
     );
 }

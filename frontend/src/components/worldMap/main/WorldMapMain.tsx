@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import {emptyWorldMap, WorldMap} from "../../../types/WorldMap.ts";
 import WorldMapImage from "../parts/WorldMapImage.tsx";
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
-import MapMarkerCard from "../../mapMarker/parts/MapMarkerCard.tsx";
+import MapMarkerCard from "../../mapMarker/parts/worldMapMarker/MapMarkerCard.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import ToolBar from "../WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";

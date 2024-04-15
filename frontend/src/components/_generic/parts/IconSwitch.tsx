@@ -16,6 +16,7 @@ type Functions = {
 type Props = {
     iconLeft: React.ReactElement;
     iconRight: React.ReactElement;
+    isOn?: boolean;
 }
 type IconSwitchProps = {
     data: Data;
@@ -23,7 +24,7 @@ type IconSwitchProps = {
     props: Props;
 }
 export default function IconSwitch({data, functions, props}:Readonly<IconSwitchProps>):React.ReactElement {
-    const [isOn, setIsOn] = React.useState<boolean>(false);
+    const [isOn, setIsOn] = React.useState<boolean>(props.isOn ? props.isOn : false);
 
     function handleChange (event: React.MouseEvent<HTMLButtonElement>):void {
         setIsOn(!isOn);

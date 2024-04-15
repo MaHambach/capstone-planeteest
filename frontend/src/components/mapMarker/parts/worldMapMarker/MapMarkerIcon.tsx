@@ -1,7 +1,7 @@
 import './MapMarkerIcon.css';
 import React from "react";
-import MapMarkerTypeIcon from "../../mapMarkerType/part/MapMarkerTypeIcon.tsx";
-import {MapMarkerType} from "../../../types/MapMarkerType.ts";
+import MapMarkerTypeIcon from "../../../mapMarkerType/part/MapMarkerTypeIcon.tsx";
+import {MapMarkerType} from "../../../../types/MapMarkerType.ts";
 
 
 type MapMarkerIconProps = {

@@ -1,11 +1,11 @@
 import './MapMarkerCard.css'
-import {MapMarker} from "../../../types/MapMarker.ts";
+import {MapMarker} from "../../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
 import ToolBar from "./ToolBar/ToolBar.tsx";
 import Draggable, {DraggableData, DraggableEvent} from "react-draggable";
 import MapMarkerIcon from "./MapMarkerIcon.tsx";
-import {MapMarkerType} from "../../../types/MapMarkerType.ts";
-import {getMapMarkerTypeById} from "../../../utility/getById.ts";
+import {MapMarkerType} from "../../../../types/MapMarkerType.ts";
+import {getMapMarkerTypeById} from "../../../../utility/getById.ts";
 
 type Data = {
     mapMarkerTypes: MapMarkerType[];
