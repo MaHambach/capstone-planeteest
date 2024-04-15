@@ -1,7 +1,7 @@
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import React from "react";
 import {useNavigate, useParams} from "react-router-dom";
-import ChangeMapMarkerType from "../part/ChangeMapMarkerType.tsx";
+import SaveMapMarkerType from "../part/SaveMapMarkerType.tsx";
 import {MapMarkerTypeDto} from "../../../types/MapMarkerTypeDto.ts";
 
 type UpdateMapMarkerTypeProps = {
@@ -30,12 +30,11 @@ export default function UpdateMapMarkerType(props:Readonly<UpdateMapMarkerTypePr
 
     return (
         <main>
-            <ChangeMapMarkerType
+            <SaveMapMarkerType
                 handleSubmit={handleSubmit}
                 initialValue={props.getMapMarkerType(id)}
                 isUpdating={true}
                 handleDeleteMapMarkerType={handleDeleteMapMarkerType}
-                handleCancel={() => navigate('/mapMarkerType')}
             />
         </main>
     )
