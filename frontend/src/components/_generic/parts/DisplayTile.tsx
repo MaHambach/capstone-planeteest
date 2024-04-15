@@ -2,7 +2,7 @@ import "./DisplayTile.css";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 import {BsFillGearFill} from "react-icons/bs";
-import {Button} from "@mui/material";
+import {Button} from "@mui/joy";
 
 type DisplayTileProps = {
     name: string;
@@ -12,7 +12,6 @@ type DisplayTileProps = {
     tileSize:number;
     updateUrl?: string;
 }
-
 export default function DisplayTile(props:Readonly<DisplayTileProps>):React.ReactElement{
     const [isHovered, setIsHovered] = React.useState(false);
     function handleMouseOver(event:React.MouseEvent<HTMLButtonElement> | React.FocusEvent<HTMLButtonElement>):void {
@@ -39,11 +38,8 @@ export default function DisplayTile(props:Readonly<DisplayTileProps>):React.Reac
 
 
     const propertiesButtonStyle = {
-        width: props.tileSize/5,
-        height: props.tileSize/5,
         top: 10,
         right: 10,
-        backgroundColor: "white"
     }
 
     return (
@@ -58,10 +54,8 @@ export default function DisplayTile(props:Readonly<DisplayTileProps>):React.Reac
                 onFocus={handleMouseOver}
                 onBlur={handleMouseOut}
             >
-                <h2 className={"name"}>{props.name}</h2>
+                <b className={"name"}>{props.name}</b>
                 {props.image && <img className={"characterCard_Image"} src={props.image} alt={""}/>}
-                <div className={"overlay"}></div>
-
             </Button>
             {(isHovered && props.updateUrl) &&
                 <Button className={"propertiesButton"}
@@ -70,9 +64,12 @@ export default function DisplayTile(props:Readonly<DisplayTileProps>):React.Reac
                         onMouseOver={handleMouseOver}
                         onMouseOut={handleMouseOut}
                         onFocus={handleMouseOver}
-                        onBlur={handleMouseOut}>
+                        onBlur={handleMouseOut}
+                        color="neutral"
+                >
                     <BsFillGearFill />
-                </Button>}
+                </Button>
+            }
         </div>
     )
 }

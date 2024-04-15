@@ -10,13 +10,13 @@
 }
 
 .displayTile:hover {
-    box-shadow: inset 0 0 20px cyan;
+    box-shadow: inset 0 0 20px #0B6BCB;
     transition: 0.2s;
 }
 
 
 .displayTile .name {
-    font-size: 2rem;
+    font-size: 1.5rem;
     text-decoration: none;
     color: black;
 }
@@ -29,23 +29,11 @@
 
 .displayTile Button.displayTileButton_hover {
     border: none;
-    box-shadow: inset 0 0 20px cyan;
+    box-shadow: inset 0 0 20px #0B6BCB;
     transition: 0.2s;
 }
 
 .displayTile Button.propertiesButton {
     position: absolute;
-    color: black;
     z-index: 20;
-    border: 2px solid black;
-    font-size: 1.5rem;
-}
-
-.displayTile Button.propertiesButton:hover {
-    position: absolute;
-    color: black;
-    z-index: 20;
-    border: 2px solid black;
-    font-size: 1.5rem;
-    box-shadow: inset 0 0 20px cyan;
 }

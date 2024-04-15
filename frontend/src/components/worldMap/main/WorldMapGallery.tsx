@@ -3,6 +3,7 @@ import React from "react";
 import {emptyWorldMap, WorldMap} from "../../../types/WorldMap.ts";
 import DisplayTileGallery from "../../_generic/parts/DisplayTileGallery.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
+import Typography from "@mui/joy/Typography";
 
 type Data = {
     appUser: AppUser;
@@ -29,7 +30,7 @@ export default function WorldMapGallery({data, props}:Readonly<WorldMapGalleryPr
 
     return (
         <main className={"worldMapGallery"}>
-            <h2>Meine Weltkarten</h2>
+            <Typography level={"h2"} sx={{pt:2}}>Meine Weltkarten</Typography>
             <DisplayTileGallery
                 urlPrefix={"/worldmap/"}
                 tileData={data.worldMaps
@@ -37,12 +38,12 @@ export default function WorldMapGallery({data, props}:Readonly<WorldMapGalleryPr
                     .map((worldMap: WorldMap) => ({id: worldMap.id, name: worldMap.name}))}
                 addNewName={"Neue Weltkarte"}
                 addNewUrl={"/worldmap/add"}
-                tileSize={220}
+                tileSize={160}
                 color={"#FFFFFF"}
                 updateUrlPrefix={"/worldmap/"}
                 updateUrlSuffix={"/edit"}
             />
-            <h2>Beobachtete Weltkarten</h2>
+            <Typography level={"h2"} sx={{pt:2}}>Beobachtete Weltkarten</Typography>
             <DisplayTileGallery
                 urlPrefix={"/worldmap/"}
                 tileData={
@@ -50,7 +51,7 @@ export default function WorldMapGallery({data, props}:Readonly<WorldMapGalleryPr
                         .map((worldMap: WorldMap) => ({id: worldMap.id, name: worldMap.name}))}
                 addNewName={"Neue Weltkarte"}
                 addNewUrl={"/worldmap/add"}
-                tileSize={220}
+                tileSize={160}
                 color={"#FFFFFF"}
                 cantAddNew={true}
             />
