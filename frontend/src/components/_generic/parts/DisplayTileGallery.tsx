@@ -35,7 +35,8 @@ export default function DisplayTileGallery(props:Readonly<DisplayTileGalleryProp
                     url={props.addNewUrl}
                     tileSize={props.tileSize}
                     backgroundColor={props.color ? props.color : "white"}
-            />}
+                />
+            }
         </div>
     );
 }

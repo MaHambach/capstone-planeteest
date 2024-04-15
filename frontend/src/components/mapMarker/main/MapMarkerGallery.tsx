@@ -49,7 +49,7 @@ export default function MapMarkerGallery({data, functions}: Readonly<MapMarkerGa
             />
             <main>
                 <h2>{worldMap.name} - Map Marker Gallery</h2>
-                <Table>
+                <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell><b>Name</b></StyledTableCell>

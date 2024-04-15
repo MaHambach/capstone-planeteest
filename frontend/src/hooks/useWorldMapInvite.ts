@@ -56,8 +56,6 @@ export default function useWorldMapInvite() {
             });
     }
 
-
-
     return {
         worldMapInvites,
 
