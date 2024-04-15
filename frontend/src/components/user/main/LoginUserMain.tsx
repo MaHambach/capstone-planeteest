@@ -3,7 +3,6 @@ import React, {useState} from "react";
 import {AppUserRegister, emptyAppUserRegister} from "../../../types/AppUserRegister.ts";
 import {useNavigate} from "react-router-dom";
 import Typography from "@mui/joy/Typography";
-import {MdMenuBook} from "react-icons/md";
 import {IconContext} from "react-icons";
 import {GiAnvil} from "react-icons/gi";
 
@@ -18,11 +17,11 @@ const style = {
         zIndex: 1000
     },
     iconContext: {
-        "size": "64px",
+        "size": "48px",
     },
     icon: {
         "color": "#B87333",
-        filter: "drop-shadow(0 0 8px white)"
+        filter: "drop-shadow(0 0 8px yellow) drop-shadow(0 0 8px white) drop-shadow(0 0 8px white)"
     }
 };
 
@@ -60,11 +59,12 @@ export default function LoginUserMain(props:Readonly<LoginUserMainProps>):React.
 
     return (
         <main className={"loginUserMain"}>
-
-            IoPin
-
             <Typography level={"h1"}
-                        sx={{ textShadow: '2px 2px 8px rgba(255, 0, 0, 0.25), -2px -2px 4px rgba(0, 0, 0, 0.25)' }}
+                        sx={{
+                            textShadow: "0px 0px 8px white, 0px 0px 8px white, 0px 0px 8px white",
+                            display: "flex",
+                            flexDirection: "row",
+            }}
             >
                 Plane
                 <IconContext.Provider value={style.iconContext}>
