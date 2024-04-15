@@ -18,11 +18,16 @@ export default function MapMarkerTypeCard(props: Readonly<MapMarkerTypeCardProps
             className={"mapMarkerTypeGalleryTile"}
             onClick={handleClick}
             title={props.mapMarkerType.name}
+            style={{
+                width: props.tileSize,
+                height: props.tileSize,
+                backgroundColor: "white"
+            }}
         >
             <MapMarkerTypeIcon
                 iconName={props.mapMarkerType.icon}
                 color={props.mapMarkerType.color}
-                tileSize={props.tileSize}
+                tileSize={props.tileSize /2}
             />
         </button>
     )

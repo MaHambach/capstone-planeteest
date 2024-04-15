@@ -84,13 +84,13 @@ import {
 
 type MapMarkerTypeIconProps = {
     iconName: string;
-    color: string;
+    color?: string;
     tileSize: number;
 }
 export default function MapMarkerTypeIcon(props:Readonly<MapMarkerTypeIconProps>):React.ReactElement {
     const iconName:string = props.iconName;
     const mapMarkerTypeIconStyle = {
-        filter: "drop-shadow(0 0 8px white) drop-shadow(0 0 4px " + props.color + ")",
+        filter: props.color ? "drop-shadow(0 0 8px white) drop-shadow(0 0 8px white) drop-shadow(0 0 4px " + props.color + ")": "drop-shadow(0 0 0 white)",
         width: props.tileSize,
         height: props.tileSize
     }
@@ -116,38 +116,38 @@ export default function MapMarkerTypeIcon(props:Readonly<MapMarkerTypeIconProps>
             {iconName === "BsHouseDoor"         && <BsHouseDoor         style={mapMarkerTypeIconStyle}/>}
             {iconName === "BsHouseDoorFill"     && <BsHouseDoorFill     style={mapMarkerTypeIconStyle}/>}
             {iconName === "BsHouseFill"         && <BsHouseFill         style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsFillGearFill"      && <BsFillGearFill style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsGear"              && <BsGear style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsGearFill"          && <BsGearFill style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsGearWide"          && <BsGearWide style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsFillGearFill"      && <BsFillGearFill      style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsGear"              && <BsGear              style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsGearFill"          && <BsGearFill          style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsGearWide"          && <BsGearWide          style={mapMarkerTypeIconStyle}/>}
             {iconName === "BsGearWideConnected" && <BsGearWideConnected style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsFillStarFill"      && <BsFillStarFill style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsStar"              && <BsStar style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsStarFill"          && <BsStarFill style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsStarHalf"          && <BsStarHalf style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsGem"               && <BsGem style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsTree"              && <BsTree style={mapMarkerTypeIconStyle}/>}
-            {iconName === "BsTreeFill"          && <BsTreeFill style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiAncientColumns" && <GiAncientColumns style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiAncientRuins" && <GiAncientRuins style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiAncientSword" && <GiAncientSword style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiChessRook" && <GiChessRook style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiCrystalGrowth" && <GiCrystalGrowth style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiDoorway" && <GiDoorway style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiDungeonGate" && <GiDungeonGate style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiFuji" && <GiFuji style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiGoldMine" && <GiGoldMine style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiGraveyard" && <GiGraveyard style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiMagicGate" && <GiMagicGate style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiPentacle" && <GiPentacle style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiAngelWings" && <GiAngelWings style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiBarracksTent" && <GiBarracksTent style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiCryptEntrance" && <GiCryptEntrance style={mapMarkerTypeIconStyle}/>}
-            {iconName === "FaAnkh" && <FaAnkh style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiPlaneWing" && <GiPlaneWing style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiAbstract024" && <GiAbstract024 style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiAnimalSkull" && <GiAnimalSkull style={mapMarkerTypeIconStyle}/>}
-            {iconName === "GiAbstract097" && <GiAbstract097  style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsFillStarFill"      && <BsFillStarFill      style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsStar"              && <BsStar              style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsStarFill"          && <BsStarFill          style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsStarHalf"          && <BsStarHalf          style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsGem"               && <BsGem               style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsTree"              && <BsTree              style={mapMarkerTypeIconStyle}/>}
+            {iconName === "BsTreeFill"          && <BsTreeFill          style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiAncientColumns"    && <GiAncientColumns      style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiAncientRuins"      && <GiAncientRuins           style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiAncientSword"      && <GiAncientSword style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiChessRook"         && <GiChessRook style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiCrystalGrowth"     && <GiCrystalGrowth style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiDoorway"           && <GiDoorway style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiDungeonGate"       && <GiDungeonGate style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiFuji"              && <GiFuji style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiGoldMine"          && <GiGoldMine style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiGraveyard"         && <GiGraveyard style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiMagicGate"         && <GiMagicGate style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiPentacle"          && <GiPentacle style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiAngelWings"        && <GiAngelWings style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiBarracksTent"      && <GiBarracksTent style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiCryptEntrance"     && <GiCryptEntrance style={mapMarkerTypeIconStyle}/>}
+            {iconName === "FaAnkh"              && <FaAnkh style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiPlaneWing"         && <GiPlaneWing style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiAbstract024"       && <GiAbstract024 style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiAnimalSkull"       && <GiAnimalSkull style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GiAbstract097"       && <GiAbstract097  style={mapMarkerTypeIconStyle}/>}
 
             {iconName === "GiAgave" && <GiAgave  style={mapMarkerTypeIconStyle}/>}
             {iconName === "GiAlienSkull" && <GiAlienSkull  style={mapMarkerTypeIconStyle}/>}

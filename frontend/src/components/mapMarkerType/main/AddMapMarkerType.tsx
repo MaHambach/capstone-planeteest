@@ -19,7 +19,7 @@ export default function AddMapMarkerType(props:Readonly<AddMapMarkerTypeProps>):
             <ChangeMapMarkerType
                 handleSubmit={handleSubmit}
                 initialValue={emptyMapMarkerTypeDto}
-                isDeleteAble={false}
+                isUpdating={false}
                 handleDeleteMapMarkerType={() => {}}
                 handleCancel={() => navigate('/mapMarkerType')}
             />

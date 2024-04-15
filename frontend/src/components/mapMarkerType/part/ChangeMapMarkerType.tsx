@@ -10,7 +10,7 @@ import {MapMarkerTypeDto} from "../../../types/MapMarkerTypeDto.ts";
 type ChangeMapMarkerTypeProps = {
     handleSubmit: (mapMarkerTypeDto:MapMarkerTypeDto) => void;
     initialValue: MapMarkerTypeDto;
-    isDeleteAble?: boolean;
+    isUpdating?: boolean;
     handleDeleteMapMarkerType?: (event: React.MouseEvent<HTMLElement>) => void;
     handleCancel: () => void;
 }
@@ -66,7 +66,7 @@ export default function ChangeMapMarkerType (props:Readonly<ChangeMapMarkerTypeP
                         <button onClick={() => props.handleCancel()}>Abbrechen</button>
                     </p>
                     <p>
-                        {props.isDeleteAble && <button className={"deleteButton"} onClick={props.handleDeleteMapMarkerType}>Löschen</button>}
+                        {props.isUpdating && <button className={"deleteButton"} onClick={props.handleDeleteMapMarkerType}>Löschen</button>}
                     </p>
                 </form>
                 <div>
@@ -75,7 +75,7 @@ export default function ChangeMapMarkerType (props:Readonly<ChangeMapMarkerTypeP
                         iconName={formData.icon}
                         handleClick={function () {
                         }}
-                        borderColor={formData.color}
+                        shadowColor={formData.color}
                         tileSize={50}
                     />
                 </div>

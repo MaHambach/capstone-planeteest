@@ -17,7 +17,7 @@ export default function MapMarkerTypeGallery(props: Readonly<MapMarkerTypeGaller
                     <MapMarkerTypeCard
                         key={mapMarkerType.id}
                         mapMarkerType={mapMarkerType}
-                        tileSize={80}
+                        tileSize={100}
                         navigationFunction={() => navigate("/mapMarkerType/" + mapMarkerType.id + "/edit")}
                     />
                 )
