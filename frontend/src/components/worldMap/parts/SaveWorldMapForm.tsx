@@ -145,7 +145,6 @@ export default function SaveWorldMapForm({data, functions, props}:Readonly<SaveW
                          alt={"Not Found"}
                          className={"SaveWorldMapForm_worldMapImage"}
                     />
-
                 </Sheet>
             </Grid>
         </Grid>

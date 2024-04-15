@@ -10,7 +10,7 @@ export default function AddWorldMapMain(props:Readonly<NewWorldMapFormProps>):Re
 
     return (
         <main>
-            <Paper sx={{p:2, m:-2}}>
+            <Paper sx={{p:2, m:-2, borderBottom: 0}}>
                 <h2>Neue Weltkarte anlegen</h2>
                 <SaveWorldMapForm
                     data={{}}
