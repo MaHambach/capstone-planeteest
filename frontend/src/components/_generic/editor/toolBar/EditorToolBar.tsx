@@ -5,13 +5,13 @@ import {
     FaCode, FaEraser,
     FaListOl,
     FaListUl,
-    FaQuoteLeft,
-    FaRulerHorizontal,
+    FaQuoteLeft
 } from "react-icons/fa";
 import FormatToolBarPlugin from "./FormatToolBarPlugin.tsx";
 import UndoRedoToolbarPlugin from "./UndoRedoToolbarPlugin.tsx";
 import {IconButton, Tooltip} from "@mui/joy";
 import HeaderToolBarPlugin from "./HeaderToolBarPlugin.tsx";
+import {GoHorizontalRule} from "react-icons/go";
 
 
 type EditorToolBarProps = {
@@ -99,7 +99,7 @@ export default function EditorToolBar({editor}:Readonly<EditorToolBarProps>):Rea
                         event.preventDefault();
                         editor.chain().focus().setHorizontalRule().run();
                 }}>
-                    <FaRulerHorizontal />
+                    <GoHorizontalRule />
                 </IconButton>
             </Tooltip>
         </div>
