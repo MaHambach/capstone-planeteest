@@ -8,14 +8,14 @@ import {getWorldMapById} from "../../../utility/getById.ts";
 
 
 type Data={
-    worldMaps:WorldMap[];
+    worldMaps?:WorldMap[];
 }
 type Functions = {
-    deleteWorldMap:(id:string) => void;
-    updateWorldMap:(worldMap:WorldMap) => void;
+    deleteWorldMap?:(id:string) => void;
+    saveWorldMap:(worldMap:WorldMap) => void;
 }
 type Props = {
-    worldMapId:string;
+    worldMapId?:string;
 }
 type SaveWorldMapFormProps = {
     data:Data;
@@ -24,18 +24,12 @@ type SaveWorldMapFormProps = {
 }
 export default function SaveWorldMapForm({data, functions, props}:Readonly<SaveWorldMapFormProps>):React.ReactElement {
     const [formData, setFormData] = useState<WorldMap>(emptyWorldMap);
-
     const navigate = useNavigate();
-
-
-    useEffect(() => {
-        setFormData(getWorldMapById(props.worldMapId, data.worldMaps));
-        // eslint-disable-next-line
-    }, [data]);
-
-
+    const img = new Image();
 
     function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>):void {
+        if(event.target.name === "worldMapUrl") img.src = event.target.value;
+
         setFormData(
             {
                 ...formData,
@@ -43,18 +37,30 @@ export default function SaveWorldMapForm({data, functions, props}:Readonly<SaveW
             }
         )
     }
+
+    useEffect(() => {
+        if(props.worldMapId && data.worldMaps) setFormData(getWorldMapById(props.worldMapId, data.worldMaps));
+        // eslint-disable-next-line
+    }, [data]);
+
+    img.onload = function() {
+        formData.xSize = img.width;
+        formData.ySize = img.height;
+    }
+
     function handleSubmit(event: FormEvent<HTMLFormElement>):void {
         event.preventDefault();
-
-        functions.updateWorldMap(formData);
+        functions.saveWorldMap({...formData});
         navigate('/')
     }
 
     function handleDeleteWorldMap(event:React.MouseEvent<HTMLButtonElement>):void {
         event.preventDefault();
-        if (window.confirm("Möchten Sie die Weltkarte" + formData.name + " wirklich löschen?")) {
-            functions.deleteWorldMap(props.worldMapId);
-            navigate("/");
+        if(props.worldMapId && functions.deleteWorldMap){
+            if (window.confirm("Möchten Sie die Weltkarte" + formData.name + " wirklich löschen?")) {
+                functions.deleteWorldMap(props.worldMapId);
+                navigate("/");
+            }
         }
     }
 
@@ -118,8 +124,10 @@ export default function SaveWorldMapForm({data, functions, props}:Readonly<SaveW
                                         <Button color={"neutral"} type={"submit"}>Speichern</Button>
                                         <Button color={"neutral"}
                                                 onClick={() => navigate('/')}>Abbrechen</Button>
-                                        <Button color={"danger"} onClick={handleDeleteWorldMap}
-                                                type={"button"}>Löschen</Button>
+                                        {functions.deleteWorldMap &&
+                                            <Button color={"danger"} onClick={handleDeleteWorldMap}
+                                                 type={"button"}>Löschen</Button>
+                                        }
                                     </ButtonGroup>
                                 </TableCell>
                             </TableRow>

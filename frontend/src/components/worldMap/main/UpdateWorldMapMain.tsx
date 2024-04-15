@@ -55,10 +55,10 @@ export default function UpdateWorldMapMain({data, functions}:Readonly<UpdateWorl
         <main className={"UpdateWorldMapMain"}>
             <SaveWorldMapForm
                 data={{worldMaps: data.worldMaps}}
-                functions={{deleteWorldMap: functions.deleteWorldMap, updateWorldMap: functions.updateWorldMap}}
+                functions={{deleteWorldMap: functions.deleteWorldMap, saveWorldMap: functions.updateWorldMap}}
                 props={{worldMapId: id}}
             />
-            <Grid container spacing={1.5} sx={{ flexGrow: 1 }}>
+            <Grid container spacing={1.5} sx={{ flexGrow: 1 }} mt={1}>
                 <Grid xs={6}>
                     <Sheet sx={{p: 1}} variant="outlined">
                         <b>Betrachter</b>

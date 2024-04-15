@@ -2,7 +2,7 @@ import {Route, Routes} from "react-router-dom";
 import WorldMapGallery from "./components/worldMap/main/WorldMapGallery.tsx";
 import React, {useEffect} from 'react'
 import useWorldMaps from "./hooks/useWorldMaps.ts";
-import NewWorldMapForm from "./components/worldMap/main/NewWorldMapForm.tsx";
+import AddWorldMapMain from "./components/worldMap/main/AddWorldMapMain.tsx";
 import WorldMapMain from "./components/worldMap/main/WorldMapMain.tsx";
 import UpdateWorldMapMain from "./components/worldMap/main/UpdateWorldMapMain.tsx";
 import useMapMarkers from "./hooks/useMapMarkers.ts";
@@ -77,7 +77,7 @@ export default function App():React.ReactElement {
                             />
                         }/>
                         <Route path={"/worldmap/add"} element={
-                            <NewWorldMapForm
+                            <AddWorldMapMain
                                 saveWorldMap={saveWorldMap}
                             />
                         }/>
