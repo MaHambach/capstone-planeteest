@@ -2,6 +2,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url("https://res.cloudinary.com/dzpmknjnj/image/upload/v1713187173/Login_Backdrop_02_wsqerd.png");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
 }
 
 .loginUserMain .inputFormForm {
