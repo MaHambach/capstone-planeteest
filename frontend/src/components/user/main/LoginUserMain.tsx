@@ -7,15 +7,6 @@ import {IconContext} from "react-icons";
 import {GiAnvil} from "react-icons/gi";
 
 const style = {
-    button: {
-        width: 64,
-        height: 64,
-        top: 10,
-        right: 10,
-        padding: 0,
-        border: "1px solid black",
-        zIndex: 1000
-    },
     iconContext: {
         "size": "48px",
     },
