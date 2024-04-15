@@ -4,6 +4,12 @@ import React, {useEffect, useState} from "react";
 import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
 import {GiPadlock, GiPadlockOpen} from "react-icons/gi";
+import {Button, Table, TableBody, TableContainer, TableRow, TextField} from "@mui/material";
+import {Sheet} from "@mui/joy";
+import {StyledTableCell} from "../../_generic/parts/StyledTableCell.tsx";
+import MapMarkerTypeSelect from "../../mapMarkerType/part/MapMarkerTypeSelect.tsx";
+import IconSwitch from "../../_generic/parts/IconSwitch.tsx";
+import {MdVisibility, MdVisibilityOff} from "react-icons/md";
 
 type Data = {
     mapMarkerTypes: MapMarkerType[];
@@ -31,11 +37,32 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
         setFormData(props.mapMarker);
     }, [props]);
 
-    function handleChangeInput(event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>):void {
+    function handleChangeInput(event: React.ChangeEvent<HTMLInputElement> |
+                                      React.ChangeEvent<HTMLSelectElement> |
+                                      React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>):void {
         functions.setSelectedMapMarker(
             {
                 ...formData,
                 [event.target.name]: event.target.value
+            }
+        )
+    }
+
+    function setMapMarkerTypeId(mapMarkerTypeId:string):void {
+        functions.setSelectedMapMarker(
+            {
+                ...formData,
+                markerTypeId: mapMarkerTypeId
+            }
+        )
+    }
+
+    function setMapMarkerVisibility(event: React.MouseEvent<HTMLButtonElement>):void {
+        event.preventDefault();
+        functions.setSelectedMapMarker(
+            {
+                ...formData,
+                visibility: formData.visibility === "OWNER_ONLY" ? "OWNER_AND_OBSERVERS" : "OWNER_ONLY"
             }
         )
     }
@@ -53,7 +80,7 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
     }
 
     function handleDeleteMapMarker():void {
-        if (window.confirm("Möchten Sie diesen MapMarker und seinen zugehörigen Artikel wirklich löschen?")) {
+        if (window.confirm("Möchten Sie diesen MapMarker und seine zugehörigen Artikel wirklich löschen?")) {
             functions.deleteMapMarker(formData.id);
             functions.closeMapMarkerCard();
         }
@@ -63,67 +90,93 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
         <DraggableSubWindow
             functions={{closeFrame: functions.closeMapMarkerCard}}
             props={{
-                title: "MapMarker Update",
+                title: "Update MapMarker",
                 initialPosition: {
-                    left:props.mapMarker.xPosition - 200,
+                    left:props.mapMarker.xPosition - 250,
                     top:props.mapMarker.yPosition,
-                    width:200,
-                    height:200
+                    width:250,
+                    height:245
                 }
             }}
         >
             <form className={"mapMarkerUpdateWindow"} onSubmit={handleSubmit}>
-                <div className={"mapMarkerUpdateDiv"}>
-                    <label htmlFor={"name"}>Name: </label>
-                    <input id={"name"} name={"name"}
-                           type={"text"}
-                           value={formData.name}
-                           onChange={handleChangeInput}/>
-                </div>
-                <div className={"mapMarkerUpdateDiv"}>
-                    <label htmlFor={"markerTypeId"}>Typ: </label>
-                    <select id={"markerTypeId"} name={"markerTypeId"} value={formData.markerTypeId}
-                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => functions.setSelectedMapMarker({
-                                ...formData,
-                                markerTypeId: e.target.value
-                            })}>
-                        {data.mapMarkerTypes.map((mapMarkerType: MapMarkerType) => {
-                            return <option key={mapMarkerType.id}
-                                           value={mapMarkerType.id}>
-                                {mapMarkerType.name}
-                            </option>
-                        })}
-                    </select>
-                </div>
-                <div className={"mapMarkerUpdateDiv"}>
-                    <button
-                        className={changingPosition ?
-                            "mapMarkerPositionDivMarkerPositionButton_changeable" :
-                            "mapMarkerPositionDivMarkerPositionButton"}
-                        onClick={toggleChangingPosition}>Marker Position
-                    </button>
-                    <div
-                        className={changingPosition ?
-                            "mapMarkerPositionDivPadlockClosed_changeable" :
-                            "mapMarkerPositionDivPadlockClosed"}><GiPadlock/></div>
-                    <div
-                        className={changingPosition ?
-                            "mapMarkerPositionDivPadlockOpen_changeable" :
-                            "mapMarkerPositionDivPadlockOpen"}><GiPadlockOpen/></div>
-                </div>
-                <div className={"mapMarkerUpdateDiv"}>
-                    <label htmlFor={"Visibility"}>Sichtbarkeit: </label>
-                    <select id={"visibility"} name={"visibility"} value={formData.visibility} onChange={handleChangeInput}>
-                        <option value={"OWNER_ONLY"}>OWNER_ONLY</option>
-                        <option value={"OWNER_AND_OBSERVERS"}>OWNER_AND_OBSERVERS</option>
-                    </select>
-                </div>
-                <div className={"mapMarkerUpdateDiv"}>
-                    <button type={"submit"}>Übernehmen</button>
-                </div>
-                <div className={"mapMarkerUpdateDiv"}>
-                    <button className={"deleteButton"} onClick={handleDeleteMapMarker}>Löschen</button>
-                </div>
+                <TableContainer component={Sheet}>
+                    <Table>
+                        <TableBody>
+                            <TableRow>
+                                <StyledTableCell align={"center"} colSpan={3}>
+                                    <TextField
+                                        id={"name"}
+                                        name={"name"}
+                                        type={"text"}
+                                        label={"Name"}
+                                        value={formData.name}
+                                        onChange={handleChangeInput}
+                                        placeholder={"Name"}
+                                        size={"small"}
+                                    />
+                                </StyledTableCell>
+                            </TableRow>
+                            <TableRow>
+                                <StyledTableCell align={"center"}>
+                                    <MapMarkerTypeSelect
+                                        data={{mapMarkerTypes: data.mapMarkerTypes}}
+                                        functions={{onClick: setMapMarkerTypeId}}
+                                        props={{value: props.mapMarker.markerTypeId}}
+                                    />
+                                </StyledTableCell>
+                                <StyledTableCell align={"center"}>
+                                    <IconSwitch
+                                        data={{
+                                            tooltipLeft:"Sichtbar für mich",
+                                            tooltipRight:"Sichtbar für alle",
+                                            name: "visibility",
+                                            valueLeft: "OWNER_ONLY",
+                                            valueRight: "OWNER_AND_OBSERVERS"
+                                        }}
+                                        functions={{
+                                            onClick: setMapMarkerVisibility
+                                        }}
+                                        props={{
+                                            iconLeft:<MdVisibilityOff/>,
+                                            iconRight:<MdVisibility/>,
+                                        }}/>
+                                </StyledTableCell>
+                                <StyledTableCell align={"center"}>
+                                    <IconSwitch
+                                        data={{
+                                            tooltipLeft:"MapMarker ist fest",
+                                            tooltipRight:"MapMarker lässt sich bewegen",
+                                            name: "visibility",
+                                            valueLeft: "OWNER_ONLY",
+                                            valueRight: "OWNER_AND_OBSERVERS"
+                                        }}
+                                        functions={{
+                                            onClick: toggleChangingPosition
+                                        }}
+                                        props={{
+                                            iconLeft:<GiPadlock/>,
+                                            iconRight:<GiPadlockOpen/>,
+                                        }}/>
+                                </StyledTableCell>
+                            </TableRow>
+                            <TableRow>
+                                <StyledTableCell>
+                                </StyledTableCell>
+                                <StyledTableCell align={"right"} colSpan={2}>
+                                    <Button type={"submit"}>Übernehmen</Button>
+                                </StyledTableCell>
+                            </TableRow>
+                            <TableRow>
+                                <StyledTableCell>
+                                </StyledTableCell>
+                                <StyledTableCell align={"right"} colSpan={2}>
+                                    <Button color={"error"} onClick={handleDeleteMapMarker}>Löschen</Button>
+                                </StyledTableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </form>
         </DraggableSubWindow>
     )
