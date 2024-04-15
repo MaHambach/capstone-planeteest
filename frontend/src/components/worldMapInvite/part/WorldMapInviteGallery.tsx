@@ -4,6 +4,7 @@ import {WorldMapInviteCard} from "./WorldMapInviteCard.tsx";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import {AppUser} from "../../../types/AppUser.ts";
 import {WorldMap} from "../../../types/WorldMap.ts";
+import {Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
 
 type invitesType = "ToUser" | "FromUser" | "ToWorldMap";
 type Data = {
@@ -78,24 +79,47 @@ export default function WorldMapInviteGallery({data, props, functions}:Readonly<
     }, [props]);
 
     return (
-        <div className={"worldMapInviteGallery"}>
-            <h3>{props.title}</h3>
-            <div className={"worldMapInviteGalleryList"}>
-                {displayedWorldMapInvites.map((worldMapInvite:WorldMapInvite) => {
-                    return (
-                        <WorldMapInviteCard
-                            key={worldMapInvite.id}
-                            data={{
-                                appUsers: data.appUsers,
-                                worldMapInvite: worldMapInvite,
-                                worldMaps: data.worldMaps
-                        }}
-                            props={{displayOwnerName, displayInviteeName, displayWorldMapName}}
-                            functions={functions}
-                        />
-                    )
-                })}
-            </div>
-        </div>
-)
+        <>
+            <b>{props.title}</b>
+            <Table size={"small"}>
+                <TableHead>
+                    <TableRow>
+                        {displayWorldMapName &&
+                            <TableCell><b>Weltkarte</b></TableCell>
+                        }
+                        {displayOwnerName &&
+                            <TableCell><b>Name</b></TableCell>
+                        }
+                        {displayInviteeName &&
+                            <TableCell><b>Name</b></TableCell>
+                        }
+                        {displayOwnerName &&
+                            <TableCell><b>Akzeptieren</b></TableCell>
+                        }
+                        {displayOwnerName ?
+                            <TableCell><b>Ablehnen</b></TableCell>
+                            :
+                            <TableCell><b>Entfernen</b></TableCell>
+                        }
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {displayedWorldMapInvites.map((worldMapInvite: WorldMapInvite) => {
+                        return (
+                            <WorldMapInviteCard
+                                key={worldMapInvite.id}
+                                data={{
+                                    appUsers: data.appUsers,
+                                    worldMapInvite: worldMapInvite,
+                                    worldMaps: data.worldMaps
+                                }}
+                                props={{displayOwnerName, displayInviteeName, displayWorldMapName}}
+                                functions={functions}
+                            />
+                        )
+                    })}
+                </TableBody>
+            </Table>
+        </>
+    )
 }

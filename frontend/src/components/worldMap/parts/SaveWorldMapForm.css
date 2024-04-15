@@ -1,0 +1,15 @@
+.SaveWorldMapForm_Form {
+    border: 1px solid #CDD7E1;
+    background-color: #FBFCFE;
+}
+
+.SaveWorldMapForm_Form input {
+    background-color: white;
+}
+
+.SaveWorldMapForm_worldMapImage {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+    max-height: 197px;
+}

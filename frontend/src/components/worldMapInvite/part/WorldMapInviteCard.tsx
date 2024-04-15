@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {ImCross} from "react-icons/im";
-import {FaCheck} from "react-icons/fa";
 import {WorldMapInvite} from "../../../types/WorldMapInvite.ts";
 import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import {WorldMap} from "../../../types/WorldMap.ts";
+import {TableCell, TableRow} from "@mui/material";
+import AcceptInviteButton from "../../_generic/parts/AcceptInviteButton.tsx";
+import DeleteInviteButton from "../../_generic/parts/DeleteInviteButton.tsx";
 
 type Data = {
     appUsers: AppUserMinimal[];
@@ -51,27 +52,47 @@ export function WorldMapInviteCard({data, props, functions}:Readonly<WorldMapInv
         return "";
     }
 
-    function handleDelete(event:React.MouseEvent<HTMLButtonElement>):void {
+    function handleDelete(event:React.MouseEvent<HTMLButtonElement>, worldMapInviteId: string):void {
         event.preventDefault();
-        if (window.confirm("Möchten die Einladung zu \"" + worldMapName + "\" von \"" + ownerName + "\" für \"" + inviteeName + "\" wirklich löschen?")) {
-            functions.deleteWorldMapInvite(data.worldMapInvite.id);
+        if (window.confirm("Möchtest du die Einladung zu \"" + worldMapName + "\" von \"" + ownerName + "\" für \"" + inviteeName + "\" wirklich löschen?")) {
+            functions.deleteWorldMapInvite(worldMapInviteId);
         }
     }
 
-    function handleAccept(event:React.MouseEvent<HTMLButtonElement>):void {
+    function handleAccept(event:React.MouseEvent<HTMLButtonElement>, worldMapInviteId: string):void {
         event.preventDefault();
-        functions.acceptWorldMapInvite(data.worldMapInvite.id);
+        functions.acceptWorldMapInvite(worldMapInviteId);
     }
 
     return (
-        <div className={"worldMapInviteCard"}>
-            <div className={"worldMapInviteCardTextBox"}>
-                {props.displayWorldMapName && <span>{worldMapName}</span>}
-                {props.displayOwnerName && <span>{ownerName}</span>}
-                {props.displayInviteeName && <span>{inviteeName}</span>}
-            </div>
-            {props.displayOwnerName && <button onClick={handleAccept}><FaCheck /></button>}
-            <button onClick={handleDelete}><ImCross /></button>
-        </div>
+        <TableRow>
+            {props.displayWorldMapName &&
+                <TableCell>
+                    <span>{worldMapName}</span>
+                </TableCell>
+            }
+            {props.displayOwnerName &&
+                <TableCell>
+                    <span>{ownerName}</span>
+                </TableCell>
+            }
+            {props.displayInviteeName &&
+                <TableCell>
+                    <span>{inviteeName}</span>
+                </TableCell>
+            }
+            {props.displayOwnerName &&
+                <TableCell>
+                    <AcceptInviteButton functions={{onClick: handleAccept}}
+                                        props={{target: data.worldMapInvite.id}}
+                    />
+                </TableCell>
+            }
+            <TableCell>
+                <DeleteInviteButton functions={{onClick: handleDelete}}
+                                    props={{target: data.worldMapInvite.id}}
+                />
+            </TableCell>
+        </TableRow>
     )
 }

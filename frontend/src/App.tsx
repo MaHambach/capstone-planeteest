@@ -4,7 +4,7 @@ import React, {useEffect} from 'react'
 import useWorldMaps from "./hooks/useWorldMaps.ts";
 import NewWorldMapForm from "./components/worldMap/main/NewWorldMapForm.tsx";
 import WorldMapMain from "./components/worldMap/main/WorldMapMain.tsx";
-import UpdateWorldMapForm from "./components/worldMap/main/UpdateWorldMapForm.tsx";
+import UpdateWorldMapMain from "./components/worldMap/main/UpdateWorldMapMain.tsx";
 import useMapMarkers from "./hooks/useMapMarkers.ts";
 import {useMapMarkerTypes} from "./hooks/useMapMarkerTypes.ts";
 import {useArticles} from "./hooks/useArticles.ts";
@@ -101,7 +101,7 @@ export default function App():React.ReactElement {
                             />
                         }/>
                         <Route path={"/worldmap/:id/edit"} element={
-                            <UpdateWorldMapForm
+                            <UpdateWorldMapMain
                                 data={{
                                     // @ts-expect-error "appUser can't be null or undefined here, since this is checked for in PrivateRoute."
                                     appUser: appUser,

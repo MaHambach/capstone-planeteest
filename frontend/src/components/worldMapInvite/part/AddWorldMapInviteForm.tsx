@@ -4,13 +4,14 @@ import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
 import useWorldMapInvite from "../../../hooks/useWorldMapInvite.ts";
 
-type Props = {
-    ownerId: string;
-    worldMapId: string;
-}
+
 type Functions = {
     closeAddWorldMapInviteForm: () => void;
     saveWorldMapInvite: (worldMapInviteDto:WorldMapInviteDto) => void;
+}
+type Props = {
+    ownerId: string;
+    worldMapId: string;
 }
 type AddWorldMapInviteForm = {
     props:Props;
