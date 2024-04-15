@@ -5,6 +5,7 @@ import {AppUserMinimal} from "../../../types/AppUserMinimal.ts";
 import {AppUser} from "../../../types/AppUser.ts";
 import {WorldMap} from "../../../types/WorldMap.ts";
 import {Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
+import Typography from "@mui/joy/Typography";
 
 type invitesType = "ToUser" | "FromUser" | "ToWorldMap";
 type Data = {
@@ -80,7 +81,7 @@ export default function WorldMapInviteGallery({data, props, functions}:Readonly<
 
     return (
         <>
-            <b>{props.title}</b>
+            <Typography sx={{fontWeight: "bold"}}>{props.title}</Typography>
             <Table size={"small"}>
                 <TableHead>
                     <TableRow>

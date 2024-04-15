@@ -2,12 +2,24 @@ import './LoginUserMain.css';
 import React, {useState} from "react";
 import {AppUserRegister, emptyAppUserRegister} from "../../../types/AppUserRegister.ts";
 import {useNavigate} from "react-router-dom";
+import Typography from "@mui/joy/Typography";
+import {IconContext} from "react-icons";
+import {GiAnvil} from "react-icons/gi";
+
+const style = {
+    iconContext: {
+        "size": "48px",
+    },
+    icon: {
+        "color": "#B87333",
+        filter: "drop-shadow(0 0 8px yellow) drop-shadow(0 0 8px white) drop-shadow(0 0 8px white)"
+    }
+};
 
 type LoginUserMainProps = {
     loginAppUser: (appUserRegister:AppUserRegister) => Promise<void>;
     registerAppUser: (appUserRegister:AppUserRegister) => void;
 }
-
 export default function LoginUserMain(props:Readonly<LoginUserMainProps>):React.ReactElement {
     const [formData, setFormData] = useState(emptyAppUserRegister);
 
@@ -38,7 +50,22 @@ export default function LoginUserMain(props:Readonly<LoginUserMainProps>):React.
 
     return (
         <main className={"loginUserMain"}>
-            <h1>PlaneTeest</h1>
+            <Typography level={"h1"}
+                        sx={{
+                            textShadow: "0px 0px 8px white, 0px 0px 8px white, 0px 0px 8px white",
+                            display: "flex",
+                            flexDirection: "row",
+            }}
+            >
+                Plane
+                <IconContext.Provider value={style.iconContext}>
+                    <div>
+                        <GiAnvil style={style.icon}/>
+                    </div>
+                </IconContext.Provider>
+                Teest
+            </Typography>
+
             <form className={"inputFormForm"} onSubmit={handleLogin}>
                 <div>
                     <input name={"username"} placeholder={"Username"} type={"text"} value={formData.username} onChange={handleChange}/>
