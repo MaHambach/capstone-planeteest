@@ -1,13 +1,29 @@
-import './NavigationMenu.css';
 import {FaMapMarkedAlt, FaUserCircle} from "react-icons/fa";
-import {Button, ListItemIcon, ListItemText, Menu, MenuItem} from "@mui/material";
+import {ListItemIcon, ListItemText, Menu, MenuItem} from "@mui/material";
 import {MdMenuBook} from "react-icons/md";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {AppUser} from "../../types/AppUser.ts";
 import {BsGeoFill} from "react-icons/bs";
 import {GrLogout} from "react-icons/gr";
-import {Tooltip} from "@mui/joy";
+import {IconButton, Tooltip} from "@mui/joy";
+import {IconContext} from "react-icons";
+
+const style = {
+    button: {
+        width: 64,
+        height: 64,
+        top: 10,
+        right: 10,
+        padding: 0,
+        border: "1px solid black",
+        zIndex: 1000
+    },
+    icon: {
+        "size": "44px",
+        "color": "black",
+    }
+};
 
 type Data = {
     appUser: AppUser
@@ -43,17 +59,23 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
     return (
         <>
             <Tooltip title={"Navigation"} placement={"right"} arrow>
-                <Button
-                    color='inherit'
+                <IconButton
                     id={"navigation-button"}
                     onClick={handleClick}
                     aria-controls={open ? "navigation-menu" : undefined}
                     aria-haspopup={"true"}
                     aria-expanded={open ? "true" : undefined}
-                    className={"navigationMenu"}
+                    variant="soft"
+                    color="neutral"
+                    style={style.button}
+                    sx={{position: "fixed"}}
                 >
-                    <MdMenuBook />
-                </Button>
+                    <IconContext.Provider value={style.icon}>
+                        <div>
+                            <MdMenuBook />
+                        </div>
+                    </IconContext.Provider>
+                </IconButton>
             </Tooltip>
             <Menu
                 id={"navigation-menu"}
@@ -61,16 +83,17 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
                 open={open}
                 MenuListProps={{'aria-labelledby': 'navigation-button'}}
                 onClose={handleClose}
-                anchorOrigin={{vertical: 'top', horizontal: 'left',}}
-                transformOrigin={{vertical: 'top', horizontal: 'right',}}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+                transformOrigin={{vertical: 'top', horizontal: 'right'}}
                 disableScrollLock={true}
+
             >
                 <MenuItem onClick={(event) => handleNavigate(event,"/user/" + data.appUser.id)}>
                     <ListItemIcon>
                         <FaUserCircle />
                     </ListItemIcon>
                     <ListItemText>
-                        Profile
+                        Profil
                     </ListItemText>
                 </MenuItem>
                 <MenuItem onClick={(event) => handleNavigate(event,"/")}>

@@ -1,11 +1,12 @@
 import React from "react";
+import {BsGeoFill} from "react-icons/bs";
 import {IconButton, Tooltip} from "@mui/joy";
-import {MdVisibilityOff} from "react-icons/md";
-import {useNavigate} from "react-router-dom";
 import {IconContext} from "react-icons";
 
-type Props = {
-    worldMapId: string;
+
+type MapMarkerProps = {
+    toggleAddNewMapMarker: (event:React.MouseEvent<HTMLElement>) => void;
+    addNewMapMarker: boolean;
     style: {
         button: {
             width: number;
@@ -18,24 +19,20 @@ type Props = {
         };
     };
 }
-type MapMarkerProps = {
-    props: Props;
-}
 
-export default function MapMarkerVisibility({props}:Readonly<MapMarkerProps>):React.ReactElement {
-    const navigate = useNavigate();
+export default function AddMapMarker(props:Readonly<MapMarkerProps>):React.ReactElement {
 
     return (
-        <Tooltip title={"MapMarker Sichtbarkeit"} placement={"right"} arrow>
+        <Tooltip title={"Neuen MapMarker erstellen"} placement={"right"} arrow>
             <IconButton
-                onClick={() => navigate("/worldmap/mapMarker/" + props.worldMapId)}
+                color={props.addNewMapMarker ? "success" : "neutral"}
+                onClick={props.toggleAddNewMapMarker}
                 variant="soft"
-                color="neutral"
                 style={props.style.button}
             >
                 <IconContext.Provider value={props.style.icon}>
                     <div>
-                        <MdVisibilityOff />
+                        <BsGeoFill />
                     </div>
                 </IconContext.Provider>
             </IconButton>
