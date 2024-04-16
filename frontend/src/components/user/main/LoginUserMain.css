@@ -8,46 +8,24 @@
     background-position: right;
 }
 
-.loginUserMain .inputFormForm {
-    width: 300px;
-    height: 180px;
+.loginUserMain .LoginUserMain_inputDiv {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border: 2px solid black;
-    box-shadow: white 0 0 10px;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
     border-radius: 10px;
-    background-color: #c6c9d0;
+    padding-top: 10px;
 }
 
-.loginUserMain .inputFormForm div {
+.loginUserMain .submitButtonDiv_register {
     display: flex;
-    margin: 10px 0;
-    justify-content: center;
+    width: 100%;
+    justify-content: flex-end;
 }
 
-.loginUserMain .inputFormForm input {
-    width: 240px;
-    height: 30px;
-    margin: 0 auto;
-    border-radius: 5px;
-    padding: 0 10px;
-    border: 1px solid #5a5f6d;
-}
-
-.loginUserMain .inputFormForm button {
-    width: 100px;
-    height: 30px;
-    border-radius: 5px;
-    border: 1px solid #5a5f6d;
-    background-color: #858585;
-    cursor: pointer;
-    transition: 0.2s;
-    margin: 0 16px;
-    font-weight: bold;
-    color: white;
-}
-
-.loginUserMain .inputFormForm button:hover {
-    background-color: #13d9e3;
+.loginUserMain .submitButtonDiv_login {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
 }
