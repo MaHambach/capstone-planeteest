@@ -27,7 +27,6 @@ const style = {
         flexDirection: "row"
     },
     box: {
-        border: "2px solid black",
         borderRadius: "10px",
         backgroundColor: "#c6c9d0",
         width: loginWidth,
@@ -36,7 +35,7 @@ const style = {
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "center",
-        boxShadow: "white 0 0 10px",
+        boxShadow: "0 0 10px 5px white",
     },
     label: {
         fontWeight: "bold",
@@ -61,9 +60,14 @@ const style = {
         backgroundColor: "#F0F4F8",
         color: "#9FA6AD",
         border: "none",
+        borderBottom: "2px solid black",
         "&.Mui-disabled": {
             backgroundColor: "#C6C9D0",
             color: "#4F5053",
+            borderBottom: "2px solid #C6C9D0",
+            borderRight: "2px solid black",
+            borderLeft: "2px solid black",
+            borderTop: "2px solid black",
         }
     },
     submitButton: {
@@ -160,7 +164,7 @@ export default function LoginUserMain(props:Readonly<LoginUserMainProps>):React.
                         Register
                     </Button>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={"loginUserMainFormBody"}>
                     <div className={"LoginUserMain_inputDiv"}>
                         <InputLabel sx={style.label} htmlFor="username">Username</InputLabel>
                         <Tooltip title={appUserFormError.username} color={"danger"} arrow>
