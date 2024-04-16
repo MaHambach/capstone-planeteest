@@ -35,7 +35,12 @@ export default function WorldMapGallery({data, props}:Readonly<WorldMapGalleryPr
                 urlPrefix={"/worldmap/"}
                 tileData={data.worldMaps
                     .filter((worldMap: WorldMap) => data.appUser.myWorldMapIds.includes(worldMap.id))
-                    .map((worldMap: WorldMap) => ({id: worldMap.id, name: worldMap.name}))}
+                    .map((worldMap: WorldMap) => (
+                        {
+                            id: worldMap.id,
+                            name: worldMap.name,
+                            image: worldMap.worldMapUrl
+                        }))}
                 addNewName={"Neue Weltkarte"}
                 addNewUrl={"/worldmap/add"}
                 tileSize={160}
@@ -48,7 +53,12 @@ export default function WorldMapGallery({data, props}:Readonly<WorldMapGalleryPr
                 urlPrefix={"/worldmap/"}
                 tileData={
                     props.observedWorldMapIds.map((worldMapId: string) => getWorldMapById(worldMapId))
-                        .map((worldMap: WorldMap) => ({id: worldMap.id, name: worldMap.name}))}
+                        .map((worldMap: WorldMap) => (
+                            {
+                                id: worldMap.id,
+                                name: worldMap.name,
+                                image: worldMap.worldMapUrl
+                            }))}
                 addNewName={"Neue Weltkarte"}
                 addNewUrl={"/worldmap/add"}
                 tileSize={160}

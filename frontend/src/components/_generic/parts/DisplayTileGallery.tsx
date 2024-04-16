@@ -17,11 +17,12 @@ type DisplayTileGalleryProps = {
 export default function DisplayTileGallery(props:Readonly<DisplayTileGalleryProps>): React.ReactElement {
     return (
         <div className="displayTileGallery">
-            {props.tileData.map((tile) => {
+            {props.tileData.map((tile:TileAble) => {
                 return (
                     <DisplayTile
                         key={tile.id}
                         name={tile.name}
+                        image={tile.image}
                         url={props.urlPrefix + tile.id}
                         tileSize={props.tileSize}
                         backgroundColor={props.color ? props.color : "white"}
