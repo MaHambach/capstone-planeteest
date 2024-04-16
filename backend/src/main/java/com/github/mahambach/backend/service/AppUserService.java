@@ -3,6 +3,7 @@ package com.github.mahambach.backend.service;
 import com.github.mahambach.backend.exception.MissMatchingIdsAppUserException;
 import com.github.mahambach.backend.exception.NoSuchAppUserException;
 import com.github.mahambach.backend.exception.NonOwnerTriesToDeleteWorldMapException;
+import com.github.mahambach.backend.exception.UserWithNameAlreadyExistsException;
 import com.github.mahambach.backend.model.*;
 import com.github.mahambach.backend.repository.AppUserRepo;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,10 @@ public class AppUserService {
     }
 
     public AppUserResponse createAppUser(AppUserRegister appUserRegister) {
+        if (appUserRepo.existsAppUserByUsername(appUserRegister.username()) != null) {
+            throw new UserWithNameAlreadyExistsException(appUserRegister.username());
+        }
+
         String password = passwordEncoder.encode(appUserRegister.password());
         AppUser newAppUser = appUserRepo.save(new AppUser(appUserRegister).withPassword(password));
         return new AppUserResponse(newAppUser);

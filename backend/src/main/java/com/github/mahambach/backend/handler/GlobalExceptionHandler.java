@@ -118,4 +118,13 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
     }
+
+    @ExceptionHandler(UserWithNameAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorMessage handleUserWithNameAlreadyExistsException(UserWithNameAlreadyExistsException exception) {
+        return new ErrorMessage(
+                "User with name \"" + exception.getMessage() + "\" already exists.",
+                LocalDateTime.now()
+        );
+    }
 }

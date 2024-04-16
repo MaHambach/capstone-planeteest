@@ -52,6 +52,7 @@ export function useAppUser() {
             })
             .catch(e => {
                 console.error(e);
+                alert("Anmeldung fehlgeschlagen: " + e.response.data.errorMsg);
             });
     }
 
@@ -60,10 +61,12 @@ export function useAppUser() {
             .then(() => {
                 console.log("User registered successfully");
                 fetchAllAppUsers();
+                alert("Registrierung erfolgreich!");
                 loginAppUser(appUserRegister).then();
             })
             .catch(e => {
                 console.error(e);
+                alert("Registrierung fehlgeschlagen: " + e.response.data.errorMsg);
             });
     }
 

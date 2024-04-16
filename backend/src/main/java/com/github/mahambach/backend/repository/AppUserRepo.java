@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface AppUserRepo extends MongoRepository<AppUser, String> {
     Optional<AppUser> findAppUserByUsername(String username);
+    Boolean existsAppUserByUsername(String username);
 }
