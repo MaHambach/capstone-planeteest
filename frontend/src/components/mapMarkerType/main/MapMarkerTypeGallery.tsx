@@ -9,6 +9,7 @@ type MapMarkerTypeGalleryProps ={
 }
 export default function MapMarkerTypeGallery(props: Readonly<MapMarkerTypeGalleryProps>): React.ReactElement {
     const navigate = useNavigate();
+    const tileSize:number = 100;
 
     return (
         <main className={"mapMarkerTypeGallery"}>
@@ -17,13 +18,21 @@ export default function MapMarkerTypeGallery(props: Readonly<MapMarkerTypeGaller
                     <MapMarkerTypeCard
                         key={mapMarkerType.id}
                         mapMarkerType={mapMarkerType}
-                        tileSize={80}
+                        tileSize={tileSize}
                         navigationFunction={() => navigate("/mapMarkerType/" + mapMarkerType.id + "/edit")}
                     />
                 )
             })}
             <div className={"mapMarkerTypeGalleryAddTile"}>
-                <button className={"mapMarkerTypeGalleryAddButton"} onClick={() => navigate("/mapMarkerType/add")}>
+                <button className={"mapMarkerTypeGalleryAddButton"}
+                        onClick={() => navigate("/mapMarkerType/add")}
+                        style={{
+                            width: tileSize,
+                            height: tileSize,
+                            backgroundColor: "white",
+                            borderRadius: "10px"
+                        }}
+                >
                     <b>Add Map Marker Type</b>
                 </button>
             </div>

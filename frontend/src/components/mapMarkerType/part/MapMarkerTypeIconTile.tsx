@@ -5,7 +5,7 @@ import React from "react";
 type MapMarkerTypeIconTileProps = {
     iconName: string;
     handleClick: (iconName:string) => void;
-    borderColor: string;
+    shadowColor?: string;
     tileSize: number;
 }
 export default function MapMarkerTypeIconTile(props: Readonly<MapMarkerTypeIconTileProps>): React.ReactElement {
@@ -15,8 +15,11 @@ export default function MapMarkerTypeIconTile(props: Readonly<MapMarkerTypeIconT
     }
 
     return (
-        <button className={"mapMarkerTypeIconTile"} onClick={handleClick}>
-            <MapMarkerTypeIcon iconName={props.iconName} color={props.borderColor} tileSize={props.tileSize}/>
+        <button className={"mapMarkerTypeIconTile"}
+                onClick={handleClick}
+                style={{width: props.tileSize, height: props.tileSize}}
+        >
+            <MapMarkerTypeIcon iconName={props.iconName} color={props.shadowColor} tileSize={props.tileSize/2}/>
         </button>
     );
 }
