@@ -23,12 +23,10 @@ type DraggableSubWindowProps = {
 }
 
 export default function DraggableSubWindow({children, functions, props}:Readonly<DraggableSubWindowProps>):React.ReactElement {
-    const nodeRef:React.MutableRefObject<null> = React.useRef(null);
 
     return (
         <Draggable
             handle="strong"
-            nodeRef={nodeRef}
         >
             <div
                 className={"draggableSubWindow"}
@@ -42,7 +40,7 @@ export default function DraggableSubWindow({children, functions, props}:Readonly
             >
                 <HeaderDraggableFrame
                     functions={{closeWindow: functions.closeFrame}}
-                    props={{title: props.title, nodeRef: nodeRef}}
+                    props={{title: props.title}}
                 />
                 <div className={"draggableSubWindowBody"}>
                     {children}

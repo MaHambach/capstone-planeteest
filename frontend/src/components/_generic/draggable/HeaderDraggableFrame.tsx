@@ -10,7 +10,6 @@ type Functions = {
 }
 type Props = {
     title: string;
-    nodeRef: React.MutableRefObject<null>;
 }
 type SubWindowHeaderProps = {
     functions: Functions;
@@ -19,7 +18,7 @@ type SubWindowHeaderProps = {
 export default function HeaderDraggableFrame({functions, props}:Readonly<SubWindowHeaderProps>):React.ReactElement {
 
     return (
-        <strong ref={props.nodeRef}>
+        <strong>
             <div className={"headerDraggableFrame"}>
                 <Typography color="primary" level={"h4"} variant={"solid"}>{props.title}</Typography>
                 <button className={"closeWindowButton"} onClick={functions.closeWindow}><IoMdClose /></button>
