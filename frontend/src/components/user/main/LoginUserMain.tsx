@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import Typography from "@mui/joy/Typography";
 import {IconContext} from "react-icons";
 import {GiAnvil} from "react-icons/gi";
+import {Button} from "@mui/joy";
 
 const style = {
     iconContext: {
@@ -74,8 +75,8 @@ export default function LoginUserMain(props:Readonly<LoginUserMainProps>):React.
                     <input name={"password"} placeholder={"Password"} type={"password"} value={formData.password} onChange={handleChange}/>
                 </div>
                 <div>
-                    <button type={"submit"}>Login</button>
-                    <button onClick={handleRegister}>Register</button>
+                    <Button type={"submit"}>Login</Button>
+                    <Button onClick={handleRegister} disabled={true}>Register</Button>
                 </div>
             </form>
         </main>
