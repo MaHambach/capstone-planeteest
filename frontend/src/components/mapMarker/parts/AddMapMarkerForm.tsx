@@ -86,13 +86,13 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
                         <TableBody>
                             <TableRow>
                                 <StyledTableCell align={"center"} colSpan={2}>
-                                    <Input
-                                        id={"name"}
-                                        name={"name"}
-                                        type={"text"}
-                                        value={formData.name}
-                                        onChange={handleChangeInput}
-                                        placeholder={"Name"}
+                                    <Input id={"name"}
+                                           name={"name"}
+                                           type={"text"}
+                                           value={formData.name}
+                                           onChange={handleChangeInput}
+                                           placeholder={"Name"}
+                                           required
                                     />
                                 </StyledTableCell>
                             </TableRow>

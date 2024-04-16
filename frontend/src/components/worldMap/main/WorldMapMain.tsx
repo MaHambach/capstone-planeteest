@@ -10,7 +10,7 @@ import ToolBar from "../WorldMapToolMenu/ToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 import {Article} from "../../../types/Article.ts";
 import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
-import MapMarkerUpdateWindow from "../../mapMarker/parts/MapMarkerUpdateWindow.tsx";
+import UpdateMapMarkerWindow from "../../mapMarker/parts/UpdateMapMarkerWindow.tsx";
 import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
 import {getArticleById, getWorldMapById} from "../../../utility/getById.ts";
@@ -165,7 +165,7 @@ export default function WorldMapMain({data, functions}:Readonly<WorldMapMainProp
                 />
             }
             {(showMapMarkerUpdate && selectedMapMarker !== emptyMapMarker) &&
-                <MapMarkerUpdateWindow
+                <UpdateMapMarkerWindow
                     data={{mapMarkerTypes: data.mapMarkerTypes}}
                     functions={{
                         updateMapMarker: updateSelectedMapMarker,

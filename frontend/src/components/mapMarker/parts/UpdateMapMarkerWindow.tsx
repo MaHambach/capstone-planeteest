@@ -1,4 +1,4 @@
-import './MapMarkerUpdateWindow.css';
+import './UpdateMapMarkerWindow.css';
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
 import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
@@ -29,7 +29,7 @@ type MapMarkerUpdateWindowProps = {
     functions: Functions;
     props: Props;
 }
-export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<MapMarkerUpdateWindowProps>):React.ReactElement {
+export default function UpdateMapMarkerWindow({data, functions, props}:Readonly<MapMarkerUpdateWindowProps>):React.ReactElement {
     const [formData, setFormData] = useState<MapMarker>(emptyMapMarker);
     const [changingPosition, setChangingPosition] = useState<boolean>(false);
 
@@ -114,6 +114,7 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
                                         onChange={handleChangeInput}
                                         placeholder={"Name"}
                                         size={"small"}
+                                        required
                                     />
                                 </StyledTableCell>
                             </TableRow>

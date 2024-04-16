@@ -6,6 +6,7 @@ import {ButtonGroup} from "@mui/joy";
 
 const style = {
     button: {
+        border: "1px solid black",
         width: 64, height: 64,
         padding: 0,
     },

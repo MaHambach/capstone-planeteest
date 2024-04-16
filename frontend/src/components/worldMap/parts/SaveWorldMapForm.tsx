@@ -86,6 +86,7 @@ export default function SaveWorldMapForm({data, functions, props}:Readonly<SaveW
                                         onChange={handleChangeInput}
                                         size={"small"}
                                         sx={{width: "100%"}}
+                                        required
                                     />
                                 </TableCell>
                             </TableRow>
@@ -102,6 +103,7 @@ export default function SaveWorldMapForm({data, functions, props}:Readonly<SaveW
                                         onChange={handleChangeInput}
                                         size={"small"}
                                         sx={{width: "100%"}}
+                                        required
                                     />
                                 </TableCell>
                             </TableRow>
