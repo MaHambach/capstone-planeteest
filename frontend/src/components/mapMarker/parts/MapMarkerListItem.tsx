@@ -1,4 +1,3 @@
-import './MapMarkerListItem.css';
 import {AppUser} from "../../../types/AppUser.ts";
 import {MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
@@ -53,24 +52,24 @@ export default function MapMarkerListItem({data, functions, props}: Readonly<Map
     }
 
     return (
-        <TableRow className={"mapMarkerListItem"}>
+        <TableRow>
             <StyledTableCell>
                 {mapMarker.name}
             </StyledTableCell>
-            <StyledTableCell align={"center"}>
+            <StyledTableCell>
                 <MapMarkerTypeSelect
                     data={{mapMarkerTypes: data.mapMarkerTypes}}
                     functions={{onClick: handleChange}}
                     props={{value: props.mapMarker.markerTypeId}}
                 />
             </StyledTableCell>
-            <StyledTableCell align={"center"}>
+            <StyledTableCell>
                 <MapMarkerStatusMenu
                     functions={{onClick: handleChange}}
                     props={{mapMarkerStatus: mapMarker.status}}
                 />
             </StyledTableCell>
-            <StyledTableCell align={"center"}>
+            <StyledTableCell>
                 <IconSwitch
                     data={{
                         tooltipLeft:"Sichtbar für mich",

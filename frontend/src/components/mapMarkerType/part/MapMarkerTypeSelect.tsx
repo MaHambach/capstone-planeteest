@@ -40,7 +40,7 @@ export default function MapMarkerTypeSelect({data, functions, props}: Readonly<M
         return <MapMarkerTypeIcon
             iconName={selectedMapMarkerType.icon}
             color={selectedMapMarkerType.color}
-            tileSize={40}
+            tileSize={32}
         />;
     }
 

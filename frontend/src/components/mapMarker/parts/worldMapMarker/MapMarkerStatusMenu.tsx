@@ -60,7 +60,7 @@ export default function MapMarkerStatusMenu({functions, props}:Readonly<MapMarke
                     aria-haspopup={"true"}
                     aria-expanded={open ? "true" : undefined}
                 >
-                    <IconContext.Provider value={menuButtonStyling.icon}>
+                    <IconContext.Provider value={{...menuButtonStyling.icon, size: "32px"}}>
                         <div>
                             {displayStartIcon()}
                         </div>
