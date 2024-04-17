@@ -67,7 +67,7 @@ export default function MapMarkerPin({data, functions, props}: Readonly<MapMarke
                 <MapMarkerTypeIcon iconName={mapMarkerType.icon}
                                    color={getColor()}
                                    tileSize={props.mapMarkerSize}
-                                   textColor={props.mapMarker.status === "INACTIVE" ? "rgba(0,0,0, 0.25)" : ""}
+                                   textColor={props.mapMarker.status === "INACTIVE" ? "rgba(0,0,0, 0.4)" : ""}
                 />
                 {props.mapMarker.status === "DESTROYED" &&
                     <MapMarkerTypeIcon iconName={"GrClose"}
