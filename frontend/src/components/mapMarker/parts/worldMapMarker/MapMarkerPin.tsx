@@ -1,6 +1,6 @@
 import {MapMarker} from "../../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
-import ToolBar from "./ToolBar/ToolBar.tsx";
+import MapMarkerToolBar from "./ToolBar/MapMarkerToolBar.tsx";
 import {MapMarkerType} from "../../../../types/MapMarkerType.ts";
 import MapMarkerTypeIcon from "../../../mapMarkerType/part/MapMarkerTypeIcon.tsx";
 import {getMapMarkerTypeById} from "../../../../utility/getById.ts";
@@ -62,7 +62,7 @@ export default function MapMarkerPin({data, functions, props}: Readonly<MapMarke
                     <h2 className={"mapMarkerName"}>
                         {props.mapMarker.name}
                     </h2>
-                    <ToolBar
+                    <MapMarkerToolBar
                         isOwner={props.isOwner}
                         handleMapMarkerUpdate={functions.handleMapMarkerUpdate}
                         handleArticleFrame={functions.handleArticleFrame}

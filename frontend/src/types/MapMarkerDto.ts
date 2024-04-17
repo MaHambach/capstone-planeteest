@@ -1,4 +1,5 @@
 import {Visibility} from "../data/Visibility.ts";
+import {MapMarkerStatus} from "../data/MapMarkerStatus.ts";
 
 export type MapMarkerDto = {
     worldMapId: string,
@@ -6,6 +7,7 @@ export type MapMarkerDto = {
     xPosition: number,
     yPosition: number,
     markerTypeId: string,
+    status: MapMarkerStatus,
     visibility: Visibility
 };
 
@@ -15,5 +17,6 @@ export const emptyMapMarkerDto:MapMarkerDto = {
     xPosition: 0,
     yPosition: 0,
     markerTypeId: '',
+    status: 'ACTIVE',
     visibility: 'OWNER_ONLY'
 };

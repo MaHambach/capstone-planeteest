@@ -1,4 +1,4 @@
-import './ToolBar.css';
+import './WorldMapToolBar.css';
 import React from "react";
 import AddMapMarker from "./Entries/AddMapMarker.tsx";
 import MapMarkerVisibility from "./Entries/MapMarkerVisibility.tsx";
@@ -17,7 +17,7 @@ type ToolBarProps = {
     functions: Functions;
     props: Props;
 }
-export default function ToolBar({functions, props}:Readonly<ToolBarProps>):React.ReactElement {
+export default function WorldMapToolBar({functions, props}:Readonly<ToolBarProps>):React.ReactElement {
     return (
         <ButtonGroup
             className={"worldMapToolBar"}
