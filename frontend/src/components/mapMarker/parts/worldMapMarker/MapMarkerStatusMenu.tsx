@@ -4,9 +4,10 @@ import {IconContext} from "react-icons";
 import {ListItemIcon, ListItemText, Menu, MenuItem} from "@mui/material";
 import {FaRegCircle} from "react-icons/fa";
 import {GrClose} from "react-icons/gr";
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
 import {MapMarkerStatus} from "../../../../data/MapMarkerStatus.ts";
 import {TbCircleDotted} from "react-icons/tb";
+
 
 type Functions = {
     onClick: (target:string, value:string) => void;
@@ -21,6 +22,7 @@ type MapMarkerStatusMenuProps = {
 export default function MapMarkerStatusMenu({functions, props}:Readonly<MapMarkerStatusMenuProps>):React.ReactElement {
     const [mapMarkerStatus, setMapMarkerStatus] = useState<MapMarkerStatus>(props.mapMarkerStatus);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const style = useMemo(() => ({...menuButtonStyling.icon, size: "32px"}), []); // value is cached by useMemo
     const open = Boolean(anchorEl);
 
     function handleClick(event:React.MouseEvent<HTMLButtonElement>):void {
@@ -60,7 +62,7 @@ export default function MapMarkerStatusMenu({functions, props}:Readonly<MapMarke
                     aria-haspopup={"true"}
                     aria-expanded={open ? "true" : undefined}
                 >
-                    <IconContext.Provider value={{...menuButtonStyling.icon, size: "32px"}}>
+                    <IconContext.Provider value={style}>
                         <div>
                             {displayStartIcon()}
                         </div>
