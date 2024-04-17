@@ -27,7 +27,7 @@ type MapMarkerCardProps = {
     props:Props;
 }
 export default function MapMarkerDraggable({data, functions, props}: Readonly<MapMarkerCardProps>): React.ReactElement {
-    const mapMarkerSize={xSize: 50, ySize: 50};
+    const mapMarkerSize: number = 32;
     const [coordinates, setCoordinates] = useState({xPosition: 0, yPosition: 0});
     const nodeRef:React.MutableRefObject<null> = React.useRef(null);
 
@@ -39,8 +39,8 @@ export default function MapMarkerDraggable({data, functions, props}: Readonly<Ma
     useEffect(() => {
         const headlineHeight:number = 34;
         setCoordinates({
-            xPosition: props.mapMarker.xPosition + props.offsetWorldMapFrame.xOffset - 0.5 * mapMarkerSize.xSize,
-            yPosition: props.mapMarker.yPosition + props.offsetWorldMapFrame.yOffset - 0.5 * mapMarkerSize.ySize - headlineHeight
+            xPosition: props.mapMarker.xPosition + props.offsetWorldMapFrame.xOffset - 0.5 * mapMarkerSize,
+            yPosition: props.mapMarker.yPosition + props.offsetWorldMapFrame.yOffset - 0.5 * mapMarkerSize - headlineHeight
         });
         // eslint-disable-next-line
     }, [props]);
@@ -71,7 +71,7 @@ export default function MapMarkerDraggable({data, functions, props}: Readonly<Ma
                         <MapMarkerPin
                             data={{...data}}
                             functions={{...functions, handleClick: handleClick}}
-                            props={{...props}}
+                            props={{...props, mapMarkerSize}}
                         />
                     </strong>
                 </Draggable>
@@ -79,10 +79,9 @@ export default function MapMarkerDraggable({data, functions, props}: Readonly<Ma
                 <MapMarkerPin
                     data={{...data}}
                     functions={{...functions, handleClick: handleClick}}
-                    props={{...props}}
+                    props={{...props, mapMarkerSize}}
                 />
             }
-
         </div>
     )
 }

@@ -104,4 +104,5 @@ export const mapMarkerTypeIconList:string[] = [
     "GiWoodenDoor",
     "GiDeerHead",
     "GiSpikedDragonHead",
+    "GrClose",
 ]
