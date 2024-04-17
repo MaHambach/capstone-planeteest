@@ -1,5 +1,6 @@
 package com.github.mahambach.backend.model;
 
+import com.github.mahambach.backend.model.enums.AppUserRole;
 import lombok.With;
 import org.springframework.data.annotation.Id;
 

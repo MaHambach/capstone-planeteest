@@ -1,5 +1,8 @@
 package com.github.mahambach.backend.model;
 
+import com.github.mahambach.backend.model.enums.MapMarkerStatus;
+import com.github.mahambach.backend.model.enums.Visibility;
+
 public record MapMarkerDto(
         String worldMapId,
         String name,
@@ -8,6 +11,7 @@ public record MapMarkerDto(
         String markerTypeId,
         String playerArticleId,
         String gmArticleId,
+        MapMarkerStatus status,
         Visibility visibility
 ) {
 }

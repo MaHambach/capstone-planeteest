@@ -1,6 +1,6 @@
 package com.github.mahambach.backend.security;
 
-import com.github.mahambach.backend.model.AppUserRole;
+import com.github.mahambach.backend.model.enums.AppUserRole;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

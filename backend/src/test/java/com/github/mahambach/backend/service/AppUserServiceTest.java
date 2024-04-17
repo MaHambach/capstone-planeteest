@@ -5,6 +5,7 @@ import com.github.mahambach.backend.exception.NoSuchAppUserException;
 import com.github.mahambach.backend.exception.NonOwnerTriesToDeleteWorldMapException;
 import com.github.mahambach.backend.exception.UserWithNameAlreadyExistsException;
 import com.github.mahambach.backend.model.*;
+import com.github.mahambach.backend.model.enums.AppUserRole;
 import com.github.mahambach.backend.repository.AppUserRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
