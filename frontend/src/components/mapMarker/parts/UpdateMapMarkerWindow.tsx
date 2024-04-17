@@ -1,4 +1,4 @@
-import './MapMarkerUpdateWindow.css';
+import './UpdateMapMarkerWindow.css';
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
 import DraggableSubWindow from "../../_generic/draggable/DraggableSubWindow.tsx";
@@ -10,6 +10,7 @@ import {StyledTableCell} from "../../_generic/parts/StyledTableCell.tsx";
 import MapMarkerTypeSelect from "../../mapMarkerType/part/MapMarkerTypeSelect.tsx";
 import IconSwitch from "../../_generic/parts/IconSwitch.tsx";
 import {MdVisibility, MdVisibilityOff} from "react-icons/md";
+import MapMarkerStatusMenu from "./worldMapMarker/MapMarkerStatusMenu.tsx";
 
 type Data = {
     mapMarkerTypes: MapMarkerType[];
@@ -29,7 +30,7 @@ type MapMarkerUpdateWindowProps = {
     functions: Functions;
     props: Props;
 }
-export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<MapMarkerUpdateWindowProps>):React.ReactElement {
+export default function UpdateMapMarkerWindow({data, functions, props}:Readonly<MapMarkerUpdateWindowProps>):React.ReactElement {
     const [formData, setFormData] = useState<MapMarker>(emptyMapMarker);
     const [changingPosition, setChangingPosition] = useState<boolean>(false);
 
@@ -48,11 +49,11 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
         )
     }
 
-    function setMapMarkerTypeId(mapMarkerTypeId:string):void {
+    function handleChange(target:string, value:string):void {
         functions.setSelectedMapMarker(
             {
                 ...formData,
-                markerTypeId: mapMarkerTypeId
+                [target]: value
             }
         )
     }
@@ -104,7 +105,7 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
                     <Table>
                         <TableBody>
                             <TableRow>
-                                <StyledTableCell align={"center"} colSpan={3}>
+                                <StyledTableCell align={"center"} colSpan={2}>
                                     <TextField
                                         id={"name"}
                                         name={"name"}
@@ -114,6 +115,7 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
                                         onChange={handleChangeInput}
                                         placeholder={"Name"}
                                         size={"small"}
+                                        required
                                     />
                                 </StyledTableCell>
                             </TableRow>
@@ -121,10 +123,18 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
                                 <StyledTableCell align={"center"}>
                                     <MapMarkerTypeSelect
                                         data={{mapMarkerTypes: data.mapMarkerTypes}}
-                                        functions={{onClick: setMapMarkerTypeId}}
+                                        functions={{onClick: handleChange}}
                                         props={{value: props.mapMarker.markerTypeId}}
                                     />
                                 </StyledTableCell>
+                                <StyledTableCell align={"center"}>
+                                    <MapMarkerStatusMenu
+                                        functions={{onClick: handleChange}}
+                                        props={{mapMarkerStatus: props.mapMarker.status}}
+                                    />
+                                </StyledTableCell>
+                            </TableRow>
+                            <TableRow>
                                 <StyledTableCell align={"center"}>
                                     <IconSwitch
                                         data={{
@@ -164,17 +174,11 @@ export default function MapMarkerUpdateWindow({data, functions, props}:Readonly<
                                 </StyledTableCell>
                             </TableRow>
                             <TableRow>
-                                <StyledTableCell>
-                                </StyledTableCell>
                                 <StyledTableCell align={"right"} colSpan={2}>
-                                    <Button type={"submit"}>Übernehmen</Button>
-                                </StyledTableCell>
-                            </TableRow>
-                            <TableRow>
-                                <StyledTableCell>
-                                </StyledTableCell>
-                                <StyledTableCell align={"right"} colSpan={2}>
-                                    <Button color={"error"} onClick={handleDeleteMapMarker}>Löschen</Button>
+                                    <Button color={"error"} onClick={handleDeleteMapMarker}
+                                            sx={{width: "50%"}}>Löschen</Button>
+                                    <Button type={"submit"}
+                                            sx={{width: "50%"}}>Übernehmen</Button>
                                 </StyledTableCell>
                             </TableRow>
                         </TableBody>

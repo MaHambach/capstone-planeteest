@@ -6,11 +6,11 @@ import WorldMapImage from "../parts/WorldMapImage.tsx";
 import {emptyMapMarker, MapMarker} from "../../../types/MapMarker.ts";
 import MapMarkerDraggable from "../../mapMarker/parts/worldMapMarker/MapMarkerDraggable.tsx";
 import {MapMarkerType} from "../../../types/MapMarkerType.ts";
-import ToolBar from "../WorldMapToolMenu/ToolBar.tsx";
+import WorldMapToolBar from "../WorldMapToolMenu/WorldMapToolBar.tsx";
 import {MapMarkerDto} from "../../../types/MapMarkerDto.ts";
 import {Article} from "../../../types/Article.ts";
 import AddMapMarkerForm from "../../mapMarker/parts/AddMapMarkerForm.tsx";
-import MapMarkerUpdateWindow from "../../mapMarker/parts/MapMarkerUpdateWindow.tsx";
+import UpdateMapMarkerWindow from "../../mapMarker/parts/UpdateMapMarkerWindow.tsx";
 import ArticleWindow from "../../article/parts/ArticleWindow.tsx";
 import {AppUser} from "../../../types/AppUser.ts";
 import {getArticleById, getWorldMapById} from "../../../utility/getById.ts";
@@ -107,7 +107,7 @@ export default function WorldMapMain({data, functions}:Readonly<WorldMapMainProp
     return (
         <main className={"worldMapMain"}>
             { data.appUser.myWorldMapIds.includes(worldMap.id) &&
-                <ToolBar
+                <WorldMapToolBar
                     functions={{toggleAddNewMapMarker: toggleAddNewMapMarker}}
                     props={{worldMapId: worldMap.id, addNewMapMarker: addNewMapMarker}}
                 />
@@ -165,7 +165,7 @@ export default function WorldMapMain({data, functions}:Readonly<WorldMapMainProp
                 />
             }
             {(showMapMarkerUpdate && selectedMapMarker !== emptyMapMarker) &&
-                <MapMarkerUpdateWindow
+                <UpdateMapMarkerWindow
                     data={{mapMarkerTypes: data.mapMarkerTypes}}
                     functions={{
                         updateMapMarker: updateSelectedMapMarker,

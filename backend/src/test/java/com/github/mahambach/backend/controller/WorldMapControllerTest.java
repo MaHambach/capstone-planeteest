@@ -19,7 +19,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -27,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class WorldMapControllerTest {
-
     @Autowired
     private MockMvc mvc;
 
@@ -39,25 +40,22 @@ class WorldMapControllerTest {
     @WithMockUser(username = "username")
     void getAllWorldMaps_whenOneWorldMap_thenReturnListOfWorldMap() throws Exception {
         // Given
-        WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
-        String worldMapDtoJson = objectMapper.writeValueAsString(worldMapDto);
-
         AppUserRegister appUserRegister = new AppUserRegister("username", "password");
-        String appUserRegisterJson = objectMapper.writeValueAsString(appUserRegister);
         mvc.perform(post("/api/users/register")
                         .contentType("application/json")
-                        .content(appUserRegisterJson))
+                        .content(objectMapper.writeValueAsString(appUserRegister)))
                 .andExpect(status().isCreated());
 
-        MvcResult expectedJson = mvc.perform(MockMvcRequestBuilders.post("/api/worldmaps")
+        WorldMapDto worldMapDto = new WorldMapDto("WorldMapName", "WorldMapUrl", 1024, 768);
+        MvcResult expectedJson = mvc.perform(post("/api/worldmaps")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(worldMapDtoJson))
+                .content(objectMapper.writeValueAsString(worldMapDto)))
                 .andExpect(status().isCreated())
                 .andReturn();
 
         List<WorldMap> expected = List.of(objectMapper.readValue(expectedJson.getResponse().getContentAsString(), WorldMap.class));
         // When
-        MvcResult resultJson = mvc.perform(MockMvcRequestBuilders.get("/api/worldmaps"))
+        MvcResult resultJson = mvc.perform(get("/api/worldmaps"))
                 .andExpect(status().isOk())
                 .andReturn();
         List<WorldMap> result = List.of(objectMapper.readValue(resultJson.getResponse().getContentAsString(), WorldMap[].class));

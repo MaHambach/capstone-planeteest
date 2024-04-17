@@ -2,6 +2,7 @@ package com.github.mahambach.backend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mahambach.backend.model.*;
+import com.github.mahambach.backend.model.enums.AppUserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -226,6 +227,29 @@ class AppUserControllerTest {
         assertNotNull(appUserResponse.id());
         assertTrue(appUserResponse.myWorldMapIds().isEmpty());
         assertTrue(appUserResponse.observedWorldMapIds().isEmpty());
+    }
+
+    @Test
+    void createAppUser_whenUserWithUserNameAlreadyExists_thenThrowUserWithNameAlreadyExistsException() throws Exception  {
+        // Given
+        String username = "username";
+        AppUserRegister appUserRegister = new AppUserRegister(username, "password");
+        mvc.perform(post("/api/users/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(appUserRegister)))
+                .andExpect(status().isCreated());
+
+        // When
+        MvcResult resultJson = mvc.perform(post("/api/users/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(appUserRegister)))
+                .andExpect(status().isConflict())
+                .andReturn();
+
+        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(), ErrorMessage.class);
+
+        // Then
+        assertEquals("User with name \"" + username + "\" already exists.", result.errorMsg());
     }
 
     // @PutMapping

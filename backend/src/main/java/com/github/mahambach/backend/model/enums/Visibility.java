@@ -1,4 +1,4 @@
-package com.github.mahambach.backend.model;
+package com.github.mahambach.backend.model.enums;
 
 public enum Visibility {
     OWNER_ONLY,

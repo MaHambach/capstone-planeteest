@@ -54,6 +54,7 @@ export default function MapMarkerGallery({data, functions}: Readonly<MapMarkerGa
                         <TableRow>
                             <StyledTableCell><b>Name</b></StyledTableCell>
                             <StyledTableCell><b>MapMarker</b></StyledTableCell>
+                            <StyledTableCell><b>Status</b></StyledTableCell>
                             <StyledTableCell><b>Sichtbarkeit</b></StyledTableCell>
                         </TableRow>
                     </TableHead>

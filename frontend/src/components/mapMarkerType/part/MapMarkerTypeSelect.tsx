@@ -9,7 +9,7 @@ type Data= {
     mapMarkerTypes: MapMarkerType[];
 }
 type Functions = {
-    onClick: (mapMarkerTypeId:string) => void;
+    onClick: (target:string, value:string) => void;
 }
 type Props = {
     value: string;
@@ -34,12 +34,13 @@ export default function MapMarkerTypeSelect({data, functions, props}: Readonly<M
         event.preventDefault();
         setAnchorEl(null);
     }
+
     function displayMapMarkerType(mapMarkerTypeId:string): React.ReactElement {
         const selectedMapMarkerType: MapMarkerType = getMapMarkerTypeById(mapMarkerTypeId, data.mapMarkerTypes);
         return <MapMarkerTypeIcon
             iconName={selectedMapMarkerType.icon}
             color={selectedMapMarkerType.color}
-            tileSize={40}
+            tileSize={32}
         />;
     }
 
@@ -62,11 +63,17 @@ export default function MapMarkerTypeSelect({data, functions, props}: Readonly<M
                 anchorEl={anchorEl}
                 open={open}
                 MenuListProps={{
-                    'aria-labelledby': 'navigation-button'
+                    'aria-labelledby': 'mapMarkerTypeSelect-button'
                 }}
                 onClose={handleClose}
-                anchorOrigin={{vertical: 'bottom', horizontal: 'left',}}
-                transformOrigin={{vertical: 'top', horizontal: 'left',}}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
                 disableScrollLock={true}
             >
                 {data.mapMarkerTypes.map((mapMarkerType: MapMarkerType) => {
@@ -75,7 +82,7 @@ export default function MapMarkerTypeSelect({data, functions, props}: Readonly<M
                         onClick={(event) => {
                             handleClose(event);
                             setSelectedMapMarkerTypeId(mapMarkerType.id);
-                            functions.onClick(mapMarkerType.id);
+                            functions.onClick("markerTypeId", mapMarkerType.id);
                         }}>
                         <ListItemIcon>
                             {displayMapMarkerType(mapMarkerType.id)}

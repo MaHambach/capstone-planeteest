@@ -35,6 +35,7 @@ export default function IconSwitch({data, functions, props}:Readonly<IconSwitchP
         <Button onClick={handleChange}
                 className={"iconSwitch"}
                 name={data.name}
+                sx={{m:1}}
         >
             <Tooltip title={data.tooltipLeft} placement={"bottom"} arrow>
                 <div

@@ -86,6 +86,7 @@ export default function SaveMapMarkerType (props:Readonly<ChangeMapMarkerTypePro
                                             sx={{width: "100%"}}
                                             style={{backgroundColor: "white"}}
                                             placeholder={"Name"}
+                                            required
                                         />
                                     </TableCell>
 

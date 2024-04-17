@@ -3,7 +3,9 @@ package com.github.mahambach.backend.service;
 import com.github.mahambach.backend.exception.MissMatchingIdsAppUserException;
 import com.github.mahambach.backend.exception.NoSuchAppUserException;
 import com.github.mahambach.backend.exception.NonOwnerTriesToDeleteWorldMapException;
+import com.github.mahambach.backend.exception.UserWithNameAlreadyExistsException;
 import com.github.mahambach.backend.model.*;
+import com.github.mahambach.backend.model.enums.AppUserRole;
 import com.github.mahambach.backend.repository.AppUserRepo;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -103,15 +105,33 @@ class AppUserServiceTest {
 
         // When
         when(appUserRepo.findAppUserByUsername(username)).thenReturn(java.util.Optional.empty());
+        NoSuchAppUserException expected = assertThrows(NoSuchAppUserException.class, () -> appUserService.findAppUserByUsername(username));
 
         // Then
-        assertThrows(NoSuchAppUserException.class, () -> appUserService.findAppUserByUsername(username));
+        assertEquals(username, expected.getMessage());
         verify(appUserRepo).findAppUserByUsername(username);
         verifyNoMoreInteractions(appUserRepo);
         verifyNoInteractions(passwordEncoder);
     }
 
     // createAppUser(AppUserRegister appUserRegister)
+    @Test
+    void createAppUser_whenAlreadyExists_thenThrowUserWithNameAlreadyExistsException() {
+        // Given
+        String username = "username";
+        AppUserRegister appUserRegister = new AppUserRegister(username, "password");
+
+        // When
+        when(appUserRepo.existsAppUserByUsername(appUserRegister.username())).thenReturn(true);
+        UserWithNameAlreadyExistsException expected = assertThrows(UserWithNameAlreadyExistsException.class, () -> appUserService.createAppUser(appUserRegister));
+
+        // Then
+        assertEquals(username, expected.getMessage());
+        verify(appUserRepo).existsAppUserByUsername(appUserRegister.username());
+        verifyNoMoreInteractions(appUserRepo);
+        verifyNoInteractions(passwordEncoder);
+    }
+
     @Test
     void createAppUser_whenValidInput_thenCreateAndReturnResponse() {
         // Given
@@ -121,6 +141,7 @@ class AppUserServiceTest {
 
         // When
         when(passwordEncoder.encode(appUserRegister.password())).thenReturn("encoded password");
+        when(appUserRepo.existsAppUserByUsername(appUserRegister.username())).thenReturn(false);
         when(appUserRepo.save(new AppUser(appUserRegister).withPassword("encoded password"))).thenReturn(appUser);
         AppUserResponse actual = appUserService.createAppUser(appUserRegister);
 
@@ -128,6 +149,7 @@ class AppUserServiceTest {
         assertEquals(expected, actual);
         verify(passwordEncoder).encode(appUserRegister.password());
         verify(appUserRepo).save(new AppUser(appUserRegister).withPassword("encoded password"));
+        verify(appUserRepo).existsAppUserByUsername(appUserRegister.username());
         verifyNoMoreInteractions(passwordEncoder, appUserRepo);
     }
 

@@ -1,6 +1,6 @@
 import {MapMarker} from "../../../../types/MapMarker.ts";
 import React, {useEffect, useState} from "react";
-import ToolBar from "./ToolBar/ToolBar.tsx";
+import MapMarkerToolBar from "./ToolBar/MapMarkerToolBar.tsx";
 import {MapMarkerType} from "../../../../types/MapMarkerType.ts";
 import MapMarkerTypeIcon from "../../../mapMarkerType/part/MapMarkerTypeIcon.tsx";
 import {getMapMarkerTypeById} from "../../../../utility/getById.ts";
@@ -17,8 +17,9 @@ type Functions = {
 }
 type Props = {
     mapMarker: MapMarker;
-    isSelected:boolean;
-    isOwner:boolean;
+    isSelected: boolean;
+    isOwner: boolean;
+    mapMarkerSize: number;
 }
 type MapMarkerCardProps = {
     data:Data;
@@ -30,7 +31,6 @@ export default function MapMarkerPin({data, functions, props}: Readonly<MapMarke
 
     const isSelectedStyle = {
         filter: "drop-shadow(0 0 4px " + mapMarkerType.color + ")",
-        "borderRadius": "50px",
         "boxShadow": "inset 0 0 10px " + mapMarkerType.color,
         "zIndex": "20"
     }
@@ -45,24 +45,47 @@ export default function MapMarkerPin({data, functions, props}: Readonly<MapMarke
         functions.handleClick(event);
     }
 
+    function getColor():string {
+        switch(props.mapMarker.status) {
+            case "ACTIVE":
+                return mapMarkerType.color;
+            case "INACTIVE":
+                return "Gray";
+            case "DESTROYED":
+                return "rgba(0,0,0, 0.25)";
+            default:
+                return "transparent";
+        }
+    }
+
     return (
         <>
             <button className={"mapMarkerIconButton"}
                     {...props.isSelected ? {style: isSelectedStyle} : {}}
                     onClick={handleClick}
             >
-                <MapMarkerTypeIcon
-                    iconName={mapMarkerType.icon}
-                    color={mapMarkerType.color}
-                    tileSize={32}
+                <MapMarkerTypeIcon iconName={mapMarkerType.icon}
+                                   color={getColor()}
+                                   tileSize={props.mapMarkerSize}
+                                   textColor={props.mapMarker.status === "INACTIVE" ? "rgba(0,0,0, 0.4)" : ""}
                 />
+                {props.mapMarker.status === "DESTROYED" &&
+                    <MapMarkerTypeIcon iconName={"GrClose"}
+                                       tileSize={props.mapMarkerSize +4}
+                                       style={{
+                                           position: "absolute",
+                                           zIndex: "21",
+                                           color: "crimson"
+                                       }}
+                    />
+                }
             </button>
             {props.isSelected &&
                 <>
                     <h2 className={"mapMarkerName"}>
                         {props.mapMarker.name}
                     </h2>
-                    <ToolBar
+                    <MapMarkerToolBar
                         isOwner={props.isOwner}
                         handleMapMarkerUpdate={functions.handleMapMarkerUpdate}
                         handleArticleFrame={functions.handleArticleFrame}

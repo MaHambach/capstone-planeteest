@@ -2,6 +2,7 @@ package com.github.mahambach.backend.service;
 
 import com.github.mahambach.backend.exception.NoSuchWorldMapInviteException;
 import com.github.mahambach.backend.model.*;
+import com.github.mahambach.backend.model.enums.AppUserRole;
 import com.github.mahambach.backend.repository.WorldMapInviteRepo;
 import org.junit.jupiter.api.Test;
 

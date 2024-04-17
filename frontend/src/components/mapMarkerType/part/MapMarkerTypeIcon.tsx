@@ -81,18 +81,22 @@ import {
     GiWoodCabin,
     GiWoodenDoor
 } from "react-icons/gi";
+import {GrClose} from "react-icons/gr";
 
 type MapMarkerTypeIconProps = {
     iconName: string;
     color?: string;
+    style?: React.CSSProperties;
+    textColor?: string;
     tileSize: number;
 }
 export default function MapMarkerTypeIcon(props:Readonly<MapMarkerTypeIconProps>):React.ReactElement {
     const iconName:string = props.iconName;
     const mapMarkerTypeIconStyle = {
-        filter: props.color ? "drop-shadow(0 0 8px white) drop-shadow(0 0 8px white) drop-shadow(0 0 4px " + props.color + ")": "drop-shadow(0 0 0 white)",
+        filter: props.color ? "drop-shadow(0 0 8px white) drop-shadow(0 0 8px " + props.color + ") drop-shadow(0 0 4px " + props.color + ")": "drop-shadow(0 0 0 white)",
         width: props.tileSize,
-        height: props.tileSize
+        height: props.tileSize,
+        color: props.textColor ? props.textColor : "black"
     }
 
     return (
@@ -202,6 +206,7 @@ export default function MapMarkerTypeIcon(props:Readonly<MapMarkerTypeIconProps>
             {iconName === "GiWoodenDoor" && <GiWoodenDoor  style={mapMarkerTypeIconStyle}/>}
             {iconName === "GiDeerHead" && <GiDeerHead  style={mapMarkerTypeIconStyle}/>}
             {iconName === "GiSpikedDragonHead" && <GiSpikedDragonHead  style={mapMarkerTypeIconStyle}/>}
+            {iconName === "GrClose" && <GrClose style={{...mapMarkerTypeIconStyle, ...props.style}}/>}
         </>
     )
 }
