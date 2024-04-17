@@ -1,7 +1,12 @@
-import "./BackButton.css";
-import {Button} from "@mui/material";
 import React from "react";
-import {Tooltip} from "@mui/joy";
+import {IconButton, Tooltip} from "@mui/joy";
+import {menuButtonStyling} from "../../../data/MenuButtonStyling.ts";
+import {IconContext} from "react-icons";
+
+const buttonPosition = {
+    top: "84px",
+    right: "10px",
+}
 
 type Props = {
     icon: React.ReactElement;
@@ -13,13 +18,20 @@ type BackButtonProps = {
 export default function BackButton({props}:Readonly<BackButtonProps>):React.ReactElement {
     return (
         <Tooltip title={props.tooltip} placement={"left"} arrow>
-            <Button
-                color="primary"
+            <IconButton
+                variant="soft"
+                color="neutral"
                 onClick={() => window.history.back()}
-                className={"backButton"}
+                style={{...menuButtonStyling.button, ...buttonPosition}}
+                sx={{position: "fixed"}}
             >
-                {props.icon}
-            </Button>
+
+                <IconContext.Provider value={menuButtonStyling.icon}>
+                    <div>
+                        {props.icon}
+                    </div>
+                </IconContext.Provider>
+            </IconButton>
         </Tooltip>
     )
 }

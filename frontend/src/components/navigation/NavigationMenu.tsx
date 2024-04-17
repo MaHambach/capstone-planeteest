@@ -8,20 +8,12 @@ import {BsGeoFill} from "react-icons/bs";
 import {GrLogout} from "react-icons/gr";
 import {IconButton, Tooltip} from "@mui/joy";
 import {IconContext} from "react-icons";
+import {menuButtonStyling} from "../../data/MenuButtonStyling.ts";
 
 const style = {
     button: {
-        width: 64,
-        height: 64,
         top: 10,
         right: 10,
-        padding: 0,
-        border: "1px solid black",
-        zIndex: 1000
-    },
-    icon: {
-        "size": "44px",
-        "color": "black",
     }
 };
 
@@ -67,10 +59,10 @@ export default function NavigationMenu({data, functions}:Readonly<NavigationMenu
                     aria-expanded={open ? "true" : undefined}
                     variant="soft"
                     color="neutral"
-                    style={style.button}
+                    style={{...style.button, ...menuButtonStyling.button}}
                     sx={{position: "fixed"}}
                 >
-                    <IconContext.Provider value={style.icon}>
+                    <IconContext.Provider value={menuButtonStyling.icon}>
                         <div>
                             <MdMenuBook />
                         </div>

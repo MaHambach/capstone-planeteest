@@ -10,7 +10,7 @@ import {Box, InputLabel, TextField} from "@mui/material";
 import {AppUserRegisterDataSchema, AppUserRegisterFormError} from "../../../data/AppUserRegisterDataSchema.ts";
 import * as yup from "yup";
 
-const loginWidth:number = 330;
+const loginWidth:number = 340;
 const loginHeight:number = 231;
 
 const style = {
@@ -164,14 +164,17 @@ export default function LoginUserMain(props:Readonly<LoginUserMainProps>):React.
                         Register
                     </Button>
                 </div>
-                <form onSubmit={handleSubmit} className={"loginUserMainFormBody"}>
+                <form onSubmit={handleSubmit}
+                      className={"loginUserMainFormBody"}
+                      style={{width: loginWidth-24}}
+                >
                     <div className={"LoginUserMain_inputDiv"}>
                         <InputLabel sx={style.label} htmlFor="username">Username</InputLabel>
                         <Tooltip title={appUserFormError.username} color={"danger"} arrow>
                             <TextField id="username"
                                        type="text"
                                        name="username"
-                                       placeholder={"Username"}
+                                       placeholder={"Benutzername"}
                                        error={appUserFormError.username !== undefined}
                                        label={appUserFormError.username}
                                        value={formData.username}

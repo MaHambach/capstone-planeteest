@@ -3,18 +3,9 @@ import React from "react";
 import AddMapMarker from "./Entries/AddMapMarker.tsx";
 import MapMarkerVisibility from "./Entries/MapMarkerVisibility.tsx";
 import {ButtonGroup} from "@mui/joy";
+import {menuButtonStyling} from "../../../data/MenuButtonStyling.ts";
 
-const style = {
-    button: {
-        border: "1px solid black",
-        width: 64, height: 64,
-        padding: 0,
-    },
-    icon: {
-        "size": "44px",
-        "color": "black",
-    }
-};
+
 type Functions = {
     toggleAddNewMapMarker: (event:React.MouseEvent<HTMLElement>) => void;
 }
@@ -38,9 +29,9 @@ export default function ToolBar({functions, props}:Readonly<ToolBarProps>):React
         >
             <AddMapMarker addNewMapMarker={props.addNewMapMarker}
                           toggleAddNewMapMarker={functions.toggleAddNewMapMarker}
-                          style={style}
+                          style={menuButtonStyling}
             />
-            <MapMarkerVisibility props={{worldMapId: props.worldMapId, style:style}}/>
+            <MapMarkerVisibility props={{worldMapId: props.worldMapId, style:menuButtonStyling}}/>
         </ButtonGroup>
     )
 }
