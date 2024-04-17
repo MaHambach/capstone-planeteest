@@ -39,7 +39,7 @@ public class AppUserService {
     }
 
     public AppUserResponse createAppUser(AppUserRegister appUserRegister) {
-        if (appUserRepo.existsAppUserByUsername(appUserRegister.username()) != null) {
+        if (Boolean.TRUE.equals(appUserRepo.existsAppUserByUsername(appUserRegister.username()))) {
             throw new UserWithNameAlreadyExistsException(appUserRegister.username());
         }
 
