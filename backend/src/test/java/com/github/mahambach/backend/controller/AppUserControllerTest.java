@@ -229,6 +229,29 @@ class AppUserControllerTest {
         assertTrue(appUserResponse.observedWorldMapIds().isEmpty());
     }
 
+    @Test
+    void createAppUser_whenUserWithUserNameAlreadyExists_thenThrowUserWithNameAlreadyExistsException() throws Exception  {
+        // Given
+        String username = "username";
+        AppUserRegister appUserRegister = new AppUserRegister(username, "password");
+        mvc.perform(post("/api/users/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(appUserRegister)))
+                .andExpect(status().isCreated());
+
+        // When
+        MvcResult resultJson = mvc.perform(post("/api/users/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(appUserRegister)))
+                .andExpect(status().isConflict())
+                .andReturn();
+
+        ErrorMessage result = objectMapper.readValue(resultJson.getResponse().getContentAsString(), ErrorMessage.class);
+
+        // Then
+        assertEquals("User with name \"" + username + "\" already exists.", result.errorMsg());
+    }
+
     // @PutMapping
     @Test
     @WithMockUser(username = "username")
