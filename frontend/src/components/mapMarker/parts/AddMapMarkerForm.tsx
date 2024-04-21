@@ -48,15 +48,13 @@ export default function AddMapMarkerForm(props:Readonly<AddMapMarkerFormProps>):
         )
     }
 
-    function setMapMarkerTypeId(mapMarkerTypeId:string):void {
-        console.log(mapMarkerTypeId);
+    function setMapMarkerTypeId(target:string, value:string):void {
         setFormData(
             {
                 ...formData,
-                markerTypeId: mapMarkerTypeId
+                [target]: value
             }
-        );
-
+        )
     }
 
     useEffect(() => {
