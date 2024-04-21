@@ -68,7 +68,7 @@ public class AppUserService {
     public AppUserResponse addMyWorldMapAppUser(String username, String worldMapId) {
         AppUserUpdateObject appUserUpdateObject = new AppUserUpdateObject(findAppUserByUsername(username));
 
-        List<String> newMyWorldMapIds = new ArrayList<>(appUserUpdateObject.observedWorldMapIds());
+        List<String> newMyWorldMapIds = new ArrayList<>(appUserUpdateObject.myWorldMapIds());
 
         newMyWorldMapIds.add(worldMapId);
 
